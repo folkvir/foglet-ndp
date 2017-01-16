@@ -1,0 +1,26 @@
+{
+  "name": "foglet-ndp",
+  "version": "0.0.0",
+  "description": "This project aims to provide a simple neighbours delegated protocol in order to reduce query execution time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/folkvir/foglet-ndp.git"
+  },
+  "keywords": [
+    "spray-wrtc",
+    "foglet-core",
+    "neighbours",
+    "delegated",
+    "protocol"
+  ],
+  "author": "Grall Arnaud (Folkvir)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/folkvir/foglet-ndp/issues"
+  },
+  "homepage": "https://github.com/folkvir/foglet-ndp#readme"
+}
