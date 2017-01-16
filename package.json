@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "description": "This project aims to provide a simple neighbours delegated protocol in order to reduce query execution time",
   "main": "index.js",
-	"scripts": {
+  "scripts": {
     "doc": "jsdoc -c .jsdoc.json README.md src/",
     "test": "npm run karma",
     "karma": "karma start karma.config.js",
     "cover": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build:ndp": "browserify -r ./src/foglet.js:foglet-ndp -t envify -t babelify --presets es2015   > ./build/foglet-ndp.bundle.js",
-    "build:watch": "watchify -r ./src/foglet.js:foglet-ndp -t envify -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d "
+    "build:ndp": "browserify -r ./src/ndp.js:foglet-ndp -t envify -t babelify --presets es2015   > ./build/foglet-ndp.bundle.js",
+    "build:watch": "watchify -r ./src/ndp.js:foglet-ndp -t envify -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d "
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,11 @@
   },
   "homepage": "https://github.com/folkvir/foglet-ndp#readme",
   "dependencies": {
-    "foglet-core": "^0.1.1"
+    "events": "^1.1.1",
+    "foglet-core": "^0.1.1",
+    "ldf-client": "^2.0.4",
+    "unicast-definition": "^0.1.0",
+    "version-vector-with-exceptions": "0.0.5"
   },
   "peerDependencies": {
     "spray-wrtc": "^0.1.x"

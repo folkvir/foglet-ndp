@@ -12,6 +12,14 @@ It uses Linked Data Fragments [ldf](http://linkeddatafragments.org/) to query en
 npm install spray-wrtc foglet-ndp
 ```
 
+## Usage
+
+We provide a bundle for you, just add foglet-ndp.bundle.js to your html page.
+
+```javascript
+
+```
+
 ## Build
 
 ```bash
