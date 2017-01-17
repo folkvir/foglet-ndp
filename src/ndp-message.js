@@ -40,6 +40,8 @@ class NDPMessage {
 		this.id = options.id;
 		// Message to sent
 		this.payload = options.payload;
+		// Endpoint representing the source of the payload
+		this.endpoint = options.endpoint;
 	}
 }
 

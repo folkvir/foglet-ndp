@@ -23,9 +23,11 @@ SOFTWARE.
 */
 'use strict';
 
-const EventEmitter = require('events').EventEmitter;
+const Immutable = require('immutable');
 const VVwE = require('version-vector-with-exceptions');
 const Unicast = require('unicast-definition');
+const ldf = require('ldf-client');
+const Foglet = require('foglet-core');
 
 const NDPMessage = require('./ndp-message.js');
 
@@ -40,20 +42,18 @@ function divideData (data, n) {
 	return dividedData;
 }
 
-class NDP extends EventEmitter {
+class NDP extends Foglet {
 	constructor (options) {
-		super();
-		if (options === undefined || options.spray === undefined || options.protocol === undefined) {
-			// TODO THROW AN ERROR
+		if (options === undefined || options.spray === undefined || options.protocol === undefined ) {
+			throw new Error('Missing options', 'ndp.js');
 		}
+		super(options.spray, options.protocol, options.room);
 		this.options = options;
 		this.vector = new VVwE(Number.MAX_VALUE);
-		this.spray = options.spray;
 		this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
-		this.ldf = this.options.ldf;
-		this.fragmentsClient = this.options.fragmentsClient;
+
 		const self = this;
-		this.unicast.on('receive', (id, message) => {
+		this.unicast.on('ndp-receive', (id, message) => {
 			if (message.type === 'request') {
 				self.execute(message.payload).then(result => {
 					const msg = new NDPMessage({
@@ -68,8 +68,7 @@ class NDP extends EventEmitter {
 				});
 			} else if (message.type === 'answer') {
 				console.log('@NDP : A result received from ' + message.id);
-				self.emit('receive', message);
-				onReceiveAnswer(message);
+				self.emit('ndp-answer', message);
 			}
 		});
 
@@ -77,11 +76,17 @@ class NDP extends EventEmitter {
 	}
 
 	/**
-	 *Send queries to neighbours
-	 *@function
-	 *@param data array of element to send (query)
+	 * Send queries to neighbours and emit on ndp-answer results
+	 * @function
+	 * @param {array} data array of element to send (query)
+	 * @param {string} endpoint - Endpoint to send queries
+	 * @return {void}
 	 **/
-	send (data) {
+	send (data, endpoint) {
+		if (data && Array.isArray(data)) {
+			throw new Error('Data are not typed as Array', 'ndp.js');
+		}
+
 		const peers = this.spray.getPeers(this.maxPeers);
 
 		// calcul des requètes à envoyer
@@ -90,60 +95,64 @@ class NDP extends EventEmitter {
 		console.log(peers);
 		// Répartition...
 		const dividedData = divideData(data, users);
+		const self = this;
 		if ( users !== 1 ) {
 			let cpt = 0;
 			for (let k = 0; k < peers.i.length; ++k) {
 				const msg = new NDPMessage({
 					type: 'request',
 					id: peers.i[k],
-					payload: dividedData[cpt]
+					payload: dividedData[cpt],
+					endpoint
 				});
 				this.unicast.send(msg, peers.i[k]);
 				cpt++;
 			}
-			this.execute(dividedData[cpt]).then(result => {
+			this.execute(dividedData[cpt], endpoint).then(result => {
 				const msg = new NDPMessage({
 					type: 'answer',
 					id: 'me',
-					payload: result
+					payload: result,
+					endpoint
 				});
 				console.log(msg);
-				onReceiveAnswer (msg);
-			});
+				self.emit('ndp-answer', msg);
+			}).catch(error => self.emit('ndp-answer', error));
 		} else {
-			this.execute(data).then(result => {
+			this.execute(data, endpoint).then(result => {
 				const msg = new NDPMessage({
 					type: 'answer',
 					id: 'me',
-					payload: result
+					payload: result,
+					endpoint
 				});
 				console.log(msg);
-				onReceiveAnswer(msg);
-			});
+				self.emit('ndp-answer', msg);
+			}).catch();
 		}
 	}
 
-	execute(data) {
-		console.log('Begin execution...');
-
-		const resultat = new Array(data.length);
+	execute (data, endpoint) {
+		const resultat = Immutable.List();
 		let finishedQuery = 0;
-		const self = this;
-		return new Promise((resolve, reject) => {
+
+		return new Promise( (resolve, reject) => {
+			// Convert array to Immutable.List
+			data = Immutable.fromJs(data);
+			const fragmentsClient = ldf.fragmentsClient(endpoint);
 			for (let i = 0; i < data.length; ++i) {
-				resultat[i] = new Array();
-				const ldf = self.ldf;
-				const fragmentsClient = self.fragmentsClient;
-				const results = new ldf.SparqlIterator(data[i], {fragmentsClient});
+				resultat[i] = Immutable.List();
+
+				const results = new ldf.SparqlIterator(data[i].toJS(), {fragmentsClient});
 				results.on('data', ldfResult => {
-					resultat[i].push(JSON.stringify(ldfResult) + '\n');
+					resultat[i].push(JSON.stringify(ldfResult + '\n'));
 				}).on('end', () => {
 					++finishedQuery;
 					console.log(finishedQuery);
 					if (finishedQuery >= data.length) {
 						resolve(resultat);
 					}
-				});
+				}).catch((error) => reject(error));
 			}
 		});
 	}

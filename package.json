@@ -31,6 +31,7 @@
   "dependencies": {
     "events": "^1.1.1",
     "foglet-core": "^0.1.1",
+    "immutable": "^3.8.1",
     "ldf-client": "^2.0.4",
     "unicast-definition": "^0.1.0",
     "version-vector-with-exceptions": "0.0.5"
