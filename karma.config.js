@@ -27,8 +27,7 @@ module.exports = function (config) {
 			'http://localhost:4000/socket.io/socket.io.js' //just only inject it
 		],
 		preprocessors:{
-				'tests/fexceptionsTest.js' : ['coverage','browserify'],
-				'tests/fogletTest.js' : ['coverage','browserify']
+				'tests/ndpTest.js' : ['coverage','browserify']
 		},
 		// list of files to exclude
 		exclude: [
@@ -124,7 +123,7 @@ module.exports = function (config) {
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: ['Firefox'],
-		singleRun: true,
+		singleRun: false,
 		// Concurrency level
 		// how many browser should be started simultaneous
 		concurrency: Infinity

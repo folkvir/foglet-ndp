@@ -28,16 +28,16 @@ const VVwE = require('version-vector-with-exceptions');
 const Unicast = require('unicast-definition');
 const ldf = require('ldf-client');
 const Foglet = require('foglet-core');
-
+const Q = require('q');
 const NDPMessage = require('./ndp-message.js');
 
 function divideData (data, n) {
-	const dividedData = new Array(n);
+	let dividedData = Immutable.List([]);
 	for (let i = 0; i < n; ++i) {
-		dividedData[i] = new Array();
+		dividedData = dividedData.insert(i, Immutable.List([]));
 	}
-	for (let i = 0; i < data.length; ++i) {
-		dividedData[i % n][dividedData[i % n].length] = data[i];
+	for (let i = 0; i < data.size; ++i) {
+		dividedData.get(i % n).insert(i % n, data.get(i));
 	}
 	return dividedData;
 }
@@ -47,7 +47,7 @@ class NDP extends Foglet {
 		if (options === undefined || options.spray === undefined || options.protocol === undefined ) {
 			throw new Error('Missing options', 'ndp.js');
 		}
-		super(options.spray, options.protocol, options.room);
+		super(options);
 		this.options = options;
 		this.vector = new VVwE(Number.MAX_VALUE);
 		this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
@@ -76,63 +76,82 @@ class NDP extends Foglet {
 	}
 
 	/**
-	 * Send queries to neighbours and emit on ndp-answer results
+	 * Send queries to neighbours and emit results on ndp-answer
 	 * @function
 	 * @param {array} data array of element to send (query)
 	 * @param {string} endpoint - Endpoint to send queries
-	 * @return {void}
+	 * @return {promise} Return a Q promise
 	 **/
 	send (data, endpoint) {
-		if (data && Array.isArray(data)) {
-			throw new Error('Data are not typed as Array', 'ndp.js');
-		}
-
-		const peers = this.spray.getPeers(this.maxPeers);
-
-		// calcul des requètes à envoyer
-		const users = peers.i.length /* + peers.o.length */ + 1;
-		console.log('Number of neightbours : ');
-		console.log(peers);
-		// Répartition...
-		const dividedData = divideData(data, users);
+		console.log(data);
+		console.log(typeof data);
 		const self = this;
-		if ( users !== 1 ) {
-			let cpt = 0;
-			for (let k = 0; k < peers.i.length; ++k) {
-				const msg = new NDPMessage({
-					type: 'request',
-					id: peers.i[k],
-					payload: dividedData[cpt],
-					endpoint
-				});
-				this.unicast.send(msg, peers.i[k]);
-				cpt++;
+		return Q.Promise(function (resolve, reject) {
+			let queries;
+			if (!data || !(queries = Immutable.fromJS(data)) ) {
+				if(!queries.isList()){
+						reject(new Error('Data are not typed as Array', 'ndp.js'));
+				}
 			}
-			this.execute(dividedData[cpt], endpoint).then(result => {
-				const msg = new NDPMessage({
-					type: 'answer',
-					id: 'me',
-					payload: result,
-					endpoint
-				});
-				console.log(msg);
-				self.emit('ndp-answer', msg);
-			}).catch(error => self.emit('ndp-answer', error));
-		} else {
-			this.execute(data, endpoint).then(result => {
-				const msg = new NDPMessage({
-					type: 'answer',
-					id: 'me',
-					payload: result,
-					endpoint
-				});
-				console.log(msg);
-				self.emit('ndp-answer', msg);
-			}).catch();
-		}
+			console.log(queries);
+			try {
+				const peers = self.spray.getPeers(self.maxPeers);
+				// calcul des requètes à envoyer
+				const users = peers.i.length /* + peers.o.length */ + 1;
+				console.log('Number of neightbours : ');
+				console.log(peers);
+				// Répartition...
+				const dividedData = divideData(queries, users);
+				console.log("dividedData: "+ dividedData);
+				if ( users !== 1 ) {
+					let cpt = 0;
+					for (let k = 0; k < users; ++k) {
+						console.log(dividedData.get(cpt));
+						const msg = new NDPMessage({
+							type: 'request',
+							id: peers.i[k],
+							payload: dividedData[cpt],
+							endpoint
+						});
+						self.unicast.send(msg, peers.i[k]);
+						cpt++;
+					}
+					self.execute(dividedData[cpt], endpoint).then(result => {
+						const msg = new NDPMessage({
+							type: 'answer',
+							id: 'me',
+							payload: result,
+							endpoint
+						});
+						console.log(msg);
+						self.emit('ndp-receive', msg);
+					});
+				} else {
+					self.execute(queries, endpoint).then(result => {
+						const msg = new NDPMessage({
+							type: 'answer',
+							id: 'me',
+							payload: result,
+							endpoint
+						});
+						console.log(msg);
+						self.emit('ndp-receive', msg);
+					});
+				}
+				resolve();
+			} catch (e) {
+				reject(e);
+			}
+		});
 	}
 
+	/**
+	 * Execute queries in {data} via ldf-client to the {endpoint}
+	 * @param {array} data - Queries to execute
+	 * @param {string} endpoint - Endpoint to process queries
+	 */
 	execute (data, endpoint) {
+		this._flog(' Execution of : '+ data);
 		const resultat = Immutable.List();
 		let finishedQuery = 0;
 
@@ -150,7 +169,7 @@ class NDP extends Foglet {
 					++finishedQuery;
 					console.log(finishedQuery);
 					if (finishedQuery >= data.length) {
-						resolve(resultat);
+						resolve(resultat.toJS());
 					}
 				}).catch((error) => reject(error));
 			}
