@@ -110,16 +110,14 @@ module.exports = function (config) {
         istanbul: { noCompact: true }
       }
     },
-
-    logLevel: config.LOG_DISABLE,
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
-    autoWatch: true,
+		autoWatch: true,
 		browserNoActivityTimeout:20000,
 		colors: true,
 		// level of logging
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-		logLevel: config.LOG_INFO,
+		logLevel: config.LOG_DEBUG,
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: ['Firefox'],

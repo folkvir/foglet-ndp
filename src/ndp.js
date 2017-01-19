@@ -23,6 +23,7 @@ SOFTWARE.
 */
 'use strict';
 
+const EventEmitter = require('events');
 const Immutable = require('immutable');
 const VVwE = require('version-vector-with-exceptions');
 const Unicast = require('unicast-definition');
@@ -37,7 +38,9 @@ function divideData (data, n) {
 		dividedData = dividedData.insert(i, Immutable.List([]));
 	}
 	for (let i = 0; i < data.size; ++i) {
-		dividedData.get(i % n).insert(i % n, data.get(i));
+		console.log(data.get(i));
+		const tmp = dividedData.get(i % n).insert(i % n, data.get(i));
+		dividedData = dividedData.set(i % n, tmp);
 	}
 	return dividedData;
 }
@@ -51,11 +54,11 @@ class NDP extends Foglet {
 		this.options = options;
 		this.vector = new VVwE(Number.MAX_VALUE);
 		this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
-
+		this.events = new EventEmitter();
 		const self = this;
-		this.unicast.on('ndp-receive', (id, message) => {
+		this.unicast.on('receive', (id, message) => {
 			if (message.type === 'request') {
-				self.execute(message.payload).then(result => {
+				self.execute(message.payload, message.endpoint).then(result => {
 					const msg = new NDPMessage({
 						type: 'answer',
 						id,
@@ -63,12 +66,12 @@ class NDP extends Foglet {
 					});
 					console.log(msg);
 					self.unicast.send(msg, id);
-				}).catch(() => {
-					console.log('promesse rompue');
+				}).catch(error => {
+					console.log('Error : ' + error);
 				});
 			} else if (message.type === 'answer') {
 				console.log('@NDP : A result received from ' + message.id);
-				self.emit('ndp-answer', message);
+				self.events.emit('ndp-answer', message);
 			}
 		});
 
@@ -101,42 +104,46 @@ class NDP extends Foglet {
 				console.log('Number of neightbours : ');
 				console.log(peers);
 				// Répartition...
+				let cpt = 0;
 				const dividedData = divideData(queries, users);
+				self.events.emit('ndp-receive', "hello");
 				console.log("dividedData: "+ dividedData);
 				if ( users !== 1 ) {
-					let cpt = 0;
-					for (let k = 0; k < users; ++k) {
-						console.log(dividedData.get(cpt));
+					console.log('Number of peers !== 1 : '+ users);
+					for (let k = 0; k < users - 1; ++k) {
 						const msg = new NDPMessage({
 							type: 'request',
 							id: peers.i[k],
-							payload: dividedData[cpt],
+							payload: dividedData.get(k).toJS(),
 							endpoint
 						});
+						console.log('Send message :' + msg);
 						self.unicast.send(msg, peers.i[k]);
-						cpt++;
+						++cpt;
 					}
-					self.execute(dividedData[cpt], endpoint).then(result => {
+					console.log(cpt);
+					self.execute(dividedData.get(cpt).toJS(), endpoint).then(result => {
 						const msg = new NDPMessage({
 							type: 'answer',
 							id: 'me',
 							payload: result,
 							endpoint
 						});
-						console.log(msg);
-						self.emit('ndp-receive', msg);
-					});
+						console.log('Execute queries : ' + msg);
+						self.events.emit('ndp-receive', msg);
+					}).catch(error => reject(error));
 				} else {
-					self.execute(queries, endpoint).then(result => {
+					console.log('Number of peers === 1');
+					self.execute(dividedData.get(cpt).toJS(), endpoint).then(result => {
 						const msg = new NDPMessage({
 							type: 'answer',
 							id: 'me',
 							payload: result,
 							endpoint
 						});
-						console.log(msg);
-						self.emit('ndp-receive', msg);
-					});
+						console.log('Execute queries : ' + msg);
+						self.events.emit('ndp-receive', msg);
+					}).catch(error => reject(error));
 				}
 				resolve();
 			} catch (e) {
@@ -149,29 +156,36 @@ class NDP extends Foglet {
 	 * Execute queries in {data} via ldf-client to the {endpoint}
 	 * @param {array} data - Queries to execute
 	 * @param {string} endpoint - Endpoint to process queries
+	 * @return {promise} Return a promise with results as reponse
 	 */
 	execute (data, endpoint) {
-		this._flog(' Execution of : '+ data);
-		const resultat = Immutable.List();
+		this._flog(' Execution of : '+ data + ' on ' + endpoint);
+		let resultat = Immutable.List();
 		let finishedQuery = 0;
 
 		return new Promise( (resolve, reject) => {
 			// Convert array to Immutable.List
-			data = Immutable.fromJs(data);
-			const fragmentsClient = ldf.fragmentsClient(endpoint);
-			for (let i = 0; i < data.length; ++i) {
-				resultat[i] = Immutable.List();
+			try {
+				data = Immutable.fromJS(data);
+				console.log(data);
+				const fragmentsClient = new ldf.FragmentsClient(endpoint);
+				for (let i = 0; i < data.size; ++i) {
+					resultat = resultat.insert(i, Immutable.List());
 
-				const results = new ldf.SparqlIterator(data[i].toJS(), {fragmentsClient});
-				results.on('data', ldfResult => {
-					resultat[i].push(JSON.stringify(ldfResult + '\n'));
-				}).on('end', () => {
-					++finishedQuery;
-					console.log(finishedQuery);
-					if (finishedQuery >= data.length) {
-						resolve(resultat.toJS());
-					}
-				}).catch((error) => reject(error));
+					let results = new ldf.SparqlIterator( 0, {fragmentsClient});
+					results.on('data', ldfResult => {
+						console.log(ldfResult);
+						resultat[i].push(JSON.stringify(ldfResult + '\n'));
+					}).on('end', () => {
+						++finishedQuery;
+						console.log(finishedQuery);
+						if (finishedQuery >= data.size) {
+							resolve(resultat.toJS());
+						}
+					}).catch((error) => reject(error));
+				}
+			} catch (error) {
+				reject(error);
 			}
 		});
 	}

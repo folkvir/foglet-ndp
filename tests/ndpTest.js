@@ -1,3 +1,5 @@
+'use strict';
+
 const Spray = require('spray-wrtc');
 
 const NDP = require('../src/ndp.js');
@@ -5,7 +7,7 @@ const $ = require('jquery');
 const endpoint = 'https://query.wikidata.org/bigdata/ldf';
 const request = [
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
-  'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 10 LIMIT 10',
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 10 LIMIT 10',
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 20 LIMIT 10'
 ];
 
@@ -57,10 +59,11 @@ describe('[NDP]', function () {
 				});
 				f1.init();
 				f2.init();
-				f1.on('ndp-answer', (response) => {
+				f1.events.on('ndp-answer', (response) => {
 					console.log(response)
 				});
 				f1.connection().then(status =>  {
+					console.log(status);
 					//assert(status, 'connected');
 					f1.send(request, endpoint).then(() => {
 						done()
