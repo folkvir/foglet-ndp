@@ -1,7 +1,6 @@
 'use strict';
-
+const assert = require('assert');
 const Spray = require('spray-wrtc');
-
 const NDP = require('../src/ndp.js');
 const $ = require('jquery');
 const endpoint = 'https://query.wikidata.org/bigdata/ldf';
@@ -37,40 +36,34 @@ describe('[NDP]', function () {
 
 				const f1 = new NDP({
 					spray: new Spray({
-						protocol: 'test',
+						protocol: 'testNdp',
 						webrtc:	{
 							trickle: true,
 							iceServers
 						}
 					}),
-					protocol: 'test',
+					protocol: 'ndp',
 					room: 'test'
 				});
 				const f2 = new NDP({
 					spray: new Spray({
-						protocol: 'test',
+						protocol: 'testNdp',
 						webrtc:	{
 							trickle: true,
 							iceServers
 						}
 					}),
-					protocol: 'test',
+					protocol: 'ndp',
 					room: 'test'
 				});
 				f1.init();
 				f2.init();
 				f1.events.on('ndp-answer', (response) => {
 					console.log(response)
+					done();
 				});
-				f1.connection().then(status =>  {
-					console.log(status);
-					//assert(status, 'connected');
-					f1.send(request, endpoint).then(() => {
-						done()
-					}).catch(error => done(error));
-				}).catch(error => {
-					console.err(error);
-					done(error);
+				return f1.connection().then(status =>  {
+					return f1.send(request, endpoint).then(() => {});
 				});
 		});
 

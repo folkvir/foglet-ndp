@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>2 Clients tests</title>
+    <script type='text/javascript' src='../node_modules/jquery/dist/jquery.min.js'> </script>
+    <script type='text/javascript' src='../node_modules/spray-wrtc/build/spray-wrtc.bundle.js'> </script>
+    <script type='text/javascript' src='../build/foglet-ndp.bundle.js' > </script>
+  </head>
+
+  <script type='text/javascript'>
+    const Spray = require('spray-wrtc');
+    const NDP = require('foglet-ndp');
+    const endpoint = 'https://query.wikidata.org/bigdata/ldf';
+    const request = [
+      'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
+      'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 10 LIMIT 10',
+      'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 20 LIMIT 10'
+    ];
+
+    $.ajax({
+      url : "https://service.xirsys.com/ice",
+      data : {
+        ident: "folkvir",
+        secret: "a0fe3e18-c9da-11e6-8f98-9ac41bd47f24",
+        domain: "foglet-examples.herokuapp.com",
+        application: "foglet-examples",
+        room: "test",
+        secure: 1
+      }}).then(function(response, status){
+        console.log(status);
+        console.log(response);
+        /**
+         * Create the foglet protocol.
+         * @param {[type]} {protocol:"chat"} [description]
+         */
+        var iceServers = [];
+        if(response.d.iceServers){
+          iceServers = response.d.iceServers;
+        }
+
+        const f1 = new NDP({
+          spray: new Spray({
+            protocol: 'testNdp',
+            webrtc:	{
+              trickle: true,
+              iceServers
+            }
+          }),
+          protocol: 'ndp',
+          room: 'test'
+        });
+        const f2 = new NDP({
+          spray: new Spray({
+            protocol: 'testNdp',
+            webrtc:	{
+              trickle: true,
+              iceServers
+            }
+          }),
+          protocol: 'ndp',
+          room: 'test'
+        });
+        f1.init();
+        f2.init();
+        f1.events.on('ndp-answer', (response) => {
+          console.log(response)
+        });
+
+        f1.connection().then(status =>  {
+          f1.send(request, endpoint).then(() => {});
+        });
+    });
+  </script>
+
+  <body>
+    <h3> Please see your console (F12) to see logs of the example </h3>
+    <p> If an error appeared with jquery, it's because you did not clone the repository from github, you just installed the package with npm.
+      <br/> JQuery is not in the dependencies installed.</p>
+  </body>
+
+</html>

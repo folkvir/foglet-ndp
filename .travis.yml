@@ -1,0 +1,22 @@
+language: node_js
+node_js: node
+addons:
+  firefox: '49.0'
+install:
+- npm install
+before_script:
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3
+script:
+- npm run build:ndp
+- ls -R ./build ./src
+- npm test
+- npm run cover
+deploy:
+  provider: npm
+  email: folkvir@outlook.fr
+  api_key: $NPM_KEY
+  on:
+    tags: true
+    repo: folkvir/foglet-core

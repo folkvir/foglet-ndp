@@ -32,20 +32,19 @@ const Foglet = require('foglet-core');
 const Q = require('q');
 const NDPMessage = require('./ndp-message.js');
 
-function divideData (data, n) {
-	let dividedData = Immutable.List([]);
-	for (let i = 0; i < n; ++i) {
-		dividedData = dividedData.insert(i, Immutable.List([]));
-	}
-	for (let i = 0; i < data.size; ++i) {
-		console.log(data.get(i));
-		const tmp = dividedData.get(i % n).insert(i % n, data.get(i));
-		dividedData = dividedData.set(i % n, tmp);
-	}
-	return dividedData;
-}
 
+/**
+ * Class of the Simple Neighbours Delegated Protocol
+ * @class NDP
+ * @extends Foglet (extends the foglet-core)
+ * @author Grall Arnaud (Folkvir)
+ */
 class NDP extends Foglet {
+	/**
+	 * This is the constructor of the NDP class, need options as parameter
+	 * @constructor
+	 * @param {object} options Options are spray and the protocol name
+	 */
 	constructor (options) {
 		if (options === undefined || options.spray === undefined || options.protocol === undefined ) {
 			throw new Error('Missing options', 'ndp.js');
@@ -58,19 +57,20 @@ class NDP extends Foglet {
 		const self = this;
 		this.unicast.on('receive', (id, message) => {
 			if (message.type === 'request') {
+				self._flog(' You received queries to execute from : @' + id);
 				self.execute(message.payload, message.endpoint).then(result => {
 					const msg = new NDPMessage({
 						type: 'answer',
 						id,
 						payload: result
 					});
-					console.log(msg);
+					self._flog(msg);
 					self.unicast.send(msg, id);
 				}).catch(error => {
-					console.log('Error : ' + error);
+					self._flog('Error : ' + error);
 				});
 			} else if (message.type === 'answer') {
-				console.log('@NDP : A result received from ' + message.id);
+				self._flog('@NDP : A result received from ' + message.id);
 				self.events.emit('ndp-answer', message);
 			}
 		});
@@ -80,80 +80,74 @@ class NDP extends Foglet {
 
 	/**
 	 * Send queries to neighbours and emit results on ndp-answer
-	 * @function
+	 * @function send
 	 * @param {array} data array of element to send (query)
 	 * @param {string} endpoint - Endpoint to send queries
 	 * @return {promise} Return a Q promise
 	 **/
 	send (data, endpoint) {
-		console.log(data);
-		console.log(typeof data);
 		const self = this;
 		return Q.Promise(function (resolve, reject) {
 			let queries;
 			if (!data || !(queries = Immutable.fromJS(data)) ) {
-				if(!queries.isList()){
-						reject(new Error('Data are not typed as Array', 'ndp.js'));
+				if(!queries.isList()) {
+					reject(new Error('Data are not typed as Array', 'ndp.js'));
 				}
 			}
-			console.log(queries);
+			self._flog(queries);
 			try {
 				const peers = self.spray.getPeers(self.maxPeers);
 				// calcul des requètes à envoyer
 				const users = peers.i.length /* + peers.o.length */ + 1;
-				console.log('Number of neightbours : ');
-				console.log(peers);
+				self._flog('Number of neightbours : ' + users);
 				// Répartition...
 				let cpt = 0;
-				const dividedData = divideData(queries, users);
-				self.events.emit('ndp-receive', "hello");
-				console.log("dividedData: "+ dividedData);
+				const dividedData = self.divideData(queries, users);
+				self._flog(dividedData.toJS());
 				if ( users !== 1 ) {
-					console.log('Number of peers !== 1 : '+ users);
 					for (let k = 0; k < users - 1; ++k) {
 						const msg = new NDPMessage({
 							type: 'request',
 							id: peers.i[k],
-							payload: dividedData.get(k).toJS(),
+							payload: dividedData.get(cpt).toJS(),
 							endpoint
 						});
-						console.log('Send message :' + msg);
 						self.unicast.send(msg, peers.i[k]);
 						++cpt;
 					}
-					console.log(cpt);
-					self.execute(dividedData.get(cpt).toJS(), endpoint).then(result => {
+
+					const q = dividedData.get(cpt).toJS();
+					self.execute(q, endpoint).then(result => {
 						const msg = new NDPMessage({
 							type: 'answer',
 							id: 'me',
 							payload: result,
 							endpoint
 						});
-						console.log('Execute queries : ' + msg);
 						self.events.emit('ndp-receive', msg);
-					}).catch(error => reject(error));
+					});
 				} else {
-					console.log('Number of peers === 1');
-					self.execute(dividedData.get(cpt).toJS(), endpoint).then(result => {
+					const q = dividedData.get(cpt).toJS();
+					self.execute(q, endpoint).then(result => {
 						const msg = new NDPMessage({
 							type: 'answer',
 							id: 'me',
 							payload: result,
 							endpoint
 						});
-						console.log('Execute queries : ' + msg);
 						self.events.emit('ndp-receive', msg);
-					}).catch(error => reject(error));
+					});
 				}
 				resolve();
-			} catch (e) {
-				reject(e);
+			} catch (error) {
+				reject(new Error(error));
 			}
 		});
 	}
 
 	/**
 	 * Execute queries in {data} via ldf-client to the {endpoint}
+	 * @function execute
 	 * @param {array} data - Queries to execute
 	 * @param {string} endpoint - Endpoint to process queries
 	 * @return {promise} Return a promise with results as reponse
@@ -168,26 +162,36 @@ class NDP extends Foglet {
 			try {
 				data = Immutable.fromJS(data);
 				console.log(data);
-				const fragmentsClient = new ldf.FragmentsClient(endpoint);
-				for (let i = 0; i < data.size; ++i) {
+				let fragmentsClient = new ldf.FragmentsClient(endpoint);
+				for (let i = 0; i < data.size; i++) {
 					resultat = resultat.insert(i, Immutable.List());
-
-					let results = new ldf.SparqlIterator( 0, {fragmentsClient});
+					let results = new ldf.SparqlIterator( data.get(i), {fragmentsClient});
 					results.on('data', ldfResult => {
-						console.log(ldfResult);
-						resultat[i].push(JSON.stringify(ldfResult + '\n'));
+						resultat = resultat.set(i, resultat.get(i).push(ldfResult));
 					}).on('end', () => {
 						++finishedQuery;
-						console.log(finishedQuery);
+						// IF WE HAVE ALL RESULTS FROM ALL QUERIES WE CAN RESOLVE
 						if (finishedQuery >= data.size) {
 							resolve(resultat.toJS());
 						}
-					}).catch((error) => reject(error));
+					});/* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
 				}
 			} catch (error) {
 				reject(error);
 			}
 		});
+	}
+
+	divideData (data, n) {
+		let dividedData = Immutable.List([]);
+		for (let i = 0; i < n; ++i) {
+			dividedData = dividedData.insert(i, Immutable.List([]));
+		}
+		for (let i = 0; i < data.size; ++i) {
+			const tmp = dividedData.get(i % n).insert(i % n, data.get(i));
+			dividedData = dividedData.set(i % n, tmp);
+		}
+		return dividedData;
 	}
 }
 

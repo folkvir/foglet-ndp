@@ -1,4 +1,4 @@
-# Foglet - Neighbours Delegated Protocol (NDP)
+# Foglet - Neighbours Delegated Protocol (NDP) [![Build Status](https://travis-ci.org/folkvir/foglet-ndp.svg?branch=master)](https://travis-ci.org/folkvir/foglet-core) [![Coverage Status](https://coveralls.io/repos/github/folkvir/foglet-ndp/badge.svg?branch=master)](https://coveralls.io/github/folkvir/foglet-ndp?branch=master) [![XirSys WebRTC Cloud Support](https://img.shields.io/badge/XirSys%20Cloud-used-blue.svg)](http://xirsys.com/)
 
 Keywords: Simple Neighbours delegated protocol, Random peer sampling, adaptive, browser-to-browser communication, WebRTC
 
@@ -15,21 +15,70 @@ npm install spray-wrtc foglet-ndp
 ## Usage
 
 We provide a bundle for you, just add foglet-ndp.bundle.js to your html page.
+The following example works like a charm and is avalaible in the folder **example/** !
+
+!!! You need a signaling server in order to run the example, foglet-core has one, just run this : ```bash cd node_modules/foglet-core && npm run server```
 
 ```javascript
+const Spray = require('spray-wrtc');
+const NDP = require('foglet-ndp');
+
+const endpoint = 'https://query.wikidata.org/bigdata/ldf';
+const request = [
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 10 LIMIT 10',
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 20 LIMIT 10'
+];
+
+const f1 = new NDP({
+  spray: new Spray({
+    protocol: 'test',
+    webrtc:	{
+      trickle: true,
+      iceServers: [] //iceServers you have to provide
+    }
+  }),
+  protocol: 'test',
+  room: 'test'
+});
+
+const f2 = new NDP({
+  spray: new Spray({
+    protocol: 'test',
+    webrtc:	{
+      trickle: true,
+      iceServers: [] //iceServers you have to provide
+    }
+  }),
+  protocol: 'test',
+  room: 'test'
+});
+
+f1.init();
+f2.init();
+
+f1.events.on('ndp-answer', (response) => {
+  console.log(response)
+  done();
+});
+
+f1.connection().then(status =>  {
+  return f1.send(request, endpoint).then(() => {});
+});
+
 
 ```
 
-## Build
+## Build the bundle
 
 ```bash
 npm run build:ndp
 ```
 
-## Tests
+## Test the library
 
 ```bash
-npm run test
+npm test
 ```
 
 ## Doc
