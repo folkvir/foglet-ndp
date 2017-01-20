@@ -19,4 +19,4 @@ deploy:
   api_key: $NPM_KEY
   on:
     tags: true
-    repo: folkvir/foglet-core
+    repo: folkvir/foglet-ndp
