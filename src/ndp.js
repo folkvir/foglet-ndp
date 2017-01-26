@@ -24,26 +24,25 @@ SOFTWARE.
 'use strict';
 
 const EventEmitter = require('events');
-const Immutable = require('immutable');
 const VVwE = require('version-vector-with-exceptions');
 const Unicast = require('unicast-definition');
-const ldf = require('ldf-client');
 const Foglet = require('foglet-core');
-const Q = require('q');
 const NDPMessage = require('./ndp-message.js');
-
+const RoundRobinProtocol = require('./round-robin-protocol.js');
 
 /**
  * Class of the Simple Neighbours Delegated Protocol
- * @class NDP
- * @extends Foglet (extends the foglet-core)
+ * @extends Foglet
  * @author Grall Arnaud (Folkvir)
  */
 class NDP extends Foglet {
 	/**
 	 * This is the constructor of the NDP class, need options as parameter
 	 * @constructor
-	 * @param {object} options Options are spray and the protocol name
+	 * @param {object} options Options used to build the Foglet-ndp
+	 * @param {Spray} options.spray - The Spray network used by the foglet
+	 * @param {string} options.protocol - The protocol name
+	 * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link RoundRobinProtocol}
 	 */
 	constructor (options) {
 		if (options === undefined || options.spray === undefined || options.protocol === undefined ) {
@@ -54,11 +53,13 @@ class NDP extends Foglet {
 		this.vector = new VVwE(Number.MAX_VALUE);
 		this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
 		this.events = new EventEmitter();
+		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
+		this.delegationProtocol.use(this);
 		const self = this;
 		this.unicast.on('receive', (id, message) => {
 			if (message.type === 'request') {
 				self._flog(' You received queries to execute from : @' + id);
-				self.execute(message.payload, message.endpoint).then(result => {
+				self.delegationProtocol.execute(message.payload, message.endpoint).then(result => {
 					const msg = new NDPMessage({
 						type: 'answer',
 						id,
@@ -80,118 +81,12 @@ class NDP extends Foglet {
 
 	/**
 	 * Send queries to neighbours and emit results on ndp-answer
-	 * @function send
 	 * @param {array} data array of element to send (query)
 	 * @param {string} endpoint - Endpoint to send queries
 	 * @return {promise} Return a Q promise
 	 **/
 	send (data, endpoint) {
-		const self = this;
-		return Q.Promise(function (resolve, reject) {
-			let queries;
-			if (!data || !(queries = Immutable.fromJS(data)) ) {
-				if(!queries.isList()) {
-					reject(new Error('Data are not typed as Array', 'ndp.js'));
-				}
-			}
-			self._flog(queries);
-			try {
-				const peers = self.spray.getPeers(self.maxPeers);
-				// calcul des requètes à envoyer
-				const users = peers.i.length /* + peers.o.length */ + 1;
-				self._flog('Number of neightbours : ' + users);
-				// Répartition...
-				let cpt = 0;
-				const dividedData = self.divideData(queries, users);
-				self._flog(dividedData.toJS());
-				if ( users !== 1 ) {
-					for (let k = 0; k < users - 1; ++k) {
-						const msg = new NDPMessage({
-							type: 'request',
-							id: peers.i[k],
-							payload: dividedData.get(cpt).toJS(),
-							endpoint
-						});
-						self.unicast.send(msg, peers.i[k]);
-						++cpt;
-					}
-
-					const q = dividedData.get(cpt).toJS();
-					self.execute(q, endpoint).then(result => {
-						const msg = new NDPMessage({
-							type: 'answer',
-							id: 'me',
-							payload: result,
-							endpoint
-						});
-						self.events.emit('ndp-receive', msg);
-					});
-				} else {
-					const q = dividedData.get(cpt).toJS();
-					self.execute(q, endpoint).then(result => {
-						const msg = new NDPMessage({
-							type: 'answer',
-							id: 'me',
-							payload: result,
-							endpoint
-						});
-						self.events.emit('ndp-receive', msg);
-					});
-				}
-				resolve();
-			} catch (error) {
-				reject(new Error(error));
-			}
-		});
-	}
-
-	/**
-	 * Execute queries in {data} via ldf-client to the {endpoint}
-	 * @function execute
-	 * @param {array} data - Queries to execute
-	 * @param {string} endpoint - Endpoint to process queries
-	 * @return {promise} Return a promise with results as reponse
-	 */
-	execute (data, endpoint) {
-		this._flog(' Execution of : '+ data + ' on ' + endpoint);
-		let resultat = Immutable.List();
-		let finishedQuery = 0;
-
-		return new Promise( (resolve, reject) => {
-			// Convert array to Immutable.List
-			try {
-				data = Immutable.fromJS(data);
-				console.log(data);
-				let fragmentsClient = new ldf.FragmentsClient(endpoint);
-				for (let i = 0; i < data.size; i++) {
-					resultat = resultat.insert(i, Immutable.List());
-					let results = new ldf.SparqlIterator( data.get(i), {fragmentsClient});
-					results.on('data', ldfResult => {
-						resultat = resultat.set(i, resultat.get(i).push(ldfResult));
-					}).on('end', () => {
-						++finishedQuery;
-						// IF WE HAVE ALL RESULTS FROM ALL QUERIES WE CAN RESOLVE
-						if (finishedQuery >= data.size) {
-							resolve(resultat.toJS());
-						}
-					});/* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
-				}
-			} catch (error) {
-				reject(error);
-			}
-		});
-	}
-
-	divideData (data, n) {
-		let dividedData = Immutable.List([]);
-		for (let i = 0; i < n; ++i) {
-			dividedData = dividedData.insert(i, Immutable.List([]));
-		}
-		for (let i = 0; i < data.size; ++i) {
-			const tmp = dividedData.get(i % n).insert(i % n, data.get(i));
-			dividedData = dividedData.set(i % n, tmp);
-		}
-		return dividedData;
+		return this.delegationProtocol.send(data, endpoint);
 	}
 }
 
