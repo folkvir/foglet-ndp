@@ -1,7 +1,7 @@
 'use strict';
 const assert = require('assert');
 const Spray = require('spray-wrtc');
-const NDP = require('../src/ndp.js');
+const NDP = require('../foglet-ndp.js').NDP;
 const $ = require('jquery');
 const endpoint = 'https://query.wikidata.org/bigdata/ldf';
 const request = [
