@@ -58,14 +58,18 @@ describe('[NDP]', function () {
 				});
 				f1.init();
 				f2.init();
+				let cpt = 0;
 				f1.events.on('ndp-answer', (response) => {
 					console.log(response)
-					done();
+					cpt++;
+					if(cpt >= 2) {
+						done();
+					}
 				});
 				return f1.connection().then(status =>  {
-					return f1.send(request, endpoint).then(() => {});
+					return f1.send(request, endpoint);
 				});
-		});
+		}, err => console.log(err));
 
 	});
 });

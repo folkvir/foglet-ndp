@@ -42,6 +42,30 @@ class RoundRobinProtocol extends DelegationProtocol {
 		super('round-robin');
 	}
 
+	use (foglet) {
+		super.use(foglet);
+		const self = this;
+		this.foglet.unicast.on('receive', (id, message) => {
+			if (message.type === 'request') {
+				self.foglet._flog(' You received queries to execute from : @' + id);
+				self.execute(message.payload, message.endpoint).then(result => {
+					const msg = new NDPMessage({
+						type: 'answer',
+						id,
+						payload: result
+					});
+					self.foglet._flog(msg);
+					self.foglet.unicast.send(msg, id);
+				}).catch(error => {
+					self.foglet._flog('Error : ' + error);
+				});
+			} else if (message.type === 'answer') {
+				self.foglet._flog('@NDP : A result received from ' + message.id);
+				self.foglet.events.emit('ndp-answer', message);
+			}
+		});
+	}
+
 	/**
 	 * Send queries to neighbours and emit results on ndp-answer
 	 * @param {array} data array of element to send (query)
@@ -87,7 +111,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 							payload: result,
 							endpoint
 						});
-						self.emit('ndp-receive', msg);
+						self.emit('ndp-answer', msg);
 					});
 				} else {
 					const query = dividedData.get(cpt).toJS();
@@ -98,7 +122,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 							payload: result,
 							endpoint
 						});
-						self.emit('ndp-receive', msg);
+						self.emit('ndp-answer', msg);
 					});
 				}
 				resolve();

@@ -27,7 +27,6 @@ const EventEmitter = require('events');
 const VVwE = require('version-vector-with-exceptions');
 const Unicast = require('unicast-definition');
 const Foglet = require('foglet-core');
-const NDPMessage = require('./ndp-message.js');
 const RoundRobinProtocol = require('./round-robin-protocol.js');
 
 /**
@@ -55,26 +54,6 @@ class NDP extends Foglet {
 		this.events = new EventEmitter();
 		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
 		this.delegationProtocol.use(this);
-		const self = this;
-		this.unicast.on('receive', (id, message) => {
-			if (message.type === 'request') {
-				self._flog(' You received queries to execute from : @' + id);
-				self.delegationProtocol.execute(message.payload, message.endpoint).then(result => {
-					const msg = new NDPMessage({
-						type: 'answer',
-						id,
-						payload: result
-					});
-					self._flog(msg);
-					self.unicast.send(msg, id);
-				}).catch(error => {
-					self._flog('Error : ' + error);
-				});
-			} else if (message.type === 'answer') {
-				self._flog('@NDP : A result received from ' + message.id);
-				self.events.emit('ndp-answer', message);
-			}
-		});
 
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
 	}
