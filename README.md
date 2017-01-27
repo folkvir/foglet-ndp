@@ -78,6 +78,19 @@ const DelegationProtocol = require('foglet-ndp').DelegationProtocol;
 const NDP = require('foglet-ndp').NDP;
 
 class DummyProtocol extends DelegationProtocol {
+
+	use (foglet) {
+		super.use(foglet);
+		// listen for incoming delegated request
+		this.foglet.unicast.on('receive', (id, message) => {
+			if (message.type === 'request') {
+				this.execute(message.payload)
+					.then(results => this.emit('ndp-answer', results))
+					.catch(error => this.emit('ndp-error', error));
+			}
+		});
+	}
+
 	send (data, endpoint) {
 		return Q.Promise((resolve, reject) => {
 			try {
