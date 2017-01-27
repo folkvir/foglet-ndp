@@ -2,14 +2,14 @@
   "name": "foglet-ndp",
   "version": "0.1.0",
   "description": "This project aims to provide a simple neighbours delegated protocol in order to reduce query execution time",
-  "main": "index.js",
+  "main": "foglet-ndp.js",
   "scripts": {
     "doc": "jsdoc -c .jsdoc.json README.md src/",
     "test": "npm run karma",
     "karma": "karma start karma.config.js",
     "cover": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build:ndp": "browserify -r ./src/ndp.js:foglet-ndp -t envify -t babelify --presets es2015   > ./build/foglet-ndp.bundle.js",
-    "build:watch": "watchify -r ./src/ndp.js:foglet-ndp -t envify -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d "
+    "build:ndp": "browserify -r ./foglet-ndp.js:foglet-ndp -t envify -t babelify --presets es2015   > ./build/foglet-ndp.bundle.js",
+    "build:watch": "watchify -r ./foglet-ndp.js:foglet-ndp -t envify -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d "
   },
   "repository": {
     "type": "git",

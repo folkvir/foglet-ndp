@@ -21,7 +21,7 @@ The following example works like a charm and is avalaible in the folder **exampl
 
 ```javascript
 const Spray = require('spray-wrtc');
-const NDP = require('foglet-ndp');
+const NDP = require('foglet-ndp').NDP;
 
 const endpoint = 'https://query.wikidata.org/bigdata/ldf';
 const request = [
@@ -66,7 +66,54 @@ f1.connection().then(status =>  {
   return f1.send(request, endpoint).then(() => {});
 });
 
+```
 
+## Implementing your own delegation protocol
+
+You can create you own custom delegation protocol by extending `DelegationProtocol` and provides an instance of it when creating a new Foglet-NDP.
+```javascript
+const Q = require('q'); // use q promises for a better workflow
+const Spray = require('spray-wrtc');
+const DelegationProtocol = require('foglet-ndp').DelegationProtocol;
+const NDP = require('foglet-ndp').NDP;
+
+class DummyProtocol extends DelegationProtocol {
+	send (data, endpoint) {
+		return Q.Promise((resolve, reject) => {
+			try {
+				const peers = self.foglet.spray.getPeers(self.foglet.maxPeers);
+				self.foglet.unicast.send({
+					type: 'request',
+					id: peers.i[0],
+					payload: data,
+					endpoint
+				}, peers.i[0]); // send everything to the first peer
+			} catch (e) {
+				reject(e);
+			}
+		});
+	}
+
+	execute (data, endpoint) {
+		console.log('Hey! I need to execute this:' + data + ' @' + endpoint);
+		return Q(data);
+	}
+}
+
+const f = new NDP({
+  spray: new Spray({
+    protocol: 'test',
+    webrtc:	{
+      trickle: true,
+      iceServers: [] //iceServers you have to provide
+    }
+  }),
+  protocol: 'test',
+  room: 'test',
+	delegationProtocol: new DummyProtocol()
+});
+
+// now use the foglet!
 ```
 
 ## Build the bundle
