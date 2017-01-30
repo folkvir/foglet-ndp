@@ -1,4 +1,5 @@
-# Foglet - Neighbours Delegated Protocol (NDP) [![Build Status](https://travis-ci.org/folkvir/foglet-ndp.svg?branch=master)](https://travis-ci.org/folkvir/foglet-core) [![Coverage Status](https://coveralls.io/repos/github/folkvir/foglet-ndp/badge.svg?branch=master)](https://coveralls.io/github/folkvir/foglet-ndp?branch=master) [![XirSys WebRTC Cloud Support](https://img.shields.io/badge/XirSys%20Cloud-used-blue.svg)](http://xirsys.com/)
+# Foglet - Neighbours Delegated Protocol (NDP)
+[![Build Status](https://travis-ci.org/folkvir/foglet-ndp.svg?branch=master)](https://travis-ci.org/folkvir/foglet-core) [![Coverage Status](https://coveralls.io/repos/github/folkvir/foglet-ndp/badge.svg?branch=master)](https://coveralls.io/github/folkvir/foglet-ndp?branch=master) [![XirSys WebRTC Cloud Support](https://img.shields.io/badge/XirSys%20Cloud-used-blue.svg)](http://xirsys.com/)
 
 Keywords: Simple Neighbours delegated protocol, Random peer sampling, adaptive, browser-to-browser communication, WebRTC
 
@@ -17,7 +18,7 @@ npm install spray-wrtc foglet-ndp
 We provide a bundle for you, just add foglet-ndp.bundle.js to your html page.
 The following example works like a charm and is avalaible in the folder **example/** !
 
-!!! You need a signaling server in order to run the example, foglet-core has one, just run this : ```bash cd node_modules/foglet-core && npm run server```
+!!! You need a signaling server in order to run the example, foglet-core has one embedded, just run: ```cd node_modules/foglet-core && npm run server```
 
 ```javascript
 const Spray = require('spray-wrtc');
@@ -32,25 +33,25 @@ const request = [
 
 const f1 = new NDP({
   spray: new Spray({
-    protocol: 'test',
+    protocol: 'test-protocol',
     webrtc:	{
       trickle: true,
       iceServers: [] //iceServers you have to provide
     }
   }),
-  protocol: 'test',
+  protocol: 'test-protocol',
   room: 'test'
 });
 
 const f2 = new NDP({
   spray: new Spray({
-    protocol: 'test',
+    protocol: 'test-protocol',
     webrtc:	{
       trickle: true,
       iceServers: [] //iceServers you have to provide
     }
   }),
-  protocol: 'test',
+  protocol: 'test-protocol',
   room: 'test'
 });
 
@@ -59,11 +60,10 @@ f2.init();
 
 f1.events.on('ndp-answer', (response) => {
   console.log(response)
-  done();
 });
 
 f1.connection().then(status =>  {
-  return f1.send(request, endpoint).then(() => {});
+  return f1.send(request, endpoint);
 });
 
 ```
@@ -115,13 +115,13 @@ class DummyProtocol extends DelegationProtocol {
 
 const f = new NDP({
   spray: new Spray({
-    protocol: 'test',
+    protocol: 'test-protocol',
     webrtc:	{
       trickle: true,
       iceServers: [] //iceServers you have to provide
     }
   }),
-  protocol: 'test',
+  protocol: 'test-protocol',
   room: 'test',
 	delegationProtocol: new DummyProtocol()
 });
@@ -153,7 +153,7 @@ npm run doc
 
 ## References
 
-[1] [Spray-wrtc](https://github.com/Chat-Wane/spray-wrtc) Chat-Wane, Spray is a random peer sampling protocol [1] inspired by both Cyclon [2] and Scamp [3]. It adapts the partial view of each member to the network size using local knowledge only. Therefore, without any configurations, each peer automatically adjust itself to the need of the network.
+[1] [Spray-wrtc](https://github.com/Chat-Wane/spray-wrtc) Chat-Wane, Spray is a random peer sampling protocol inspired by both Cyclon and Scamp. It adapts the partial view of each member to the network size using local knowledge only. Therefore, without any configurations, each peer automatically adjust itself to the need of the network.
 
 [2] [foglet-core](https://github.com/folkvir/foglet-core.git) Folkvir, Foglet-core is a core library in order to provide a solid infrastructure working with spray-wrtc.
 
