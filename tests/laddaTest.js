@@ -8,10 +8,11 @@ const endpoint = 'https://query.wikidata.org/bigdata/ldf';
 const request = [
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 10 LIMIT 10',
-	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 20 LIMIT 10'
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 20 LIMIT 10',
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 30 LIMIT 10'
 ];
 
-describe('[NDP]', function () {
+describe('[LADDA]', function () {
 	this.timeout(15000);
 	it('Initialization', function (done) {
 		$.ajax({
@@ -37,40 +38,56 @@ describe('[NDP]', function () {
 
 				const f1 = new NDP({
 					spray: new Spray({
-						protocol: 'testNdp',
+						protocol: 'testLadda',
 						webrtc:	{
 							trickle: true,
 							iceServers
 						}
 					}),
-					protocol: 'ndp',
-					room: 'test'
+					protocol: 'ladda',
+					room: 'testLadda',
+					delegationProtocol: new LaddaProtocol()
 				});
 				const f2 = new NDP({
 					spray: new Spray({
-						protocol: 'testNdp',
+						protocol: 'testLadda',
 						webrtc:	{
 							trickle: true,
 							iceServers
 						}
 					}),
-					protocol: 'ndp',
-					room: 'test'
+					protocol: 'ladda',
+					room: 'laddaTest',
+					delegationProtocol: new LaddaProtocol()
 				});
+				const f3 = new NDP({
+					spray: new Spray({
+						protocol: 'testLadda',
+						webrtc:	{
+							trickle: true,
+							iceServers
+						}
+					}),
+					protocol: 'ladda',
+					room: 'testLadda',
+					delegationProtocol: new LaddaProtocol()
+				});
+
 				f1.init();
 				f2.init();
+				f3.init();
 				let cpt = 0;
 				f1.events.on('ndp-answer', (response) => {
-					console.log(response)
+					console.log(response);
 					cpt++;
-					if(cpt >= 2) {
+					if(cpt >= 4) {
 						done();
 					}
 				});
 				return f1.connection().then(status =>  {
 					return f1.send(request, endpoint);
-				})
-		}, err => console.log(err));
+				});
+		});
 
 	});
 });
