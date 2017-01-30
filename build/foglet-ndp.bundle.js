@@ -8807,8 +8807,8 @@ var Foglet = function (_EventEmitter) {
 			_this.protocol = _this.options.protocol;
 			_this.spray = _this.options.spray;
 			_this.status = _this.statusList[0];
-			// This id is NOT the SAME as the id in the spray protocol
-			_this.id = uid.guid();
+			// This id is NOT the SAME as the id in the spray protocol, it is tempory, id will be replaced by spray id
+			_this.id = 'Tempory:' + uid.guid();
 			_this._flog('Constructed');
 		} else {
 			_this.status = _this.statusList[1];
@@ -8853,12 +8853,13 @@ var Foglet = function (_EventEmitter) {
 							room: self.room
 						});
 					},
-					onReady: function onReady() {
+					onReady: function onReady(id) {
 						try {
 							self.sendMessage('New user connected @' + self.id);
 						} catch (err) {
 							console.err(err);
 						}
+						self.id = id;
 						self.status = self.statusList[2];
 						self._flog('Connection established');
 					}
@@ -44950,6 +44951,95 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+'use strict';
+
+const Q = require('q');
+
+/**
+ * Abstract delegation protocol used by Foglet-NDP to distribute queries between peers
+ * @abstract
+ * @author Arnaud Grall (Folkvir), Thomas Minier
+ */
+class DelegationProtocol {
+	/**
+  * Constructor
+  * @param {string} name - The protocol's name
+  */
+	constructor(name) {
+		this.name = name;
+		this.foglet = null;
+	}
+
+	/**
+  * Set the Foglet used by the delegation protocol
+  * @param {NDP} foglet - The foglet used by the delegation protocol
+  * @return {void}
+  * @example
+  * const protocol = // construct a new protocol
+  * const ndp = new NDP(config);
+  * protocol.use(ndp);
+  */
+	use(foglet) {
+		this.foglet = foglet;
+	}
+
+	/**
+  * Forward en event to Foglet
+  * @param {string} key - The event's key
+  * @param {*} value - The event value
+  * @return {void}
+  */
+	emit(key, value) {
+		if (this.foglet !== null) this.foglet.events.emit(key, value);
+	}
+
+	/**
+  * Send queries to neighbours and emit results on ndp-answer
+  * @param {array} data array of element to send (query)
+  * @param {string} endpoint - Endpoint to send queries
+  * @return {promise} A Q promise
+  */
+	send(data, endpoint) {
+		return Q(endpoint);
+	}
+
+	/**
+  * Execute queries in {data} via ldf-client to the {endpoint}
+  * @param {array} data - Queries to execute
+  * @param {string} endpoint - Endpoint to process queries
+  * @return {promise} Return a promise with results as reponse
+  */
+	execute(data, endpoint) {
+		return Q(endpoint);
+	}
+}
+
+module.exports = DelegationProtocol;
+
+},{"q":100}],191:[function(require,module,exports){
+/*
+MIT License
+
+Copyright (c) 2017 Grall Arnaud
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
 'use strict';
 
@@ -44977,7 +45067,7 @@ class NDPMessage {
 
 module.exports = NDPMessage;
 
-},{}],"foglet-ndp":[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 /*
 MIT License
 
@@ -45004,27 +45094,25 @@ SOFTWARE.
 'use strict';
 
 const EventEmitter = require('events');
-const Immutable = require('immutable');
 const VVwE = require('version-vector-with-exceptions');
 const Unicast = require('unicast-definition');
-const ldf = require('ldf-client');
 const Foglet = require('foglet-core');
-const Q = require('q');
-const NDPMessage = require('./ndp-message.js');
+const RoundRobinProtocol = require('./round-robin-protocol.js');
 
-function divideData(data, n) {
-	let dividedData = Immutable.List([]);
-	for (let i = 0; i < n; ++i) {
-		dividedData = dividedData.insert(i, Immutable.List([]));
-	}
-	for (let i = 0; i < data.size; ++i) {
-		const tmp = dividedData.get(i % n).insert(i % n, data.get(i));
-		dividedData = dividedData.set(i % n, tmp);
-	}
-	return dividedData;
-}
-
+/**
+ * Class of the Simple Neighbours Delegated Protocol
+ * @extends Foglet
+ * @author Grall Arnaud (Folkvir)
+ */
 class NDP extends Foglet {
+	/**
+  * This is the constructor of the NDP class, need options as parameter
+  * @constructor
+  * @param {object} options Options used to build the Foglet-ndp
+  * @param {Spray} options.spray - The Spray network used by the foglet
+  * @param {string} options.protocol - The protocol name
+  * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link RoundRobinProtocol}
+  */
 	constructor(options) {
 		if (options === undefined || options.spray === undefined || options.protocol === undefined) {
 			throw new Error('Missing options', 'ndp.js');
@@ -45034,37 +45122,100 @@ class NDP extends Foglet {
 		this.vector = new VVwE(Number.MAX_VALUE);
 		this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
 		this.events = new EventEmitter();
-		const self = this;
-		this.unicast.on('receive', (id, message) => {
-			if (message.type === 'request') {
-				self._flog(' You received queries to execute from : @' + id);
-				self.execute(message.payload, message.endpoint).then(result => {
-					const msg = new NDPMessage({
-						type: 'answer',
-						id,
-						payload: result
-					});
-					console.log(msg);
-					self.unicast.send(msg, id);
-				}).catch(error => {
-					console.log('Error : ' + error);
-				});
-			} else if (message.type === 'answer') {
-				console.log('@NDP : A result received from ' + message.id);
-				self.events.emit('ndp-answer', message);
-			}
-		});
+		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
+		this.delegationProtocol.use(this);
 
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
 	}
 
 	/**
   * Send queries to neighbours and emit results on ndp-answer
-  * @function
   * @param {array} data array of element to send (query)
   * @param {string} endpoint - Endpoint to send queries
   * @return {promise} Return a Q promise
   **/
+	send(data, endpoint) {
+		return this.delegationProtocol.send(data, endpoint);
+	}
+}
+
+module.exports = NDP;
+
+},{"./round-robin-protocol.js":193,"events":36,"foglet-core":38,"unicast-definition":175,"version-vector-with-exceptions":182}],193:[function(require,module,exports){
+/*
+MIT License
+
+Copyright (c) 2017 Grall Arnaud
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+'use strict';
+
+const Q = require('q');
+const Immutable = require('immutable');
+const ldf = require('ldf-client');
+const DelegationProtocol = require('./delegation-protocol.js');
+const NDPMessage = require('./ndp-message.js');
+
+/**
+ * Simple delegation protocol using a Round Robin approach to distribute queries between peers
+ * @extends DelegationProtocol
+ * @author Arnaud Grall (Folkvir), Thomas Minier
+ */
+class RoundRobinProtocol extends DelegationProtocol {
+	/**
+  * Constructor
+  */
+	constructor() {
+		super('round-robin');
+	}
+
+	use(foglet) {
+		super.use(foglet);
+		const self = this;
+		this.foglet.unicast.on('receive', (id, message) => {
+			if (message.type === 'request') {
+				self.foglet._flog(' You received queries to execute from : @' + id);
+				self.execute(message.payload, message.endpoint).then(result => {
+					const msg = new NDPMessage({
+						type: 'answer',
+						id,
+						payload: result
+					});
+					self.foglet._flog(msg);
+					self.foglet.unicast.send(msg, id);
+				}).catch(error => {
+					self.foglet._flog('Error : ' + error);
+				});
+			} else if (message.type === 'answer') {
+				self.foglet._flog('@NDP : A result received from ' + message.id);
+				self.foglet.events.emit('ndp-answer', message);
+			}
+		});
+	}
+
+	/**
+  * Send queries to neighbours and emit results on ndp-answer
+  * @param {array} data array of element to send (query)
+  * @param {string} endpoint - Endpoint to send queries
+  * @return {promise} A Q promise
+  */
 	send(data, endpoint) {
 		const self = this;
 		return Q.Promise(function (resolve, reject) {
@@ -45074,18 +45225,16 @@ class NDP extends Foglet {
 					reject(new Error('Data are not typed as Array', 'ndp.js'));
 				}
 			}
-			console.log(queries);
+			self.foglet._flog(queries);
 			try {
-				const peers = self.spray.getPeers(self.maxPeers);
+				const peers = self.foglet.spray.getPeers(self.foglet.maxPeers);
 				// calcul des requètes à envoyer
 				const users = peers.i.length /* + peers.o.length */ + 1;
-				console.log('Number of neightbours : ' + users);
-				console.log(peers);
-
+				self.foglet._flog('Number of neightbours : ' + users);
 				// Répartition...
 				let cpt = 0;
-				const dividedData = divideData(queries, users);
-				self._flog(dividedData.toJS());
+				const dividedData = self.divideData(queries, users);
+				self.foglet._flog(dividedData.toJS());
 				if (users !== 1) {
 					for (let k = 0; k < users - 1; ++k) {
 						const msg = new NDPMessage({
@@ -45094,33 +45243,30 @@ class NDP extends Foglet {
 							payload: dividedData.get(cpt).toJS(),
 							endpoint
 						});
-						console.log('Send message :' + msg);
-						self.unicast.send(msg, peers.i[k]);
+						self.foglet.unicast.send(msg, peers.i[k]);
 						++cpt;
-						console.log(cpt + "______" + k);
 					}
 
-					const q = dividedData.get(cpt).toJS();
-					self.execute(q, endpoint).then(result => {
+					const query = dividedData.get(cpt).toJS();
+					self.execute(query, endpoint).then(result => {
 						const msg = new NDPMessage({
 							type: 'answer',
 							id: 'me',
 							payload: result,
 							endpoint
 						});
-						self.events.emit('ndp-receive', msg);
+						self.emit('ndp-answer', msg);
 					});
 				} else {
-					console.log('Number of peers === 1');
-					const q = dividedData.get(cpt).toJS();
-					self.execute(q, endpoint).then(result => {
+					const query = dividedData.get(cpt).toJS();
+					self.execute(query, endpoint).then(result => {
 						const msg = new NDPMessage({
 							type: 'answer',
 							id: 'me',
 							payload: result,
 							endpoint
 						});
-						self.events.emit('ndp-receive', msg);
+						self.emit('ndp-answer', msg);
 					});
 				}
 				resolve();
@@ -45134,29 +45280,30 @@ class NDP extends Foglet {
   * Execute queries in {data} via ldf-client to the {endpoint}
   * @param {array} data - Queries to execute
   * @param {string} endpoint - Endpoint to process queries
-  * @return {promise} Return a promise with results as reponse
+  * @return {Promise} A Promise with results as reponse
   */
 	execute(data, endpoint) {
-		this._flog(' Execution of : ' + data + ' on ' + endpoint);
-		let resultat = Immutable.List();
-		let finishedQuery = 0;
+		this.foglet._flog(' Execution of : ' + data + ' on ' + endpoint);
+		let delegationResults = Immutable.List();
+		let completedQueries = 0;
 
-		return new Promise((resolve, reject) => {
+		return Q.Promise((resolve, reject) => {
 			// Convert array to Immutable.List
 			try {
 				data = Immutable.fromJS(data);
 				console.log(data);
 				let fragmentsClient = new ldf.FragmentsClient(endpoint);
 				for (let i = 0; i < data.size; i++) {
-					resultat = resultat.insert(i, Immutable.List());
-					let results = new ldf.SparqlIterator(data.get(i), { fragmentsClient });
-					results.on('data', ldfResult => {
-						resultat = resultat.set(i, resultat.get(i).push(ldfResult));
-					}).on('end', () => {
-						++finishedQuery;
-						// IF WE HAVE ALL RESULTS FROM ALL QUERIES WE CAN RESOLVE
-						if (finishedQuery >= data.size) {
-							resolve(resultat.toJS());
+					delegationResults = delegationResults.insert(i, Immutable.List());
+					let queryResults = new ldf.SparqlIterator(data.get(i), { fragmentsClient });
+					queryResults.on('data', ldfResult => {
+						delegationResults = delegationResults.set(i, delegationResults.get(i).push(ldfResult));
+					});
+					queryResults.on('end', () => {
+						++completedQueries;
+						// resolve when all results are arrived
+						if (completedQueries >= data.count()) {
+							resolve(delegationResults.toJS());
 						}
 					}); /* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
 				}
@@ -45165,8 +45312,60 @@ class NDP extends Foglet {
 			}
 		});
 	}
+
+	/**
+  * Divides queries between a number of clients using a Round Robin approach
+  * @param {Immutable.List} queries - List of queries to divide bewteen clients
+  * @param {int} nbClients - The number of clients
+  * @return {Immutable.List<Immutable.list>} The queries divided between a number of clients
+  */
+	divideData(queries, nbClients) {
+		let dividedData = Immutable.List([]);
+		for (let i = 0; i < nbClients; ++i) {
+			dividedData = dividedData.insert(i, Immutable.List([]));
+		}
+		for (let i = 0; i < queries.size; ++i) {
+			const tmp = dividedData.get(i % nbClients).insert(i % nbClients, queries.get(i));
+			dividedData = dividedData.set(i % nbClients, tmp);
+		}
+		return dividedData;
+	}
 }
 
-module.exports = NDP;
+module.exports = RoundRobinProtocol;
 
-},{"./ndp-message.js":190,"events":36,"foglet-core":38,"immutable":50,"ldf-client":56,"q":100,"unicast-definition":175,"version-vector-with-exceptions":182}]},{},[]);
+},{"./delegation-protocol.js":190,"./ndp-message.js":191,"immutable":50,"ldf-client":56,"q":100}],"foglet-ndp":[function(require,module,exports){
+/*
+MIT License
+
+Copyright (c) 2017 Grall Arnaud
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+'use strict';
+
+const NDP = require('./src/ndp.js');
+const DelegationProtocol = require('./src/delegation-protocol.js');
+
+module.exports = {
+	NDP,
+	DelegationProtocol
+};
+
+},{"./src/delegation-protocol.js":190,"./src/ndp.js":192}]},{},[]);

@@ -23,8 +23,8 @@ module.exports = function (config) {
 		// list of files / patterns to load in the browser
 		files: [
 			'./node_modules/spray-wrtc/build/spray-wrtc.bundle.js',
+			'http://localhost:4000/socket.io/socket.io.js',
 			'tests/ndpTest.js',
-			'http://localhost:4000/socket.io/socket.io.js' //just only inject it
 		],
 		preprocessors:{
 				'tests/ndpTest.js' : ['coverage','browserify']
