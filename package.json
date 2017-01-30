@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This project aims to provide a simple neighbours delegated protocol in order to reduce query execution time",
   "main": "foglet-ndp.js",
   "scripts": {
