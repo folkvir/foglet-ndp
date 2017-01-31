@@ -25,7 +25,7 @@ module.exports = function (config) {
 			'./node_modules/spray-wrtc/build/spray-wrtc.bundle.js',
 			'http://localhost:4000/socket.io/socket.io.js',
 			'tests/laddaTest.js',
-			'tests/ndpTest.js',
+			// 'tests/ndpTest.js',
 		],
 		preprocessors:{
 				'tests/ndpTest.js' : ['coverage','browserify'],
