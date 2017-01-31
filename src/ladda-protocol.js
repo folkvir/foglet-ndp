@@ -59,9 +59,9 @@ class LaddaProtocol extends DelegationProtocol {
 		this.foglet.unicast.on('receive', (id, message) => {
 			switch (message.type) {
 			case 'request': {
-				self.foglet._flog('@LADDA - Peer @' + this.id + ' received a query to execute from : @' + id);
+				self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' received a query to execute from : @' + id);
 				if (!this.isFree) {
-					self.foglet._flog('@LADDA - Peer @' + this.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
+					self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
 					const msg = new NDPMessage({
 						type: 'failed',
 						id,
@@ -72,13 +72,14 @@ class LaddaProtocol extends DelegationProtocol {
 					self.foglet.unicast.send(msg, id);
 				} else {
 					self.isFree = false;
-					self.execute(message.payload, message.endpoint).then(result => {
+					const query = message.payload;
+					self.execute(query, message.endpoint).then(result => {
 						self.isFree = true;
 						const msg = new NDPMessage({
 							type: 'answer',
-							id,
+							id: this.foglet.id,
 							payload: result,
-							query: message.payload,
+							query: query,
 							endpoint: message.endpoint
 						});
 						self.foglet._flog(msg);
