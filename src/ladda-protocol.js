@@ -78,6 +78,7 @@ class LaddaProtocol extends DelegationProtocol {
 							type: 'answer',
 							id,
 							payload: result,
+							query: message.payload,
 							endpoint: message.endpoint
 						});
 						self.foglet._flog(msg);
