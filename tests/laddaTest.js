@@ -49,7 +49,6 @@ describe('[LADDA]', function () {
 							iceServers
 						}
 					}),
-					protocol: 'ladda',
 					room: 'testLadda',
 					delegationProtocol: new LaddaProtocol()
 				});
@@ -61,7 +60,6 @@ describe('[LADDA]', function () {
 							iceServers
 						}
 					}),
-					protocol: 'ladda',
 					room: 'laddaTest',
 					delegationProtocol: new LaddaProtocol()
 				});
@@ -73,7 +71,6 @@ describe('[LADDA]', function () {
 							iceServers
 						}
 					}),
-					protocol: 'ladda',
 					room: 'testLadda',
 					delegationProtocol: new LaddaProtocol()
 				});
@@ -81,6 +78,7 @@ describe('[LADDA]', function () {
 				f1.init();
 				f2.init();
 				f3.init();
+
 				let cpt = 0;
 				f1.events.on('ndp-answer', (response) => {
 					console.log(response);
@@ -89,8 +87,9 @@ describe('[LADDA]', function () {
 						done();
 					}
 				});
-				return f1.connection().then(() =>  {
-					return f1.send(requests, endpoint);
+
+				return f1.connection().then((s) =>  {
+					f1.send(requests, endpoint);
 				});
 			});
 

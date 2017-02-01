@@ -29,6 +29,9 @@ const ldf = require('ldf-client');
 const DelegationProtocol = require('./delegation-protocol.js');
 const NDPMessage = require('./ndp-message.js');
 
+// LDF LOG Disabling
+ldf.Logger.setLevel('EMERGENCY');
+
 /**
  * Ladda delegation protocol
  * @extends DelegationProtocol

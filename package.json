@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "This project aims to provide a simple neighbours delegated protocol in order to reduce query execution time",
   "main": "foglet-ndp.js",
   "scripts": {
@@ -30,7 +30,7 @@
   "homepage": "https://github.com/folkvir/foglet-ndp#readme",
   "dependencies": {
     "events": "^1.1.1",
-    "foglet-core": "^0.1.1",
+    "foglet-core": "^0.2.x",
     "immutable": "^3.8.1",
     "ldf-client": "^2.0.4",
     "q": "^1.4.1",

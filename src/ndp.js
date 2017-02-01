@@ -44,13 +44,13 @@ class NDP extends Foglet {
 	 * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link RoundRobinProtocol}
 	 */
 	constructor (options) {
-		if (options === undefined || options.spray === undefined || options.protocol === undefined ) {
+		if (options === undefined || options.spray === undefined || options.spray.protocol === undefined ) {
 			throw new Error('Missing options', 'ndp.js');
 		}
 		super(options);
 		this.options = options;
 		this.vector = new VVwE(Number.MAX_VALUE);
-		this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
+		this.unicast = new Unicast(this.spray, this.spray.protocol + '-unicast');
 		this.events = new EventEmitter();
 		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
 		this.delegationProtocol.use(this);
