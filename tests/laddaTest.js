@@ -91,7 +91,7 @@ describe('[LADDA]', function () {
 				return f1.connection().then((s) =>  {
 					f1.send(requests, endpoint);
 				});
-			});
+			}).catch(err => console.log(err));
 
 	});
 });

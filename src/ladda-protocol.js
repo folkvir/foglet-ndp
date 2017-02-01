@@ -40,7 +40,7 @@ ldf.Logger.setLevel('EMERGENCY');
 class LaddaProtocol extends DelegationProtocol {
 	/**
 	 * Constructor
-	 * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2)
+	 * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2, as in Ladda paper)
 	 */
 	constructor (nbDestinations) {
 		super('ladda');
@@ -59,12 +59,12 @@ class LaddaProtocol extends DelegationProtocol {
 	use (foglet) {
 		super.use(foglet);
 		const self = this;
-		this.foglet.unicast.on('receive', (id, message) => {
+		this.foglet.onUnicast((id, message) => {
 			switch (message.type) {
 			case 'request': {
-				self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' received a query to execute from : @' + id);
+				self.foglet._flog('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
 				if (!this.isFree) {
-					self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
+					self.foglet._flog('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
 					const msg = new NDPMessage({
 						type: 'failed',
 						id,
@@ -72,7 +72,7 @@ class LaddaProtocol extends DelegationProtocol {
 						endpoint: message.endpoint
 					});
 					self.foglet._flog(msg);
-					self.foglet.unicast.send(msg, id);
+					self.foglet.sendUnicast(msg, id);
 				} else {
 					self.isFree = false;
 					const query = message.payload;
@@ -86,7 +86,7 @@ class LaddaProtocol extends DelegationProtocol {
 							endpoint: message.endpoint
 						});
 						self.foglet._flog(msg);
-						self.foglet.unicast.send(msg, id);
+						self.foglet.sendUnicast(msg, id);
 					}).catch(error => {
 						self.isFree = true;
 						self.foglet._flog('@LADDA - Error : ' + error);
@@ -96,21 +96,21 @@ class LaddaProtocol extends DelegationProtocol {
 			}
 			case 'answer': {
 				try {
-					self.foglet._flog('@LADDA : Received an answer from ' + message.id);
+					self.foglet._flog('@LADDA : Received an answer from @' + message.id);
 					this.busyPeers = this.busyPeers.delete(id);
 					self.foglet.events.emit('ndp-answer', message);
 					// retry delegation if there's queries in the queue
-					if(this.queryQueue.count() > 0) this.delegateQueries(message.endpoint);
+					if(self.queryQueue.count() > 0) self.delegateQueries(message.endpoint);
 				} catch (e) {
 					self.foglet._flog('@NDP : error ' + e);
 				}
 				break;
 			}
 			case 'failed': {
-				self.foglet._flog('@LADDA : failed query from ' + message.id);
-				this.queryQueue = this.queryQueue.push(message.payload);
-				this.busyPeers = this.busyPeers.delete(id);
-				if(this.isFree) this.delegateQueries(message.endpoint);
+				self.foglet._flog('@LADDA : failed query from @' + message.id);
+				self.queryQueue = self.queryQueue.push(message.payload);
+				self.busyPeers = self.busyPeers.delete(id);
+				if(self.isFree) self.delegateQueries(message.endpoint);
 				break;
 			}
 			default:
@@ -174,7 +174,7 @@ class LaddaProtocol extends DelegationProtocol {
 								this.queryQueue = this.queryQueue.shift(0);
 								// mark the peer as 'busy'
 								this.busyPeers = this.busyPeers.add(peer);
-								this.foglet.unicast.send(new NDPMessage({
+								this.foglet.sendUnicast(new NDPMessage({
 									type: 'request',
 									id: peer,
 									payload: query,
@@ -198,7 +198,7 @@ class LaddaProtocol extends DelegationProtocol {
 	 * @return {Promise} A Promise with results as reponse
 	 */
 	execute (query, endpoint) {
-		this.foglet._flog(' Execution of : '+ query + ' on ' + endpoint);
+		this.foglet._flog(' Execution of : ' + query + ' on ' + endpoint);
 		let delegationResults = Immutable.List();
 		const self = this;
 
@@ -227,7 +227,7 @@ class LaddaProtocol extends DelegationProtocol {
 		let chosenPeers = Immutable.Set();
 		let _peers = Immutable.Set();
 		// gather non-busy peers
-		_peers = _peers.union(this.foglet.spray.getPeers(this.foglet.maxPeers).i);
+		_peers = _peers.union(this.foglet.getNeighbours());
 		_peers = _peers.subtract(this.busyPeers).toList();
 		let index = 0;
 		// random selection beytween non-busy peers (as in LADDA algorithm)

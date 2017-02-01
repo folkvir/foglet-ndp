@@ -82,7 +82,7 @@ class DummyProtocol extends DelegationProtocol {
 	use (foglet) {
 		super.use(foglet);
 		// listen for incoming delegated request
-		this.foglet.unicast.on('receive', (id, message) => {
+		this.foglet.onUnicast((id, message) => {
 			if (message.type === 'request') {
 				this.execute(message.payload)
 					.then(results => this.emit('ndp-answer', results))
@@ -94,8 +94,8 @@ class DummyProtocol extends DelegationProtocol {
 	send (data, endpoint) {
 		return Q.Promise((resolve, reject) => {
 			try {
-				const peers = self.foglet.spray.getPeers(self.foglet.maxPeers);
-				self.foglet.unicast.send({
+				const peers = self.foglet.getNeighbours();
+				self.foglet.sendUnicast({
 					type: 'request',
 					id: peers.i[0],
 					payload: data,

@@ -45,7 +45,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 	use (foglet) {
 		super.use(foglet);
 		const self = this;
-		this.foglet.unicast.on('receive', (id, message) => {
+		this.foglet.onUnicast((id, message) => {
 			if (message.type === 'request') {
 				self.foglet._flog(' You received queries to execute from : @' + id);
 				self.execute(message.payload, message.endpoint).then(result => {
@@ -55,7 +55,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 						payload: result
 					});
 					self.foglet._flog(msg);
-					self.foglet.unicast.send(msg, id);
+					this.foglet.sendUnicast(msg, id);
 				}).catch(error => {
 					self.foglet._flog('Error : ' + error);
 				});
@@ -99,7 +99,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 							payload: dividedData.get(cpt).toJS(),
 							endpoint
 						});
-						self.foglet.unicast.send(msg, peers.i[k]);
+						this.foglet.sendUnicast(msg, peers.i[k]);
 						++cpt;
 					}
 

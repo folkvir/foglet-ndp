@@ -24,8 +24,6 @@ SOFTWARE.
 'use strict';
 
 const EventEmitter = require('events');
-const VVwE = require('version-vector-with-exceptions');
-const Unicast = require('unicast-definition');
 const Foglet = require('foglet-core');
 const RoundRobinProtocol = require('./round-robin-protocol.js');
 
@@ -49,13 +47,19 @@ class NDP extends Foglet {
 		}
 		super(options);
 		this.options = options;
-		this.vector = new VVwE(Number.MAX_VALUE);
-		this.unicast = new Unicast(this.spray, this.spray.protocol + '-unicast');
 		this.events = new EventEmitter();
 		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
-		this.delegationProtocol.use(this);
-
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
+	}
+
+	/**
+	 * Initialize the foglet, and connect it to the delegation protocol
+	 * @return {void}
+	 * @override
+	 */
+	init () {
+		super.init();
+		this.delegationProtocol.use(this);
 	}
 
 	/**

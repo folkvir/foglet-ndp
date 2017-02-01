@@ -553,7 +553,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":181}],4:[function(require,module,exports){
+},{"util/":142}],4:[function(require,module,exports){
 (function (process){
 var EventEmitter = require('events').EventEmitter;
 
@@ -4642,7 +4642,7 @@ CausalBroadcast.prototype.bufferIndexOf = function(id){
 
 module.exports = CausalBroadcast;
 
-},{"./guid.js":14,"./messages":15,"./messages.js":15,"events":36,"unicast-definition":17,"util":181}],14:[function(require,module,exports){
+},{"./guid.js":14,"./messages":15,"./messages.js":15,"events":36,"unicast-definition":17,"util":142}],14:[function(require,module,exports){
 /*
  * \url https://github.com/justayak/yutils/blob/master/yutils.js
  * \author justayak
@@ -4769,7 +4769,7 @@ Unicast.prototype.send = function(message, id){
 
 module.exports = Unicast;
 
-},{"./messages":16,"events":36,"util":181}],18:[function(require,module,exports){
+},{"./messages":16,"events":36,"util":142}],18:[function(require,module,exports){
 /**
  * Slice reference.
  */
@@ -7345,7 +7345,7 @@ Polling.prototype.uri = function () {
   return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
 };
 
-},{"../transport":27,"component-inherit":20,"debug":22,"engine.io-parser":34,"parseqs":93,"xmlhttprequest-ssl":33,"yeast":189}],32:[function(require,module,exports){
+},{"../transport":27,"component-inherit":20,"debug":22,"engine.io-parser":34,"parseqs":93,"xmlhttprequest-ssl":33,"yeast":150}],32:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -7634,7 +7634,7 @@ WS.prototype.check = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../transport":27,"component-inherit":20,"debug":22,"engine.io-parser":34,"parseqs":93,"ws":9,"yeast":189}],33:[function(require,module,exports){
+},{"../transport":27,"component-inherit":20,"debug":22,"engine.io-parser":34,"parseqs":93,"ws":9,"yeast":150}],33:[function(require,module,exports){
 (function (global){
 // browser shim for xmlhttprequest module
 
@@ -8288,7 +8288,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./keys":35,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":6,"blob":8,"has-binary":41,"wtf-8":186}],35:[function(require,module,exports){
+},{"./keys":35,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":6,"blob":8,"has-binary":41,"wtf-8":147}],35:[function(require,module,exports){
 
 /**
  * Gets the keys for an object.
@@ -8654,7 +8654,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Exception =
 /**
- * @constructs
+ * @construct
  * @param {string} name - Exception name
  * @param {string} message - Exception message
  */
@@ -8671,7 +8671,7 @@ module.exports.ConstructException = function (_Exception) {
 	function ConstructException() {
 		_classCallCheck(this, ConstructException);
 
-		return _possibleConstructorReturn(this, (ConstructException.__proto__ || Object.getPrototypeOf(ConstructException)).call(this, 'ConstructException', 'Error: options.protocol or options.room is undefined or null'));
+		return _possibleConstructorReturn(this, (ConstructException.__proto__ || Object.getPrototypeOf(ConstructException)).call(this, 'ConstructException', 'Error: options.spray or options.spray.protocol or options.room is undefined or null'));
 	}
 
 	return ConstructException;
@@ -8748,10 +8748,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Spray = require('spray-wrtc');
 var EventEmitter = require('events').EventEmitter;
 var VVwE = require('version-vector-with-exceptions');
 var CausalBroadcast = require('causal-broadcast-definition');
+var Unicast = require('unicast-definition');
 var io = require('socket.io-client');
 var Q = require('q');
 
@@ -8785,7 +8785,6 @@ var Foglet = function (_EventEmitter) {
   * @example
   * var f = new Foglet({
   * 	spray: new Spray()
-  * 	protocol: "your-protocol-name"
   * 	room: "your-room-name"
   * })
   * @returns {void}
@@ -8802,9 +8801,9 @@ var Foglet = function (_EventEmitter) {
 		_this.statusList = ['initialized', 'error', 'connected', 'disconnected'];
 		_this.status = _this.statusList[0];
 		// Activation of the foglet protocol
-		if (_this.options.spray !== undefined && _this.options.spray !== null && _this.options.protocol !== undefined && _this.options.protocol !== null && _this.options.room !== undefined && _this.options.room !== null) {
+		if (_this.options.spray !== undefined && _this.options.spray !== null && _this.options.spray.protocol !== undefined && _this.options.spray.protocol !== null && _this.options.room !== undefined && _this.options.room !== null) {
 			_this.room = _this.options.room;
-			_this.protocol = _this.options.protocol;
+			_this.protocol = _this.options.spray.protocol;
 			_this.spray = _this.options.spray;
 			_this.status = _this.statusList[0];
 			// This id is NOT the SAME as the id in the spray protocol, it is tempory, id will be replaced by spray id
@@ -8829,7 +8828,8 @@ var Foglet = function (_EventEmitter) {
 		value: function init() {
 			var self = this;
 			this.vector = new VVwE(Number.MAX_VALUE);
-			this.broadcast = new CausalBroadcast(this.spray, this.vector, this.protocol);
+			this.broadcast = new CausalBroadcast(this.spray, this.vector);
+			this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
 			//	SIGNALING PART
 			// 	THERE IS AN AVAILABLE SERVER ON ?server=http://signaling.herokuapp.com:4000/
 			var url = this._getParameterByName('server');
@@ -8851,29 +8851,35 @@ var Foglet = function (_EventEmitter) {
 						self.signaling.emit('accept', {
 							offer: offer,
 							room: self.room
-						});
+						}, self.socketId);
 					},
 					onReady: function onReady(id) {
 						try {
-							self.sendMessage('New user connected @' + self.id);
+							self.signaling.emit('connected', id, self.socketId);
 						} catch (err) {
 							console.err(err);
 						}
-						self.id = id;
-						self.status = self.statusList[2];
-						self._flog('Connection established');
 					}
 				};
 			};
 
-			this.signaling.on('new_spray', function (data) {
+			this.signaling.on('new_spray', function (data, socketId) {
 				// this._flog('@' + data.pid + ' send a request to you...');
+				self.socketId = socketId;
 				self.spray.connection(self.callbacks(), data);
 			});
-			this.signaling.on('accept_spray', function (data) {
+			this.signaling.on('accept_spray', function (data, socketId) {
 				// this._flog('@' + data.pid + ' accept your request...');
-				self.spray.connection(data);
+				self.socketId = socketId;
+				self.spray.connection(self.callbacks(), data);
 			});
+
+			this.signaling.on('connected', function (id) {
+				self.id = id;
+				self.status = self.statusList[2];
+				self._flog('Connection established');
+			});
+
 			this.registerList = {};
 			this._flog('Initialized');
 		}
@@ -8885,7 +8891,6 @@ var Foglet = function (_EventEmitter) {
    * @example
    * var f = new Foglet({...});
    * f.connection().then((response) => console.log).catch(error => console.err);
-   * @returns {void}
    */
 
 	}, {
@@ -8908,7 +8913,7 @@ var Foglet = function (_EventEmitter) {
 							} else {
 								resolve(self.status);
 							}
-						}, 2000);
+						}, 1000);
 					});
 				} catch (error) {
 					reject(error);
@@ -8920,33 +8925,38 @@ var Foglet = function (_EventEmitter) {
    * Disconnect the foglet, wait 2 seconds for a proper disconnection, if status !=== disconnected, we re-load the function
    * @return {promise} Return a promise with the status as
    */
-
-	}, {
-		key: 'disconnect',
-		value: function disconnect() {
-			if (this.spray === null) {
-				this._flog(' Error : spray undefined.');
-				return null;
-			}
-			var self = this;
-			return Q.Promise(function (resolve, reject) {
-				try {
-					self.spray.leave();
-					self.status = self.statusList[3];
-					//We are waiting for 2 seconds for a proper disconnection
-					setTimeout(function () {
-						if (self.status === 'disconnected') {
-							self._flog('Status : ' + self.status);
-							resolve(self.status);
-						} else {
-							self.disconnect();
-						}
-					}, 2000);
-				} catch (error) {
-					reject(error);
-				}
-			});
-		}
+		// disconnect() {
+		// 	if (this.spray === null) {
+		// 		this._flog(' Error : spray undefined.');
+		// 		return null;
+		// 	}
+		// 	const self = this;
+		// 	return Q.Promise(function(resolve, reject) {
+		// 		try {
+		// 			console.log("we are trying to disconnect the user...1");
+		// 			self.spray.leave();
+		// 			console.log("we are trying to disconnect the user...2");
+		// 			self.status = self.statusList[3];
+		// 			console.log("we are trying to disconnect the user...3");
+		// 			self.signaling.emit('disconnect', self.room, self.socketId);
+		// 			//We are waiting for 2 seconds for a proper disconnection
+		// 			setTimeout(function(){
+		// 				if(self.spray.getPeers().i.length === 0){
+		// 					self.status = self.statusList[3];
+		// 					self._flog('Status : '+self.status);
+		// 					console.log("we are trying to disconnect the user...4");
+		// 					resolve(self.status);
+		// 				}else{
+		// 					console.log("we are trying to disconnect the user...5");
+		// 					self.disconnect();
+		// 				}
+		// 			}, 2000);
+		// 		} catch (error) {
+		// 			console.log("we are trying to disconnect the user...6" );
+		// 			reject(error);
+		// 		}
+		// 	});
+		// }
 
 		/**
    * Add a register to the foglet, it will broadcast new values to connected clients.
@@ -9010,7 +9020,7 @@ var Foglet = function (_EventEmitter) {
 
 		/**
    * Allow to listen on Foglet when a broadcasted message arrived
-   * @function on
+   * @function onBroadcast
    * @param {string} signal - The signal we will listen to.
    * @param {callback} callback - Callback function that handles the response
    * @returns {void}
@@ -9024,19 +9034,94 @@ var Foglet = function (_EventEmitter) {
 
 		/**
    * Send a broadcast message to all connected clients.
-   * @function sendMessage
+   * @function sendBroadcast
    * @param {object} msg - Message to send.
    * @returns {void}
    */
 
 	}, {
-		key: 'sendMessage',
-		value: function sendMessage(msg) {
+		key: 'sendBroadcast',
+		value: function sendBroadcast(msg) {
 			if (this.broadcast !== null && this.vector !== null) {
 				this.broadcast.send(msg, this.vector.increment());
 				this._flog(' message sent : ' + msg);
 			} else {
 				this._flog('Error : broadcast or vector undefined.');
+			}
+		}
+
+		/**
+   * This callback is a parameter of the onUnicast function.
+   * @callback callback
+   * @param {string} id - sender id
+   * @param {object} message - the message received
+   */
+		/**
+   * onUnicast function allow you to listen on the Unicast Definition protocol, Use only when you want to receive a message from a neighbour
+   * @function onUnicast
+   * @param {callback} callback The callback for the listener
+   * @return {void}
+   */
+
+	}, {
+		key: 'onUnicast',
+		value: function onUnicast(callback) {
+			this.unicast.on('receive', callback);
+		}
+
+		/**
+   * Send a message to a specific neighbour (id)
+   * @function sendUnicast
+   * @param {object} message - The message to send
+   * @param {string} id - One of your neighbour's id
+   * @return {boolean} return true if it seems to have sent the message, false otherwise.
+   */
+
+	}, {
+		key: 'sendUnicast',
+		value: function sendUnicast(message, id) {
+			return this.unicast.send(message, id);
+		}
+
+		/**
+   * Get a random id of my current neighbours
+   * @function getRandomPeerId
+   * @return {string} return an id or a null string otherwise
+   */
+
+	}, {
+		key: 'getRandomNeighbourId',
+		value: function getRandomNeighbourId() {
+			var peers = this.getNeighbours();
+			if (peers.length === 0) {
+				return '';
+			} else {
+				try {
+					var random = Math.floor(Math.random() * peers.length);
+					var result = peers[random];
+					console.log(result);
+					return result;
+				} catch (e) {
+					console.err(e);
+					return '';
+				}
+			}
+		}
+
+		/**
+   * Get a full list of all available neighbours
+   * @function getNeighbours
+   * @return {array}  Array of string representing neighbours id, if no neighbours, return an empty array
+   */
+
+	}, {
+		key: 'getNeighbours',
+		value: function getNeighbours() {
+			var peers = this.spray.getPeers();
+			if (peers.i.length === 0) {
+				return [];
+			} else {
+				return peers.i;
 			}
 		}
 
@@ -9102,7 +9187,7 @@ var Foglet = function (_EventEmitter) {
 module.exports = Foglet;
 
 }).call(this,require('_process'))
-},{"./fexceptions.js":37,"./fregister.js":39,"./guid.js":40,"_process":96,"causal-broadcast-definition":13,"events":36,"q":100,"socket.io-client":117,"spray-wrtc":136,"version-vector-with-exceptions":182}],39:[function(require,module,exports){
+},{"./fexceptions.js":37,"./fregister.js":39,"./guid.js":40,"_process":96,"causal-broadcast-definition":13,"events":36,"q":100,"socket.io-client":117,"unicast-definition":136,"version-vector-with-exceptions":143}],39:[function(require,module,exports){
 /*
 	MIT License
 
@@ -16012,7 +16097,7 @@ ControlsExtractor.prototype._extract = function (metadata, tripleStream, callbac
 
 module.exports = ControlsExtractor;
 
-},{"../util/RdfUtil":77,"./MetadataExtractor":62,"assert":3,"uritemplate":176}],61:[function(require,module,exports){
+},{"../util/RdfUtil":77,"./MetadataExtractor":62,"assert":3,"uritemplate":137}],61:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A CountExtractor extracts count metadata from a triple stream. */
 
@@ -16130,7 +16215,7 @@ MetadataExtractor.prototype._extract = function (metadata, tripleStream, callbac
 
 module.exports = MetadataExtractor;
 
-},{"util":181}],63:[function(require,module,exports){
+},{"util":142}],63:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A DistinctIterator emits the unique items from a source. */
 
@@ -17183,7 +17268,7 @@ ExecutionLogger.prototype.logFragment = function (iterator, fragment, bindings) 
 
 module.exports = ExecutionLogger;
 
-},{"./Logger":76,"asynciterator":4,"util":181}],75:[function(require,module,exports){
+},{"./Logger":76,"asynciterator":4,"util":142}],75:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 
 var TransformIterator = require('asynciterator').TransformIterator,
@@ -25244,7 +25329,7 @@ function Entry (key, value, length, now, maxAge) {
   this.maxAge = maxAge || 0
 }
 
-},{"pseudomap":97,"util":181,"yallist":188}],82:[function(require,module,exports){
+},{"pseudomap":97,"util":142,"yallist":149}],82:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -27149,7 +27234,7 @@ util.inherits(N3StreamParser, Transform);
 // Export the `N3StreamParser` class as a whole.
 module.exports = N3StreamParser;
 
-},{"./N3Parser.js":85,"stream":171,"util":181}],88:[function(require,module,exports){
+},{"./N3Parser.js":85,"stream":132,"util":142}],88:[function(require,module,exports){
 // **N3StreamWriter** serializes a triple stream into an N3 stream
 var Transform = require('stream').Transform,
     util = require('util'),
@@ -27181,7 +27266,7 @@ util.inherits(N3StreamWriter, Transform);
 // Export the `N3StreamWriter` class as a whole.
 module.exports = N3StreamWriter;
 
-},{"./N3Writer.js":90,"stream":171,"util":181}],89:[function(require,module,exports){
+},{"./N3Writer.js":90,"stream":132,"util":142}],89:[function(require,module,exports){
 // **N3Util** provides N3 utility functions
 
 var Xsd = 'http://www.w3.org/2001/XMLSchema#';
@@ -27715,7 +27800,7 @@ module.exports = function (linkHeader) {
    .reduce(intoRels, {});
 };
 
-},{"querystring":103,"url":177,"xtend":187}],92:[function(require,module,exports){
+},{"querystring":103,"url":138,"xtend":148}],92:[function(require,module,exports){
 (function (global){
 /**
  * JSON parse.
@@ -32005,7 +32090,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":105,"./internal/streams/BufferList":110,"_process":96,"buffer":11,"buffer-shims":10,"core-util-is":21,"events":36,"inherits":52,"isarray":111,"process-nextick-args":95,"string_decoder/":172,"util":9}],108:[function(require,module,exports){
+},{"./_stream_duplex":105,"./internal/streams/BufferList":110,"_process":96,"buffer":11,"buffer-shims":10,"core-util-is":21,"events":36,"inherits":52,"isarray":111,"process-nextick-args":95,"string_decoder/":133,"util":9}],108:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -32745,7 +32830,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":105,"_process":96,"buffer":11,"buffer-shims":10,"core-util-is":21,"events":36,"inherits":52,"process-nextick-args":95,"util-deprecate":179}],110:[function(require,module,exports){
+},{"./_stream_duplex":105,"_process":96,"buffer":11,"buffer-shims":10,"core-util-is":21,"events":36,"inherits":52,"process-nextick-args":95,"util-deprecate":140}],110:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -34151,7 +34236,7 @@ Socket.prototype.compress = function (compress) {
   return this;
 };
 
-},{"./on":119,"component-bind":18,"component-emitter":19,"debug":22,"has-binary":41,"socket.io-parser":123,"to-array":173}],121:[function(require,module,exports){
+},{"./on":119,"component-bind":18,"component-emitter":19,"debug":22,"has-binary":41,"socket.io-parser":123,"to-array":134}],121:[function(require,module,exports){
 (function (global){
 
 /**
@@ -37270,815 +37355,6 @@ module.exports = {
 };
 
 },{"./lib/SparqlGenerator":129,"./lib/SparqlParser":130}],132:[function(require,module,exports){
-var SortedArray = require('sorted-cmp-array');
-
-SortedArray.prototype.get = function(entry){
-    var index = this.indexOf(entry);
-    return ((index >= 0)&&this.arr[index]) || null;
-};
-
-
-SortedArray.prototype.contains = function(entry){
-    return (this.indexOf(entry) >= 0);
-};
-
-module.exports = SortedArray;
-
-},{"sorted-cmp-array":167}],133:[function(require,module,exports){
-arguments[4][14][0].apply(exports,arguments)
-},{"dup":14}],134:[function(require,module,exports){
-/*!
- * \brief message requesting an exchange of neighborhood
- * \param inview the identifier of the inview
- * \param outview the identifier of the outview
- * \param protocol the protocol that creates the message
- */
-module.exports.MExchange = function(inview, outview, protocol){
-    return {protocol: 'spray-wrtc',
-            type: 'MExchange',
-            inview: inview,
-            outview: outview,
-            protocol: protocol};
-};
-
-},{}],135:[function(require,module,exports){
-var SortedArray = require("./extended-sorted-array.js");
-
-/*!
- * \brief structure containing the neighborhood of a peer.
- */
-function PartialView(){
-    // #1 initialize the partial view as an array sorted by age
-    // entries are {age, id, socketId}
-    this.array = new SortedArray(Comparator);
-};
-
-/*!
- * \return the oldest peer in the array
- */
-PartialView.prototype.getOldest = function(){
-    return this.array.arr[0];
-};
-
-/*!
- * \brief increment the age of the whole partial view
- */
-PartialView.prototype.increment = function(){
-    for (var i=0; i<this.array.arr.length; ++i){
-        this.array.arr[i].age += 1;
-    };
-};
-
-/*!
- * \brief get a sample of the partial view
- * \param neighbor the neighbor which performs the exchange with us
- * \param isInitiator whether or not the caller is the initiator of the
- * exchange
- * \return an array containing neighbors from this partial view
- */
-PartialView.prototype.getSample = function(neighbor, isInitiator){
-    var sample = [];
-    // #1 copy the partial view
-    var clone = new SortedArray(Comparator);
-    for (var i = 0; i < this.array.arr.length; ++i){
-        clone.arr.push(this.array.arr[i]);
-    };
-
-    // #2 process the size of the sample
-    var sampleSize = Math.ceil(this.array.arr.length/2.);
-    
-    if (isInitiator){
-        // #A remove an occurrence of the chosen neighbor
-        clone.remove(neighbor);
-        sample.push(neighbor); 
-    };
-    
-    // #3 randomly add neighbors to the sample
-    while (sample.length < sampleSize){
-        var rn = Math.floor(Math.random()*clone.arr.length);
-        sample.push(clone.arr[rn]);
-        clone.arr.splice(rn, 1);
-    };
-    
-    return sample;
-};
-
-
-
-/*!
- * \brief replace the occurrences of the old peer by the fresh one
- * \param sample the sample to modify
- * \param old the old reference to replace
- * \param fresh the new reference to insert
- * \return an array with the replaced occurences
- */
-PartialView.prototype.replace = function(sample, old, fresh){
-    var result = [];
-    for (var i = 0; i < sample.length; ++i){
-        if (sample[i].id === old.id){
-            result.push(fresh);
-        } else {
-            result.push(sample[i]);
-        };
-    };
-    return result;
-};
-
-/*!
- * \brief add the neigbhor to the partial view with an age of 0
- * \param id the peer to add to the partial view
- */
-PartialView.prototype.addNeighbor = function(id){
-    this.array.insert({age: 0, id: id});
-};
-
-
-/*!
- * \brief get the index of the peer in the partialview
- * \return the index of the peer in the array, -1 if not found
- */
-PartialView.prototype.getIndex = function(id){
-    var i =  this.array.arr.length-1, index = -1, found = false;
-    while (!found && i >= 0){
-        if (id === this.array.arr[i].id){
-            found = true;
-            index = i;
-        };
-        --i;
-    };
-    return index;
-};
-
-/*!
- * \brief remove the peer from the partial view
- * \param peer the peer to remove
- * \return the removed entry if it exists, null otherwise
- */
-PartialView.prototype.removePeer = function(id, age){
-    if (!age){    
-        var index = this.getIndex(id), removedEntry = null;
-        if (index > -1){
-            removedEntry = this.array.arr[index];
-            this.array.arr.splice(index, 1);
-        };
-        return removedEntry;
-    } else {
-        removePeerAge.call(this, id, age);
-    };
-};
-
-/*!
- * \brief remove the peer with the associated age from the partial view
- * \param peer the peer to remove
- * \param age the age of the peer to remove
- * \return the removed entry if it exists, null otherwise
- */
-function removePeerAge(id, age){
-    var found = false, i = 0, removedEntry = null;
-    while(!found && i < this.array.arr.length){
-        if (id === this.array.arr[i].id && age === this.array.arr[i].age){
-            found = true;
-            removedEntry = this.array.arr[i];
-            this.array.arr.splice(i, 1);
-        };
-        ++i;
-    };
-    return removedEntry;
-};
-
-/*!
- * \brief remove all occurrences of the peer and return the number of removals
- * \param peer the peer to remove
- * \return the number of occurrences of the removed peer
- */
-PartialView.prototype.removeAll = function(id){
-    var occ = 0, i = 0;
-    while (i < this.array.arr.length){
-        if (this.array.arr[i].id === id){
-            this.array.arr.splice(i, 1);
-            occ += 1;
-        } else {
-            ++i;
-        };
-    };
-    return occ;
-};
-
-/*!
- * \brief remove all the elements contained in the sample in argument
- * \param sample the elements to remove
- */
-PartialView.prototype.removeSample = function(sample){
-    for (var i = 0; i < sample.length; ++i){
-        this.removePeer(sample[i].id, sample[i].age);
-    };
-};
-
-/*!
- * \brief get the size of the partial view
- * \return the size of the partial view
- */
-PartialView.prototype.length = function(){
-    return this.array.arr.length;
-};
-
-/*!
- * \brief check if the partial view contains the reference
- * \param peer the peer to check
- * \return true if the peer is in the partial view, false otherwise
- */
-PartialView.prototype.contains = function(id){
-    return this.getIndex(id)>=0;
-};
-
-/*!
- * \brief remove all elements from the partial view
- */
-PartialView.prototype.clear = function(){
-    this.array.arr.splice(0, this.array.arr.length);
-};
-
-
-/*!
- * \brief get the array of pairs (age, id)
- */
-PartialView.prototype.get = function(){
-    return this.array.arr;
-};
-
-function Comparator(a, b){
-    var first = a.age || a;
-    var second = b.age || b;
-    if (first < second){ return -1;};
-    if (first > second){ return  1;};
-    return 0;
-};
-
-module.exports = PartialView;
-
-},{"./extended-sorted-array.js":132}],136:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter;
-var NO = require('n2n-overlay-wrtc');
-var clone = require('clone');
-var util = require('util');
-
-var PartialView = require('./partialview.js');
-var GUID = require('./guid.js');
-
-var MExchange = require('./messages.js').MExchange;
-
-util.inherits(Spray, EventEmitter);
-
-/*!
- * \brief Implementation of the random peer sampling Spray
- */
-function Spray(options){
-    EventEmitter.call(this);
-    // #A constants
-    this.protocol = (options && options.protocol) || 'spray-wrtc';
-    this.DELTATIME = (options && options.deltatime) || 1000 * 60 * 2; // 2min
-    this.RETRY = (options && options.retry) || 10; // retry 10x to send messages
-    
-    var opts = (options && clone(options)) || {};
-    opts.protocol = this.protocol+'-n2n';
-    // #B protocol variables
-    this.partialView = new PartialView();
-    this.neighborhoods = new NO(opts);
-    this.state = 'disconnect'; // (TODO) update state
-
-    // #C periodic shuffling
-    var self = this;
-    setInterval(function(){
-        (self.partialView.length()>0) && exchange.call(self);
-    }, this.DELTATIME);
-    
-    // #D receive event
-    function receive(id, message){
-        // #0 must contain a message and a protocol, otherwise forward
-        if (!message || message.protocol!==self.protocol){
-            if (message && message.protocol){
-                self.emit(message.protocol+'-receive', id, message);
-            } else {
-                self.emit('receive', id, message);
-            }
-        } else {
-            // #2 handle messages from spray
-            switch (message.type){
-            case 'MExchange':
-                onExchange.call(self, message);
-                break;
-            };
-        };
-    };
-    
-    this.neighborhoods.on('receive', receive);
-    this.neighborhoods.on('ready', function (id, view){
-        (view === 'outview') && self.partialView.addNeighbor(id);
-        updateState.call(self);
-    });
-    
-    this.neighborhoods.on('fail', function(id, view){
-        (view === 'outview') && onArcDown.call(self);
-    });
-    
-    this.neighborhoods.on('disconnect', function (id, view){
-        updateState.call(self);
-    });
-    
-    // (TODO) remove fast access usefull 4 debug
-    this.exchange = function(){ exchange.call(self); };
-};
-
-
-/*!
- * \brief Joining as; or contacted by an outsider
- * \param callbacks the callbacks function, see module 'n2n-overlay-wrtc'.
- */
-Spray.prototype.connection = function(callbacks, message){
-    var self = this;
-    var onReadyFunction = callbacks && callbacks.onReady;
-    // #1 if this peer is the contact, overload the onready function
-    // with the spray joining mechanism that will inject log(x) arcs in
-    // the network
-    if (message){ 
-        callbacks.onReady = function(id){
-            if (self.partialView.length() > 0){
-                // #A signal the arrival of a new peer to its outview
-                self.partialView.get().forEach(function(n){
-                    self.neighborhoods.connect(n, id);
-                });
-            } else {
-                // #B adds it to its own outview (for only 2-peers network)
-                self.neighborhoods.connect(null, id);
-            };
-            // #C callback the original onReady function
-            onReadyFunction && onReadyFunction(id);
-        };
-    } else {
-        callbacks.onReady = function(id){
-            onReadyFunction && onReadyFunction(id);
-            // #D emit a join event
-            self.emit('join');
-        };
-    };
-    // #2 start establishing the first connection
-    this.neighborhoods.connection(callbacks, message);    
-};
-    
-/*!
- * \brief Leave the network
- * \param timer the timeout before really shutting down. The time can
- * be spent on healing the network before departure.
- */
-Spray.prototype.leave = function(timer){
-    this.partialView.clear(); 
-    this.neighborhoods.disconnect();
-};
-
-/*!
- * \brief get a set of neighbors from both inview and outview. It is worth
- * noting that each peer controls its outview, but not its inview. Thus, the 
- * outview may be less versatile.
- * \param k the number of neighbors requested, if k is not defined, it returns
- * every known identifiers.
- * \return { i:[id1,id2...idk], o:[id1,id2...idk] }
- */
-Spray.prototype.getPeers = function(k){
-    var result = {i:[], o:[]};
-    // #A copy the identifiers of the inview
-    var inview = this.neighborhoods.get('inview');
-    for (var i = 0; i < inview.length; ++i){
-        result.i.push(inview[i].id);
-    };
-    // #B remove entries if there are too many
-    while (k && (result.i.length > k) && (result.i.length > 0)){
-        var rn = Math.floor(Math.random()*result.i.length);
-        result.i.splice(rn, 1);
-    };
-    // #C copy the identifiers of the outview
-    var outview = this.neighborhoods.get('outview');
-    for (var i = 0; i < outview.length; ++i){
-        result.o.push(outview[i].id);
-    };
-    // #D remove entries if there are too many
-    while (k && (result.o.length > k) && (result.o.length > 0)){
-        var rn = Math.floor(Math.random()*result.o.length);
-        result.o.splice(rn, 1);
-    };
-    return result;
-};
-
-/*!
- * \brief send a message using the id of the arc used to communicate
- * \param id the identifier of the communication channel
- * \param message the message to send
- * \param return true if the message is sent, false otherwise
- * \param retry the number of times the protocol tries to send the message
- * \return true if the message has been sent at first try, false otherwise
- */
-Spray.prototype.send = function(id, message, retry){
-    var r = retry || this.RETRY;
-    var result = this.neighborhoods.send(id, message), self = this;
-    if (!result && r===0){
-        // #1 if it fails to send the message, the peer is considered down
-        onPeerDown.call(this,id);
-    } else if (!result && r>0) {
-        // #2 give it another try 
-        setTimeout(function(){
-            self.send(id, message, r-1);
-        }, 1000);
-    };
-    return result;
-};
-
-
-/*!
- * \brief get the string representation of the partial view of spray
- */ 
-Spray.prototype.toString = function(){
-    var result = '@'+this.neighborhoods.inview.ID +';'+
-        this.neighborhoods.outview.ID + '   [ ';
-    var pv = this.partialView.get();
-    for (var i = 0; i < pv.length; ++i){
-        result += '('+(pv[i].age + ' ' + pv[i].id +') ');
-    };
-    result += ']';
-    return result;
-};
-
-//////////////////////////////////////
-//        PRIVATE functions         //
-//////////////////////////////////////
-
-/*!
- * \brief update the local connection state of the peer and emit an event
- * if the state is different than at the previous call of this function.
- * The emitted event is 'statechange' with the 
- * arguments 'connect' | 'partial' | 'disconnect'
- */
-function updateState(){
-    // (TODO) handle it without reaching the neighbor-wrtc module...
-    if (this.neighborhoods.o.living.ms.arr.length > 0 &&
-        this.neighborhoods.i.living.ms.arr.length > 0 &&
-        this.state !== 'connect'){
-        // #1 connected means (1+ inview, 1+ outview)
-        this.state = 'connect';
-        this.emit('statechange', 'connect');
-    } else if (
-        (this.neighborhoods.o.living.ms.arr.length === 0 &&
-         this.neighborhoods.i.living.ms.arr.length > 0) ||
-            (this.neighborhoods.o.living.ms.arr.length > 0 ||
-             this.neighborhoods.i.living.ms.arr.length === 0) &&
-            (this.state !== 'partial')){
-        // #2 partially connected means (1+ inview, 0 outview) or (0 i, 1+ o)
-        this.state = 'partial';
-        this.emit('statechange', 'partial');
-    } else if (this.neighborhoods.o.living.ms.arr.length === 0 &&
-               this.neighborhoods.i.living.ms.arr.length === 0 &&               
-               this.state !== 'disconnect'){
-        // #3 disconnected means (0 inview, 0 outview)
-        this.state = 'disconnect';
-        this.emit('statechange', 'disconnect');
-    };
-};
-
-/*******************************************************************************
- * Spray's protocol implementation
- ******************************************************************************/
-
-/*!
- * \brief periodically called function that aims to balance the partial view
- * and to mix the neighborhoods
- */
-function exchange(){
-    var self = this, oldest = null, sent = false;
-    this.partialView.increment();
-    // #1 get the oldest neighbor reachable
-    while (!oldest && !sent && this.partialView.length()>0){
-        oldest = this.partialView.getOldest();
-        sent = this.send(oldest.id, MExchange(this.neighborhoods.i.ID,
-                                              this.neighborhoods.o.ID,
-                                              this.protocol), 0);
-    };
-    if (this.partialView.length()===0){return;}; // ugly return
-    // #2 get a sample from our partial view
-    var sample = this.partialView.getSample(oldest, true); 
-    // #3 establish connections oldest -> sample
-    // #A remove the chosen arcs
-    var i = 0;
-    while (i<sample.length){
-        var e = sample[i];
-        var removed = self.neighborhoods.disconnect(e.id);
-        if (!removed){ // the partial view is late
-            // #a inform the partial view of the departure of the peer
-            onPeerDown.call(this, e.id);
-            // #b clear the sample from references to this id
-            var j = 0;
-            while (j<sample.length){
-                if (sample[j].id === e.id){
-                    sample.splice(j, 1);
-                } else {
-                    ++j;
-                };                
-            };
-        } else {
-            // normal behavior
-            self.partialView.removePeer(e.id, e.age);
-            ++i;
-        };
-    };
-    // #B from oldest to chosen neighbor
-    sample.forEach(function(e){
-        self.neighborhoods.connect(oldest.id, (e.id !== oldest.id) && e.id);
-    });
-};
-
-/*!
- * \brief event executed when we receive an exchange request
- * \param msg message containing the identifier of the peer that started the 
- * exchange
- */
-function onExchange(msg){
-    var self = this;
-    // #1 get a sample of neighbors from our partial view
-    this.partialView.increment();
-    var sample = this.partialView.getSample(msg.inview, false);
-    // #A remove the chosen neighbor from our partialview
-    var i = 0;
-    while (i<sample.length){
-        var e = sample[i];
-        var removed = self.neighborhoods.disconnect(e.id);
-        if (!removed){ // the partial view is late
-            // #a inform the partial view of the departure of the peer
-            onPeerDown.call(this, e.id);
-            // #b clear the sample from references to this id
-            var j = 0;
-            while (j<sample.length){
-                if (sample[j].id === e.id){
-                    sample.splice(j, 1);
-                } else {
-                    ++j;
-                };                
-            };
-        } else {
-            // normal behavior
-            self.partialView.removePeer(e.id, e.age);
-            ++i;
-        };
-    };
-    // #B from initiator to chosen neigbhor
-    sample.forEach(function(e){
-        self.neighborhoods.connect(msg.outview, (e.id !== msg.inview) && e.id);
-    });
-};
-
-/*!
- * \brief the function called when a neighbor is unreachable and supposedly
- * crashed/departed. It probabilistically keeps an arc up
- * \param id the identifier of the channel that seems down
- */
-function onPeerDown(id){
-    console.log('@spray: The peer '+ JSON.stringify(id) + ' seems down.');
-    // #A remove all occurrences of the peer in the partial view
-    var occ = this.partialView.removeAll(id);
-    // #B probabilistically recreate an arc to a known peer
-    if (this.partialView.length() > 0){
-        for (var i = 0; i < occ; ++i){
-            if (Math.random() > (1/(this.partialView.length()+occ))){
-                var rn = Math.floor(Math.random()*this.partialView.length());
-                this.neighborhoods.connect(null,this.partialView.array.arr[rn]);
-            };
-        };
-    };
-};
-
-/*!
- * \brief a connection failed to establish properly, systematically duplicates
- * an element of the partial view. (TODO) integrates this
- */
-function onArcDown(){
-    console.log('@spray: An arc failed to establish.');
-    if (this.partialView.length()>0){
-        var rn = Math.floor(Math.random()*this.partialView.length());
-        this.neighborhoods.connect(null, this.partialView.array.arr[rn]);
-    };
-};
-
-module.exports = Spray;
-
-},{"./guid.js":133,"./messages.js":134,"./partialview.js":135,"clone":139,"events":36,"n2n-overlay-wrtc":145,"util":181}],137:[function(require,module,exports){
-module.exports = function(haystack, needle, comparator, low, high) {
-  var mid, cmp;
-
-  if(low === undefined)
-    low = 0;
-
-  else {
-    low = low|0;
-    if(low < 0 || low >= haystack.length)
-      throw new RangeError("invalid lower bound");
-  }
-
-  if(high === undefined)
-    high = haystack.length - 1;
-
-  else {
-    high = high|0;
-    if(high < low || high >= haystack.length)
-      throw new RangeError("invalid upper bound");
-  }
-
-  while(low <= high) {
-    /* Note that "(low + high) >>> 1" may overflow, and results in a typecast
-     * to double (which gives the wrong results). */
-    mid = low + (high - low >> 1);
-    cmp = +comparator(haystack[mid], needle);
-
-    /* Too low. */
-    if(cmp < 0.0) 
-      low  = mid + 1;
-
-    /* Too high. */
-    else if(cmp > 0.0)
-      high = mid - 1;
-    
-    /* Key found. */
-    else
-      return mid;
-  }
-
-  /* Key not found. */
-  return ~low;
-}
-
-},{}],138:[function(require,module,exports){
-arguments[4][10][0].apply(exports,arguments)
-},{"buffer":11,"dup":10}],139:[function(require,module,exports){
-(function (Buffer){
-var clone = (function() {
-'use strict';
-
-/**
- * Clones (copies) an Object using deep copying.
- *
- * This function supports circular references by default, but if you are certain
- * there are no circular references in your object, you can save some CPU time
- * by calling clone(obj, false).
- *
- * Caution: if `circular` is false and `parent` contains circular references,
- * your program may enter an infinite loop and crash.
- *
- * @param `parent` - the object to be cloned
- * @param `circular` - set to true if the object to be cloned may contain
- *    circular references. (optional - true by default)
- * @param `depth` - set to a number if the object is only to be cloned to
- *    a particular depth. (optional - defaults to Infinity)
- * @param `prototype` - sets the prototype to be used when cloning an object.
- *    (optional - defaults to parent prototype).
-*/
-function clone(parent, circular, depth, prototype) {
-  var filter;
-  if (typeof circular === 'object') {
-    depth = circular.depth;
-    prototype = circular.prototype;
-    filter = circular.filter;
-    circular = circular.circular
-  }
-  // maintain two arrays for circular references, where corresponding parents
-  // and children have the same index
-  var allParents = [];
-  var allChildren = [];
-
-  var useBuffer = typeof Buffer != 'undefined';
-
-  if (typeof circular == 'undefined')
-    circular = true;
-
-  if (typeof depth == 'undefined')
-    depth = Infinity;
-
-  // recurse this function so we don't reset allParents and allChildren
-  function _clone(parent, depth) {
-    // cloning null always returns null
-    if (parent === null)
-      return null;
-
-    if (depth == 0)
-      return parent;
-
-    var child;
-    var proto;
-    if (typeof parent != 'object') {
-      return parent;
-    }
-
-    if (clone.__isArray(parent)) {
-      child = [];
-    } else if (clone.__isRegExp(parent)) {
-      child = new RegExp(parent.source, __getRegExpFlags(parent));
-      if (parent.lastIndex) child.lastIndex = parent.lastIndex;
-    } else if (clone.__isDate(parent)) {
-      child = new Date(parent.getTime());
-    } else if (useBuffer && Buffer.isBuffer(parent)) {
-      child = new Buffer(parent.length);
-      parent.copy(child);
-      return child;
-    } else {
-      if (typeof prototype == 'undefined') {
-        proto = Object.getPrototypeOf(parent);
-        child = Object.create(proto);
-      }
-      else {
-        child = Object.create(prototype);
-        proto = prototype;
-      }
-    }
-
-    if (circular) {
-      var index = allParents.indexOf(parent);
-
-      if (index != -1) {
-        return allChildren[index];
-      }
-      allParents.push(parent);
-      allChildren.push(child);
-    }
-
-    for (var i in parent) {
-      var attrs;
-      if (proto) {
-        attrs = Object.getOwnPropertyDescriptor(proto, i);
-      }
-
-      if (attrs && attrs.set == null) {
-        continue;
-      }
-      child[i] = _clone(parent[i], depth - 1);
-    }
-
-    return child;
-  }
-
-  return _clone(parent, depth);
-}
-
-/**
- * Simple flat clone using prototype, accepts only objects, usefull for property
- * override on FLAT configuration object (no nested props).
- *
- * USE WITH CAUTION! This may not behave as you wish if you do not know how this
- * works.
- */
-clone.clonePrototype = function clonePrototype(parent) {
-  if (parent === null)
-    return null;
-
-  var c = function () {};
-  c.prototype = parent;
-  return new c();
-};
-
-// private utility functions
-
-function __objToStr(o) {
-  return Object.prototype.toString.call(o);
-};
-clone.__objToStr = __objToStr;
-
-function __isDate(o) {
-  return typeof o === 'object' && __objToStr(o) === '[object Date]';
-};
-clone.__isDate = __isDate;
-
-function __isArray(o) {
-  return typeof o === 'object' && __objToStr(o) === '[object Array]';
-};
-clone.__isArray = __isArray;
-
-function __isRegExp(o) {
-  return typeof o === 'object' && __objToStr(o) === '[object RegExp]';
-};
-clone.__isRegExp = __isRegExp;
-
-function __getRegExpFlags(re) {
-  var flags = '';
-  if (re.global) flags += 'g';
-  if (re.ignoreCase) flags += 'i';
-  if (re.multiline) flags += 'm';
-  return flags;
-};
-clone.__getRegExpFlags = __getRegExpFlags;
-
-return clone;
-})();
-
-if (typeof module === 'object' && module.exports) {
-  module.exports = clone;
-}
-
-}).call(this,require("buffer").Buffer)
-},{"buffer":11}],140:[function(require,module,exports){
-(function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -38100,3209 +37376,114 @@ if (typeof module === 'object' && module.exports) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
+module.exports = Stream;
 
-function isArray(arg) {
-  if (Array.isArray) {
-    return Array.isArray(arg);
-  }
-  return objectToString(arg) === '[object Array]';
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = Buffer.isBuffer;
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-}).call(this,{"isBuffer":require("../../../../is-buffer/index.js")})
-},{"../../../../is-buffer/index.js":53}],141:[function(require,module,exports){
-arguments[4][12][0].apply(exports,arguments)
-},{"dup":12}],142:[function(require,module,exports){
-arguments[4][128][0].apply(exports,arguments)
-},{"dup":128}],143:[function(require,module,exports){
-arguments[4][132][0].apply(exports,arguments)
-},{"dup":132,"sorted-cmp-array":167}],144:[function(require,module,exports){
-
-module.exports.MConnectTo = function(start, from, to){
-    return { type: 'MConnectTo',
-             start: start,
-             from: from,
-             to: to };
-};
-
-module.exports.MForwardTo = function(start, from, to, message){
-    return { type: 'MForwardTo',
-             start: start,
-             from: from,
-             to: to,
-             message: message };
-};
-
-module.exports.MForwarded = function(start, from, to, message){
-    return { type: 'MForwarded',
-             start: start,
-             from: from,
-             to: to,
-             message: message };
-};
-
-module.exports.MDirect = function(start, message){
-    return { type: 'MDirect',
-             start: start,
-             message: message };
-};
-
-},{}],145:[function(require,module,exports){
-var Neighborhood = require('neighborhood-wrtc');
-var SortedArray = require('./extended-sorted-array.js');
-
-var MForwardTo = require('./messages.js').MForwardTo;
-var MForwarded = require('./messages.js').MForwarded;
-var MConnectTo = require('./messages.js').MConnectTo;
-var MDirect = require('./messages.js').MDirect;
-
-/*!
- * \brief A neighbor has an inview and an outview and is able to act as a bridge
- * between its neighbors so they can establish their own communication channels
- */
-function Neighbor(parent, options, neighborhood){
-    this.pid = (options && options.protocol) || 'n2n-overlay-wrtc';
-    this.parent = parent;
-    // #0 create the neighborhood module if none 
-    this.N = neighborhood || new Neighborhood(options);
-    var n = this.N.register(this);
-    // #1 dissociate incomming arcs from outgoing arcs
-    this.I = new SortedArray(Comparator);
-    this.O = new SortedArray(Comparator);
-    
-    var self = this;
-    // #A callbacks when there is a bridge to create a connection
-    var callbacks = function(peer, message){
-        return {
-            onInitiate: function(offer){
-                n.send(peer, MForwardTo(message.from,
-                                        message.from, message.to,
-                                        offer));
-            },
-            onAccept: function(offer){
-                n.send(peer, MForwardTo(message.from,
-                                        message.to, message.from,
-                                        offer));
-            }
-        };
-    };
-    // #B callbacks when it establishes a connection to a neighbor, either
-    // this -> neighbor or neigbhor -> this. It is worth noting that if it
-    // a channel exists in the inview and we want to create an identical in the
-    // outview, a new channel must be created; for the peer that owns the arc
-    // in its outview can destroy it without warning.
-    var directCallbacks = function(peer, message){
-        return {
-            onInitiate: function(offer){
-                n.send(peer, MDirect(message.start, offer));
-            },
-            onAccept: function(offer){
-                n.send(peer, MDirect(message.start, offer));
-            }
-        };
-    };      
-
-    // #C receive a message from an arc, it forwards it to a listener
-    // of this module, otherwise, it keeps and interprets it.
-    this.received = function(peer, message){
-        switch (message.type){
-        case 'MConnectTo': // #A a neighbor asks us to connect to a remote one
-            if (message.to && message.from){
-                n.connect(callbacks(peer, message).onInitiate);
-            } else { // #B a neighbor asks us to connect to him
-                n.connect(directCallbacks(peer, message).onInitiate);
-            };
-            break;
-        case 'MForwardTo': // #C a message is to be forwarded to a neighbor
-            n.send(message.to, MForwarded(message.start,
-                                          message.from, message.to,
-                                          message.message));
-            break;
-        case 'MForwarded': // #D a message has been forwarded to us, deliver
-            if (message.start === self.N.PEER){
-                n.connect(message.message);
-            } else {
-                n.connect(callbacks(peer, message).onAccept, message.message);
-            };
-            break;
-        case 'MDirect': // #E a direct neigbhor sends offers to accept
-            if (message.start === self.N.PEER){
-                n.connection(message.message);
-            } else {
-                n.connect(directCallbacks(peer, message).onAccept,
-                          message.message);
-            };
-            break;
-        default: // #F another kind of message
-            parent.received(id, message);
-            break;            
-        };
-    };
-
-    /*!
-     * \brief connect the peers at the other ends of sockets identified
-     * \param from the identifier of the socket leading to a peer which will add
-     * a socket in its outview
-     * \param to the identifier of the socket leading to a peer which will add 
-     * a socket in its inview
-     */
-    this.connect = function(from, to){
-        if (!from && to){
-            // #A this -> to
-            n.connect(directCallbacks(to, MConnectTo(self.N.PEER)).onInitiate);
-        } else if (from && !to){
-            // #B from -> this
-            n.send(from, MConnectTo(from, self.N.PEER));
-        } else {
-            // #C from -> to
-            n.send(from, MConnectTo(from, from, to));
-        };
-    };
-    
-    /*!
-     * \brief bootstrap the network, i.e. first join the network. This peer
-     * will add a peer which already belong to the network. The rest of 
-     * protocol can be done inside the network with the function connect.
-     * \param callbacks see callbacks of neighborhood-wrtc
-     * \param message see messages of neighborhood-wrtc
-     */
-    this.contact = function(callbacks, message){
-        if (!message && callbacks && callbacks.type){
-            message = callbacks;
-        };
-        if (message && message.type === 'MResponse'){
-            n.connect(message);
-        } else if (message && message.type === 'MRequest'){
-            n.connect(callbacks.onAccept, message);
-        } else {
-            n.connect(callbacks.onInitiate);
-        };
-    };
-
-    this.send = function(peer, message){
-        return n.send(peer, message);
-    };
-
-    this.disconnect = function(peer){
-        return n.disconnect(peer);
-    };
-};
-
-Neighbor.prototype.opened = function(peer, isOutgoing){
-    if (isOutgoing){
-        this.O.insert(peer);
-    } else {
-        this.I.insert(peer);
-    };
-    this.parent.opened(peer, isOutgoing);
-};
-
-Neighbor.prototype.failed = function(peer, isOutgoing){
-    this.parent.failed(peer, isOutgoing);
-};
-
-Neighbor.prototype.closed = function(peer){
-    this.O.remove(peer);
-    this.I.remove(peer);
-};
-    
-
-/*********************************************
- **************** COMPARATOR *****************
- *********************************************/
-
-function Comparator(a, b){
-    if (a < b){ return -1; };
-    if (a > b){ return  1; };
-    return 0;
-};
-
-
-module.exports = Neighbor;
-
-},{"./extended-sorted-array.js":143,"./messages.js":144,"neighborhood-wrtc":150}],146:[function(require,module,exports){
-var SortedArray = require('./extended-sorted-array.js');
-
-// { peer_a ->
-// // [ {protocol_1, occurrence_1},
-// // {protocol_2, occurrence_2} ... ],...}
-function ArcStore(){
-    this.store = new SortedArray(ComparatorPEER)
-};
-
-/*!
- * \brief insert a new arc in the store with the corresponding protocol
- * \param entry the entry to insert
- * \return the entry in the store
- */
-ArcStore.prototype.insert = function(entry){
-    var e = this.store.get(entry);
-    // #A the arc to the peer does not exist, create it
-    if (!e){
-        var newEntry = { peer: entry.peer,
-                         socket: entry.socket,
-                         protocols: new SortedArray(ComparatorPID) };
-        this.store.insert(newEntry);
-        e = newEntry;
-    };
-    // #B register the protocol as arc owner
-    var p = e.protocols.get(entry);
-    if (p){
-        p.occ += 1;
-    } else {
-        var newProtocol = { pid: entry.pid,
-                            occ: 1 };
-        e.protocols.insert(newProtocol);
-    };
-    
-    return e;
-};
-
-/*!
- * \brief remove an arc from the store
- * \param entry the entry
- * \return the removed entry, null if nothing has been removed
- */
-ArcStore.prototype.remove = function(entry){
-    var e = this.store.get(entry);
-    if (e){
-        var p = e.protocols.get(entry);
-        if (p){
-            p.occ -= 1;
-            if (p.occ <= 0){
-                e.protocols.remove(entry);
-                if (e.protocols.arr.length===0){
-                    this.store.remove(entry);
-                };
-            };
-        } else {
-            e = null;
-        };
-    };
-    return e;
-};
-
-/*!
- * \brief remove all identified arcs of the corresponding protocol from the
- * store
- * \param entry the entry of the arcs to remove
- * \return the entry that has been removed, null if nothing has been removed
- */
-ArcStore.prototype.removeAll = function(entry){
-    var e = this.store.get(entry);
-    if (e){
-        var p = e.protocols.get(entry);
-        if (p){
-            e.protocols.remove(entry);
-            if (e.protocols.length === 0){
-                this.store.remove(entry);
-            };
-        } else {
-            e = null
-        };            
-    }
-    return e;
-};
-
-/*!
- * \brief check if the protocol has at least one of the identified arc
- * \param entry the entry or the identifier of the arc to check
- * \return true if the protocol has such arc, false otherwise
- */
-ArcStore.prototype.contains = function(entry){
-    var result = false;
-    var e = this.store.get(entry);
-    if (e){
-        result = true;
-    };
-    return result;
-};
-
-/*!
- * \brief get the entry of the arc
- * \param entry the entry containing the id of the arc to retrieve
- * \return an entry of the arc store, null if it does not exist
- */
-ArcStore.prototype.get = function(entry){
-    return this.store.get(entry);
-};
-
-
-/************************************
- *********** COMPARATORS ************
- ************************************/
-
-function ComparatorPEER(a, b){
-    var first = a.peer || a;
-    var second = b.peer || b;
-    if (first < second){return -1;};
-    if (first > second){return  1;};
-    return 0;
-};
-
-function ComparatorPID(a, b){
-    var first = a.pid || a;
-    var second = b.pid || b;
-    if (first < second){return -1;};
-    if (first > second){return  1;};
-    return 0;
-};
-
-module.exports = ArcStore;
-
-},{"./extended-sorted-array.js":147}],147:[function(require,module,exports){
-arguments[4][132][0].apply(exports,arguments)
-},{"dup":132,"sorted-cmp-array":165}],148:[function(require,module,exports){
-arguments[4][14][0].apply(exports,arguments)
-},{"dup":14}],149:[function(require,module,exports){
-module.exports.MRequest = function(peer, tid, pid, offer){
-    return { type: 'MRequest',
-             peer: peer,
-             tid: tid,
-             pid: pid,
-             offer: offer };
-};
-
-module.exports.MResponse = function(peer, tid, pid, offer){
-    return { type: 'MResponse',
-             peer: peer,
-             tid: tid,
-             pid: pid,
-             offer: offer };
-};
-
-module.exports.MSend = function(pid, payload){
-    return { type: 'MSend',
-             pid: pid,
-             payload: payload };
-};
-
-},{}],150:[function(require,module,exports){
-var Socket = require('simple-peer');
-var clone = require('clone');
-
-var SortedArray = require('./extended-sorted-array.js');
-var Arcs = require('./arcstore.js');
-var GUID = require('./guid.js'); //(TODO) uncomment
-//var GUID = function(){return (''+Math.ceil(Math.random()*100000)+''); };
-
-var MRequest = require('./messages.js').MRequest;
-var MResponse = require('./messages.js').MResponse;
-var MSend = require('./messages.js').MSend;
-
-/*!
- * \brief neigbhorhood table providing easy establishment and management of
- * WebRTC communication channels.
- * \param options
- */
-function Neighborhood(options){
-    // #1 initialize constants
-    this.PEER = GUID();
-    this.CONFIG = (options && options.webrtc && clone(options.webrtc)) || {};
-    this.TIMEOUT = (options && options.timeout) || (2 * 60 * 1000); // 2 minutes
-    // #2 initialize tables containing the lifecycle of communication channels
-    this.pending = new SortedArray(ComparatorTID); // not finalized yet
-    this.living = new Arcs(); // live and usable
-    this.dying = new SortedArray(ComparatorPEER); // being remove
-    // #3 initialize table containing the protocols using this module
-    this.protocols = new SortedArray(ComparatorPID);
-};
-
-
-/*!
- * \brief Register a protocol running on top of this module. This module
- * provides simple functions -- connect, disconnect, send -- but expect the
- * registered protocol to provide some functions aswell: failed, opened,
- * received, pid.
- * \param protocol the protocol that registers 
- */
-Neighborhood.prototype.register = function(protocol){
-    this.protocols.insert(protocol);
-    var self = this;
-    var result = new Object();
-
-    // #A connection function
-    result.connect = function(callback, message){
-        if (callback && callback.type){ message = callback };
-        if (!message){
-            // #1 initiate 
-            initiate.call(self, callback, protocol.pid);
-        } else if (message.type === 'MRequest'){
-            // #2 accept
-            accept.call(self, callback, message);
-            alreadyExists.call(self, message);
-        } else if (message.type === 'MResponse'){
-            // #3 finalize
-            finalize.call(self, message);
-            alreadyExists.call(self, message);
-        };
-    };
-
-    // #B disconnection function
-    result.disconnect = function(arc){
-        var disco = false;
-        // #1 remove a single arc that belong to the protocol
-        var target = {peer: arc, pid: protocol.pid};
-        var e = self.living.remove(target);
-        if (e && e.protocols.arr.length === 0){
-            // #a no protocol use the communication channel, RIP
-            var entry = { peer: e.peer,
-                          socket: e.socket,
-                          timeout: null,
-                          successful: true,
-                          alreadyExists: false };
-            
-            self.dying.insert(entry);
-            // #b after timeout
-            entry.timeout = setTimeout(function(){
-                entry.socket.destroy();
-            }, self.TIMEOUT);                
-        };
-        disco = (e && true) || false;            
-        return disco;
-    };
-
-    // #3 send message to the targeted peer
-    result.send = function(peer, message){
-        // #1 convert message to string (TODO) check if there is a better way
-        var msg = JSON.stringify(MSend(protocol.pid, message));
-        // #2 get the socket to use
-        var entry = self.living.get(peer) || self.dying.get(peer);
-        var socket = entry && entry.socket;
-        // #3 send
-        var ready = msg && socket && socket.connected && socket._channel &&
-            (socket._channel.readyState === 'open');
-        ready && socket.send(msg);
-        return (ready || false);
-    };
-
-    result.unregister = function(){ // (TODO)
-        // #1 disconnect everything of the protocol 
-        // this.pending.arr.forEach(function(e){
-        //    (e.protocol === protocol) && e.socket && e.socket.destroy();  
-        // });
-        // while (this.living.ms.arr.length>0){            
-        //    var e = this.living.ms.arr[0];
-        //    e.socket && e.socket.destroy();
-        // };
-        // (TODO) think about let them die naturally 
-        // while (this.dying.arr.length>0){
-        //    var e = this.dying.arr[0];
-        //    e.socket && e.socket.destroy();
-        // };
-    };
-    
-    return result;
-};
-
-
-/*************************************
- ********* PRIVATE FUNCTIONS *********
- *************************************/
-
-/*!
- * \brief initiates a connection with another peer the id of which is unknown
- * \param callback the function called when signaling info arrives
- * \param pid the identifier of the protocol that requires the
- * communication channel
- * \return the created entry
- */
-function initiate(callback, pid){
-    var self = this;
-    this.CONFIG.initiator = true;
-    var socket = new Socket(this.CONFIG);
-    
-    var entry = {tid: GUID(), // temporary id
-                 peer: null, // counter part's id, unknown at first
-                 pid: pid, // the id of the requesting protocol
-                 socket: socket, // the communication channel
-                 successful: false, // successful creation
-                 alreadyExists: false, // the channel already existed     
-                 timeout: null}; // any timeout id
-    
-    // #1 void -> pending
-    this.pending.insert(entry);
-    // #2 signaling info to callback
-    socket.on('signal', function(offer){
-        callback(MRequest(self.PEER, entry.tid, entry.pid, offer));
-    });
-    // #3 after timeout, check if the connection is successful
-    entry.timeout = setTimeout(function(){
-        var e = self.pending.get(entry);
-        if (e && !e.successful){
-            self.protocols.get(e).failed(e.peer, true);
-            e.socket.destroy();
-            e.socket = null;
-        };
-        self.pending.remove(e);
-    }, this.TIMEOUT);
-
-    return entry;
-};
-
-/*!
- * \brief accept the offer initiated by another peer.
- * \param callback the function to call when the offers arrive
- * \param message the message from the initiating peer
- */
-function accept(callback, message){
-    var self = this;
-    // #1 if such message has already been received, use the entry
-    var prior = this.pending.get(message);
-    if (prior){
-        return prior;
-    };
-    // #2 check if such communication channel already exists
-    var exists = this.living.contains(message);
-    if (exists){
-        var entry = {tid: message.tid,
-                     peer: message.peer,
-                     pid: message.pid,
-                     socket: null,
-                     successful: true,
-                     alreadyExists: true,
-                     timeout: null};
-        
-        this.pending.insert(entry);
-        this.living.insert(entry);
-
-        this.protocols.get(entry).opened(entry.peer, false);
-        
-        callback(MResponse(this.PEER, entry.tid, entry.pid, null));
-        
-        entry.timeout = setTimeout(function(){
-            self.pending.remove(entry);
-        }, this.TIMEOUT);
-       
-        return entry;
-    };
-    // #3 otherwise, start the creation of a new communication channel
-    this.CONFIG.initiator = false;
-    var socket = new Socket(this.CONFIG);
-    
-    var entry = {tid: message.tid,
-                 peer: message.peer,
-                 pid: message.pid,
-                 socket: socket,
-                 successful: false,
-                 alreadyExists: false,
-                 timeout: null};
-    
-    this.pending.insert(entry);
-    
-    socket.on('signal', function(offer){
-        callback(MResponse(self.PEER, entry.tid, entry.pid, offer));
-    });
-    socket.on('connect', function(){
-        if (self.living.contains(entry)){
-            // #A a same arc has been created in the meantime
-            entry.alreadyExists = true;
-            socket.destroy();
-        };
-        entry.successful = true;
-        self.living.insert(entry);
-        self.protocols.get(entry).opened(entry.peer, false);
-    });
-    socket.on('close', function(){
-        if (entry.successful && !entry.alreadyExists){
-            var l = self.living.get(entry);
-            if (l){
-                // for (var i = 0; i < l.protocols.arr.length; ++i){
-                //     var p = self.protocols.get(l.protocols.arr[i]);
-                //     for (var j = 0; j < l.protocols.arr[i].occ; ++j){
-                //         p.closed(l.peer);
-                //     };
-                // };
-                self.living.removeAll(entry);
-            };
-            self.dying.remove(entry);
-        };        
-    });
-
-    common.call(this, entry);
-    
-    entry.timeout = setTimeout(function(){
-        var e = self.pending.get(entry);
-        if (e && !e.successful){
-            socket.destroy();
-            self.protocols.get(entry).failed(entry.peer, false);
-        };
-        self.pending.remove(entry);
-    }, this.TIMEOUT);
-    
-    return entry;
-};
-
-/*!
- * \brief Common behavior to initiating and accepting sockets
- * \param entry the entry in the neighborhood table
- */
-function common(entry){
-    var self = this, socket = entry.socket;
-    
-    socket.on('data', function(message){
-        message = JSON.parse(message.toString());
-        self.protocols.get(message).received(entry.peer, message.payload);
-    });
-    socket.on('stream', function(stream){
-        self.protocols.get(message).streamed(entry.peer, stream); // (TODO)
-    });
-    socket.on('error', function(err){
-        //console.error(err); (XXX) do something useful here
-    });
-};
-
-/*!
- * \brief finalize the behavior of an initiating socket
- * \param message the received message possibly containing an answer to the
- * proposed offer
- */
-function finalize(message){
-    // #1 if it already exists and already has been setup earlier
-    var prior = this.pending.get(message);
-    if (prior && prior.peer){return prior;}
-    // #2 otherwise set the events correctly
-    var entry = prior;
-    entry.peer = message.peer;    
-
-    var self = this, socket = entry.socket;
-    socket.on('connect', function(){
-        if (self.living.contains(entry)){
-            // #A a same arc has been created in the meantime
-            entry.alreadyExists = true;
-            entry.socket.destroy();
-            entry.socket = null;
-        };
-        entry.successful = true;
-        self.living.insert(entry);
-        self.protocols.get(entry).opened(entry.peer, true);
-    });
-    socket.on('close', function(){
-        if (entry.successful && !entry.alreadyExists){
-            var l = self.living.get(entry);
-            if (l){
-                // for (var i = 0; i < l.protocols.arr.length; ++i){
-                //     var p = self.protocols.get(l.protocols.arr[i]);
-                //     for (var j = 0; j < l.protocols.arr[i].occ; ++j){
-                //          p.closed(l.peer); (TODO) fix the code here
-                //     };
-                // };
-                self.living.removeAll(entry);
-            };
-            self.dying.remove(entry);
-        };
-    });
-    
-    common.call(this, entry);
-    
-    return entry;
-};
-
-/*!
- * \brief the peer id already exists in the tables
- * \param message the received message
- * \param callback a callback function in case a message should be sent
- */
-function alreadyExists(message){
-    // (case already handled: at first sight, the accepting peer knows it
-    // already knows it counterpart)    
-    var alreadyExists = this.living.contains(message) ||
-        this.dying.contains(message);
-
-    if  (!alreadyExists){
-        // #A does not already exists but pending
-        var entry = this.pending.get(message);
-        entry && entry.socket && message.offer &&
-            entry.socket.signal(message.offer);
-    } else {
-        // #B already exists and pending
-        var entry = this.pending.get(message);        
-        if (entry && entry.socket){ // exists but socket still w8in
-            var alive = this.living.get(entry);
-            if (alive){
-                // #1 already in living socket, add an occurrence
-                entry.successful = true;
-                entry.alreadyExists = true;
-                entry.socket.destroy();
-                this.living.insert(entry);
-            } else {
-                // #2 was dying, resurect the socket 
-                var resurecting = this.dying.remove(entry);
-                clearTimeout(resurecting.timeout);
-                entry.successful = true;
-                entry.alreadyExists = true;
-                entry.socket.destroy();
-                entry.socket = resurecting.socket;
-                this.living.insert(entry);
-            };
-            
-            // callback(MResponse(this.PEER, entry.tid, entry.pid, null));
-            if (message.type === 'MResponse'){
-                this.protocols.get(entry).opened(entry.peer, true);
-            } else if (message.type === 'MRequest'){
-                this.protocols.get(entry).opened(entry.peer, false);
-            };
-        };
-    };
-    
-    return alreadyExists;
-};
-
-
-
-/*************************************
- ************ COMPARATORS ************
- *************************************/
-
-function ComparatorTID(a, b){
-    var first = a.tid || a;
-    var second = b.tid || b;
-    if (first < second){ return -1; };
-    if (first > second){ return  1; };
-    return 0;
-};
-
-function ComparatorPEER(a, b){
-    var first = a.peer || a;
-    var second = b.peer || b;
-    if (first < second){ return -1; };
-    if (first > second){ return  1; };
-    return 0;
-};
-
-function ComparatorPID(a, b){
-    var first = a.pid || a;
-    var second = b.pid || b;
-    if (first < second){ return -1; };
-    if (first > second){ return  1; };
-    return 0;
-};
-
-
-module.exports = Neighborhood;
-
-},{"./arcstore.js":146,"./extended-sorted-array.js":147,"./guid.js":148,"./messages.js":149,"clone":151,"simple-peer":152}],151:[function(require,module,exports){
-arguments[4][139][0].apply(exports,arguments)
-},{"buffer":11,"dup":139}],152:[function(require,module,exports){
-(function (Buffer){
-module.exports = Peer
-
-var debug = require('debug')('simple-peer')
-var getBrowserRTC = require('get-browser-rtc')
-var hat = require('hat')
-var inherits = require('inherits')
-var once = require('once')
-var stream = require('readable-stream')
-
-inherits(Peer, stream.Duplex)
-
-/**
- * WebRTC peer connection. Same API as node core `net.Socket`, plus a few extra methods.
- * Duplex stream.
- * @param {Object} opts
- */
-function Peer (opts) {
-  var self = this
-  if (!(self instanceof Peer)) return new Peer(opts)
-  self._debug('new peer %o', opts)
-
-  if (!opts) opts = {}
-  opts.allowHalfOpen = false
-  if (opts.highWaterMark == null) opts.highWaterMark = 1024 * 1024
-
-  stream.Duplex.call(self, opts)
-
-  self.initiator = opts.initiator || false
-  self.channelConfig = opts.channelConfig || Peer.channelConfig
-  self.channelName = opts.initiator ? (opts.channelName || hat(160)) : null
-  self.config = opts.config || Peer.config
-  self.constraints = opts.constraints || Peer.constraints
-  self.offerConstraints = opts.offerConstraints
-  self.answerConstraints = opts.answerConstraints
-  self.reconnectTimer = opts.reconnectTimer || false
-  self.sdpTransform = opts.sdpTransform || function (sdp) { return sdp }
-  self.stream = opts.stream || false
-  self.trickle = opts.trickle !== undefined ? opts.trickle : true
-
-  self.destroyed = false
-  self.connected = false
-
-  // so Peer object always has same shape (V8 optimization)
-  self.remoteAddress = undefined
-  self.remoteFamily = undefined
-  self.remotePort = undefined
-  self.localAddress = undefined
-  self.localPort = undefined
-
-  self._isWrtc = !!opts.wrtc // HACK: to fix `wrtc` bug. See issue: #60
-  self._wrtc = (opts.wrtc && typeof opts.wrtc === 'object')
-    ? opts.wrtc
-    : getBrowserRTC()
-  if (!self._wrtc) {
-    if (typeof window === 'undefined') {
-      throw new Error('No WebRTC support: Specify `opts.wrtc` option in this environment')
-    } else {
-      throw new Error('No WebRTC support: Not a supported browser')
-    }
-  }
-
-  self._maxBufferedAmount = opts.highWaterMark
-  self._pcReady = false
-  self._channelReady = false
-  self._iceComplete = false // ice candidate trickle done (got null candidate)
-  self._channel = null
-  self._pendingCandidates = []
-
-  self._chunk = null
-  self._cb = null
-  self._interval = null
-  self._reconnectTimeout = null
-
-  self._pc = new (self._wrtc.RTCPeerConnection)(self.config, self.constraints)
-  self._pc.oniceconnectionstatechange = function () {
-    self._onIceConnectionStateChange()
-  }
-  self._pc.onsignalingstatechange = function () {
-    self._onSignalingStateChange()
-  }
-  self._pc.onicecandidate = function (event) {
-    self._onIceCandidate(event)
-  }
-
-  if (self.stream) self._pc.addStream(self.stream)
-  self._pc.onaddstream = function (event) {
-    self._onAddStream(event)
-  }
-
-  if (self.initiator) {
-    self._setupData({
-      channel: self._pc.createDataChannel(self.channelName, self.channelConfig)
-    })
-    self._pc.onnegotiationneeded = once(function () {
-      self._createOffer()
-    })
-    // Only Chrome triggers "negotiationneeded"; this is a workaround for other
-    // implementations
-    if (typeof window === 'undefined' || !window.webkitRTCPeerConnection) {
-      self._pc.onnegotiationneeded()
-    }
-  } else {
-    self._pc.ondatachannel = function (event) {
-      self._setupData(event)
-    }
-  }
-
-  self.on('finish', function () {
-    if (self.connected) {
-      // When local peer is finished writing, close connection to remote peer.
-      // Half open connections are currently not supported.
-      // Wait a bit before destroying so the datachannel flushes.
-      // TODO: is there a more reliable way to accomplish this?
-      setTimeout(function () {
-        self._destroy()
-      }, 100)
-    } else {
-      // If data channel is not connected when local peer is finished writing, wait until
-      // data is flushed to network at "connect" event.
-      // TODO: is there a more reliable way to accomplish this?
-      self.once('connect', function () {
-        setTimeout(function () {
-          self._destroy()
-        }, 100)
-      })
-    }
-  })
-}
-
-Peer.WEBRTC_SUPPORT = !!getBrowserRTC()
-
-/**
- * Expose config, constraints, and data channel config for overriding all Peer
- * instances. Otherwise, just set opts.config, opts.constraints, or opts.channelConfig
- * when constructing a Peer.
- */
-Peer.config = {
-  iceServers: [
-    {
-      url: 'stun:23.21.150.121', // deprecated, replaced by `urls`
-      urls: 'stun:23.21.150.121'
-    }
-  ]
-}
-Peer.constraints = {}
-Peer.channelConfig = {}
-
-Object.defineProperty(Peer.prototype, 'bufferSize', {
-  get: function () {
-    var self = this
-    return (self._channel && self._channel.bufferedAmount) || 0
-  }
-})
-
-Peer.prototype.address = function () {
-  var self = this
-  return { port: self.localPort, family: 'IPv4', address: self.localAddress }
-}
-
-Peer.prototype.signal = function (data) {
-  var self = this
-  if (self.destroyed) throw new Error('cannot signal after peer is destroyed')
-  if (typeof data === 'string') {
-    try {
-      data = JSON.parse(data)
-    } catch (err) {
-      data = {}
-    }
-  }
-  self._debug('signal()')
-
-  function addIceCandidate (candidate) {
-    try {
-      self._pc.addIceCandidate(
-        new self._wrtc.RTCIceCandidate(candidate),
-        noop,
-        function (err) { self._onError(err) }
-      )
-    } catch (err) {
-      self._destroy(new Error('error adding candidate: ' + err.message))
-    }
-  }
-
-  if (data.sdp) {
-    self._pc.setRemoteDescription(new (self._wrtc.RTCSessionDescription)(data), function () {
-      if (self.destroyed) return
-      if (self._pc.remoteDescription.type === 'offer') self._createAnswer()
-
-      self._pendingCandidates.forEach(addIceCandidate)
-      self._pendingCandidates = []
-    }, function (err) { self._onError(err) })
-  }
-  if (data.candidate) {
-    if (self._pc.remoteDescription) addIceCandidate(data.candidate)
-    else self._pendingCandidates.push(data.candidate)
-  }
-  if (!data.sdp && !data.candidate) {
-    self._destroy(new Error('signal() called with invalid signal data'))
-  }
-}
-
-/**
- * Send text/binary data to the remote peer.
- * @param {TypedArrayView|ArrayBuffer|Buffer|string|Blob|Object} chunk
- */
-Peer.prototype.send = function (chunk) {
-  var self = this
-
-  // HACK: `wrtc` module doesn't accept node.js buffer. See issue: #60
-  if (Buffer.isBuffer(chunk) && self._isWrtc) {
-    chunk = new Uint8Array(chunk)
-  }
-
-  var len = chunk.length || chunk.byteLength || chunk.size
-  self._channel.send(chunk)
-  self._debug('write: %d bytes', len)
-}
-
-Peer.prototype.destroy = function (onclose) {
-  var self = this
-  self._destroy(null, onclose)
-}
-
-Peer.prototype._destroy = function (err, onclose) {
-  var self = this
-  if (self.destroyed) return
-  if (onclose) self.once('close', onclose)
-
-  self._debug('destroy (error: %s)', err && err.message)
-
-  self.readable = self.writable = false
-
-  if (!self._readableState.ended) self.push(null)
-  if (!self._writableState.finished) self.end()
-
-  self.destroyed = true
-  self.connected = false
-  self._pcReady = false
-  self._channelReady = false
-
-  self._chunk = null
-  self._cb = null
-  clearInterval(self._interval)
-  clearTimeout(self._reconnectTimeout)
-
-  if (self._pc) {
-    try {
-      self._pc.close()
-    } catch (err) {}
-
-    self._pc.oniceconnectionstatechange = null
-    self._pc.onsignalingstatechange = null
-    self._pc.onicecandidate = null
-    self._pc.onaddstream = null
-    self._pc.onnegotiationneeded = null
-    self._pc.ondatachannel = null
-  }
-
-  if (self._channel) {
-    try {
-      self._channel.close()
-    } catch (err) {}
-
-    self._channel.onmessage = null
-    self._channel.onopen = null
-    self._channel.onclose = null
-  }
-  self._pc = null
-  self._channel = null
-
-  if (err) self.emit('error', err)
-  self.emit('close')
-}
-
-Peer.prototype._setupData = function (event) {
-  var self = this
-  self._channel = event.channel
-  self.channelName = self._channel.label
-
-  self._channel.binaryType = 'arraybuffer'
-  self._channel.onmessage = function (event) {
-    self._onChannelMessage(event)
-  }
-  self._channel.onopen = function () {
-    self._onChannelOpen()
-  }
-  self._channel.onclose = function () {
-    self._onChannelClose()
-  }
-}
-
-Peer.prototype._read = function () {}
-
-Peer.prototype._write = function (chunk, encoding, cb) {
-  var self = this
-  if (self.destroyed) return cb(new Error('cannot write after peer is destroyed'))
-
-  if (self.connected) {
-    try {
-      self.send(chunk)
-    } catch (err) {
-      return self._onError(err)
-    }
-    if (self._channel.bufferedAmount > self._maxBufferedAmount) {
-      self._debug('start backpressure: bufferedAmount %d', self._channel.bufferedAmount)
-      self._cb = cb
-    } else {
-      cb(null)
-    }
-  } else {
-    self._debug('write before connect')
-    self._chunk = chunk
-    self._cb = cb
-  }
-}
-
-Peer.prototype._createOffer = function () {
-  var self = this
-  if (self.destroyed) return
-
-  self._pc.createOffer(function (offer) {
-    if (self.destroyed) return
-    offer.sdp = self.sdpTransform(offer.sdp)
-    self._pc.setLocalDescription(offer, noop, function (err) { self._onError(err) })
-    var sendOffer = function () {
-      var signal = self._pc.localDescription || offer
-      self._debug('signal')
-      self.emit('signal', {
-        type: signal.type,
-        sdp: signal.sdp
-      })
-    }
-    if (self.trickle || self._iceComplete) sendOffer()
-    else self.once('_iceComplete', sendOffer) // wait for candidates
-  }, function (err) { self._onError(err) }, self.offerConstraints)
-}
-
-Peer.prototype._createAnswer = function () {
-  var self = this
-  if (self.destroyed) return
-
-  self._pc.createAnswer(function (answer) {
-    if (self.destroyed) return
-    answer.sdp = self.sdpTransform(answer.sdp)
-    self._pc.setLocalDescription(answer, noop, function (err) { self._onError(err) })
-    var sendAnswer = function () {
-      var signal = self._pc.localDescription || answer
-      self._debug('signal')
-      self.emit('signal', {
-        type: signal.type,
-        sdp: signal.sdp
-      })
-    }
-    if (self.trickle || self._iceComplete) sendAnswer()
-    else self.once('_iceComplete', sendAnswer)
-  }, function (err) { self._onError(err) }, self.answerConstraints)
-}
-
-Peer.prototype._onIceConnectionStateChange = function () {
-  var self = this
-  if (self.destroyed) return
-  var iceGatheringState = self._pc.iceGatheringState
-  var iceConnectionState = self._pc.iceConnectionState
-  self._debug('iceConnectionStateChange %s %s', iceGatheringState, iceConnectionState)
-  self.emit('iceConnectionStateChange', iceGatheringState, iceConnectionState)
-  if (iceConnectionState === 'connected' || iceConnectionState === 'completed') {
-    clearTimeout(self._reconnectTimeout)
-    self._pcReady = true
-    self._maybeReady()
-  }
-  if (iceConnectionState === 'disconnected') {
-    if (self.reconnectTimer) {
-      // If user has set `opt.reconnectTimer`, allow time for ICE to attempt a reconnect
-      clearTimeout(self._reconnectTimeout)
-      self._reconnectTimeout = setTimeout(function () {
-        self._destroy()
-      }, self.reconnectTimer)
-    } else {
-      self._destroy()
-    }
-  }
-  if (iceConnectionState === 'failed') {
-    self._destroy()
-  }
-  if (iceConnectionState === 'closed') {
-    self._destroy()
-  }
-}
-
-Peer.prototype.getStats = function (cb) {
-  var self = this
-  if (!self._pc.getStats) { // No ability to call stats
-    cb([])
-  } else if (typeof window !== 'undefined' && !!window.mozRTCPeerConnection) { // Mozilla
-    self._pc.getStats(null, function (res) {
-      var items = []
-      res.forEach(function (item) {
-        items.push(item)
-      })
-      cb(items)
-    }, function (err) { self._onError(err) })
-  } else {
-    self._pc.getStats(function (res) { // Chrome
-      var items = []
-      res.result().forEach(function (result) {
-        var item = {}
-        result.names().forEach(function (name) {
-          item[name] = result.stat(name)
-        })
-        item.id = result.id
-        item.type = result.type
-        item.timestamp = result.timestamp
-        items.push(item)
-      })
-      cb(items)
-    })
-  }
-}
-
-Peer.prototype._maybeReady = function () {
-  var self = this
-  self._debug('maybeReady pc %s channel %s', self._pcReady, self._channelReady)
-  if (self.connected || self._connecting || !self._pcReady || !self._channelReady) return
-  self._connecting = true
-
-  self.getStats(function (items) {
-    self._connecting = false
-    self.connected = true
-
-    var remoteCandidates = {}
-    var localCandidates = {}
-
-    function setActiveCandidates (item) {
-      var local = localCandidates[item.localCandidateId]
-      var remote = remoteCandidates[item.remoteCandidateId]
-
-      if (local) {
-        self.localAddress = local.ipAddress
-        self.localPort = Number(local.portNumber)
-      } else if (typeof item.googLocalAddress === 'string') {
-        // Sometimes `item.id` is undefined in `wrtc` and Chrome
-        // See: https://github.com/feross/simple-peer/issues/66
-        local = item.googLocalAddress.split(':')
-        self.localAddress = local[0]
-        self.localPort = Number(local[1])
-      }
-      self._debug('connect local: %s:%s', self.localAddress, self.localPort)
-
-      if (remote) {
-        self.remoteAddress = remote.ipAddress
-        self.remotePort = Number(remote.portNumber)
-        self.remoteFamily = 'IPv4'
-      } else if (typeof item.googRemoteAddress === 'string') {
-        remote = item.googRemoteAddress.split(':')
-        self.remoteAddress = remote[0]
-        self.remotePort = Number(remote[1])
-        self.remoteFamily = 'IPv4'
-      }
-      self._debug('connect remote: %s:%s', self.remoteAddress, self.remotePort)
-    }
-
-    items.forEach(function (item) {
-      if (item.type === 'remotecandidate') remoteCandidates[item.id] = item
-      if (item.type === 'localcandidate') localCandidates[item.id] = item
-    })
-
-    items.forEach(function (item) {
-      var isCandidatePair = (
-        (item.type === 'googCandidatePair' && item.googActiveConnection === 'true') ||
-        (item.type === 'candidatepair' && item.selected)
-      )
-      if (isCandidatePair) setActiveCandidates(item)
-    })
-
-    if (self._chunk) {
-      try {
-        self.send(self._chunk)
-      } catch (err) {
-        return self._onError(err)
-      }
-      self._chunk = null
-      self._debug('sent chunk from "write before connect"')
-
-      var cb = self._cb
-      self._cb = null
-      cb(null)
-    }
-
-    self._interval = setInterval(function () {
-      if (!self._cb || !self._channel || self._channel.bufferedAmount > self._maxBufferedAmount) return
-      self._debug('ending backpressure: bufferedAmount %d', self._channel.bufferedAmount)
-      var cb = self._cb
-      self._cb = null
-      cb(null)
-    }, 150)
-    if (self._interval.unref) self._interval.unref()
-
-    self._debug('connect')
-    self.emit('connect')
-  })
-}
-
-Peer.prototype._onSignalingStateChange = function () {
-  var self = this
-  if (self.destroyed) return
-  self._debug('signalingStateChange %s', self._pc.signalingState)
-  self.emit('signalingStateChange', self._pc.signalingState)
-}
-
-Peer.prototype._onIceCandidate = function (event) {
-  var self = this
-  if (self.destroyed) return
-  if (event.candidate && self.trickle) {
-    self.emit('signal', {
-      candidate: {
-        candidate: event.candidate.candidate,
-        sdpMLineIndex: event.candidate.sdpMLineIndex,
-        sdpMid: event.candidate.sdpMid
-      }
-    })
-  } else if (!event.candidate) {
-    self._iceComplete = true
-    self.emit('_iceComplete')
-  }
-}
-
-Peer.prototype._onChannelMessage = function (event) {
-  var self = this
-  if (self.destroyed) return
-  var data = event.data
-  self._debug('read: %d bytes', data.byteLength || data.length)
-
-  if (data instanceof ArrayBuffer) data = new Buffer(data)
-  self.push(data)
-}
-
-Peer.prototype._onChannelOpen = function () {
-  var self = this
-  if (self.connected || self.destroyed) return
-  self._debug('on channel open')
-  self._channelReady = true
-  self._maybeReady()
-}
-
-Peer.prototype._onChannelClose = function () {
-  var self = this
-  if (self.destroyed) return
-  self._debug('on channel close')
-  self._destroy()
-}
-
-Peer.prototype._onAddStream = function (event) {
-  var self = this
-  if (self.destroyed) return
-  self._debug('on add stream')
-  self.emit('stream', event.stream)
-}
-
-Peer.prototype._onError = function (err) {
-  var self = this
-  if (self.destroyed) return
-  self._debug('error %s', err.message || err)
-  self._destroy(err)
-}
-
-Peer.prototype._debug = function () {
-  var self = this
-  var args = [].slice.call(arguments)
-  var id = self.channelName && self.channelName.substring(0, 7)
-  args[0] = '[' + id + '] ' + args[0]
-  debug.apply(null, args)
-}
-
-function noop () {}
-
-}).call(this,require("buffer").Buffer)
-},{"buffer":11,"debug":153,"get-browser-rtc":155,"hat":156,"inherits":157,"once":158,"readable-stream":164}],153:[function(require,module,exports){
-arguments[4][126][0].apply(exports,arguments)
-},{"./debug":154,"dup":126}],154:[function(require,module,exports){
-arguments[4][127][0].apply(exports,arguments)
-},{"dup":127,"ms":142}],155:[function(require,module,exports){
-// originally pulled out of simple-peer
-
-module.exports = function getBrowserRTC () {
-  if (typeof window === 'undefined') return null
-  var wrtc = {
-    RTCPeerConnection: window.RTCPeerConnection || window.mozRTCPeerConnection ||
-      window.webkitRTCPeerConnection,
-    RTCSessionDescription: window.RTCSessionDescription ||
-      window.mozRTCSessionDescription || window.webkitRTCSessionDescription,
-    RTCIceCandidate: window.RTCIceCandidate || window.mozRTCIceCandidate ||
-      window.webkitRTCIceCandidate
-  }
-  if (!wrtc.RTCPeerConnection) return null
-  return wrtc
-}
-
-},{}],156:[function(require,module,exports){
-var hat = module.exports = function (bits, base) {
-    if (!base) base = 16;
-    if (bits === undefined) bits = 128;
-    if (bits <= 0) return '0';
-    
-    var digits = Math.log(Math.pow(2, bits)) / Math.log(base);
-    for (var i = 2; digits === Infinity; i *= 2) {
-        digits = Math.log(Math.pow(2, bits / i)) / Math.log(base) * i;
-    }
-    
-    var rem = digits - Math.floor(digits);
-    
-    var res = '';
-    
-    for (var i = 0; i < Math.floor(digits); i++) {
-        var x = Math.floor(Math.random() * base).toString(base);
-        res = x + res;
-    }
-    
-    if (rem) {
-        var b = Math.pow(base, rem);
-        var x = Math.floor(Math.random() * b).toString(base);
-        res = x + res;
-    }
-    
-    var parsed = parseInt(res, base);
-    if (parsed !== Infinity && parsed >= Math.pow(2, bits)) {
-        return hat(bits, base)
-    }
-    else return res;
-};
-
-hat.rack = function (bits, base, expandBy) {
-    var fn = function (data) {
-        var iters = 0;
-        do {
-            if (iters ++ > 10) {
-                if (expandBy) bits += expandBy;
-                else throw new Error('too many ID collisions, use more bits')
-            }
-            
-            var id = hat(bits, base);
-        } while (Object.hasOwnProperty.call(hats, id));
-        
-        hats[id] = data;
-        return id;
-    };
-    var hats = fn.hats = {};
-    
-    fn.get = function (id) {
-        return fn.hats[id];
-    };
-    
-    fn.set = function (id, value) {
-        fn.hats[id] = value;
-        return fn;
-    };
-    
-    fn.bits = bits || 128;
-    fn.base = base || 16;
-    return fn;
-};
-
-},{}],157:[function(require,module,exports){
-arguments[4][52][0].apply(exports,arguments)
-},{"dup":52}],158:[function(require,module,exports){
-var wrappy = require('wrappy')
-module.exports = wrappy(once)
-
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var f = function () {
-    if (f.called) return f.value
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  f.called = false
-  return f
-}
-
-},{"wrappy":170}],159:[function(require,module,exports){
-arguments[4][105][0].apply(exports,arguments)
-},{"./_stream_readable":161,"./_stream_writable":163,"core-util-is":140,"dup":105,"inherits":157,"process-nextick-args":166}],160:[function(require,module,exports){
-arguments[4][106][0].apply(exports,arguments)
-},{"./_stream_transform":162,"core-util-is":140,"dup":106,"inherits":157}],161:[function(require,module,exports){
-(function (process){
-'use strict';
-
-module.exports = Readable;
-
-/*<replacement>*/
-var processNextTick = require('process-nextick-args');
-/*</replacement>*/
-
-/*<replacement>*/
-var isArray = require('isarray');
-/*</replacement>*/
-
-Readable.ReadableState = ReadableState;
-
-/*<replacement>*/
 var EE = require('events').EventEmitter;
+var inherits = require('inherits');
 
-var EElistenerCount = function (emitter, type) {
-  return emitter.listeners(type).length;
-};
-/*</replacement>*/
+inherits(Stream, EE);
+Stream.Readable = require('readable-stream/readable.js');
+Stream.Writable = require('readable-stream/writable.js');
+Stream.Duplex = require('readable-stream/duplex.js');
+Stream.Transform = require('readable-stream/transform.js');
+Stream.PassThrough = require('readable-stream/passthrough.js');
 
-/*<replacement>*/
-var Stream;
-(function () {
-  try {
-    Stream = require('st' + 'ream');
-  } catch (_) {} finally {
-    if (!Stream) Stream = require('events').EventEmitter;
-  }
-})();
-/*</replacement>*/
+// Backwards-compat with node 0.4.x
+Stream.Stream = Stream;
 
-var Buffer = require('buffer').Buffer;
-/*<replacement>*/
-var bufferShim = require('buffer-shims');
-/*</replacement>*/
 
-/*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
-/*</replacement>*/
 
-/*<replacement>*/
-var debugUtil = require('util');
-var debug = void 0;
-if (debugUtil && debugUtil.debuglog) {
-  debug = debugUtil.debuglog('stream');
-} else {
-  debug = function () {};
-}
-/*</replacement>*/
+// old-style streams.  Note that the pipe method (the only relevant
+// part of this class) is overridden in the Readable class.
 
-var StringDecoder;
-
-util.inherits(Readable, Stream);
-
-var hasPrependListener = typeof EE.prototype.prependListener === 'function';
-
-function prependListener(emitter, event, fn) {
-  if (hasPrependListener) return emitter.prependListener(event, fn);
-
-  // This is a brutally ugly hack to make sure that our error handler
-  // is attached before any userland ones.  NEVER DO THIS. This is here
-  // only because this code needs to continue to work with older versions
-  // of Node.js that do not include the prependListener() method. The goal
-  // is to eventually remove this hack.
-  if (!emitter._events || !emitter._events[event]) emitter.on(event, fn);else if (isArray(emitter._events[event])) emitter._events[event].unshift(fn);else emitter._events[event] = [fn, emitter._events[event]];
+function Stream() {
+  EE.call(this);
 }
 
-var Duplex;
-function ReadableState(options, stream) {
-  Duplex = Duplex || require('./_stream_duplex');
+Stream.prototype.pipe = function(dest, options) {
+  var source = this;
 
-  options = options || {};
-
-  // object stream flag. Used to make read(n) ignore n and to
-  // make all the buffer merging and length checks go away
-  this.objectMode = !!options.objectMode;
-
-  if (stream instanceof Duplex) this.objectMode = this.objectMode || !!options.readableObjectMode;
-
-  // the point at which it stops calling _read() to fill the buffer
-  // Note: 0 is a valid value, means "don't call _read preemptively ever"
-  var hwm = options.highWaterMark;
-  var defaultHwm = this.objectMode ? 16 : 16 * 1024;
-  this.highWaterMark = hwm || hwm === 0 ? hwm : defaultHwm;
-
-  // cast to ints.
-  this.highWaterMark = ~ ~this.highWaterMark;
-
-  this.buffer = [];
-  this.length = 0;
-  this.pipes = null;
-  this.pipesCount = 0;
-  this.flowing = null;
-  this.ended = false;
-  this.endEmitted = false;
-  this.reading = false;
-
-  // a flag to be able to tell if the onwrite cb is called immediately,
-  // or on a later tick.  We set this to true at first, because any
-  // actions that shouldn't happen until "later" should generally also
-  // not happen before the first write call.
-  this.sync = true;
-
-  // whenever we return null, then we set a flag to say
-  // that we're awaiting a 'readable' event emission.
-  this.needReadable = false;
-  this.emittedReadable = false;
-  this.readableListening = false;
-  this.resumeScheduled = false;
-
-  // Crypto is kind of old and crusty.  Historically, its default string
-  // encoding is 'binary' so we have to make this configurable.
-  // Everything else in the universe uses 'utf8', though.
-  this.defaultEncoding = options.defaultEncoding || 'utf8';
-
-  // when piping, we only care about 'readable' events that happen
-  // after read()ing all the bytes and not getting any pushback.
-  this.ranOut = false;
-
-  // the number of writers that are awaiting a drain event in .pipe()s
-  this.awaitDrain = 0;
-
-  // if true, a maybeReadMore has been scheduled
-  this.readingMore = false;
-
-  this.decoder = null;
-  this.encoding = null;
-  if (options.encoding) {
-    if (!StringDecoder) StringDecoder = require('string_decoder/').StringDecoder;
-    this.decoder = new StringDecoder(options.encoding);
-    this.encoding = options.encoding;
-  }
-}
-
-var Duplex;
-function Readable(options) {
-  Duplex = Duplex || require('./_stream_duplex');
-
-  if (!(this instanceof Readable)) return new Readable(options);
-
-  this._readableState = new ReadableState(options, this);
-
-  // legacy
-  this.readable = true;
-
-  if (options && typeof options.read === 'function') this._read = options.read;
-
-  Stream.call(this);
-}
-
-// Manually shove something into the read() buffer.
-// This returns true if the highWaterMark has not been hit yet,
-// similar to how Writable.write() returns true if you should
-// write() some more.
-Readable.prototype.push = function (chunk, encoding) {
-  var state = this._readableState;
-
-  if (!state.objectMode && typeof chunk === 'string') {
-    encoding = encoding || state.defaultEncoding;
-    if (encoding !== state.encoding) {
-      chunk = bufferShim.from(chunk, encoding);
-      encoding = '';
-    }
-  }
-
-  return readableAddChunk(this, state, chunk, encoding, false);
-};
-
-// Unshift should *always* be something directly out of read()
-Readable.prototype.unshift = function (chunk) {
-  var state = this._readableState;
-  return readableAddChunk(this, state, chunk, '', true);
-};
-
-Readable.prototype.isPaused = function () {
-  return this._readableState.flowing === false;
-};
-
-function readableAddChunk(stream, state, chunk, encoding, addToFront) {
-  var er = chunkInvalid(state, chunk);
-  if (er) {
-    stream.emit('error', er);
-  } else if (chunk === null) {
-    state.reading = false;
-    onEofChunk(stream, state);
-  } else if (state.objectMode || chunk && chunk.length > 0) {
-    if (state.ended && !addToFront) {
-      var e = new Error('stream.push() after EOF');
-      stream.emit('error', e);
-    } else if (state.endEmitted && addToFront) {
-      var _e = new Error('stream.unshift() after end event');
-      stream.emit('error', _e);
-    } else {
-      var skipAdd;
-      if (state.decoder && !addToFront && !encoding) {
-        chunk = state.decoder.write(chunk);
-        skipAdd = !state.objectMode && chunk.length === 0;
+  function ondata(chunk) {
+    if (dest.writable) {
+      if (false === dest.write(chunk) && source.pause) {
+        source.pause();
       }
-
-      if (!addToFront) state.reading = false;
-
-      // Don't add to the buffer if we've decoded to an empty string chunk and
-      // we're not in object mode
-      if (!skipAdd) {
-        // if we want the data now, just emit it.
-        if (state.flowing && state.length === 0 && !state.sync) {
-          stream.emit('data', chunk);
-          stream.read(0);
-        } else {
-          // update the buffer info.
-          state.length += state.objectMode ? 1 : chunk.length;
-          if (addToFront) state.buffer.unshift(chunk);else state.buffer.push(chunk);
-
-          if (state.needReadable) emitReadable(stream);
-        }
-      }
-
-      maybeReadMore(stream, state);
-    }
-  } else if (!addToFront) {
-    state.reading = false;
-  }
-
-  return needMoreData(state);
-}
-
-// if it's past the high water mark, we can push in some more.
-// Also, if we have no data yet, we can stand some
-// more bytes.  This is to work around cases where hwm=0,
-// such as the repl.  Also, if the push() triggered a
-// readable event, and the user called read(largeNumber) such that
-// needReadable was set, then we ought to push more, so that another
-// 'readable' event will be triggered.
-function needMoreData(state) {
-  return !state.ended && (state.needReadable || state.length < state.highWaterMark || state.length === 0);
-}
-
-// backwards compatibility.
-Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = require('string_decoder/').StringDecoder;
-  this._readableState.decoder = new StringDecoder(enc);
-  this._readableState.encoding = enc;
-  return this;
-};
-
-// Don't raise the hwm > 8MB
-var MAX_HWM = 0x800000;
-function computeNewHighWaterMark(n) {
-  if (n >= MAX_HWM) {
-    n = MAX_HWM;
-  } else {
-    // Get the next highest power of 2
-    n--;
-    n |= n >>> 1;
-    n |= n >>> 2;
-    n |= n >>> 4;
-    n |= n >>> 8;
-    n |= n >>> 16;
-    n++;
-  }
-  return n;
-}
-
-function howMuchToRead(n, state) {
-  if (state.length === 0 && state.ended) return 0;
-
-  if (state.objectMode) return n === 0 ? 0 : 1;
-
-  if (n === null || isNaN(n)) {
-    // only flow one buffer at a time
-    if (state.flowing && state.buffer.length) return state.buffer[0].length;else return state.length;
-  }
-
-  if (n <= 0) return 0;
-
-  // If we're asking for more than the target buffer level,
-  // then raise the water mark.  Bump up to the next highest
-  // power of 2, to prevent increasing it excessively in tiny
-  // amounts.
-  if (n > state.highWaterMark) state.highWaterMark = computeNewHighWaterMark(n);
-
-  // don't have that much.  return null, unless we've ended.
-  if (n > state.length) {
-    if (!state.ended) {
-      state.needReadable = true;
-      return 0;
-    } else {
-      return state.length;
     }
   }
 
-  return n;
-}
+  source.on('data', ondata);
 
-// you can override either this method, or the async _read(n) below.
-Readable.prototype.read = function (n) {
-  debug('read', n);
-  var state = this._readableState;
-  var nOrig = n;
-
-  if (typeof n !== 'number' || n > 0) state.emittedReadable = false;
-
-  // if we're doing read(0) to trigger a readable event, but we
-  // already have a bunch of data in the buffer, then just trigger
-  // the 'readable' event and move on.
-  if (n === 0 && state.needReadable && (state.length >= state.highWaterMark || state.ended)) {
-    debug('read: emitReadable', state.length, state.ended);
-    if (state.length === 0 && state.ended) endReadable(this);else emitReadable(this);
-    return null;
-  }
-
-  n = howMuchToRead(n, state);
-
-  // if we've ended, and we're now clear, then finish it up.
-  if (n === 0 && state.ended) {
-    if (state.length === 0) endReadable(this);
-    return null;
-  }
-
-  // All the actual chunk generation logic needs to be
-  // *below* the call to _read.  The reason is that in certain
-  // synthetic stream cases, such as passthrough streams, _read
-  // may be a completely synchronous operation which may change
-  // the state of the read buffer, providing enough data when
-  // before there was *not* enough.
-  //
-  // So, the steps are:
-  // 1. Figure out what the state of things will be after we do
-  // a read from the buffer.
-  //
-  // 2. If that resulting state will trigger a _read, then call _read.
-  // Note that this may be asynchronous, or synchronous.  Yes, it is
-  // deeply ugly to write APIs this way, but that still doesn't mean
-  // that the Readable class should behave improperly, as streams are
-  // designed to be sync/async agnostic.
-  // Take note if the _read call is sync or async (ie, if the read call
-  // has returned yet), so that we know whether or not it's safe to emit
-  // 'readable' etc.
-  //
-  // 3. Actually pull the requested chunks out of the buffer and return.
-
-  // if we need a readable event, then we need to do some reading.
-  var doRead = state.needReadable;
-  debug('need readable', doRead);
-
-  // if we currently have less than the highWaterMark, then also read some
-  if (state.length === 0 || state.length - n < state.highWaterMark) {
-    doRead = true;
-    debug('length less than watermark', doRead);
-  }
-
-  // however, if we've ended, then there's no point, and if we're already
-  // reading, then it's unnecessary.
-  if (state.ended || state.reading) {
-    doRead = false;
-    debug('reading or ended', doRead);
-  }
-
-  if (doRead) {
-    debug('do read');
-    state.reading = true;
-    state.sync = true;
-    // if the length is currently zero, then we *need* a readable event.
-    if (state.length === 0) state.needReadable = true;
-    // call internal read method
-    this._read(state.highWaterMark);
-    state.sync = false;
-  }
-
-  // If _read pushed data synchronously, then `reading` will be false,
-  // and we need to re-evaluate how much data we can return to the user.
-  if (doRead && !state.reading) n = howMuchToRead(nOrig, state);
-
-  var ret;
-  if (n > 0) ret = fromList(n, state);else ret = null;
-
-  if (ret === null) {
-    state.needReadable = true;
-    n = 0;
-  }
-
-  state.length -= n;
-
-  // If we have nothing in the buffer, then we want to know
-  // as soon as we *do* get something into the buffer.
-  if (state.length === 0 && !state.ended) state.needReadable = true;
-
-  // If we tried to read() past the EOF, then emit end on the next tick.
-  if (nOrig !== n && state.ended && state.length === 0) endReadable(this);
-
-  if (ret !== null) this.emit('data', ret);
-
-  return ret;
-};
-
-function chunkInvalid(state, chunk) {
-  var er = null;
-  if (!Buffer.isBuffer(chunk) && typeof chunk !== 'string' && chunk !== null && chunk !== undefined && !state.objectMode) {
-    er = new TypeError('Invalid non-string/buffer chunk');
-  }
-  return er;
-}
-
-function onEofChunk(stream, state) {
-  if (state.ended) return;
-  if (state.decoder) {
-    var chunk = state.decoder.end();
-    if (chunk && chunk.length) {
-      state.buffer.push(chunk);
-      state.length += state.objectMode ? 1 : chunk.length;
-    }
-  }
-  state.ended = true;
-
-  // emit 'readable' now to make sure it gets picked up.
-  emitReadable(stream);
-}
-
-// Don't emit readable right away in sync mode, because this can trigger
-// another read() call => stack overflow.  This way, it might trigger
-// a nextTick recursion warning, but that's not so bad.
-function emitReadable(stream) {
-  var state = stream._readableState;
-  state.needReadable = false;
-  if (!state.emittedReadable) {
-    debug('emitReadable', state.flowing);
-    state.emittedReadable = true;
-    if (state.sync) processNextTick(emitReadable_, stream);else emitReadable_(stream);
-  }
-}
-
-function emitReadable_(stream) {
-  debug('emit readable');
-  stream.emit('readable');
-  flow(stream);
-}
-
-// at this point, the user has presumably seen the 'readable' event,
-// and called read() to consume some data.  that may have triggered
-// in turn another _read(n) call, in which case reading = true if
-// it's in progress.
-// However, if we're not ended, or reading, and the length < hwm,
-// then go ahead and try to read some more preemptively.
-function maybeReadMore(stream, state) {
-  if (!state.readingMore) {
-    state.readingMore = true;
-    processNextTick(maybeReadMore_, stream, state);
-  }
-}
-
-function maybeReadMore_(stream, state) {
-  var len = state.length;
-  while (!state.reading && !state.flowing && !state.ended && state.length < state.highWaterMark) {
-    debug('maybeReadMore read 0');
-    stream.read(0);
-    if (len === state.length)
-      // didn't get any data, stop spinning.
-      break;else len = state.length;
-  }
-  state.readingMore = false;
-}
-
-// abstract method.  to be overridden in specific implementation classes.
-// call cb(er, data) where data is <= n in length.
-// for virtual (non-string, non-buffer) streams, "length" is somewhat
-// arbitrary, and perhaps not very meaningful.
-Readable.prototype._read = function (n) {
-  this.emit('error', new Error('not implemented'));
-};
-
-Readable.prototype.pipe = function (dest, pipeOpts) {
-  var src = this;
-  var state = this._readableState;
-
-  switch (state.pipesCount) {
-    case 0:
-      state.pipes = dest;
-      break;
-    case 1:
-      state.pipes = [state.pipes, dest];
-      break;
-    default:
-      state.pipes.push(dest);
-      break;
-  }
-  state.pipesCount += 1;
-  debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts);
-
-  var doEnd = (!pipeOpts || pipeOpts.end !== false) && dest !== process.stdout && dest !== process.stderr;
-
-  var endFn = doEnd ? onend : cleanup;
-  if (state.endEmitted) processNextTick(endFn);else src.once('end', endFn);
-
-  dest.on('unpipe', onunpipe);
-  function onunpipe(readable) {
-    debug('onunpipe');
-    if (readable === src) {
-      cleanup();
+  function ondrain() {
+    if (source.readable && source.resume) {
+      source.resume();
     }
   }
 
+  dest.on('drain', ondrain);
+
+  // If the 'end' option is not supplied, dest.end() will be called when
+  // source gets the 'end' or 'close' events.  Only dest.end() once.
+  if (!dest._isStdio && (!options || options.end !== false)) {
+    source.on('end', onend);
+    source.on('close', onclose);
+  }
+
+  var didOnEnd = false;
   function onend() {
-    debug('onend');
+    if (didOnEnd) return;
+    didOnEnd = true;
+
     dest.end();
   }
 
-  // when the dest drains, it reduces the awaitDrain counter
-  // on the source.  This would be more elegant with a .once()
-  // handler in flow(), but adding and removing repeatedly is
-  // too slow.
-  var ondrain = pipeOnDrain(src);
-  dest.on('drain', ondrain);
 
-  var cleanedUp = false;
-  function cleanup() {
-    debug('cleanup');
-    // cleanup event handlers once the pipe is broken
-    dest.removeListener('close', onclose);
-    dest.removeListener('finish', onfinish);
-    dest.removeListener('drain', ondrain);
-    dest.removeListener('error', onerror);
-    dest.removeListener('unpipe', onunpipe);
-    src.removeListener('end', onend);
-    src.removeListener('end', cleanup);
-    src.removeListener('data', ondata);
+  function onclose() {
+    if (didOnEnd) return;
+    didOnEnd = true;
 
-    cleanedUp = true;
-
-    // if the reader is waiting for a drain event from this
-    // specific writer, then it would cause it to never start
-    // flowing again.
-    // So, if this is awaiting a drain, then we just call it now.
-    // If we don't know, then assume that we are waiting for one.
-    if (state.awaitDrain && (!dest._writableState || dest._writableState.needDrain)) ondrain();
+    if (typeof dest.destroy === 'function') dest.destroy();
   }
 
-  src.on('data', ondata);
-  function ondata(chunk) {
-    debug('ondata');
-    var ret = dest.write(chunk);
-    if (false === ret) {
-      // If the user unpiped during `dest.write()`, it is possible
-      // to get stuck in a permanently paused state if that write
-      // also returned false.
-      // => Check whether `dest` is still a piping destination.
-      if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
-        debug('false write response, pause', src._readableState.awaitDrain);
-        src._readableState.awaitDrain++;
-      }
-      src.pause();
+  // don't leave dangling pipes when there are errors.
+  function onerror(er) {
+    cleanup();
+    if (EE.listenerCount(this, 'error') === 0) {
+      throw er; // Unhandled stream error in pipe.
     }
   }
 
-  // if the dest has an error, then stop piping into it.
-  // however, don't suppress the throwing behavior for this.
-  function onerror(er) {
-    debug('onerror', er);
-    unpipe();
+  source.on('error', onerror);
+  dest.on('error', onerror);
+
+  // remove all the event listeners that were added.
+  function cleanup() {
+    source.removeListener('data', ondata);
+    dest.removeListener('drain', ondrain);
+
+    source.removeListener('end', onend);
+    source.removeListener('close', onclose);
+
+    source.removeListener('error', onerror);
     dest.removeListener('error', onerror);
-    if (EElistenerCount(dest, 'error') === 0) dest.emit('error', er);
+
+    source.removeListener('end', cleanup);
+    source.removeListener('close', cleanup);
+
+    dest.removeListener('close', cleanup);
   }
 
-  // Make sure our error handler is attached before userland ones.
-  prependListener(dest, 'error', onerror);
+  source.on('end', cleanup);
+  source.on('close', cleanup);
 
-  // Both close and finish should trigger unpipe, but only once.
-  function onclose() {
-    dest.removeListener('finish', onfinish);
-    unpipe();
-  }
-  dest.once('close', onclose);
-  function onfinish() {
-    debug('onfinish');
-    dest.removeListener('close', onclose);
-    unpipe();
-  }
-  dest.once('finish', onfinish);
+  dest.on('close', cleanup);
 
-  function unpipe() {
-    debug('unpipe');
-    src.unpipe(dest);
-  }
+  dest.emit('pipe', source);
 
-  // tell the dest that it's being piped to
-  dest.emit('pipe', src);
-
-  // start the flow if it hasn't been started already.
-  if (!state.flowing) {
-    debug('pipe resume');
-    src.resume();
-  }
-
+  // Allow for unix-like usage: A.pipe(B).pipe(C)
   return dest;
 };
 
-function pipeOnDrain(src) {
-  return function () {
-    var state = src._readableState;
-    debug('pipeOnDrain', state.awaitDrain);
-    if (state.awaitDrain) state.awaitDrain--;
-    if (state.awaitDrain === 0 && EElistenerCount(src, 'data')) {
-      state.flowing = true;
-      flow(src);
-    }
-  };
-}
-
-Readable.prototype.unpipe = function (dest) {
-  var state = this._readableState;
-
-  // if we're not piping anywhere, then do nothing.
-  if (state.pipesCount === 0) return this;
-
-  // just one destination.  most common case.
-  if (state.pipesCount === 1) {
-    // passed in one, but it's not the right one.
-    if (dest && dest !== state.pipes) return this;
-
-    if (!dest) dest = state.pipes;
-
-    // got a match.
-    state.pipes = null;
-    state.pipesCount = 0;
-    state.flowing = false;
-    if (dest) dest.emit('unpipe', this);
-    return this;
-  }
-
-  // slow case. multiple pipe destinations.
-
-  if (!dest) {
-    // remove all.
-    var dests = state.pipes;
-    var len = state.pipesCount;
-    state.pipes = null;
-    state.pipesCount = 0;
-    state.flowing = false;
-
-    for (var _i = 0; _i < len; _i++) {
-      dests[_i].emit('unpipe', this);
-    }return this;
-  }
-
-  // try to find the right one.
-  var i = indexOf(state.pipes, dest);
-  if (i === -1) return this;
-
-  state.pipes.splice(i, 1);
-  state.pipesCount -= 1;
-  if (state.pipesCount === 1) state.pipes = state.pipes[0];
-
-  dest.emit('unpipe', this);
-
-  return this;
-};
-
-// set up data events if they are asked for
-// Ensure readable listeners eventually get something
-Readable.prototype.on = function (ev, fn) {
-  var res = Stream.prototype.on.call(this, ev, fn);
-
-  // If listening to data, and it has not explicitly been paused,
-  // then call resume to start the flow of data on the next tick.
-  if (ev === 'data' && false !== this._readableState.flowing) {
-    this.resume();
-  }
-
-  if (ev === 'readable' && !this._readableState.endEmitted) {
-    var state = this._readableState;
-    if (!state.readableListening) {
-      state.readableListening = true;
-      state.emittedReadable = false;
-      state.needReadable = true;
-      if (!state.reading) {
-        processNextTick(nReadingNextTick, this);
-      } else if (state.length) {
-        emitReadable(this, state);
-      }
-    }
-  }
-
-  return res;
-};
-Readable.prototype.addListener = Readable.prototype.on;
-
-function nReadingNextTick(self) {
-  debug('readable nexttick read 0');
-  self.read(0);
-}
-
-// pause() and resume() are remnants of the legacy readable stream API
-// If the user uses them, then switch into old mode.
-Readable.prototype.resume = function () {
-  var state = this._readableState;
-  if (!state.flowing) {
-    debug('resume');
-    state.flowing = true;
-    resume(this, state);
-  }
-  return this;
-};
-
-function resume(stream, state) {
-  if (!state.resumeScheduled) {
-    state.resumeScheduled = true;
-    processNextTick(resume_, stream, state);
-  }
-}
-
-function resume_(stream, state) {
-  if (!state.reading) {
-    debug('resume read 0');
-    stream.read(0);
-  }
-
-  state.resumeScheduled = false;
-  stream.emit('resume');
-  flow(stream);
-  if (state.flowing && !state.reading) stream.read(0);
-}
-
-Readable.prototype.pause = function () {
-  debug('call pause flowing=%j', this._readableState.flowing);
-  if (false !== this._readableState.flowing) {
-    debug('pause');
-    this._readableState.flowing = false;
-    this.emit('pause');
-  }
-  return this;
-};
-
-function flow(stream) {
-  var state = stream._readableState;
-  debug('flow', state.flowing);
-  if (state.flowing) {
-    do {
-      var chunk = stream.read();
-    } while (null !== chunk && state.flowing);
-  }
-}
-
-// wrap an old-style stream as the async data source.
-// This is *not* part of the readable stream interface.
-// It is an ugly unfortunate mess of history.
-Readable.prototype.wrap = function (stream) {
-  var state = this._readableState;
-  var paused = false;
-
-  var self = this;
-  stream.on('end', function () {
-    debug('wrapped end');
-    if (state.decoder && !state.ended) {
-      var chunk = state.decoder.end();
-      if (chunk && chunk.length) self.push(chunk);
-    }
-
-    self.push(null);
-  });
-
-  stream.on('data', function (chunk) {
-    debug('wrapped data');
-    if (state.decoder) chunk = state.decoder.write(chunk);
-
-    // don't skip over falsy values in objectMode
-    if (state.objectMode && (chunk === null || chunk === undefined)) return;else if (!state.objectMode && (!chunk || !chunk.length)) return;
-
-    var ret = self.push(chunk);
-    if (!ret) {
-      paused = true;
-      stream.pause();
-    }
-  });
-
-  // proxy all the other methods.
-  // important when wrapping filters and duplexes.
-  for (var i in stream) {
-    if (this[i] === undefined && typeof stream[i] === 'function') {
-      this[i] = function (method) {
-        return function () {
-          return stream[method].apply(stream, arguments);
-        };
-      }(i);
-    }
-  }
-
-  // proxy certain important events.
-  var events = ['error', 'close', 'destroy', 'pause', 'resume'];
-  forEach(events, function (ev) {
-    stream.on(ev, self.emit.bind(self, ev));
-  });
-
-  // when we try to consume some more bytes, simply unpause the
-  // underlying stream.
-  self._read = function (n) {
-    debug('wrapped _read', n);
-    if (paused) {
-      paused = false;
-      stream.resume();
-    }
-  };
-
-  return self;
-};
-
-// exposed for testing purposes only.
-Readable._fromList = fromList;
-
-// Pluck off n bytes from an array of buffers.
-// Length is the combined lengths of all the buffers in the list.
-function fromList(n, state) {
-  var list = state.buffer;
-  var length = state.length;
-  var stringMode = !!state.decoder;
-  var objectMode = !!state.objectMode;
-  var ret;
-
-  // nothing in the list, definitely empty.
-  if (list.length === 0) return null;
-
-  if (length === 0) ret = null;else if (objectMode) ret = list.shift();else if (!n || n >= length) {
-    // read it all, truncate the array.
-    if (stringMode) ret = list.join('');else if (list.length === 1) ret = list[0];else ret = Buffer.concat(list, length);
-    list.length = 0;
-  } else {
-    // read just some of it.
-    if (n < list[0].length) {
-      // just take a part of the first list item.
-      // slice is the same for buffers and strings.
-      var buf = list[0];
-      ret = buf.slice(0, n);
-      list[0] = buf.slice(n);
-    } else if (n === list[0].length) {
-      // first list is a perfect match
-      ret = list.shift();
-    } else {
-      // complex case.
-      // we have enough to cover it, but it spans past the first buffer.
-      if (stringMode) ret = '';else ret = bufferShim.allocUnsafe(n);
-
-      var c = 0;
-      for (var i = 0, l = list.length; i < l && c < n; i++) {
-        var _buf = list[0];
-        var cpy = Math.min(n - c, _buf.length);
-
-        if (stringMode) ret += _buf.slice(0, cpy);else _buf.copy(ret, c, 0, cpy);
-
-        if (cpy < _buf.length) list[0] = _buf.slice(cpy);else list.shift();
-
-        c += cpy;
-      }
-    }
-  }
-
-  return ret;
-}
-
-function endReadable(stream) {
-  var state = stream._readableState;
-
-  // If we get here before consuming all the bytes, then that is a
-  // bug in node.  Should never happen.
-  if (state.length > 0) throw new Error('"endReadable()" called on non-empty stream');
-
-  if (!state.endEmitted) {
-    state.ended = true;
-    processNextTick(endReadableNT, state, stream);
-  }
-}
-
-function endReadableNT(state, stream) {
-  // Check that we didn't get one last unshift.
-  if (!state.endEmitted && state.length === 0) {
-    state.endEmitted = true;
-    stream.readable = false;
-    stream.emit('end');
-  }
-}
-
-function forEach(xs, f) {
-  for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
-  }
-}
-
-function indexOf(xs, x) {
-  for (var i = 0, l = xs.length; i < l; i++) {
-    if (xs[i] === x) return i;
-  }
-  return -1;
-}
-}).call(this,require('_process'))
-},{"./_stream_duplex":159,"_process":96,"buffer":11,"buffer-shims":138,"core-util-is":140,"events":36,"inherits":157,"isarray":141,"process-nextick-args":166,"string_decoder/":168,"util":9}],162:[function(require,module,exports){
-// a transform stream is a readable/writable stream where you do
-// something with the data.  Sometimes it's called a "filter",
-// but that's not a great name for it, since that implies a thing where
-// some bits pass through, and others are simply ignored.  (That would
-// be a valid example of a transform, of course.)
-//
-// While the output is causally related to the input, it's not a
-// necessarily symmetric or synchronous transformation.  For example,
-// a zlib stream might take multiple plain-text writes(), and then
-// emit a single compressed chunk some time in the future.
-//
-// Here's how this works:
-//
-// The Transform stream has all the aspects of the readable and writable
-// stream classes.  When you write(chunk), that calls _write(chunk,cb)
-// internally, and returns false if there's a lot of pending writes
-// buffered up.  When you call read(), that calls _read(n) until
-// there's enough pending readable data buffered up.
-//
-// In a transform stream, the written data is placed in a buffer.  When
-// _read(n) is called, it transforms the queued up data, calling the
-// buffered _write cb's as it consumes chunks.  If consuming a single
-// written chunk would result in multiple output chunks, then the first
-// outputted bit calls the readcb, and subsequent chunks just go into
-// the read buffer, and will cause it to emit 'readable' if necessary.
-//
-// This way, back-pressure is actually determined by the reading side,
-// since _read has to be called to start processing a new chunk.  However,
-// a pathological inflate type of transform can cause excessive buffering
-// here.  For example, imagine a stream where every byte of input is
-// interpreted as an integer from 0-255, and then results in that many
-// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
-// 1kb of data being output.  In this case, you could write a very small
-// amount of input, and end up with a very large amount of output.  In
-// such a pathological inflating mechanism, there'd be no way to tell
-// the system to stop doing the transform.  A single 4MB write could
-// cause the system to run out of memory.
-//
-// However, even in such a pathological case, only a single written chunk
-// would be consumed, and then the rest would wait (un-transformed) until
-// the results of the previous transformed chunk were consumed.
-
-'use strict';
-
-module.exports = Transform;
-
-var Duplex = require('./_stream_duplex');
-
-/*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
-/*</replacement>*/
-
-util.inherits(Transform, Duplex);
-
-function TransformState(stream) {
-  this.afterTransform = function (er, data) {
-    return afterTransform(stream, er, data);
-  };
-
-  this.needTransform = false;
-  this.transforming = false;
-  this.writecb = null;
-  this.writechunk = null;
-  this.writeencoding = null;
-}
-
-function afterTransform(stream, er, data) {
-  var ts = stream._transformState;
-  ts.transforming = false;
-
-  var cb = ts.writecb;
-
-  if (!cb) return stream.emit('error', new Error('no writecb in Transform class'));
-
-  ts.writechunk = null;
-  ts.writecb = null;
-
-  if (data !== null && data !== undefined) stream.push(data);
-
-  cb(er);
-
-  var rs = stream._readableState;
-  rs.reading = false;
-  if (rs.needReadable || rs.length < rs.highWaterMark) {
-    stream._read(rs.highWaterMark);
-  }
-}
-
-function Transform(options) {
-  if (!(this instanceof Transform)) return new Transform(options);
-
-  Duplex.call(this, options);
-
-  this._transformState = new TransformState(this);
-
-  // when the writable side finishes, then flush out anything remaining.
-  var stream = this;
-
-  // start out asking for a readable event once data is transformed.
-  this._readableState.needReadable = true;
-
-  // we have implemented the _read method, and done the other things
-  // that Readable wants before the first _read call, so unset the
-  // sync guard flag.
-  this._readableState.sync = false;
-
-  if (options) {
-    if (typeof options.transform === 'function') this._transform = options.transform;
-
-    if (typeof options.flush === 'function') this._flush = options.flush;
-  }
-
-  this.once('prefinish', function () {
-    if (typeof this._flush === 'function') this._flush(function (er) {
-      done(stream, er);
-    });else done(stream);
-  });
-}
-
-Transform.prototype.push = function (chunk, encoding) {
-  this._transformState.needTransform = false;
-  return Duplex.prototype.push.call(this, chunk, encoding);
-};
-
-// This is the part where you do stuff!
-// override this function in implementation classes.
-// 'chunk' is an input chunk.
-//
-// Call `push(newChunk)` to pass along transformed output
-// to the readable side.  You may call 'push' zero or more times.
-//
-// Call `cb(err)` when you are done with this chunk.  If you pass
-// an error, then that'll put the hurt on the whole operation.  If you
-// never call cb(), then you'll never get another chunk.
-Transform.prototype._transform = function (chunk, encoding, cb) {
-  throw new Error('Not implemented');
-};
-
-Transform.prototype._write = function (chunk, encoding, cb) {
-  var ts = this._transformState;
-  ts.writecb = cb;
-  ts.writechunk = chunk;
-  ts.writeencoding = encoding;
-  if (!ts.transforming) {
-    var rs = this._readableState;
-    if (ts.needTransform || rs.needReadable || rs.length < rs.highWaterMark) this._read(rs.highWaterMark);
-  }
-};
-
-// Doesn't matter what the args are here.
-// _transform does all the work.
-// That we got here means that the readable side wants more data.
-Transform.prototype._read = function (n) {
-  var ts = this._transformState;
-
-  if (ts.writechunk !== null && ts.writecb && !ts.transforming) {
-    ts.transforming = true;
-    this._transform(ts.writechunk, ts.writeencoding, ts.afterTransform);
-  } else {
-    // mark that we need a transform, so that any data that comes in
-    // will get processed, now that we've asked for it.
-    ts.needTransform = true;
-  }
-};
-
-function done(stream, er) {
-  if (er) return stream.emit('error', er);
-
-  // if there's nothing in the write buffer, then that means
-  // that nothing more will ever be provided
-  var ws = stream._writableState;
-  var ts = stream._transformState;
-
-  if (ws.length) throw new Error('Calling transform done when ws.length != 0');
-
-  if (ts.transforming) throw new Error('Calling transform done when still transforming');
-
-  return stream.push(null);
-}
-},{"./_stream_duplex":159,"core-util-is":140,"inherits":157}],163:[function(require,module,exports){
-(function (process){
-// A bit simpler than readable streams.
-// Implement an async ._write(chunk, encoding, cb), and it'll handle all
-// the drain event emission and buffering.
-
-'use strict';
-
-module.exports = Writable;
-
-/*<replacement>*/
-var processNextTick = require('process-nextick-args');
-/*</replacement>*/
-
-/*<replacement>*/
-var asyncWrite = !process.browser && ['v0.10', 'v0.9.'].indexOf(process.version.slice(0, 5)) > -1 ? setImmediate : processNextTick;
-/*</replacement>*/
-
-Writable.WritableState = WritableState;
-
-/*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
-/*</replacement>*/
-
-/*<replacement>*/
-var internalUtil = {
-  deprecate: require('util-deprecate')
-};
-/*</replacement>*/
-
-/*<replacement>*/
-var Stream;
-(function () {
-  try {
-    Stream = require('st' + 'ream');
-  } catch (_) {} finally {
-    if (!Stream) Stream = require('events').EventEmitter;
-  }
-})();
-/*</replacement>*/
-
-var Buffer = require('buffer').Buffer;
-/*<replacement>*/
-var bufferShim = require('buffer-shims');
-/*</replacement>*/
-
-util.inherits(Writable, Stream);
-
-function nop() {}
-
-function WriteReq(chunk, encoding, cb) {
-  this.chunk = chunk;
-  this.encoding = encoding;
-  this.callback = cb;
-  this.next = null;
-}
-
-var Duplex;
-function WritableState(options, stream) {
-  Duplex = Duplex || require('./_stream_duplex');
-
-  options = options || {};
-
-  // object stream flag to indicate whether or not this stream
-  // contains buffers or objects.
-  this.objectMode = !!options.objectMode;
-
-  if (stream instanceof Duplex) this.objectMode = this.objectMode || !!options.writableObjectMode;
-
-  // the point at which write() starts returning false
-  // Note: 0 is a valid value, means that we always return false if
-  // the entire buffer is not flushed immediately on write()
-  var hwm = options.highWaterMark;
-  var defaultHwm = this.objectMode ? 16 : 16 * 1024;
-  this.highWaterMark = hwm || hwm === 0 ? hwm : defaultHwm;
-
-  // cast to ints.
-  this.highWaterMark = ~ ~this.highWaterMark;
-
-  this.needDrain = false;
-  // at the start of calling end()
-  this.ending = false;
-  // when end() has been called, and returned
-  this.ended = false;
-  // when 'finish' is emitted
-  this.finished = false;
-
-  // should we decode strings into buffers before passing to _write?
-  // this is here so that some node-core streams can optimize string
-  // handling at a lower level.
-  var noDecode = options.decodeStrings === false;
-  this.decodeStrings = !noDecode;
-
-  // Crypto is kind of old and crusty.  Historically, its default string
-  // encoding is 'binary' so we have to make this configurable.
-  // Everything else in the universe uses 'utf8', though.
-  this.defaultEncoding = options.defaultEncoding || 'utf8';
-
-  // not an actual buffer we keep track of, but a measurement
-  // of how much we're waiting to get pushed to some underlying
-  // socket or file.
-  this.length = 0;
-
-  // a flag to see when we're in the middle of a write.
-  this.writing = false;
-
-  // when true all writes will be buffered until .uncork() call
-  this.corked = 0;
-
-  // a flag to be able to tell if the onwrite cb is called immediately,
-  // or on a later tick.  We set this to true at first, because any
-  // actions that shouldn't happen until "later" should generally also
-  // not happen before the first write call.
-  this.sync = true;
-
-  // a flag to know if we're processing previously buffered items, which
-  // may call the _write() callback in the same tick, so that we don't
-  // end up in an overlapped onwrite situation.
-  this.bufferProcessing = false;
-
-  // the callback that's passed to _write(chunk,cb)
-  this.onwrite = function (er) {
-    onwrite(stream, er);
-  };
-
-  // the callback that the user supplies to write(chunk,encoding,cb)
-  this.writecb = null;
-
-  // the amount that is being written when _write is called.
-  this.writelen = 0;
-
-  this.bufferedRequest = null;
-  this.lastBufferedRequest = null;
-
-  // number of pending user-supplied write callbacks
-  // this must be 0 before 'finish' can be emitted
-  this.pendingcb = 0;
-
-  // emit prefinish if the only thing we're waiting for is _write cbs
-  // This is relevant for synchronous Transform streams
-  this.prefinished = false;
-
-  // True if the error was already emitted and should not be thrown again
-  this.errorEmitted = false;
-
-  // count buffered requests
-  this.bufferedRequestCount = 0;
-
-  // allocate the first CorkedRequest, there is always
-  // one allocated and free to use, and we maintain at most two
-  this.corkedRequestsFree = new CorkedRequest(this);
-}
-
-WritableState.prototype.getBuffer = function writableStateGetBuffer() {
-  var current = this.bufferedRequest;
-  var out = [];
-  while (current) {
-    out.push(current);
-    current = current.next;
-  }
-  return out;
-};
-
-(function () {
-  try {
-    Object.defineProperty(WritableState.prototype, 'buffer', {
-      get: internalUtil.deprecate(function () {
-        return this.getBuffer();
-      }, '_writableState.buffer is deprecated. Use _writableState.getBuffer ' + 'instead.')
-    });
-  } catch (_) {}
-})();
-
-var Duplex;
-function Writable(options) {
-  Duplex = Duplex || require('./_stream_duplex');
-
-  // Writable ctor is applied to Duplexes, though they're not
-  // instanceof Writable, they're instanceof Readable.
-  if (!(this instanceof Writable) && !(this instanceof Duplex)) return new Writable(options);
-
-  this._writableState = new WritableState(options, this);
-
-  // legacy.
-  this.writable = true;
-
-  if (options) {
-    if (typeof options.write === 'function') this._write = options.write;
-
-    if (typeof options.writev === 'function') this._writev = options.writev;
-  }
-
-  Stream.call(this);
-}
-
-// Otherwise people can pipe Writable streams, which is just wrong.
-Writable.prototype.pipe = function () {
-  this.emit('error', new Error('Cannot pipe, not readable'));
-};
-
-function writeAfterEnd(stream, cb) {
-  var er = new Error('write after end');
-  // TODO: defer error events consistently everywhere, not just the cb
-  stream.emit('error', er);
-  processNextTick(cb, er);
-}
-
-// If we get something that is not a buffer, string, null, or undefined,
-// and we're not in objectMode, then that's an error.
-// Otherwise stream chunks are all considered to be of length=1, and the
-// watermarks determine how many objects to keep in the buffer, rather than
-// how many bytes or characters.
-function validChunk(stream, state, chunk, cb) {
-  var valid = true;
-  var er = false;
-  // Always throw error if a null is written
-  // if we are not in object mode then throw
-  // if it is not a buffer, string, or undefined.
-  if (chunk === null) {
-    er = new TypeError('May not write null values to stream');
-  } else if (!Buffer.isBuffer(chunk) && typeof chunk !== 'string' && chunk !== undefined && !state.objectMode) {
-    er = new TypeError('Invalid non-string/buffer chunk');
-  }
-  if (er) {
-    stream.emit('error', er);
-    processNextTick(cb, er);
-    valid = false;
-  }
-  return valid;
-}
-
-Writable.prototype.write = function (chunk, encoding, cb) {
-  var state = this._writableState;
-  var ret = false;
-
-  if (typeof encoding === 'function') {
-    cb = encoding;
-    encoding = null;
-  }
-
-  if (Buffer.isBuffer(chunk)) encoding = 'buffer';else if (!encoding) encoding = state.defaultEncoding;
-
-  if (typeof cb !== 'function') cb = nop;
-
-  if (state.ended) writeAfterEnd(this, cb);else if (validChunk(this, state, chunk, cb)) {
-    state.pendingcb++;
-    ret = writeOrBuffer(this, state, chunk, encoding, cb);
-  }
-
-  return ret;
-};
-
-Writable.prototype.cork = function () {
-  var state = this._writableState;
-
-  state.corked++;
-};
-
-Writable.prototype.uncork = function () {
-  var state = this._writableState;
-
-  if (state.corked) {
-    state.corked--;
-
-    if (!state.writing && !state.corked && !state.finished && !state.bufferProcessing && state.bufferedRequest) clearBuffer(this, state);
-  }
-};
-
-Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
-  // node::ParseEncoding() requires lower case.
-  if (typeof encoding === 'string') encoding = encoding.toLowerCase();
-  if (!(['hex', 'utf8', 'utf-8', 'ascii', 'binary', 'base64', 'ucs2', 'ucs-2', 'utf16le', 'utf-16le', 'raw'].indexOf((encoding + '').toLowerCase()) > -1)) throw new TypeError('Unknown encoding: ' + encoding);
-  this._writableState.defaultEncoding = encoding;
-  return this;
-};
-
-function decodeChunk(state, chunk, encoding) {
-  if (!state.objectMode && state.decodeStrings !== false && typeof chunk === 'string') {
-    chunk = bufferShim.from(chunk, encoding);
-  }
-  return chunk;
-}
-
-// if we're already writing something, then just put this
-// in the queue, and wait our turn.  Otherwise, call _write
-// If we return false, then we need a drain event, so set that flag.
-function writeOrBuffer(stream, state, chunk, encoding, cb) {
-  chunk = decodeChunk(state, chunk, encoding);
-
-  if (Buffer.isBuffer(chunk)) encoding = 'buffer';
-  var len = state.objectMode ? 1 : chunk.length;
-
-  state.length += len;
-
-  var ret = state.length < state.highWaterMark;
-  // we must ensure that previous needDrain will not be reset to false.
-  if (!ret) state.needDrain = true;
-
-  if (state.writing || state.corked) {
-    var last = state.lastBufferedRequest;
-    state.lastBufferedRequest = new WriteReq(chunk, encoding, cb);
-    if (last) {
-      last.next = state.lastBufferedRequest;
-    } else {
-      state.bufferedRequest = state.lastBufferedRequest;
-    }
-    state.bufferedRequestCount += 1;
-  } else {
-    doWrite(stream, state, false, len, chunk, encoding, cb);
-  }
-
-  return ret;
-}
-
-function doWrite(stream, state, writev, len, chunk, encoding, cb) {
-  state.writelen = len;
-  state.writecb = cb;
-  state.writing = true;
-  state.sync = true;
-  if (writev) stream._writev(chunk, state.onwrite);else stream._write(chunk, encoding, state.onwrite);
-  state.sync = false;
-}
-
-function onwriteError(stream, state, sync, er, cb) {
-  --state.pendingcb;
-  if (sync) processNextTick(cb, er);else cb(er);
-
-  stream._writableState.errorEmitted = true;
-  stream.emit('error', er);
-}
-
-function onwriteStateUpdate(state) {
-  state.writing = false;
-  state.writecb = null;
-  state.length -= state.writelen;
-  state.writelen = 0;
-}
-
-function onwrite(stream, er) {
-  var state = stream._writableState;
-  var sync = state.sync;
-  var cb = state.writecb;
-
-  onwriteStateUpdate(state);
-
-  if (er) onwriteError(stream, state, sync, er, cb);else {
-    // Check if we're actually ready to finish, but don't emit yet
-    var finished = needFinish(state);
-
-    if (!finished && !state.corked && !state.bufferProcessing && state.bufferedRequest) {
-      clearBuffer(stream, state);
-    }
-
-    if (sync) {
-      /*<replacement>*/
-      asyncWrite(afterWrite, stream, state, finished, cb);
-      /*</replacement>*/
-    } else {
-        afterWrite(stream, state, finished, cb);
-      }
-  }
-}
-
-function afterWrite(stream, state, finished, cb) {
-  if (!finished) onwriteDrain(stream, state);
-  state.pendingcb--;
-  cb();
-  finishMaybe(stream, state);
-}
-
-// Must force callback to be called on nextTick, so that we don't
-// emit 'drain' before the write() consumer gets the 'false' return
-// value, and has a chance to attach a 'drain' listener.
-function onwriteDrain(stream, state) {
-  if (state.length === 0 && state.needDrain) {
-    state.needDrain = false;
-    stream.emit('drain');
-  }
-}
-
-// if there's something in the buffer waiting, then process it
-function clearBuffer(stream, state) {
-  state.bufferProcessing = true;
-  var entry = state.bufferedRequest;
-
-  if (stream._writev && entry && entry.next) {
-    // Fast case, write everything using _writev()
-    var l = state.bufferedRequestCount;
-    var buffer = new Array(l);
-    var holder = state.corkedRequestsFree;
-    holder.entry = entry;
-
-    var count = 0;
-    while (entry) {
-      buffer[count] = entry;
-      entry = entry.next;
-      count += 1;
-    }
-
-    doWrite(stream, state, true, state.length, buffer, '', holder.finish);
-
-    // doWrite is almost always async, defer these to save a bit of time
-    // as the hot path ends with doWrite
-    state.pendingcb++;
-    state.lastBufferedRequest = null;
-    if (holder.next) {
-      state.corkedRequestsFree = holder.next;
-      holder.next = null;
-    } else {
-      state.corkedRequestsFree = new CorkedRequest(state);
-    }
-  } else {
-    // Slow case, write chunks one-by-one
-    while (entry) {
-      var chunk = entry.chunk;
-      var encoding = entry.encoding;
-      var cb = entry.callback;
-      var len = state.objectMode ? 1 : chunk.length;
-
-      doWrite(stream, state, false, len, chunk, encoding, cb);
-      entry = entry.next;
-      // if we didn't call the onwrite immediately, then
-      // it means that we need to wait until it does.
-      // also, that means that the chunk and cb are currently
-      // being processed, so move the buffer counter past them.
-      if (state.writing) {
-        break;
-      }
-    }
-
-    if (entry === null) state.lastBufferedRequest = null;
-  }
-
-  state.bufferedRequestCount = 0;
-  state.bufferedRequest = entry;
-  state.bufferProcessing = false;
-}
-
-Writable.prototype._write = function (chunk, encoding, cb) {
-  cb(new Error('not implemented'));
-};
-
-Writable.prototype._writev = null;
-
-Writable.prototype.end = function (chunk, encoding, cb) {
-  var state = this._writableState;
-
-  if (typeof chunk === 'function') {
-    cb = chunk;
-    chunk = null;
-    encoding = null;
-  } else if (typeof encoding === 'function') {
-    cb = encoding;
-    encoding = null;
-  }
-
-  if (chunk !== null && chunk !== undefined) this.write(chunk, encoding);
-
-  // .end() fully uncorks
-  if (state.corked) {
-    state.corked = 1;
-    this.uncork();
-  }
-
-  // ignore unnecessary end() calls.
-  if (!state.ending && !state.finished) endWritable(this, state, cb);
-};
-
-function needFinish(state) {
-  return state.ending && state.length === 0 && state.bufferedRequest === null && !state.finished && !state.writing;
-}
-
-function prefinish(stream, state) {
-  if (!state.prefinished) {
-    state.prefinished = true;
-    stream.emit('prefinish');
-  }
-}
-
-function finishMaybe(stream, state) {
-  var need = needFinish(state);
-  if (need) {
-    if (state.pendingcb === 0) {
-      prefinish(stream, state);
-      state.finished = true;
-      stream.emit('finish');
-    } else {
-      prefinish(stream, state);
-    }
-  }
-  return need;
-}
-
-function endWritable(stream, state, cb) {
-  state.ending = true;
-  finishMaybe(stream, state);
-  if (cb) {
-    if (state.finished) processNextTick(cb);else stream.once('finish', cb);
-  }
-  state.ended = true;
-  stream.writable = false;
-}
-
-// It seems a linked list but it is not
-// there will be only 2 of these for each stream
-function CorkedRequest(state) {
-  var _this = this;
-
-  this.next = null;
-  this.entry = null;
-
-  this.finish = function (err) {
-    var entry = _this.entry;
-    _this.entry = null;
-    while (entry) {
-      var cb = entry.callback;
-      state.pendingcb--;
-      cb(err);
-      entry = entry.next;
-    }
-    if (state.corkedRequestsFree) {
-      state.corkedRequestsFree.next = _this;
-    } else {
-      state.corkedRequestsFree = _this;
-    }
-  };
-}
-}).call(this,require('_process'))
-},{"./_stream_duplex":159,"_process":96,"buffer":11,"buffer-shims":138,"core-util-is":140,"events":36,"inherits":157,"process-nextick-args":166,"util-deprecate":169}],164:[function(require,module,exports){
-arguments[4][113][0].apply(exports,arguments)
-},{"./lib/_stream_duplex.js":159,"./lib/_stream_passthrough.js":160,"./lib/_stream_readable.js":161,"./lib/_stream_transform.js":162,"./lib/_stream_writable.js":163,"_process":96,"dup":113}],165:[function(require,module,exports){
-'use strict';
-module.exports = SortedArray
-var search = require('binary-search')
-
-function SortedArray(cmp, arr) {
-  if (typeof cmp != 'function')
-    throw new TypeError('comparator must be a function')
-
-  this.arr = arr || []
-  this.cmp = cmp
-}
-
-SortedArray.prototype.insert = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  if (index < 0)
-    index = ~index
-
-  this.arr.splice(index, 0, element)
-}
-
-SortedArray.prototype.indexOf = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  return index >= 0
-    ? index
-    : -1
-}
-
-SortedArray.prototype.remove = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  if (index < 0)
-    return false
-
-  this.arr.splice(index, 1)
-  return true
-}
-
-},{"binary-search":137}],166:[function(require,module,exports){
-arguments[4][95][0].apply(exports,arguments)
-},{"_process":96,"dup":95}],167:[function(require,module,exports){
-arguments[4][165][0].apply(exports,arguments)
-},{"binary-search":137,"dup":165}],168:[function(require,module,exports){
+},{"events":36,"inherits":52,"readable-stream/duplex.js":104,"readable-stream/passthrough.js":112,"readable-stream/readable.js":113,"readable-stream/transform.js":114,"readable-stream/writable.js":115}],133:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -41525,244 +37706,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":11}],169:[function(require,module,exports){
-(function (global){
-
-/**
- * Module exports.
- */
-
-module.exports = deprecate;
-
-/**
- * Mark that a method should not be used.
- * Returns a modified function which warns once by default.
- *
- * If `localStorage.noDeprecation = true` is set, then it is a no-op.
- *
- * If `localStorage.throwDeprecation = true` is set, then deprecated functions
- * will throw an Error when invoked.
- *
- * If `localStorage.traceDeprecation = true` is set, then deprecated functions
- * will invoke `console.trace()` instead of `console.error()`.
- *
- * @param {Function} fn - the function to deprecate
- * @param {String} msg - the string to print to the console when `fn` is invoked
- * @returns {Function} a new "deprecated" version of `fn`
- * @api public
- */
-
-function deprecate (fn, msg) {
-  if (config('noDeprecation')) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (config('throwDeprecation')) {
-        throw new Error(msg);
-      } else if (config('traceDeprecation')) {
-        console.trace(msg);
-      } else {
-        console.warn(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-}
-
-/**
- * Checks `localStorage` for boolean values for the given `name`.
- *
- * @param {String} name
- * @returns {Boolean}
- * @api private
- */
-
-function config (name) {
-  // accessing global.localStorage can trigger a DOMException in sandboxed iframes
-  try {
-    if (!global.localStorage) return false;
-  } catch (_) {
-    return false;
-  }
-  var val = global.localStorage[name];
-  if (null == val) return false;
-  return String(val).toLowerCase() === 'true';
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],170:[function(require,module,exports){
-// Returns a wrapper function that returns a wrapped callback
-// The wrapper function should do some stuff, and return a
-// presumably different callback function.
-// This makes sure that own properties are retained, so that
-// decorations and such are not lost along the way.
-module.exports = wrappy
-function wrappy (fn, cb) {
-  if (fn && cb) return wrappy(fn)(cb)
-
-  if (typeof fn !== 'function')
-    throw new TypeError('need wrapper function')
-
-  Object.keys(fn).forEach(function (k) {
-    wrapper[k] = fn[k]
-  })
-
-  return wrapper
-
-  function wrapper() {
-    var args = new Array(arguments.length)
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i]
-    }
-    var ret = fn.apply(this, args)
-    var cb = args[args.length-1]
-    if (typeof ret === 'function' && ret !== cb) {
-      Object.keys(cb).forEach(function (k) {
-        ret[k] = cb[k]
-      })
-    }
-    return ret
-  }
-}
-
-},{}],171:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-module.exports = Stream;
-
-var EE = require('events').EventEmitter;
-var inherits = require('inherits');
-
-inherits(Stream, EE);
-Stream.Readable = require('readable-stream/readable.js');
-Stream.Writable = require('readable-stream/writable.js');
-Stream.Duplex = require('readable-stream/duplex.js');
-Stream.Transform = require('readable-stream/transform.js');
-Stream.PassThrough = require('readable-stream/passthrough.js');
-
-// Backwards-compat with node 0.4.x
-Stream.Stream = Stream;
-
-
-
-// old-style streams.  Note that the pipe method (the only relevant
-// part of this class) is overridden in the Readable class.
-
-function Stream() {
-  EE.call(this);
-}
-
-Stream.prototype.pipe = function(dest, options) {
-  var source = this;
-
-  function ondata(chunk) {
-    if (dest.writable) {
-      if (false === dest.write(chunk) && source.pause) {
-        source.pause();
-      }
-    }
-  }
-
-  source.on('data', ondata);
-
-  function ondrain() {
-    if (source.readable && source.resume) {
-      source.resume();
-    }
-  }
-
-  dest.on('drain', ondrain);
-
-  // If the 'end' option is not supplied, dest.end() will be called when
-  // source gets the 'end' or 'close' events.  Only dest.end() once.
-  if (!dest._isStdio && (!options || options.end !== false)) {
-    source.on('end', onend);
-    source.on('close', onclose);
-  }
-
-  var didOnEnd = false;
-  function onend() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    dest.end();
-  }
-
-
-  function onclose() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    if (typeof dest.destroy === 'function') dest.destroy();
-  }
-
-  // don't leave dangling pipes when there are errors.
-  function onerror(er) {
-    cleanup();
-    if (EE.listenerCount(this, 'error') === 0) {
-      throw er; // Unhandled stream error in pipe.
-    }
-  }
-
-  source.on('error', onerror);
-  dest.on('error', onerror);
-
-  // remove all the event listeners that were added.
-  function cleanup() {
-    source.removeListener('data', ondata);
-    dest.removeListener('drain', ondrain);
-
-    source.removeListener('end', onend);
-    source.removeListener('close', onclose);
-
-    source.removeListener('error', onerror);
-    dest.removeListener('error', onerror);
-
-    source.removeListener('end', cleanup);
-    source.removeListener('close', cleanup);
-
-    dest.removeListener('close', cleanup);
-  }
-
-  source.on('end', cleanup);
-  source.on('close', cleanup);
-
-  dest.on('close', cleanup);
-
-  dest.emit('pipe', source);
-
-  // Allow for unix-like usage: A.pipe(B).pipe(C)
-  return dest;
-};
-
-},{"events":36,"inherits":52,"readable-stream/duplex.js":104,"readable-stream/passthrough.js":112,"readable-stream/readable.js":113,"readable-stream/transform.js":114,"readable-stream/writable.js":115}],172:[function(require,module,exports){
-arguments[4][168][0].apply(exports,arguments)
-},{"buffer":11,"dup":168}],173:[function(require,module,exports){
+},{"buffer":11}],134:[function(require,module,exports){
 module.exports = toArray
 
 function toArray(list, index) {
@@ -41777,11 +37721,11 @@ function toArray(list, index) {
     return array
 }
 
-},{}],174:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 arguments[4][16][0].apply(exports,arguments)
-},{"dup":16}],175:[function(require,module,exports){
+},{"dup":16}],136:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./messages":174,"dup":17,"events":36,"util":181}],176:[function(require,module,exports){
+},{"./messages":135,"dup":17,"events":36,"util":142}],137:[function(require,module,exports){
 (function (global){
 /*global unescape, module, define, window, global*/
 
@@ -42670,7 +38614,7 @@ var UriTemplate = (function () {
 ));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],177:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -43404,7 +39348,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":178,"punycode":99,"querystring":103}],178:[function(require,module,exports){
+},{"./util":139,"punycode":99,"querystring":103}],139:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -43422,16 +39366,85 @@ module.exports = {
   }
 };
 
-},{}],179:[function(require,module,exports){
-arguments[4][169][0].apply(exports,arguments)
-},{"dup":169}],180:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
+(function (global){
+
+/**
+ * Module exports.
+ */
+
+module.exports = deprecate;
+
+/**
+ * Mark that a method should not be used.
+ * Returns a modified function which warns once by default.
+ *
+ * If `localStorage.noDeprecation = true` is set, then it is a no-op.
+ *
+ * If `localStorage.throwDeprecation = true` is set, then deprecated functions
+ * will throw an Error when invoked.
+ *
+ * If `localStorage.traceDeprecation = true` is set, then deprecated functions
+ * will invoke `console.trace()` instead of `console.error()`.
+ *
+ * @param {Function} fn - the function to deprecate
+ * @param {String} msg - the string to print to the console when `fn` is invoked
+ * @returns {Function} a new "deprecated" version of `fn`
+ * @api public
+ */
+
+function deprecate (fn, msg) {
+  if (config('noDeprecation')) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (config('throwDeprecation')) {
+        throw new Error(msg);
+      } else if (config('traceDeprecation')) {
+        console.trace(msg);
+      } else {
+        console.warn(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+}
+
+/**
+ * Checks `localStorage` for boolean values for the given `name`.
+ *
+ * @param {String} name
+ * @returns {Boolean}
+ * @api private
+ */
+
+function config (name) {
+  // accessing global.localStorage can trigger a DOMException in sandboxed iframes
+  try {
+    if (!global.localStorage) return false;
+  } catch (_) {
+    return false;
+  }
+  var val = global.localStorage[name];
+  if (null == val) return false;
+  return String(val).toLowerCase() === 'true';
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],141:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],181:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -44021,7 +40034,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":180,"_process":96,"inherits":52}],182:[function(require,module,exports){
+},{"./support/isBuffer":141,"_process":96,"inherits":52}],143:[function(require,module,exports){
 var SortedArray = require('sorted-cmp-array');
 var Comparator = require('./vvweentry.js').Comparator;
 var VVwEEntry = require('./vvweentry.js');
@@ -44168,7 +40181,7 @@ VVwE.prototype.merge = function(other){
 module.exports = VVwE;
 
 
-},{"./vvweentry.js":183,"sorted-cmp-array":184}],183:[function(require,module,exports){
+},{"./vvweentry.js":144,"sorted-cmp-array":145}],144:[function(require,module,exports){
 
 /*!
   \brief create an entry of the version vector with exceptions containing the
@@ -44232,11 +40245,89 @@ function Comparator (a, b){
 module.exports = VVwEEntry;
 module.exports.Comparator = Comparator;
 
-},{}],184:[function(require,module,exports){
-arguments[4][165][0].apply(exports,arguments)
-},{"binary-search":185,"dup":165}],185:[function(require,module,exports){
-arguments[4][137][0].apply(exports,arguments)
-},{"dup":137}],186:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
+'use strict';
+module.exports = SortedArray
+var search = require('binary-search')
+
+function SortedArray(cmp, arr) {
+  if (typeof cmp != 'function')
+    throw new TypeError('comparator must be a function')
+
+  this.arr = arr || []
+  this.cmp = cmp
+}
+
+SortedArray.prototype.insert = function(element) {
+  var index = search(this.arr, element, this.cmp)
+  if (index < 0)
+    index = ~index
+
+  this.arr.splice(index, 0, element)
+}
+
+SortedArray.prototype.indexOf = function(element) {
+  var index = search(this.arr, element, this.cmp)
+  return index >= 0
+    ? index
+    : -1
+}
+
+SortedArray.prototype.remove = function(element) {
+  var index = search(this.arr, element, this.cmp)
+  if (index < 0)
+    return false
+
+  this.arr.splice(index, 1)
+  return true
+}
+
+},{"binary-search":146}],146:[function(require,module,exports){
+module.exports = function(haystack, needle, comparator, low, high) {
+  var mid, cmp;
+
+  if(low === undefined)
+    low = 0;
+
+  else {
+    low = low|0;
+    if(low < 0 || low >= haystack.length)
+      throw new RangeError("invalid lower bound");
+  }
+
+  if(high === undefined)
+    high = haystack.length - 1;
+
+  else {
+    high = high|0;
+    if(high < low || high >= haystack.length)
+      throw new RangeError("invalid upper bound");
+  }
+
+  while(low <= high) {
+    /* Note that "(low + high) >>> 1" may overflow, and results in a typecast
+     * to double (which gives the wrong results). */
+    mid = low + (high - low >> 1);
+    cmp = +comparator(haystack[mid], needle);
+
+    /* Too low. */
+    if(cmp < 0.0) 
+      low  = mid + 1;
+
+    /* Too high. */
+    else if(cmp > 0.0)
+      high = mid - 1;
+    
+    /* Key found. */
+    else
+      return mid;
+  }
+
+  /* Key not found. */
+  return ~low;
+}
+
+},{}],147:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/wtf8 v1.0.0 by @mathias */
 ;(function(root) {
@@ -44474,7 +40565,7 @@ arguments[4][137][0].apply(exports,arguments)
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],187:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -44495,7 +40586,7 @@ function extend() {
     return target
 }
 
-},{}],188:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 module.exports = Yallist
 
 Yallist.Node = Node
@@ -44857,7 +40948,7 @@ function Node (value, prev, next, list) {
   }
 }
 
-},{}],189:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 'use strict';
 
 var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
@@ -44927,7 +41018,7 @@ yeast.encode = encode;
 yeast.decode = decode;
 module.exports = yeast;
 
-},{}],190:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 /*
 MIT License
 
@@ -45016,7 +41107,267 @@ class DelegationProtocol {
 
 module.exports = DelegationProtocol;
 
-},{"q":100}],191:[function(require,module,exports){
+},{"q":100}],152:[function(require,module,exports){
+/*
+MIT License
+
+Copyright (c) 2017 Grall Arnaud
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+'use strict';
+
+const Q = require('q');
+const Immutable = require('immutable');
+const ldf = require('ldf-client');
+const DelegationProtocol = require('./delegation-protocol.js');
+const NDPMessage = require('./ndp-message.js');
+
+// LDF LOG Disabling
+ldf.Logger.setLevel('EMERGENCY');
+
+/**
+ * Ladda delegation protocol
+ * @extends DelegationProtocol
+ * @author Arnaud Grall (Folkvir), Thomas Minier
+ */
+class LaddaProtocol extends DelegationProtocol {
+	/**
+  * Constructor
+  * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2)
+  */
+	constructor(nbDestinations) {
+		super('ladda');
+		this.queryQueue = Immutable.List();
+		this.busyPeers = Immutable.Set();
+		this.isFree = true;
+		this.nbDestinations = nbDestinations || 2;
+	}
+
+	/**
+  * Set the foglet used by the protocol and configure how to handle incoming messages
+  * @param {NDP} foglet - The foglet used by the delegation protocol
+  * @return {void}
+  * @override
+  */
+	use(foglet) {
+		super.use(foglet);
+		const self = this;
+		this.foglet.onUnicast((id, message) => {
+			switch (message.type) {
+				case 'request':
+					{
+						self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' received a query to execute from : @' + id);
+						if (!this.isFree) {
+							self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
+							const msg = new NDPMessage({
+								type: 'failed',
+								id,
+								payload: message.payload,
+								endpoint: message.endpoint
+							});
+							self.foglet._flog(msg);
+							self.foglet.sendUnicast(msg, id);
+						} else {
+							self.isFree = false;
+							const query = message.payload;
+							self.execute(query, message.endpoint).then(result => {
+								self.isFree = true;
+								const msg = new NDPMessage({
+									type: 'answer',
+									id: this.foglet.id,
+									payload: result,
+									query: query,
+									endpoint: message.endpoint
+								});
+								self.foglet._flog(msg);
+								self.foglet.sendUnicast(msg, id);
+							}).catch(error => {
+								self.isFree = true;
+								self.foglet._flog('@LADDA - Error : ' + error);
+							});
+						}
+						break;
+					}
+				case 'answer':
+					{
+						try {
+							self.foglet._flog('@LADDA : Received an answer from ' + message.id);
+							this.busyPeers = this.busyPeers.delete(id);
+							self.foglet.events.emit('ndp-answer', message);
+							// retry delegation if there's queries in the queue
+							if (this.queryQueue.count() > 0) this.delegateQueries(message.endpoint);
+						} catch (e) {
+							self.foglet._flog('@NDP : error ' + e);
+						}
+						break;
+					}
+				case 'failed':
+					{
+						self.foglet._flog('@LADDA : failed query from ' + message.id);
+						this.queryQueue = this.queryQueue.push(message.payload);
+						this.busyPeers = this.busyPeers.delete(id);
+						if (this.isFree) this.delegateQueries(message.endpoint);
+						break;
+					}
+				default:
+					break;
+			}
+		});
+	}
+
+	/**
+  * Send queries to neighbours and emit results on ndp-answer
+  * @param {array} data array of element to send (query)
+  * @param {string} endpoint - Endpoint to send queries
+  * @return {promise} A Q promise
+  */
+	send(data, endpoint) {
+		data.forEach(query => this.queryQueue = this.queryQueue.push(query));
+		return this.delegateQueries(endpoint);
+	}
+
+	/**
+  * Perform delegation using Ladda algorithm
+  * @param {string} endpoint - The LDF-server on which queries will be evaluated
+  * @return {Q.Promise} A Q Promise fullfilled when delegation is complete
+  */
+	delegateQueries(endpoint) {
+		this.foglet._flog('@LADDA - beginning delegation');
+		return Q.Promise((resolve, reject) => {
+			try {
+				if (this.queryQueue.count() > 0) {
+					this.foglet._flog('@LADDA - queue not empty, try to delegate to me first');
+					if (this.isFree) {
+						this.isFree = false;
+						this.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' (client) will execute one query');
+						const query = this.queryQueue.first();
+						this.foglet._flog('@LADDA - selected query:' + query);
+						this.queryQueue = this.queryQueue.shift(0);
+						this.execute(query, endpoint).then(result => {
+							this.isFree = true;
+							const msg = new NDPMessage({
+								type: 'answer',
+								id: 'me',
+								payload: result,
+								query,
+								endpoint
+							});
+							this.foglet._flog('@LADDA - client finished query');
+							this.emit('ndp-answer', msg);
+							// retry delegation if there's queries in the queue
+							if (this.queryQueue.count() > 0) this.delegateQueries(endpoint);
+						});
+					}
+					this.foglet._flog('@LADDA - trying to delegate to peers');
+					if (this.queryQueue.count() > 0) {
+						// delegate queries to peers
+						const peers = this._choosePeers();
+						this.foglet._flog('@LADDA - chosen peers: ' + peers);
+						peers.forEach(peer => {
+							if (this.queryQueue.count() > 0) {
+								const query = this.queryQueue.first();
+								this.foglet._flog('@LADDA - delegate ' + query + ' to peer @' + peer);
+								this.queryQueue = this.queryQueue.shift(0);
+								// mark the peer as 'busy'
+								this.busyPeers = this.busyPeers.add(peer);
+								this.foglet.sendUnicast(new NDPMessage({
+									type: 'request',
+									id: peer,
+									payload: query,
+									endpoint
+								}), peer);
+							}
+						});
+					}
+				}
+				resolve('delegation done');
+			} catch (e) {
+				reject(e);
+			}
+		});
+	}
+
+	/**
+  * Execute one query on an endpoint using ldf-client
+  * @param {string} query - The query to execute
+  * @param {string} endpoint - Endpoint to process queries
+  * @return {Promise} A Promise with results as reponse
+  */
+	execute(query, endpoint) {
+		this.foglet._flog(' Execution of : ' + query + ' on ' + endpoint);
+		let delegationResults = Immutable.List();
+		const self = this;
+
+		return Q.Promise((resolve, reject) => {
+			try {
+				let fragmentsClient = new ldf.FragmentsClient(endpoint);
+				let queryResults = new ldf.SparqlIterator(query, { fragmentsClient });
+
+				queryResults.on('data', ldfResult => delegationResults = delegationResults.push(ldfResult));
+				// resolve when all results are arrived
+				queryResults.on('end', () => {
+					self.isFree = true;
+					resolve(delegationResults.toJS());
+				}); /* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
+
+	/**
+  * Choose non-busy peers fro query delegation
+  * @return {Immutable.Set} A set of peers selected for delegation
+  */
+	_choosePeers() {
+		let chosenPeers = Immutable.Set();
+		let _peers = Immutable.Set();
+		// gather non-busy peers
+		_peers = _peers.union(this.foglet.spray.getPeers(this.foglet.maxPeers).i);
+		_peers = _peers.subtract(this.busyPeers).toList();
+		let index = 0;
+		// random selection beytween non-busy peers (as in LADDA algorithm)
+		while (chosenPeers.count() < this.nbDestinations && _peers.count() > 0) {
+			index = this._randomInt(0, _peers.count());
+			chosenPeers = chosenPeers.add(_peers.get(index));
+			_peers = _peers.remove(index);
+		}
+		return chosenPeers;
+	}
+
+	/**
+  * Pick a random int between two values
+  * @param {int} min - The lower bound
+  * @param {int} max - The upper bound (excluded)
+  * @return {int} A random int between min and max (excluded)
+  */
+	_randomInt(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min)) + min;
+	}
+}
+
+module.exports = LaddaProtocol;
+
+},{"./delegation-protocol.js":151,"./ndp-message.js":153,"immutable":50,"ldf-client":56,"q":100}],153:[function(require,module,exports){
 /*
 MIT License
 
@@ -45067,7 +41418,7 @@ class NDPMessage {
 
 module.exports = NDPMessage;
 
-},{}],192:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 /*
 MIT License
 
@@ -45094,8 +41445,6 @@ SOFTWARE.
 'use strict';
 
 const EventEmitter = require('events');
-const VVwE = require('version-vector-with-exceptions');
-const Unicast = require('unicast-definition');
 const Foglet = require('foglet-core');
 const RoundRobinProtocol = require('./round-robin-protocol.js');
 
@@ -45114,18 +41463,20 @@ class NDP extends Foglet {
   * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link RoundRobinProtocol}
   */
 	constructor(options) {
-		if (options === undefined || options.spray === undefined || options.protocol === undefined) {
+		if (options === undefined || options.spray === undefined || options.spray.protocol === undefined) {
 			throw new Error('Missing options', 'ndp.js');
 		}
 		super(options);
 		this.options = options;
-		this.vector = new VVwE(Number.MAX_VALUE);
-		this.unicast = new Unicast(this.spray, this.protocol + '-unicast');
 		this.events = new EventEmitter();
 		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
-		this.delegationProtocol.use(this);
 
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
+	}
+
+	init() {
+		super.init();
+		this.delegationProtocol.use(this);
 	}
 
 	/**
@@ -45141,7 +41492,7 @@ class NDP extends Foglet {
 
 module.exports = NDP;
 
-},{"./round-robin-protocol.js":193,"events":36,"foglet-core":38,"unicast-definition":175,"version-vector-with-exceptions":182}],193:[function(require,module,exports){
+},{"./round-robin-protocol.js":155,"events":36,"foglet-core":38}],155:[function(require,module,exports){
 /*
 MIT License
 
@@ -45189,7 +41540,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 	use(foglet) {
 		super.use(foglet);
 		const self = this;
-		this.foglet.unicast.on('receive', (id, message) => {
+		this.foglet.onUnicast((id, message) => {
 			if (message.type === 'request') {
 				self.foglet._flog(' You received queries to execute from : @' + id);
 				self.execute(message.payload, message.endpoint).then(result => {
@@ -45199,7 +41550,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 						payload: result
 					});
 					self.foglet._flog(msg);
-					self.foglet.unicast.send(msg, id);
+					this.foglet.sendUnicast(msg, id);
 				}).catch(error => {
 					self.foglet._flog('Error : ' + error);
 				});
@@ -45243,7 +41594,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 							payload: dividedData.get(cpt).toJS(),
 							endpoint
 						});
-						self.foglet.unicast.send(msg, peers.i[k]);
+						this.foglet.sendUnicast(msg, peers.i[k]);
 						++cpt;
 					}
 
@@ -45334,7 +41685,7 @@ class RoundRobinProtocol extends DelegationProtocol {
 
 module.exports = RoundRobinProtocol;
 
-},{"./delegation-protocol.js":190,"./ndp-message.js":191,"immutable":50,"ldf-client":56,"q":100}],"foglet-ndp":[function(require,module,exports){
+},{"./delegation-protocol.js":151,"./ndp-message.js":153,"immutable":50,"ldf-client":56,"q":100}],"foglet-ndp":[function(require,module,exports){
 /*
 MIT License
 
@@ -45362,10 +41713,12 @@ SOFTWARE.
 
 const NDP = require('./src/ndp.js');
 const DelegationProtocol = require('./src/delegation-protocol.js');
+const LaddaProtocol = require('./src/ladda-protocol.js');
 
 module.exports = {
 	NDP,
-	DelegationProtocol
+	DelegationProtocol,
+	LaddaProtocol
 };
 
-},{"./src/delegation-protocol.js":190,"./src/ndp.js":192}]},{},[]);
+},{"./src/delegation-protocol.js":151,"./src/ladda-protocol.js":152,"./src/ndp.js":154}]},{},[]);
