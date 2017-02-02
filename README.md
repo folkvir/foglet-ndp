@@ -1,5 +1,5 @@
 # Foglet - Neighbours Delegated Protocol (NDP)
-[![Build Status](https://travis-ci.org/folkvir/foglet-ndp.svg?branch=master)](https://travis-ci.org/folkvir/foglet-core) [![Coverage Status](https://coveralls.io/repos/github/folkvir/foglet-ndp/badge.svg?branch=master)](https://coveralls.io/github/folkvir/foglet-ndp?branch=master) [![XirSys WebRTC Cloud Support](https://img.shields.io/badge/XirSys%20Cloud-used-blue.svg)](http://xirsys.com/)
+[![Build Status](https://travis-ci.org/folkvir/foglet-ndp.svg?branch=master)](https://travis-ci.org/folkvir/foglet-ndp) [![Coverage Status](https://coveralls.io/repos/github/folkvir/foglet-ndp/badge.svg?branch=master)](https://coveralls.io/github/folkvir/foglet-ndp?branch=master) [![XirSys WebRTC Cloud Support](https://img.shields.io/badge/XirSys%20Cloud-used-blue.svg)](http://xirsys.com/)
 
 Keywords: Simple Neighbours delegated protocol, Random peer sampling, adaptive, browser-to-browser communication, WebRTC
 
