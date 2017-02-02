@@ -46,7 +46,7 @@ class NDP extends Foglet {
 			throw new Error('Missing options', 'ndp.js');
 		}
 		super(options);
-		this.options = options;
+		// this.options = options;
 		this.events = new EventEmitter();
 		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;

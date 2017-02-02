@@ -42,6 +42,8 @@ class NDPMessage {
 		this.payload = options.payload;
 		// Endpoint representing the source of the payload
 		this.endpoint = options.endpoint;
+		// query
+		this.query = options.query;
 	}
 }
 

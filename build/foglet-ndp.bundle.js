@@ -8806,8 +8806,9 @@ var Foglet = function (_EventEmitter) {
 			_this.protocol = _this.options.spray.protocol;
 			_this.spray = _this.options.spray;
 			_this.status = _this.statusList[0];
+			_this.signalingServer = _this.options.signalingServer || SIGNALINGHOSTURL;
 			// This id is NOT the SAME as the id in the spray protocol, it is tempory, id will be replaced by spray id
-			_this.id = 'Tempory:' + uid.guid();
+			_this.id = uid.guid();
 			_this._flog('Constructed');
 		} else {
 			_this.status = _this.statusList[1];
@@ -8834,13 +8835,13 @@ var Foglet = function (_EventEmitter) {
 			// 	THERE IS AN AVAILABLE SERVER ON ?server=http://signaling.herokuapp.com:4000/
 			var url = this._getParameterByName('server');
 			if (url === null) {
-				url = SIGNALINGHOSTURL;
+				url = this.signalingServer;
 			}
 			this._flog('Signaling server used : ' + url);
 			//	Connection to the signaling server
 			this.signaling = io.connect(url);
 			//	Connection to a specific room
-			this.signaling.emit('joinRoom', this.room);
+			self.signaling.emit('joinRoom', self.room);
 
 			this.callbacks = function () {
 				return {
@@ -8851,33 +8852,25 @@ var Foglet = function (_EventEmitter) {
 						self.signaling.emit('accept', {
 							offer: offer,
 							room: self.room
-						}, self.socketId);
+						});
 					},
 					onReady: function onReady(id) {
 						try {
-							self.signaling.emit('connected', id, self.socketId);
+							self.status = self.statusList[2];
+							self._flog('Connection established');
+							//self.emitJoin(id);
 						} catch (err) {
-							console.err(err);
+							console.log(err);
 						}
 					}
 				};
 			};
 
-			this.signaling.on('new_spray', function (data, socketId) {
-				// this._flog('@' + data.pid + ' send a request to you...');
-				self.socketId = socketId;
+			this.signaling.on('new_spray', function (data) {
 				self.spray.connection(self.callbacks(), data);
 			});
-			this.signaling.on('accept_spray', function (data, socketId) {
-				// this._flog('@' + data.pid + ' accept your request...');
-				self.socketId = socketId;
+			this.signaling.on('accept_spray', function (data) {
 				self.spray.connection(self.callbacks(), data);
-			});
-
-			this.signaling.on('connected', function (id) {
-				self.id = id;
-				self.status = self.statusList[2];
-				self._flog('Connection established');
 			});
 
 			this.registerList = {};
@@ -41150,7 +41143,7 @@ ldf.Logger.setLevel('EMERGENCY');
 class LaddaProtocol extends DelegationProtocol {
 	/**
   * Constructor
-  * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2)
+  * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2, as in Ladda paper)
   */
 	constructor(nbDestinations) {
 		super('ladda');
@@ -41173,9 +41166,9 @@ class LaddaProtocol extends DelegationProtocol {
 			switch (message.type) {
 				case 'request':
 					{
-						self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' received a query to execute from : @' + id);
+						self.foglet._flog('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
 						if (!this.isFree) {
-							self.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
+							self.foglet._flog('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
 							const msg = new NDPMessage({
 								type: 'failed',
 								id,
@@ -41208,11 +41201,11 @@ class LaddaProtocol extends DelegationProtocol {
 				case 'answer':
 					{
 						try {
-							self.foglet._flog('@LADDA : Received an answer from ' + message.id);
+							self.foglet._flog('@LADDA : Received an answer from @' + message.id);
 							this.busyPeers = this.busyPeers.delete(id);
 							self.foglet.events.emit('ndp-answer', message);
 							// retry delegation if there's queries in the queue
-							if (this.queryQueue.count() > 0) this.delegateQueries(message.endpoint);
+							if (self.queryQueue.count() > 0) self.delegateQueries(message.endpoint);
 						} catch (e) {
 							self.foglet._flog('@NDP : error ' + e);
 						}
@@ -41220,10 +41213,10 @@ class LaddaProtocol extends DelegationProtocol {
 					}
 				case 'failed':
 					{
-						self.foglet._flog('@LADDA : failed query from ' + message.id);
-						this.queryQueue = this.queryQueue.push(message.payload);
-						this.busyPeers = this.busyPeers.delete(id);
-						if (this.isFree) this.delegateQueries(message.endpoint);
+						self.foglet._flog('@LADDA : failed query from @' + message.id);
+						self.queryQueue = self.queryQueue.push(message.payload);
+						self.busyPeers = self.busyPeers.delete(id);
+						if (self.isFree) self.delegateQueries(message.endpoint);
 						break;
 					}
 				default:
@@ -41340,7 +41333,7 @@ class LaddaProtocol extends DelegationProtocol {
 		let chosenPeers = Immutable.Set();
 		let _peers = Immutable.Set();
 		// gather non-busy peers
-		_peers = _peers.union(this.foglet.spray.getPeers(this.foglet.maxPeers).i);
+		_peers = _peers.union(this.foglet.getNeighbours());
 		_peers = _peers.subtract(this.busyPeers).toList();
 		let index = 0;
 		// random selection beytween non-busy peers (as in LADDA algorithm)
@@ -41413,6 +41406,8 @@ class NDPMessage {
 		this.payload = options.payload;
 		// Endpoint representing the source of the payload
 		this.endpoint = options.endpoint;
+		// query
+		this.query = options.query;
 	}
 }
 
@@ -41467,13 +41462,17 @@ class NDP extends Foglet {
 			throw new Error('Missing options', 'ndp.js');
 		}
 		super(options);
-		this.options = options;
+		// this.options = options;
 		this.events = new EventEmitter();
 		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
-
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
 	}
 
+	/**
+  * Initialize the foglet, and connect it to the delegation protocol
+  * @return {void}
+  * @override
+  */
 	init() {
 		super.init();
 		this.delegationProtocol.use(this);
