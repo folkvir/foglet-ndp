@@ -32,6 +32,11 @@ const NDPMessage = require('./ndp-message.js');
 // LDF LOG Disabling
 ldf.Logger.setLevel('EMERGENCY');
 
+// status
+const STATUS_WAITING = 'status_waiting';
+const STATUS_DELEGATED = 'status_delegated';
+const STATUS_DONE = 'status_done';
+
 // utility to format dates in hh:mm:ss:ms
 const formatTime = time => `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}:${time.getMilliseconds()}`;
 
@@ -45,12 +50,13 @@ class LaddaProtocol extends DelegationProtocol {
 	 * Constructor
 	 * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2, as in Ladda paper)
 	 */
-	constructor (nbDestinations) {
+	constructor (nbDestinations, timeout) {
 		super('ladda');
-		this.queryQueue = Immutable.List();
+		this.queryQueue = Immutable.Map();
 		this.busyPeers = Immutable.Set();
 		this.isFree = true;
 		this.nbDestinations = nbDestinations || 2;
+		this.timeout = timeout || 3000000; // default to 5mn
 	}
 
 	/**
@@ -111,6 +117,7 @@ class LaddaProtocol extends DelegationProtocol {
 			case 'answer': {
 				try {
 					self.foglet._flog('@LADDA : Received an answer from @' + message.id);
+					this.queryQueue = this.queryQueue.update(message.query, () => STATUS_DONE);
 					this.busyPeers = this.busyPeers.delete(id);
 					message.receiveResultsTime = receiveMessageTime;
 					self.foglet.events.emit('ndp-answer', message);
@@ -123,7 +130,7 @@ class LaddaProtocol extends DelegationProtocol {
 			}
 			case 'failed': {
 				self.foglet._flog('@LADDA : failed query from @' + message.id);
-				self.queryQueue = self.queryQueue.push(message.payload);
+				self.queryQueue = self.queryQueue.update(message.query, () => STATUS_WAITING);
 				self.busyPeers = self.busyPeers.delete(id);
 				if(self.isFree) self.delegateQueries(message.endpoint);
 				break;
@@ -141,7 +148,7 @@ class LaddaProtocol extends DelegationProtocol {
 	 * @return {promise} A Q promise
 	 */
 	send (data, endpoint) {
-		data.forEach(query => this.queryQueue = this.queryQueue.push(query));
+		data.forEach(query => this.queryQueue = this.queryQueue.set(query, STATUS_WAITING));
 		return this.delegateQueries(endpoint);
 	}
 
@@ -159,11 +166,12 @@ class LaddaProtocol extends DelegationProtocol {
 					if (this.isFree) {
 						this.isFree = false;
 						this.foglet._flog('@LADDA - Peer @' + this.foglet.id + ' (client) will execute one query');
-						const query = this.queryQueue.first();
+						const query = this.queryQueue.findKey(status => status === STATUS_WAITING);
 						this.foglet._flog('@LADDA - selected query:' + query);
-						this.queryQueue = this.queryQueue.shift(0);
+						this.queryQueue = this.queryQueue.update(query, () => STATUS_DELEGATED);
 						const startExecutionTime = formatTime(new Date());
 						this.execute(query, endpoint).then(result => {
+							this.queryQueue = this.queryQueue.update(query, () => STATUS_DONE);
 							const endExecutionTime = formatTime(new Date());
 							this.isFree = true;
 							const msg = new NDPMessage({
@@ -193,9 +201,9 @@ class LaddaProtocol extends DelegationProtocol {
 						this.foglet._flog('@LADDA - chosen peers: ' + peers);
 						peers.forEach(peer => {
 							if (this.queryQueue.count() > 0) {
-								const query = this.queryQueue.first();
+								const query = this.queryQueue.findKey(status => status === STATUS_WAITING);
 								this.foglet._flog('@LADDA - delegate ' + query + ' to peer @' + peer);
-								this.queryQueue = this.queryQueue.shift(0);
+								this.queryQueue = this.queryQueue.update(query, () => STATUS_DELEGATED);
 								// mark the peer as 'busy'
 								this.busyPeers = this.busyPeers.add(peer);
 								const sendQueryTime = formatTime(new Date());
@@ -206,6 +214,13 @@ class LaddaProtocol extends DelegationProtocol {
 									endpoint,
 									sendQueryTime
 								}), peer);
+								// set timeout
+								setTimeout(() => {
+									if(this.queryQueue.get(query) === STATUS_DELEGATED) {
+										this.queryQueue = this.queryQueue.update(query, () => STATUS_WAITING);
+										self.busyPeers = self.busyPeers.delete(peer);
+									}
+								}, this.timeout);
 							}
 						});
 					}
