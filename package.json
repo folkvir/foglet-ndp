@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "This project aims to provide a simple neighbours delegated protocol in order to reduce global query execution time",
   "main": "foglet-ndp.js",
   "scripts": {
@@ -20,11 +20,11 @@
     "foglet-core",
     "neighbours",
     "delegated",
-		"delegation",
+    "delegation",
     "protocol",
-		"ldf",
-		"SPARQL",
-		"query delegation"
+    "ldf",
+    "SPARQL",
+    "query delegation"
   ],
   "author": "Grall Arnaud (Folkvir)",
   "license": "MIT",
@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/folkvir/foglet-ndp#readme",
   "dependencies": {
-    "events": "^1.1.1",
     "foglet-core": "^0.2.x",
     "immutable": "^3.8.1",
     "ldf-client": "^2.0.4",

@@ -41135,6 +41135,9 @@ const NDPMessage = require('./ndp-message.js');
 // LDF LOG Disabling
 ldf.Logger.setLevel('EMERGENCY');
 
+// utility to format dates in hh:mm:ss:ms
+const formatTime = time => `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}:${time.getMilliseconds()}`;
+
 /**
  * Ladda delegation protocol
  * @extends DelegationProtocol
@@ -41181,13 +41184,17 @@ class LaddaProtocol extends DelegationProtocol {
 							self.isFree = false;
 							const query = message.payload;
 							self.execute(query, message.endpoint).then(result => {
+								const endTime = formatTime(new Date());
 								self.isFree = true;
 								const msg = new NDPMessage({
 									type: 'answer',
 									id: this.foglet.id,
+									schedulerId: message.id,
 									payload: result,
 									query: query,
-									endpoint: message.endpoint
+									endpoint: message.endpoint,
+									startTime: message.startTime,
+									endTime
 								});
 								self.foglet._flog(msg);
 								self.foglet.sendUnicast(msg, id);
@@ -41253,14 +41260,19 @@ class LaddaProtocol extends DelegationProtocol {
 						const query = this.queryQueue.first();
 						this.foglet._flog('@LADDA - selected query:' + query);
 						this.queryQueue = this.queryQueue.shift(0);
+						const startTime = formatTime(new Date());
 						this.execute(query, endpoint).then(result => {
+							const endTime = formatTime(new Date());
 							this.isFree = true;
 							const msg = new NDPMessage({
 								type: 'answer',
 								id: 'me',
+								schedulerId: 'me',
 								payload: result,
 								query,
-								endpoint
+								endpoint,
+								startTime,
+								endTime
 							});
 							this.foglet._flog('@LADDA - client finished query');
 							this.emit('ndp-answer', msg);
@@ -41280,11 +41292,13 @@ class LaddaProtocol extends DelegationProtocol {
 								this.queryQueue = this.queryQueue.shift(0);
 								// mark the peer as 'busy'
 								this.busyPeers = this.busyPeers.add(peer);
+								const startTime = formatTime(new Date());
 								this.foglet.sendUnicast(new NDPMessage({
 									type: 'request',
-									id: peer,
+									id: this.foglet.id,
 									payload: query,
-									endpoint
+									endpoint,
+									startTime
 								}), peer);
 							}
 						});
@@ -41388,26 +41402,41 @@ SOFTWARE.
 'use strict';
 
 /**
- * Represent a message in the NDP protocol
- * @class NDPMessage
- * @author Grall Arnaud(Folkvir)
+ * Delegation message in the Foglet-NDP protocol
+ * @author Grall Arnaud(Folkvir), Thomas Minier
  */
 
 class NDPMessage {
 	/**
-  * @param {object} options type, id and payload
+  * Constructor
+  * @param {object} options The content of the delegation message
+  * @param {string} options.type - The type of the message ('answer', 'request' or 'failed')
+  * @param {string} options.id - The id of the peer who sent this message
+  * @param {*} options.payload - The response to the delegated query or a delegated query to execute
+  * @param {string} options.endpoint - The endpoint used to execute the query
+  * @param {string} options.query - The delegated SPARQL query
+  * @param {string|undefined} options.schedulerId - (optional) The id of the peer who delegated the query
+  * @param {string|undefined} options.startTime - (optional) The time (hh:mm:ss:ms) on which the query was delegated
+  * @param {string|undefined} options.endTime - (optional) The time (hh:mm:ss:ms) on which the query execution was completed
   */
 	constructor(options) {
-		// Is 'answer' or 'request'
+		if (options.type === undefined) throw new TypeError('Error: a delegation message must have a type');
+		if (options.payload === undefined) throw new TypeError('Error: a delegation message must have data to transmitt in the "payload" field');
+		// Is 'answer', 'request' or 'failed'
 		this.type = options.type;
 		// Owner id
 		this.id = options.id;
+		// Id of the peer who delegated the request to the peer
+		this.schedulerId = options.schedulerId || 'unknown';
 		// Message to sent
 		this.payload = options.payload;
 		// Endpoint representing the source of the payload
 		this.endpoint = options.endpoint;
 		// query
 		this.query = options.query;
+		// timestamps
+		this.startTime = options.startTime || 'unknown';
+		this.endTime = options.endTime || 'unknown';
 	}
 }
 
@@ -41444,9 +41473,9 @@ const Foglet = require('foglet-core');
 const RoundRobinProtocol = require('./round-robin-protocol.js');
 
 /**
- * Class of the Simple Neighbours Delegated Protocol
+ * A Foglet using Neighbours Delegation Protocol to delegate SPARQL query to its neighbours
  * @extends Foglet
- * @author Grall Arnaud (Folkvir)
+ * @author Grall Arnaud (Folkvir), Thomas Minier
  */
 class NDP extends Foglet {
 	/**
@@ -41454,17 +41483,16 @@ class NDP extends Foglet {
   * @constructor
   * @param {object} options Options used to build the Foglet-ndp
   * @param {Spray} options.spray - The Spray network used by the foglet
-  * @param {string} options.protocol - The protocol name
   * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link RoundRobinProtocol}
+  * @param {int|undefined} options.maxPeers - (optional) The maximum number of peer to delegated queries (default to Number.MAX_VALUE)
   */
 	constructor(options) {
 		if (options === undefined || options.spray === undefined || options.spray.protocol === undefined) {
-			throw new Error('Missing options', 'ndp.js');
+			throw new Error('Missing options, Spray must be defined in options', 'ndp.js');
 		}
 		super(options);
-		// this.options = options;
 		this.events = new EventEmitter();
-		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
+		this.delegationProtocol = options.delegationProtocol || new RoundRobinProtocol();
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
 	}
 
@@ -41483,7 +41511,7 @@ class NDP extends Foglet {
   * @param {array} data array of element to send (query)
   * @param {string} endpoint - Endpoint to send queries
   * @return {promise} Return a Q promise
-  **/
+  */
 	send(data, endpoint) {
 		return this.delegationProtocol.send(data, endpoint);
 	}
