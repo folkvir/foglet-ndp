@@ -28,9 +28,9 @@ const Foglet = require('foglet-core');
 const RoundRobinProtocol = require('./round-robin-protocol.js');
 
 /**
- * Class of the Simple Neighbours Delegated Protocol
+ * A Foglet using Neighbours Delegation Protocol to delegate SPARQL query to its neighbours
  * @extends Foglet
- * @author Grall Arnaud (Folkvir)
+ * @author Grall Arnaud (Folkvir), Thomas Minier
  */
 class NDP extends Foglet {
 	/**
@@ -38,17 +38,16 @@ class NDP extends Foglet {
 	 * @constructor
 	 * @param {object} options Options used to build the Foglet-ndp
 	 * @param {Spray} options.spray - The Spray network used by the foglet
-	 * @param {string} options.protocol - The protocol name
 	 * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link RoundRobinProtocol}
+	 * @param {int|undefined} options.maxPeers - (optional) The maximum number of peer to delegated queries (default to Number.MAX_VALUE)
 	 */
 	constructor (options) {
 		if (options === undefined || options.spray === undefined || options.spray.protocol === undefined ) {
-			throw new Error('Missing options', 'ndp.js');
+			throw new Error('Missing options, Spray must be defined in options', 'ndp.js');
 		}
 		super(options);
-		// this.options = options;
 		this.events = new EventEmitter();
-		this.delegationProtocol = this.options.delegationProtocol || new RoundRobinProtocol();
+		this.delegationProtocol = options.delegationProtocol || new RoundRobinProtocol();
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
 	}
 
@@ -67,7 +66,7 @@ class NDP extends Foglet {
 	 * @param {array} data array of element to send (query)
 	 * @param {string} endpoint - Endpoint to send queries
 	 * @return {promise} Return a Q promise
-	 **/
+	 */
 	send (data, endpoint) {
 		return this.delegationProtocol.send(data, endpoint);
 	}

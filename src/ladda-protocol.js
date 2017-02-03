@@ -32,6 +32,9 @@ const NDPMessage = require('./ndp-message.js');
 // LDF LOG Disabling
 ldf.Logger.setLevel('EMERGENCY');
 
+// utility to format dates in hh:mm:ss:ms
+const formatTime = time => `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}:${time.getMilliseconds()}`;
+
 /**
  * Ladda delegation protocol
  * @extends DelegationProtocol
@@ -77,13 +80,17 @@ class LaddaProtocol extends DelegationProtocol {
 					self.isFree = false;
 					const query = message.payload;
 					self.execute(query, message.endpoint).then(result => {
+						const endTime = formatTime(new Date());
 						self.isFree = true;
 						const msg = new NDPMessage({
 							type: 'answer',
 							id: this.foglet.id,
+							schedulerId: message.id,
 							payload: result,
 							query: query,
-							endpoint: message.endpoint
+							endpoint: message.endpoint,
+							startTime: message.startTime,
+							endTime
 						});
 						self.foglet._flog(msg);
 						self.foglet.sendUnicast(msg, id);
@@ -147,14 +154,19 @@ class LaddaProtocol extends DelegationProtocol {
 						const query = this.queryQueue.first();
 						this.foglet._flog('@LADDA - selected query:' + query);
 						this.queryQueue = this.queryQueue.shift(0);
+						const startTime = formatTime(new Date());
 						this.execute(query, endpoint).then(result => {
+							const endTime = formatTime(new Date());
 							this.isFree = true;
 							const msg = new NDPMessage({
 								type: 'answer',
 								id: 'me',
+								schedulerId: 'me',
 								payload: result,
 								query,
-								endpoint
+								endpoint,
+								startTime,
+								endTime
 							});
 							this.foglet._flog('@LADDA - client finished query');
 							this.emit('ndp-answer', msg);
@@ -174,11 +186,13 @@ class LaddaProtocol extends DelegationProtocol {
 								this.queryQueue = this.queryQueue.shift(0);
 								// mark the peer as 'busy'
 								this.busyPeers = this.busyPeers.add(peer);
+								const startTime = formatTime(new Date());
 								this.foglet.sendUnicast(new NDPMessage({
 									type: 'request',
-									id: peer,
+									id: this.foglet.id,
 									payload: query,
-									endpoint
+									endpoint,
+									startTime
 								}), peer);
 							}
 						});
