@@ -63,6 +63,7 @@ class LaddaProtocol extends DelegationProtocol {
 		super.use(foglet);
 		const self = this;
 		this.foglet.onUnicast((id, message) => {
+			const receiveMessageTime = formatTime(new Date());
 			switch (message.type) {
 			case 'request': {
 				self.foglet._flog('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
@@ -72,15 +73,17 @@ class LaddaProtocol extends DelegationProtocol {
 						type: 'failed',
 						id,
 						payload: message.payload,
-						endpoint: message.endpoint
+						endpoint: message.endpoint,
+						receiveQueryTime: receiveMessageTime
 					});
 					self.foglet._flog(msg);
 					self.foglet.sendUnicast(msg, id);
 				} else {
 					self.isFree = false;
 					const query = message.payload;
+					const startExecutionTime = formatTime(new Date());
 					self.execute(query, message.endpoint).then(result => {
-						const endTime = formatTime(new Date());
+						const endExecutionTime = formatTime(new Date());
 						self.isFree = true;
 						const msg = new NDPMessage({
 							type: 'answer',
@@ -90,9 +93,13 @@ class LaddaProtocol extends DelegationProtocol {
 							query: query,
 							endpoint: message.endpoint,
 							startTime: message.startTime,
-							endTime
+							sendQueryTime: message.sendQueryTime,
+							receiveQueryTime: receiveMessageTime,
+							startExecutionTime,
+							endExecutionTime
 						});
 						self.foglet._flog(msg);
+						msg.sendResultsTime = formatTime(new Date());
 						self.foglet.sendUnicast(msg, id);
 					}).catch(error => {
 						self.isFree = true;
@@ -105,6 +112,7 @@ class LaddaProtocol extends DelegationProtocol {
 				try {
 					self.foglet._flog('@LADDA : Received an answer from @' + message.id);
 					this.busyPeers = this.busyPeers.delete(id);
+					message.receiveResultsTime = receiveMessageTime;
 					self.foglet.events.emit('ndp-answer', message);
 					// retry delegation if there's queries in the queue
 					if(self.queryQueue.count() > 0) self.delegateQueries(message.endpoint);
@@ -154,9 +162,9 @@ class LaddaProtocol extends DelegationProtocol {
 						const query = this.queryQueue.first();
 						this.foglet._flog('@LADDA - selected query:' + query);
 						this.queryQueue = this.queryQueue.shift(0);
-						const startTime = formatTime(new Date());
+						const startExecutionTime = formatTime(new Date());
 						this.execute(query, endpoint).then(result => {
-							const endTime = formatTime(new Date());
+							const endExecutionTime = formatTime(new Date());
 							this.isFree = true;
 							const msg = new NDPMessage({
 								type: 'answer',
@@ -165,8 +173,12 @@ class LaddaProtocol extends DelegationProtocol {
 								payload: result,
 								query,
 								endpoint,
-								startTime,
-								endTime
+								sendQueryTime: startExecutionTime,
+								receiveQueryTime: startExecutionTime,
+								startExecutionTime,
+								endExecutionTime,
+								sendResultsTime: endExecutionTime,
+								receiveResultsTime: endExecutionTime
 							});
 							this.foglet._flog('@LADDA - client finished query');
 							this.emit('ndp-answer', msg);
@@ -186,13 +198,13 @@ class LaddaProtocol extends DelegationProtocol {
 								this.queryQueue = this.queryQueue.shift(0);
 								// mark the peer as 'busy'
 								this.busyPeers = this.busyPeers.add(peer);
-								const startTime = formatTime(new Date());
+								const sendQueryTime = formatTime(new Date());
 								this.foglet.sendUnicast(new NDPMessage({
 									type: 'request',
 									id: this.foglet.id,
 									payload: query,
 									endpoint,
-									startTime
+									sendQueryTime
 								}), peer);
 							}
 						});

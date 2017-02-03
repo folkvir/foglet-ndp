@@ -38,8 +38,12 @@ class NDPMessage {
 	 * @param {string} options.endpoint - The endpoint used to execute the query
 	 * @param {string} options.query - The delegated SPARQL query
 	 * @param {string|undefined} options.schedulerId - (optional) The id of the peer who delegated the query
-	 * @param {string|undefined} options.startTime - (optional) The time (hh:mm:ss:ms) on which the query was delegated
-	 * @param {string|undefined} options.endTime - (optional) The time (hh:mm:ss:ms) on which the query execution was completed
+	 * @param {string|undefined} options.sendQueryTime - (optional) The time (hh:mm:ss:ms) on which the query was delegated
+	 * @param {string|undefined} options.receiveQueryTime - (optional) The time (hh:mm:ss:ms) on which a delegated query was received
+	 * @param {string|undefined} options.startExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution started
+	 * @param {string|undefined} options.endExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution ended
+	 * @param {string|undefined} options.sendResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was sent
+	 * @param {string|undefined} options.receiveResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was received
 	 */
 	constructor (options) {
 		if (options.type === undefined) throw new TypeError('Error: a delegation message must have a type');
@@ -57,8 +61,12 @@ class NDPMessage {
 		// query
 		this.query = options.query;
 		// timestamps
-		this.startTime = options.startTime || 'unknown';
-		this.endTime = options.endTime || 'unknown';
+		this.sendQueryTime = options.sendQueryTime || 'unknown';
+		this.receiveQueryTime = options.receiveQueryTime || 'unknown';
+		this.startExecutionTime = options.startExecutionTime || 'unknown';
+		this.endExecutionTime = options.endExecutionTime || 'unknown';
+		this.sendResultsTime = options.sendResultsTime || 'unknown';
+		this.receiveResultsTime = options.receiveResultsTime || 'unknown';
 	}
 }
 

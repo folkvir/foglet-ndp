@@ -1,4 +1,5 @@
 'use strict';
+require('chai').should();
 const Spray = require('spray-wrtc');
 const NDP = require('../foglet-ndp.js').NDP;
 const LaddaProtocol = require('../src/ladda-protocol.js');
@@ -36,7 +37,7 @@ describe('[LADDA]', function () {
 				 * Create the foglet protocol.
 				 * @param {[type]} {protocol:'chat'} [description]
 				 */
-				var iceServers = [];
+				let iceServers = [];
 				if (response.d.iceServers) {
 					iceServers = response.d.iceServers;
 				}
@@ -80,15 +81,33 @@ describe('[LADDA]', function () {
 				f3.init();
 
 				let cpt = 0;
-				f1.events.on('ndp-answer', (response) => {
-					console.log(response);
+				f1.events.on('ndp-answer', response => {
 					cpt++;
+					console.log(response);
+					// assert response fields
+					response.should.include.keys('type', 'id', 'schedulerId', 'payload', 'endpoint', 'query',
+						'sendQueryTime', 'receiveQueryTime', 'startExecutionTime', 'endExecutionTime', 'sendResultsTime', 'receiveResultsTime');
+					if (response.id === 'me') {
+						// for queries executed by me, (sendQueryTime = receiveQueryTime = startExecutionTime) < (endExecutionTime = sendResultsTime = receiveResultsTime)
+						response.sendQueryTime.should.equal(response.receiveQueryTime);
+						response.receiveQueryTime.should.equal(response.startExecutionTime);
+						(response.startExecutionTime <= response.endExecutionTime).should.be.true;
+						response.endExecutionTime.should.equal(response.sendResultsTime);
+						response.sendResultsTime.should.equal(response.receiveResultsTime);
+					} else {
+						// for delegated queries , sendQueryTime < receiveQueryTime < startExecutionTime < endExecutionTime < sendResultsTime < receiveResultsTime
+						(response.sendQueryTime <= response.receiveQueryTime).should.be.true;
+						(response.receiveQueryTime <= response.startExecutionTime).should.be.true;
+						(response.startExecutionTime <= response.endExecutionTime).should.be.true;
+						(response.endExecutionTime <= response.sendResultsTime).should.be.true;
+						(response.sendResultsTime <= response.receiveResultsTime).should.be.true;
+					}
 					if(cpt >= 10) {
 						done();
 					}
 				});
 
-				return f1.connection().then((s) =>  {
+				return f1.connection().then(() =>  {
 					f1.send(requests, endpoint);
 				});
 			}).catch(err => console.log(err));
