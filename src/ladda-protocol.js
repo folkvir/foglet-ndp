@@ -49,6 +49,7 @@ class LaddaProtocol extends DelegationProtocol {
 	/**
 	 * Constructor
 	 * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2, as in Ladda paper)
+	 * @param {int|undefined} timeout - (optional) The timeout used by the protocol. Disable by default unless it is set.
 	 */
 	constructor (nbDestinations, timeout) {
 		super('ladda');
@@ -56,7 +57,7 @@ class LaddaProtocol extends DelegationProtocol {
 		this.busyPeers = Immutable.Set();
 		this.isFree = true;
 		this.nbDestinations = nbDestinations || 2;
-		this.timeout = timeout || 3000000; // default to 5mn
+		this.timeout = timeout || -1; // disable dy default
 	}
 
 	/**
@@ -73,7 +74,7 @@ class LaddaProtocol extends DelegationProtocol {
 			switch (message.type) {
 			case 'request': {
 				self.foglet._flog('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
-				if (!this.isFree) {
+				if (!self.isFree) {
 					self.foglet._flog('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
 					const msg = new NDPMessage({
 						type: 'failed',
@@ -214,13 +215,15 @@ class LaddaProtocol extends DelegationProtocol {
 									endpoint,
 									sendQueryTime
 								}), peer);
-								// set timeout
-								setTimeout(() => {
-									if(this.queryQueue.get(query) === STATUS_DELEGATED) {
-										this.queryQueue = this.queryQueue.update(query, () => STATUS_WAITING);
-										self.busyPeers = self.busyPeers.delete(peer);
-									}
-								}, this.timeout);
+								// set timeout if necessary
+								if (this.timeout > 0) {
+									setTimeout(() => {
+										if(this.queryQueue.get(query) === STATUS_DELEGATED) {
+											this.queryQueue = this.queryQueue.update(query, () => STATUS_WAITING);
+											self.busyPeers = self.busyPeers.delete(peer);
+										}
+									}, this.timeout);
+								}
 							}
 						});
 					}
