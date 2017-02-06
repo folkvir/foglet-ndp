@@ -50,8 +50,7 @@ describe('[LADDA]', function () {
 							iceServers
 						}
 					}),
-					room: 'testLadda',
-					delegationProtocol: new LaddaProtocol()
+					room: 'test'
 				});
 				const f2 = new NDP({
 					spray: new Spray({
@@ -61,8 +60,7 @@ describe('[LADDA]', function () {
 							iceServers
 						}
 					}),
-					room: 'laddaTest',
-					delegationProtocol: new LaddaProtocol()
+					room: 'test'
 				});
 				const f3 = new NDP({
 					spray: new Spray({
@@ -72,13 +70,11 @@ describe('[LADDA]', function () {
 							iceServers
 						}
 					}),
-					room: 'testLadda',
-					delegationProtocol: new LaddaProtocol()
+					room: 'test'
 				});
 
 				f1.init();
 				f2.init();
-				f3.init();
 
 				let cpt = 0;
 				f1.events.on('ndp-answer', response => {
@@ -87,29 +83,18 @@ describe('[LADDA]', function () {
 					// assert response fields
 					response.should.include.keys('type', 'id', 'schedulerId', 'payload', 'endpoint', 'query',
 						'sendQueryTime', 'receiveQueryTime', 'startExecutionTime', 'endExecutionTime', 'sendResultsTime', 'receiveResultsTime');
-					if (response.id === 'me') {
-						// for queries executed by me, (sendQueryTime = receiveQueryTime = startExecutionTime) < (endExecutionTime = sendResultsTime = receiveResultsTime)
-						response.sendQueryTime.should.equal(response.receiveQueryTime);
-						response.receiveQueryTime.should.equal(response.startExecutionTime);
-						(response.startExecutionTime <= response.endExecutionTime).should.be.true;
-						response.endExecutionTime.should.equal(response.sendResultsTime);
-						response.sendResultsTime.should.equal(response.receiveResultsTime);
-					} else {
-						// for delegated queries , sendQueryTime < receiveQueryTime < startExecutionTime < endExecutionTime < sendResultsTime < receiveResultsTime
-						(response.sendQueryTime <= response.receiveQueryTime).should.be.true;
-						(response.receiveQueryTime <= response.startExecutionTime).should.be.true;
-						(response.startExecutionTime <= response.endExecutionTime).should.be.true;
-						(response.endExecutionTime <= response.sendResultsTime).should.be.true;
-						(response.sendResultsTime <= response.receiveResultsTime).should.be.true;
-					}
+					// assert number of answers
 					if(cpt >= 10) {
 						done();
 					}
 				});
 
-				return f1.connection().then(() =>  {
-					f1.send(requests, endpoint);
-				});
+				return f1.connection()
+				.then(() =>  f2.connection())
+				.then(() => {
+					f3.init();
+					return f3.connection();
+				}).then(() => f1.send(requests, endpoint));
 			}).catch(err => console.log(err));
 
 	});

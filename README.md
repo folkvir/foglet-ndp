@@ -6,6 +6,7 @@ Keywords: Simple Neighbours delegated protocol, Random peer sampling, adaptive, 
 This project aims to provide a simple neighbours delegated protocol in order to reduce query execution time. It works with a random peer sampling protocol [1] and foglet-core [2].
 It uses Linked Data Fragments [ldf](http://linkeddatafragments.org/) to query endpoints.  
 
+By default it uses the Ladda Query Delegation Protocol.
 
 ## Install
 
@@ -39,7 +40,6 @@ const f1 = new NDP({
       iceServers: [] //iceServers you have to provide
     }
   }),
-  protocol: 'test-protocol',
   room: 'test'
 });
 
@@ -51,7 +51,6 @@ const f2 = new NDP({
       iceServers: [] //iceServers you have to provide
     }
   }),
-  protocol: 'test-protocol',
   room: 'test'
 });
 
@@ -121,7 +120,6 @@ const f = new NDP({
       iceServers: [] //iceServers you have to provide
     }
   }),
-  protocol: 'test-protocol',
   room: 'test',
 	delegationProtocol: new DummyProtocol()
 });

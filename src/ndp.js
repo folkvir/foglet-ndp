@@ -25,7 +25,7 @@ SOFTWARE.
 
 const EventEmitter = require('events');
 const Foglet = require('foglet-core');
-const RoundRobinProtocol = require('./round-robin-protocol.js');
+const LaddaProtocol = require('./ladda-protocol.js');
 
 /**
  * A Foglet using Neighbours Delegation Protocol to delegate SPARQL query to its neighbours
@@ -38,7 +38,7 @@ class NDP extends Foglet {
 	 * @constructor
 	 * @param {object} options Options used to build the Foglet-ndp
 	 * @param {Spray} options.spray - The Spray network used by the foglet
-	 * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link RoundRobinProtocol}
+	 * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link LaddaProtocol}
 	 * @param {int|undefined} options.maxPeers - (optional) The maximum number of peer to delegated queries (default to Number.MAX_VALUE)
 	 */
 	constructor (options) {
@@ -47,7 +47,7 @@ class NDP extends Foglet {
 		}
 		super(options);
 		this.events = new EventEmitter();
-		this.delegationProtocol = options.delegationProtocol || new RoundRobinProtocol();
+		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol();
 		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
 	}
 
