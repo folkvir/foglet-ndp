@@ -149,6 +149,8 @@ class LaddaProtocol extends DelegationProtocol {
 	 * @return {promise} A Q promise
 	 */
 	send (data, endpoint) {
+		// clear queue before anything
+		this.queryQueue = this.queryQueue.clear();
 		data.forEach(query => this.queryQueue = this.queryQueue.set(query, STATUS_WAITING));
 		return this.delegateQueries(endpoint);
 	}
