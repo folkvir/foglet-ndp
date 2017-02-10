@@ -30,7 +30,7 @@ const DelegationProtocol = require('./delegation-protocol.js');
 const NDPMessage = require('./ndp-message.js');
 
 // LDF LOG Disabling
-ldf.Logger.setLevel('WARNING');
+ldf.Logger.setLevel('EMERGENCY');
 //ldf.Logger.setLevel('DEBUG');
 // status
 const STATUS_WAITING = 'status_waiting';
@@ -109,8 +109,10 @@ class LaddaProtocol extends DelegationProtocol {
 						msg.sendResultsTime = formatTime(new Date());
 						self.foglet.sendUnicast(msg, id);
 					}).catch(error => {
+						self.foglet._flog('**********************ERROR****************************');
 						self.isFree = true;
 						self.foglet._flog('@LADDA - Error : ' + error);
+						self.foglet._flog('*******************************************************');
 					});
 				}
 				break;
@@ -125,7 +127,9 @@ class LaddaProtocol extends DelegationProtocol {
 					// retry delegation if there's queries in the queue
 					if(self.queueIsNotEmpty()) self.delegateQueries(message.endpoint);
 				} catch (e) {
+					self.foglet._flog('**********************ERROR****************************');
 					self.foglet._flog('@NDP : error ' + e);
+					self.foglet._flog('*******************************************************');
 				}
 				break;
 			}
@@ -152,7 +156,9 @@ class LaddaProtocol extends DelegationProtocol {
 		// clear queue before anything
 		this.queryQueue = this.queryQueue.clear();
 		data.forEach(query => this.queryQueue = this.queryQueue.set(query, STATUS_WAITING));
+		this.foglet._flog('**********************QUEUE****************************');
 		console.log(this.queryQueue.toJS());
+		this.foglet._flog('*******************************************************');
 		return this.delegateQueries(endpoint);
 	}
 
@@ -205,7 +211,12 @@ class LaddaProtocol extends DelegationProtocol {
 							this.emit('ndp-answer', msg);
 							// retry delegation if there's queries in the queue
 							if(this.queueIsNotEmpty()) this.delegateQueries(endpoint);
-						});
+						}).catch(error => {
+							self.foglet._flog('**********************ERROR****************************');
+							self.isFree = true;
+							self.foglet._flog('@LADDA - Error : ' + error);
+							self.foglet._flog('*******************************************************');
+						});;
 					}
 					this.foglet._flog('@LADDA - trying to delegate to peers');
 					if (this.queueIsNotEmpty()) {
@@ -257,29 +268,22 @@ class LaddaProtocol extends DelegationProtocol {
 		this.foglet._flog(' Execution of : ' + query + ' on ' + endpoint);
 		let delegationResults = Immutable.List();
 		const self = this;
-		console.log('***********MIAOUUSS EXECUTE **************');
 		return Q.Promise( (resolve, reject) => {
 			try {
-				console.log('***********MIAOUUSS EXECUTE PROMISE**************');
 				let fragmentsClient = new ldf.FragmentsClient(endpoint);
 				let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
-				console.log('***********MIAOUUSS EXECUTE PROMISE AFTER LDF**************');
-				console.log(queryResults);
 				queryResults.on('data', ldfResult => {
-					console.log('***********MIAOUUSS EXECUTE ON DATA BEFORE**************');
 					delegationResults = delegationResults.push(ldfResult);
-					console.log('***********MIAOUUSS EXECUTE ON DATA AFTER**************');
 				});
 				// resolve when all results are arrived
 				queryResults.on('end', () => {
 					self.isFree = true;
-					console.log('***********MIAOUUSS EXECUTE ON DATA END**************');
 					resolve(delegationResults.toJS());
 				});/* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
 			} catch (error) {
-				console.log('**********************ERROR****************************');
+				self.foglet._flog('**********************ERROR****************************');
 				console.log(error);
-				console.log('*******************************************************');
+				self.foglet._flog('*******************************************************');
 				reject(error);
 			}
 		});
