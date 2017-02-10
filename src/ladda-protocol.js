@@ -30,8 +30,8 @@ const DelegationProtocol = require('./delegation-protocol.js');
 const NDPMessage = require('./ndp-message.js');
 
 // LDF LOG Disabling
-ldf.Logger.setLevel('EMERGENCY');
-
+ldf.Logger.setLevel('WARNING');
+//ldf.Logger.setLevel('DEBUG');
 // status
 const STATUS_WAITING = 'status_waiting';
 const STATUS_DELEGATED = 'status_delegated';
@@ -123,7 +123,7 @@ class LaddaProtocol extends DelegationProtocol {
 					message.receiveResultsTime = receiveMessageTime;
 					self.foglet.events.emit('ndp-answer', message);
 					// retry delegation if there's queries in the queue
-					if(self.queryQueue.count() > 0) self.delegateQueries(message.endpoint);
+					if(self.queueIsNotEmpty()) self.delegateQueries(message.endpoint);
 				} catch (e) {
 					self.foglet._flog('@NDP : error ' + e);
 				}
@@ -152,7 +152,16 @@ class LaddaProtocol extends DelegationProtocol {
 		// clear queue before anything
 		this.queryQueue = this.queryQueue.clear();
 		data.forEach(query => this.queryQueue = this.queryQueue.set(query, STATUS_WAITING));
+		console.log(this.queryQueue.toJS());
 		return this.delegateQueries(endpoint);
+	}
+
+	/**
+	 * Return true if the queue has queries to delegate
+	 * @return {boolean} True or false
+	 */
+	queueIsNotEmpty () {
+		return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
 	}
 
 	/**
@@ -162,9 +171,10 @@ class LaddaProtocol extends DelegationProtocol {
 	 */
 	delegateQueries (endpoint) {
 		this.foglet._flog('@LADDA - beginning delegation');
+
 		return Q.Promise((resolve, reject) => {
 			try {
-				if (this.queryQueue.count() > 0) {
+				if (this.queueIsNotEmpty()) {
 					this.foglet._flog('@LADDA - queue not empty, try to delegate to me first');
 					if (this.isFree) {
 						this.isFree = false;
@@ -194,16 +204,16 @@ class LaddaProtocol extends DelegationProtocol {
 							this.foglet._flog('@LADDA - client finished query');
 							this.emit('ndp-answer', msg);
 							// retry delegation if there's queries in the queue
-							if(this.queryQueue.count() > 0) this.delegateQueries(endpoint);
+							if(this.queueIsNotEmpty()) this.delegateQueries(endpoint);
 						});
 					}
 					this.foglet._flog('@LADDA - trying to delegate to peers');
-					if (this.queryQueue.count() > 0) {
+					if (this.queueIsNotEmpty()) {
 						// delegate queries to peers
 						const peers = this._choosePeers();
 						this.foglet._flog('@LADDA - chosen peers: ' + peers);
 						peers.forEach(peer => {
-							if (this.queryQueue.count() > 0) {
+							if (this.queueIsNotEmpty()) {
 								const query = this.queryQueue.findKey(status => status === STATUS_WAITING);
 								this.foglet._flog('@LADDA - delegate ' + query + ' to peer @' + peer);
 								this.queryQueue = this.queryQueue.update(query, () => STATUS_DELEGATED);
@@ -247,19 +257,29 @@ class LaddaProtocol extends DelegationProtocol {
 		this.foglet._flog(' Execution of : ' + query + ' on ' + endpoint);
 		let delegationResults = Immutable.List();
 		const self = this;
-
+		console.log('***********MIAOUUSS EXECUTE **************');
 		return Q.Promise( (resolve, reject) => {
 			try {
+				console.log('***********MIAOUUSS EXECUTE PROMISE**************');
 				let fragmentsClient = new ldf.FragmentsClient(endpoint);
 				let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
-
-				queryResults.on('data', ldfResult => delegationResults = delegationResults.push(ldfResult));
+				console.log('***********MIAOUUSS EXECUTE PROMISE AFTER LDF**************');
+				console.log(queryResults);
+				queryResults.on('data', ldfResult => {
+					console.log('***********MIAOUUSS EXECUTE ON DATA BEFORE**************');
+					delegationResults = delegationResults.push(ldfResult);
+					console.log('***********MIAOUUSS EXECUTE ON DATA AFTER**************');
+				});
 				// resolve when all results are arrived
 				queryResults.on('end', () => {
 					self.isFree = true;
+					console.log('***********MIAOUUSS EXECUTE ON DATA END**************');
 					resolve(delegationResults.toJS());
 				});/* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
 			} catch (error) {
+				console.log('**********************ERROR****************************');
+				console.log(error);
+				console.log('*******************************************************');
 				reject(error);
 			}
 		});

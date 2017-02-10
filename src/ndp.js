@@ -47,8 +47,9 @@ class NDP extends Foglet {
 		}
 		super(options);
 		this.events = new EventEmitter();
-		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol();
-		this.maxPeers = options.maxPeers || Number.MAX_VALUE;
+		this.maxPeers = options.maxPeers || null;
+		this.timeout = options.timeout || null;
+		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(this.maxPeers, this.timeout);
 	}
 
 	/**
