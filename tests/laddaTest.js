@@ -6,6 +6,7 @@ const $ = require('jquery');
 const endpoint = 'https://query.wikidata.org/bigdata/ldf';
 const requests = [
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 1',
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 1',
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 2',
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 3',
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 4',
@@ -76,6 +77,7 @@ describe('[LADDA]', function () {
 			f1.init();
 			f2.init();
 			let cpt = 0;
+			const nbResultWantetd = 11;
 			f1.events.on('ndp-answer', (response) => {
 				console.log(response)
 				cpt++;
@@ -84,7 +86,7 @@ describe('[LADDA]', function () {
 				//response.should.include.keys('type', 'id', 'schedulerId', 'payload', 'endpoint', 'query',
 					//'sendQueryTime', 'receiveQueryTime', 'startExecutionTime', 'endExecutionTime', 'sendResultsTime', 'receiveResultsTime');
 				// assert number of answers
-				if(cpt >= 10) {
+				if(cpt >= nbResultWantetd) {
 					done();
 				}
 			});

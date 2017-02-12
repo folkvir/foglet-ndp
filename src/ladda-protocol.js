@@ -28,6 +28,7 @@ const Immutable = require('immutable');
 const ldf = require('ldf-client');
 const DelegationProtocol = require('./delegation-protocol.js');
 const NDPMessage = require('./ndp-message.js');
+const uuidV4 = require('uuid/v4');
 
 // LDF LOG Disabling
 ldf.Logger.setLevel('EMERGENCY');
@@ -89,7 +90,7 @@ class LaddaProtocol extends DelegationProtocol {
 					self.isFree = false;
 					const query = message.payload;
 					const startExecutionTime = formatTime(new Date());
-					self.execute(query, message.endpoint).then(result => {
+					self.execute(query.query, message.endpoint).then(result => {
 						const endExecutionTime = formatTime(new Date());
 						self.isFree = true;
 						const msg = new NDPMessage({
@@ -155,11 +156,26 @@ class LaddaProtocol extends DelegationProtocol {
 	send (data, endpoint) {
 		// clear queue before anything
 		this.queryQueue = this.queryQueue.clear();
-		data.forEach(query => this.queryQueue = this.queryQueue.set(query, STATUS_WAITING));
 		this.foglet._flog('**********************QUEUE****************************');
-		console.log(this.queryQueue.toJS());
+		data.forEach(query => {
+			const obj = {
+				id: this._getNewUid(),
+				query
+			};
+			console.log(obj);
+			this.queryQueue = this.queryQueue.set(obj, STATUS_WAITING);
+		});
 		this.foglet._flog('*******************************************************');
+
 		return this.delegateQueries(endpoint);
+	}
+
+	/**
+	 * Generate and return  a v4 UUID (random) based on uuid npm package
+	 * @return {string} uuidv4
+	 */
+	_getNewUid () {
+		return uuidV4();
 	}
 
 	/**
@@ -189,7 +205,7 @@ class LaddaProtocol extends DelegationProtocol {
 						this.foglet._flog('@LADDA - selected query:' + query);
 						this.queryQueue = this.queryQueue.update(query, () => STATUS_DELEGATED);
 						const startExecutionTime = formatTime(new Date());
-						this.execute(query, endpoint).then(result => {
+						this.execute(query.query, endpoint).then(result => {
 							this.queryQueue = this.queryQueue.update(query, () => STATUS_DONE);
 							const endExecutionTime = formatTime(new Date());
 							this.isFree = true;
@@ -198,7 +214,7 @@ class LaddaProtocol extends DelegationProtocol {
 								id: 'me',
 								schedulerId: 'me',
 								payload: result,
-								query,
+								query: query.query,
 								endpoint,
 								sendQueryTime: startExecutionTime,
 								receiveQueryTime: startExecutionTime,
@@ -226,7 +242,7 @@ class LaddaProtocol extends DelegationProtocol {
 						peers.forEach(peer => {
 							if (this.queueIsNotEmpty()) {
 								const query = this.queryQueue.findKey(status => status === STATUS_WAITING);
-								this.foglet._flog('@LADDA - delegate ' + query + ' to peer @' + peer);
+								this.foglet._flog('@LADDA - delegate ' + query.query + ' to peer @' + peer);
 								this.queryQueue = this.queryQueue.update(query, () => STATUS_DELEGATED);
 								// mark the peer as 'busy'
 								this.busyPeers = this.busyPeers.add(peer);
@@ -266,6 +282,7 @@ class LaddaProtocol extends DelegationProtocol {
 	 */
 	execute (query, endpoint) {
 		this.foglet._flog(' Execution of : ' + query + ' on ' + endpoint);
+		console.log(query);
 		let delegationResults = Immutable.List();
 		const self = this;
 		return Q.Promise( (resolve, reject) => {
