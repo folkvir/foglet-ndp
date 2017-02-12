@@ -1,6 +1,6 @@
 // Karma configuration
 // Generated on Thu Nov 03 2016 06:11:50 GMT+0100 (Paris, Madrid)
-
+'use strict';
 const signaling = require('foglet-signaling-server');
 
 module.exports = function (config) {
@@ -10,9 +10,9 @@ module.exports = function (config) {
 		basePath: './',
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['browserify', 'mocha', 'chai','express-http-server'],
+		frameworks: [ 'browserify', 'mocha', 'chai', 'express-http-server' ],
 		plugins: [
-  		'karma-browserify',
+			'karma-browserify',
 			'karma-mocha',
 			'karma-chai',
 			'karma-coverage',
@@ -27,10 +27,12 @@ module.exports = function (config) {
 		files: [
 			'./node_modules/spray-wrtc/build/spray-wrtc.bundle.js',
 			'http://localhost:4000/socket.io/socket.io.js',
+			'tests/status-queue-test.js',
 			'tests/laddaTest.js',
 		],
-		preprocessors:{
-				'tests/laddaTest.js' : ['coverage','browserify']
+		preprocessors: {
+			'tests/status-queue-test.js' : [ 'coverage', 'browserify' ],
+			'tests/laddaTest.js' : [ 'coverage', 'browserify' ]
 		},
 		// list of files to exclude
 		exclude: [
@@ -39,44 +41,38 @@ module.exports = function (config) {
 		// browserify with babelify
 		browserify: {
 			debug: true,
-			transform: [ ['babelify', {presets: ["es2015"]}], 'browserify-istanbul' ],
-			configure: function(bundle) {
-			 bundle.on('prebundle', function() {
-				 bundle.external(['spray-wrtc','foglet']);
-			 });
-		 }
+			transform: [ [ 'babelify', {presets: [ 'es2015' ]} ], 'browserify-istanbul' ],
+			configure: function (bundle) {
+				bundle.on('prebundle', function () {
+					bundle.external([ 'spray-wrtc', 'foglet' ]);
+				});
+			}
 		},
-		extensions: ['.js'],
+		extensions: [ '.js' ],
 		proxies : {
 			'./': 'http://localhost:3000'
 		},
-		port:3001,
+		port: 3001,
 		expressHttpServer: {
-				port:4001,
-        // this function takes express app object and allows you to modify it
-        // to your liking. For more see http://expressjs.com/4x/api.html
-        appVisitor: signaling
-    },
-    reporters: ['coverage', 'mocha'],
-
+			port: 4001,
+      // this function takes express app object and allows you to modify it
+      // to your liking. For more see http://expressjs.com/4x/api.html
+			appVisitor: signaling
+		},
+		reporters: [ 'coverage', 'mocha' ],
 		coverageReporter: {
-      // specify a common output directory
-      dir: 'coverage',
-      reporters: [
-        // reporters not supporting the `file` property
-        //{ type: 'html', subdir: 'report-html' },
-        //{ type: 'lcov', subdir: 'report-lcov' },
-        // reporters supporting the `file` property, use `subdir` to directly
-        // output them in the `dir` directory
-        { type: 'cobertura', subdir: '.', file: 'cobertura.txt' },
+			// specify a common output directory
+			dir: 'coverage',
+			reporters: [
+				{ type: 'cobertura', subdir: '.', file: 'cobertura.txt' },
         { type: 'lcovonly', subdir: '.' },
-        { type: 'text', subdir: '.', file: 'text.txt' },
-        { type: 'text-summary', subdir: '.'  },
-      ],
+				{ type: 'text', subdir: '.', file: 'summary-text.txt' },
+				{ type: 'text-summary', subdir: '.' }
+			],
 			instrumenterOptions: {
-        istanbul: { noCompact: true }
-      }
-    },
+				istanbul: { noCompact: true }
+			}
+		},
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
 		autoWatch: true,
@@ -87,7 +83,7 @@ module.exports = function (config) {
 		logLevel: config.LOG_DEBUG,
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['Firefox'],
+		browsers: [ 'Firefox' ],
 		singleRun: true,
 		// Concurrency level
 		// how many browser should be started simultaneous
