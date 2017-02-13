@@ -47,7 +47,7 @@ class NDPMessage {
 	 */
 	constructor (options) {
 		if (options.type === undefined) throw new TypeError('Error: a delegation message must have a type');
-		if (options.payload === undefined) throw new TypeError('Error: a delegation message must have data to transmitt in the "payload" field');
+		if (options.payload === undefined) throw new TypeError('Error: a delegation message must have data to transmit in the "payload" field');
 		// Is 'answer', 'request' or 'failed'
 		this.type = options.type;
 		// Owner id
@@ -60,6 +60,8 @@ class NDPMessage {
 		this.endpoint = options.endpoint;
 		// query
 		this.query = options.query;
+		// query id
+		this.qId = options.qId;
 		// timestamps
 		this.sendQueryTime = options.sendQueryTime || 'unknown';
 		this.receiveQueryTime = options.receiveQueryTime || 'unknown';

@@ -71,13 +71,15 @@ class StatusQueue {
 
 	/**
 	 * Push an element in the queue, at the end or at a specific index
+	 * @param {string} id - Query unique id
 	 * @param {string} query - The query to insert
 	 * @param {int|undefined} index - (optional) Specify a index to insert the query at
 	 * @return {void}
 	 */
-	push (query) {
+	push (id, query) {
 		this.queries = this.queries.push({
-			id: query,
+			id: id,
+			query: query,
 			status: STATUS_WAITING
 		});
 	}
@@ -88,28 +90,45 @@ class StatusQueue {
 	 * @return {void}
 	 */
 	pushMany (...queries) {
-		queries.forEach(q => this.push(q));
+		queries.forEach(q => this.push(q, q));
 	}
 
 	/**
 	 * Remove a query from the queue
-	 * @param {string} query - The query to be removed
+	 * @param {string} id - Query unique id
 	 * @return {int} The index of the removed element in the queue
 	 */
-	remove (query) {
-		const index = this.queries.findKey(q => q.id === query);
+	remove (id) {
+		const index = this.queries.findKey(q => q.id === id);
 		this.queries = this.queries.delete(index);
 		return index;
 	}
 
 	/**
+	 * Clear the queue
+	 * @return {void}
+	 */
+	clear () {
+		this.queries = this.queries.clear();
+	}
+
+	/**
+	 * Get first waiting query in the queue
+	 * @return {string} The first wiaiting query in the queue
+	 */
+	first () {
+		const index = this.queries.findKey(q => q.status === STATUS_WAITING);
+		return this.queries.get(index);
+	}
+
+	/**
 	 * Set the status of a query
-	 * @param {string} query - The query to update
+	 * @param {string} id - Query unique id
 	 * @param {string} status - The new status
 	 * @return {void}
 	 */
-	_setStatus (query, status) {
-		const index = this.queries.findKey(q => q.id === query);
+	_setStatus (id, status) {
+		const index = this.queries.findKey(q => q.id === id);
 		if (index > -1) {
 			this.queries = this.queries.update(index, q => {
 				return {
@@ -120,31 +139,39 @@ class StatusQueue {
 		}
 	}
 
+	getStatus (id) {
+		const index = this.queries.findKey(q => q.id === id);
+		if (index > -1) {
+			return this.queries.get(index).status;
+		}
+		return null;
+	}
+
 	/**
 	 * Set the status of a query to "waiting"
-	 * @param {string} query - The query to update
+	 * @param {string} id - Query unique id
 	 * @return {void}
 	 */
-	setWaiting (query) {
-		this._setStatus(query, STATUS_WAITING);
+	setWaiting (id) {
+		this._setStatus(id, STATUS_WAITING);
 	}
 
 	/**
 	 * Set the status of a query to "delegated"
-	 * @param {string} query - The query to update
+	 * @param {string} id - Query unique id
 	 * @return {void}
 	 */
-	setDelegated (query) {
-		this._setStatus(query, STATUS_DELEGATED);
+	setDelegated (id) {
+		this._setStatus(id, STATUS_DELEGATED);
 	}
 
 	/**
 	 * Set the status of a query to "done"
-	 * @param {string} query - The query to update
+	 * @param {string} id - Query unique id
 	 * @return {void}
 	 */
-	setDone (query) {
-		this._setStatus(query, STATUS_DONE);
+	setDone (id) {
+		this._setStatus(id, STATUS_DONE);
 	}
 }
 

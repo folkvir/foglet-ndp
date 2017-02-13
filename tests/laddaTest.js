@@ -95,10 +95,9 @@ describe('[LADDA]', function () {
 				f3.init();
 				return f2.connection();
 			}).then( () => {
-
 				return f3.connection();
 			}).then( () => {
-				f1.send(requests, endpoint);
+				return f1.send(requests, endpoint);
 			}).catch(error => {
 				console.log(error)
 				done(error);

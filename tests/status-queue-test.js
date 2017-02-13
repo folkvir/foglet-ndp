@@ -17,6 +17,28 @@ describe('StatusQueue', () => {
 		queue.isEmpty().should.be.true;
 	});
 
+	it('should should give access to the first not waiting query', () => {
+		const queue = StatusQueue.from([ 'q1', 'q2', 'q3' ]);
+		queue.first().id.should.equal('q1');
+		queue._setStatus('q1', 'other_status');
+		queue.first().id.should.equal('q2');
+	});
+
+	it('should should give access to the status of a query', () => {
+		const queue = StatusQueue.from([ 'q1', 'q2', 'q3' ]);
+		queue._setStatus('q2', 'other_status');
+		queue.getStatus('q1').should.equal('status_waiting');
+		queue.getStatus('q2').should.equal('other_status');
+		queue.getStatus('q3').should.equal('status_waiting');
+	});
+
+	it('should should be able to clear the queue', () => {
+		const queue = StatusQueue.from([ 'q1', 'q2', 'q3' ]);
+		queue.count().should.equal(3);
+		queue.clear();
+		queue.count().should.equal(0);
+	});
+
 	describe('#push', () => {
 		it('should push the item to the queue', () => {
 			const queue = new StatusQueue();
