@@ -78,8 +78,8 @@ class StatusQueue {
 	 */
 	push (id, query) {
 		this.queries = this.queries.push({
-			id: id,
-			query: query,
+			id,
+			query,
 			status: STATUS_WAITING
 		});
 	}
@@ -118,9 +118,21 @@ class StatusQueue {
 	 */
 	first () {
 		const index = this.queries.findKey(q => q.status === STATUS_WAITING);
-		return this.queries.get(index);
+		console.log(index);
+		if (index <= -1) return null;
+		const query = this.queries.get(index);
+		console.log(query);
+		return query;
 	}
 
+	/**
+	 * Return true if the queue has 1 or more waiting queries
+	 * @return {boolean} True if one or more queries have the status STATUS_WAITING
+	 */
+	hasWaitingQueries () {
+		return this.queries.filter(q => q.status === STATUS_WAITING).count() > 0;
+	}
+	
 	/**
 	 * Set the status of a query
 	 * @param {string} id - Query unique id
@@ -133,6 +145,7 @@ class StatusQueue {
 			this.queries = this.queries.update(index, q => {
 				return {
 					id: q.id,
+					query: q.query,
 					status
 				};
 			});

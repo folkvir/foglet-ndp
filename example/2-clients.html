@@ -25,6 +25,7 @@
     	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 80 LIMIT 10',
     	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 90 LIMIT 10'
     ];
+    let f1,f2,f3;
 
     $.ajax({
       url : "https://service.xirsys.com/ice",
@@ -47,7 +48,7 @@
           iceServers = response.d.iceServers;
         }
 
-        const f1 = new NDP({
+        f1 = new NDP({
           spray: new Spray({
             protocol: 'testNdp',
             webrtc:	{
@@ -57,7 +58,7 @@
           }),
           room: 'test'
         });
-        const f2 = new NDP({
+        f2 = new NDP({
           spray: new Spray({
             protocol: 'testNdp',
             webrtc:	{
@@ -68,7 +69,7 @@
           room: 'test'
         });
 
-        const f3 = new NDP({
+        f3 = new NDP({
           spray: new Spray({
             protocol: 'testNdp',
             webrtc:	{
