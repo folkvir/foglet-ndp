@@ -26,6 +26,11 @@ SOFTWARE.
 
 const IList = require('immutable').List;
 
+// status
+const STATUS_WAITING = 'status_waiting';
+const STATUS_DELEGATED = 'status_delegated';
+const STATUS_DONE = 'status_done';
+
 /**
  * A StatusQueue is a queue which contains values that can be reinserted after deletion
  */
@@ -57,11 +62,11 @@ class StatusQueue {
 	}
 
 	/**
-	 * Returns True if the queue is empty, otherwise False
+	 * Returns True if the queue is empty (i.e. all queries have been executed), otherwise False
 	 * @return {boolean} True if the queue is empty, otherwise False
 	 */
 	isEmpty () {
-		return this.count() <= 0;
+		return this.queries.filter(q => q.status === STATUS_DONE).count() === this.count();
 	}
 
 	/**
@@ -70,9 +75,11 @@ class StatusQueue {
 	 * @param {int|undefined} index - (optional) Specify a index to insert the query at
 	 * @return {void}
 	 */
-	push (query, index) {
-		const i = index || this.queries.count();
-		this.queries = this.queries.insert(i, query);
+	push (query) {
+		this.queries = this.queries.push({
+			id: query,
+			status: STATUS_WAITING
+		});
 	}
 
 	/**
@@ -90,9 +97,54 @@ class StatusQueue {
 	 * @return {int} The index of the removed element in the queue
 	 */
 	remove (query) {
-		const index = this.queries.findKey(q => q === query);
+		const index = this.queries.findKey(q => q.id === query);
 		this.queries = this.queries.delete(index);
 		return index;
+	}
+
+	/**
+	 * Set the status of a query
+	 * @param {string} query - The query to update
+	 * @param {string} status - The new status
+	 * @return {void}
+	 */
+	_setStatus (query, status) {
+		const index = this.queries.findKey(q => q.id === query);
+		if (index > -1) {
+			this.queries = this.queries.update(index, q => {
+				return {
+					id: q.id,
+					status
+				};
+			});
+		}
+	}
+
+	/**
+	 * Set the status of a query to "waiting"
+	 * @param {string} query - The query to update
+	 * @return {void}
+	 */
+	setWaiting (query) {
+		this._setStatus(query, STATUS_WAITING);
+	}
+
+	/**
+	 * Set the status of a query to "delegated"
+	 * @param {string} query - The query to update
+	 * @return {void}
+	 */
+	setDelegated (query) {
+		this._setStatus(query, STATUS_DELEGATED);
+	}
+
+	/**
+	 * Set the status of a query to "done"
+	 * @param {string} query - The query to update
+	 * @return {void}
+	 */
+	setDone (query) {
+		this._setStatus(query, STATUS_DONE);
 	}
 }
 
