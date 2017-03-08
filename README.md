@@ -33,24 +33,20 @@ const request = [
 ];
 
 const f1 = new NDP({
-  spray: new Spray({
-    protocol: 'test-protocol',
-    webrtc:	{
-      trickle: true,
-      iceServers: [] //iceServers you have to provide
-    }
-  }),
+	protocol: 'test-protocol',
+	webrtc:	{
+		trickle: false,
+		iceServers: [] //iceServers you have to provide
+	},
   room: 'test'
 });
 
 const f2 = new NDP({
-  spray: new Spray({
-    protocol: 'test-protocol',
-    webrtc:	{
-      trickle: true,
-      iceServers: [] //iceServers you have to provide
-    }
-  }),
+	protocol: 'test-protocol',
+	webrtc:	{
+		trickle: false,
+		iceServers: [] //iceServers you have to provide
+	},
   room: 'test'
 });
 
@@ -113,13 +109,11 @@ class DummyProtocol extends DelegationProtocol {
 }
 
 const f = new NDP({
-  spray: new Spray({
-    protocol: 'test-protocol',
-    webrtc:	{
-      trickle: true,
-      iceServers: [] //iceServers you have to provide
-    }
-  }),
+	protocol: 'test-protocol',
+	webrtc:	{
+		trickle: false,
+		iceServers: [] //iceServers you have to provide
+	},
   room: 'test',
 	delegationProtocol: new DummyProtocol()
 });
