@@ -8,8 +8,8 @@
     "test": "npm run karma",
     "karma": "karma start karma.config.js",
     "cover": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build:ndp": "browserify -r ./foglet-ndp.js:foglet-ndp -t envify -t babelify --presets es2015   > ./build/foglet-ndp.bundle.js",
-    "build:watch": "watchify -r ./foglet-ndp.js:foglet-ndp -t envify -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d "
+    "build:ndp": "browserify -r ./foglet-ndp.js:foglet-ndp  -t babelify --presets es2015   > ./build/foglet-ndp.bundle.js",
+    "build:watch": "watchify -r ./foglet-ndp.js:foglet-ndp  -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d "
   },
   "repository": {
     "type": "git",
@@ -36,14 +36,11 @@
   },
   "homepage": "https://github.com/folkvir/foglet-ndp#readme",
   "dependencies": {
-    "foglet-core": "^0.3.0",
+    "foglet-core": "^0.4.1",
     "immutable": "^3.8.1",
     "ldf-client": "^2.0.4",
     "q": "^1.4.1",
     "uuid": "^3.0.1"
-  },
-  "peerDependencies": {
-    "spray-wrtc": "^0.1.x"
   },
   "devDependencies": {
     "babel-core": "^6.18.0",
@@ -54,11 +51,10 @@
     "browserify": "^13.1.0",
     "browserify-istanbul": "^2.0.0",
     "chai": "^3.5.0",
-    "envify": "^4.0.0",
     "eslint": "^3.13.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
-    "foglet-signaling-server": "^0.0.4",
+    "foglet-signaling-server": "^0.1.0",
     "istanbul": "^0.4.5",
     "jquery": "^3.1.1",
     "jsdoc": "^3.4.3",

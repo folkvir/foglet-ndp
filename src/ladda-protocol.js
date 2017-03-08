@@ -38,7 +38,16 @@ ldf.Logger.setLevel('EMERGENCY');
 const STATUS_DELEGATED = 'status_delegated';
 
 // utility to format dates in hh:mm:ss:ms
-const formatTime = time => `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}:${time.getMilliseconds()}`;
+const formatTime = time => {
+	const hours = time.getHours().toString(),
+		min = time.getMinutes().toString(),
+		sec = time.getSeconds().toString();
+	let mil = time.getMilliseconds().toString();
+	if(mil.length === 2) {
+		mil = `0${mil}`;
+	}
+	return `${hours}:${min}:${sec}:${mil}`;
+};
 
 /**
  * Ladda delegation protocol

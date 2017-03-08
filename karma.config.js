@@ -25,7 +25,7 @@ module.exports = function (config) {
 		],
 		// list of files / patterns to load in the browser
 		files: [
-			'./node_modules/spray-wrtc/build/spray-wrtc.bundle.js',
+			// './node_modules/spray-wrtc/build/spray-wrtc.bundle.js',
 			'http://localhost:4000/socket.io/socket.io.js',
 			'tests/status-queue-test.js',
 			'tests/laddaTest.js',
@@ -42,11 +42,11 @@ module.exports = function (config) {
 		browserify: {
 			debug: true,
 			transform: [ [ 'babelify', {presets: [ 'es2015' ]} ], 'browserify-istanbul' ],
-			configure: function (bundle) {
-				bundle.on('prebundle', function () {
-					bundle.external([ 'spray-wrtc', 'foglet' ]);
-				});
-			}
+			// configure: function (bundle) {
+			// 	bundle.on('prebundle', function () {
+			// 		bundle.external([ 'spray-wrtc', 'foglet' ]);
+			// 	});
+			// }
 		},
 		extensions: [ '.js' ],
 		proxies : {

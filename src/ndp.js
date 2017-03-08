@@ -42,8 +42,8 @@ class NDP extends Foglet {
 	 * @param {int|undefined} options.maxPeers - (optional) The maximum number of peer to delegated queries (default to Number.MAX_VALUE)
 	 */
 	constructor (options) {
-		if (options === undefined || options.spray === undefined || options.spray.protocol === undefined ) {
-			throw new Error('Missing options, Spray must be defined in options', 'ndp.js');
+		if (options === undefined || options.room === undefined || options.protocol === undefined ) {
+			throw new Error('Missing options, options.room and options.protocol must be defined in options', 'ndp.js');
 		}
 		super(options);
 		this.events = new EventEmitter();
@@ -58,7 +58,6 @@ class NDP extends Foglet {
 	 * @override
 	 */
 	init () {
-		super.init();
 		this.delegationProtocol.use(this);
 	}
 
