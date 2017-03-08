@@ -43,7 +43,9 @@ const formatTime = time => {
 		min = time.getMinutes().toString(),
 		sec = time.getSeconds().toString();
 	let mil = time.getMilliseconds().toString();
-	if(mil.length === 2) {
+	if(mil.length === 1) {
+		mil = `00${mil}`;
+	}else if (mil.length === 2) {
 		mil = `0${mil}`;
 	}
 	return `${hours}:${min}:${sec}:${mil}`;
