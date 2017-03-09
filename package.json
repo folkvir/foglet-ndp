@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "This project aims to provide a simple neighbours delegated protocol and implement various SPARQL query delegation protocols",
   "main": "foglet-ndp.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "karma": "karma start karma.config.js",
     "cover": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "build:ndp": "browserify -r ./foglet-ndp.js:foglet-ndp  -t babelify --presets es2015   > ./build/foglet-ndp.bundle.js",
-    "build:watch": "watchify -r ./foglet-ndp.js:foglet-ndp  -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d "
+    "build:watch": "watchify -r ./foglet-ndp.js:foglet-ndp  -t babelify --presets es2015  -o ./build/foglet-ndp.bundle.js -v -d ",
+    "signaling": "node node_modules/foglet-signaling-server/express-signaling-server.js"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,7 @@
   },
   "homepage": "https://github.com/folkvir/foglet-ndp#readme",
   "dependencies": {
-    "foglet-core": "^0.5.0",
+    "foglet-core": ">=0.5.1",
     "immutable": "^3.8.1",
     "ldf-client": "^2.0.4",
     "q": "^1.4.1",
