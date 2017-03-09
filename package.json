@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "This project aims to provide a simple neighbours delegated protocol and implement various SPARQL query delegation protocols",
   "main": "foglet-ndp.js",
   "scripts": {
@@ -27,16 +27,16 @@
     "query delegation"
   ],
   "author": "Grall Arnaud (Folkvir)",
-	"contributors": [
-		"Thomas Minier <thomas.minier@protonmail.com"
-	],
+  "contributors": [
+    "Thomas Minier <thomas.minier@protonmail.com"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/folkvir/foglet-ndp/issues"
   },
   "homepage": "https://github.com/folkvir/foglet-ndp#readme",
   "dependencies": {
-    "foglet-core": "^0.4.2",
+    "foglet-core": "^0.5.0",
     "immutable": "^3.8.1",
     "ldf-client": "^2.0.4",
     "q": "^1.4.1",
