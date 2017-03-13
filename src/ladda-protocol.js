@@ -71,6 +71,8 @@ class LaddaProtocol extends DelegationProtocol {
 		this.nbDestinations = nbDestinations || 2;
 		this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
 
+		this.garbageTimeout = {};
+
 		this.signalAnswer = 'ndp-answer'; // When an answer is received from our workload
 		this.signalError = 'ndp-error'; // An error occurred
 		this.signalFailed = 'ndp-failed'; // a query has failed to be delegated
@@ -148,6 +150,8 @@ class LaddaProtocol extends DelegationProtocol {
 					self.busyPeers = this.busyPeers.delete(id);
 					message.receiveResultsTime = receiveMessageTime;
 					self.emit(this.signalAnswer, message);
+					// clear the timeout
+					clearTimeout(this.garbageTimeout[message.qId]);
 					// retry delegation if there's queries in the queue
 					if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
 				} catch (error) {
@@ -161,6 +165,7 @@ class LaddaProtocol extends DelegationProtocol {
 				self.foglet._flog('@LADDA : failed query from @' + message.id);
 				self.emit(this.signalFailed, message);
 				self.queryQueue.setWaiting(message.qId);
+				clearTimeout(this.garbageTimeout[message.qId]);
 				self.busyPeers = self.busyPeers.delete(id);
 				if(self.isFree) self.delegateQueries(message.endpoint);
 				break;
@@ -279,7 +284,7 @@ class LaddaProtocol extends DelegationProtocol {
 								self.foglet.sendUnicast(m, peer);
 								// set timeout if necessary
 								if (self.timeout > 0) {
-									setTimeout(() => {
+									this.garbageTimeout[query.id] = setTimeout(() => {
 										if(self.queryQueue.getStatus(query.id) === STATUS_DELEGATED) {
 											self.emit(self.signalTimeout, query);
 											self.queryQueue.setWaiting(query.id);
