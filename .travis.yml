@@ -12,7 +12,6 @@ script:
 - npm run build:ndp
 - ls -R ./build ./src
 - npm test
-- npm run cover
 deploy:
   provider: npm
   email: folkvir@outlook.fr
