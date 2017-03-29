@@ -22,7 +22,6 @@ The following example works like a charm and is avalaible in the folder **exampl
 !!! You need a signaling server in order to run the example, foglet-core has one embedded, just run: ```cd node_modules/foglet-core && npm run server```
 
 ```javascript
-const Spray = require('spray-wrtc');
 const NDP = require('foglet-ndp').NDP;
 
 const endpoint = 'https://query.wikidata.org/bigdata/ldf';

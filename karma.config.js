@@ -76,7 +76,7 @@ module.exports = function (config) {
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
 		autoWatch: true,
-		browserNoActivityTimeout:20000,
+		browserNoActivityTimeout:60000,
 		colors: true,
 		// level of logging
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
@@ -84,7 +84,7 @@ module.exports = function (config) {
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: [ 'Firefox' ],
-		singleRun: true,
+		singleRun: false,
 		// Concurrency level
 		// how many browser should be started simultaneous
 		concurrency: Infinity

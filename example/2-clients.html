@@ -9,12 +9,11 @@
   </head>
 
   <script type='text/javascript'>
-    const Spray = require('spray-wrtc');
     const NDP = require('foglet-ndp').NDP;
     const endpoint = 'https://query.wikidata.org/bigdata/ldf';
     const request = [
       'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
-			'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
+  		'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
     	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 10 LIMIT 10',
     	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 20 LIMIT 10',
     	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 30 LIMIT 10',
@@ -55,7 +54,7 @@
     });
 
     f1.init();
-    
+
     let cpt = 0;
     f1.events.on('ndp-answer', (response) => {
       console.log(response)
@@ -73,18 +72,17 @@
       });
     };
 
-  const signalingConnection = () => {
-    f1.connection().then(status =>  {
-      f2.init();
-      f2.connection().then( () => {
-        f3.init();
-        f3.connection().then( () => {
-          f1.send(request, endpoint);
+    const signalingConnection = () => {
+      f1.connection().then(status =>  {
+        f2.init();
+        f2.connection().then( () => {
+          f3.init();
+          f3.connection().then( () => {
+            f1.send(request, endpoint);
+          });
         });
-      });
-    })
-  };
-
+      })
+    };
   </script>
 
   <body>

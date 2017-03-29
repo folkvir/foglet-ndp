@@ -55,6 +55,16 @@ class DelegationProtocol {
 
 	/**
 	 * Forward en event to Foglet
+	 * @param {string} signal - The event's key
+	 * @param {callback} callback - The event value
+	 * @return {void}
+	 */
+	on (signal, callback) {
+		if(this.foglet !== null) this.foglet.events.on(signal, callback);
+	}
+
+	/**
+	 * Forward en event to Foglet
 	 * @param {string} key - The event's key
 	 * @param {*} value - The event value
 	 * @return {void}

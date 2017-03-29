@@ -18,31 +18,31 @@ const requests = [
 ];
 
 describe('[LADDA]', function () {
-	this.timeout(15000);
-	it('Initialization', function (done) {
-		const f1 = new NDP({
+	this.timeout(30000);
+	it('Workload without promise', function (done) {
+		let f1 = new NDP({
 			protocol: 'testNdp',
 			webrtc:	{
-				trickle: false,
+				trickle: true,
 				iceServers: []
 			},
 			room: 'test',
 			verbose:true
 		});
-		const f2 = new NDP({
+		let f2 = new NDP({
 			protocol: 'testNdp',
 			webrtc:	{
-				trickle: false,
+				trickle: true,
 				iceServers: []
 			},
 			room: 'test',
 			verbose:true
 		});
 
-		const f3 = new NDP({
+		let f3 = new NDP({
 			protocol: 'testNdp',
 			webrtc:	{
-				trickle: false,
+				trickle: true,
 				iceServers: []
 			},
 			room: 'test',
@@ -67,13 +67,76 @@ describe('[LADDA]', function () {
 		f3.init();
 
 		f1.connection().then(() =>  {
+			console.log('F1 connected');
 			f2.connection().then( () => {
+				console.log('F2 connected');
 				f3.connection().then( () => {
+					console.log('F3 connected');
 					f1.send(requests, endpoint);
 				}).catch(error => {
 					done(error);
 				});
+			}).catch(error => {
+				done(error);
 			});
+		}).catch(error => {
+			done(error);
+		});
+	});
+
+	it('Workload with promise', function (done) {
+		let f1 = new NDP({
+			protocol: 'testNdp2',
+			webrtc:	{
+				trickle: true,
+				iceServers: []
+			},
+			room: 'test2',
+			verbose:true
+		});
+		let f2 = new NDP({
+			protocol: 'testNdp2',
+			webrtc:	{
+				trickle: true,
+				iceServers: []
+			},
+			room: 'test2',
+			verbose:true
+		});
+
+		let f3 = new NDP({
+			protocol: 'testNdp2',
+			webrtc:	{
+				trickle: true,
+				iceServers: []
+			},
+			room: 'test2',
+			verbose:true
+		});
+
+
+		f1.init();
+		f2.init();
+		f3.init();
+
+		f1.connection().then(() =>  {
+			console.log('F1 connected');
+			f2.connection().then( () => {
+				console.log('F2 connected');
+				f3.connection().then( () => {
+					console.log('F3 connected');
+					f1.delegationProtocol.sendPromise(requests, endpoint, false).then( (results) => {
+						assert(results.length, requests.length);
+						done();
+					});
+				}).catch(error => {
+					done(error);
+				});
+			}).catch(error => {
+				done(error);
+			});
+		}).catch(error => {
+			done(error);
 		});
 	});
 });

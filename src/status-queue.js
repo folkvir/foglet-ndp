@@ -118,10 +118,8 @@ class StatusQueue {
 	 */
 	first () {
 		const index = this.queries.findKey(q => q.status === STATUS_WAITING);
-		console.log(index);
 		if (index <= -1) return null;
 		const query = this.queries.get(index);
-		console.log(query);
 		return query;
 	}
 
@@ -132,7 +130,7 @@ class StatusQueue {
 	hasWaitingQueries () {
 		return this.queries.filter(q => q.status === STATUS_WAITING).count() > 0;
 	}
-	
+
 	/**
 	 * Set the status of a query
 	 * @param {string} id - Query unique id
