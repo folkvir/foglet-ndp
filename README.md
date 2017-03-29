@@ -1,5 +1,5 @@
 # Foglet - Neighbours Delegated Protocol (NDP)
-[![Build Status](https://travis-ci.org/folkvir/foglet-ndp.svg?branch=master)](https://travis-ci.org/folkvir/foglet-ndp) [![Coverage Status](https://coveralls.io/repos/github/folkvir/foglet-ndp/badge.svg?branch=master)](https://coveralls.io/github/folkvir/foglet-ndp?branch=master) [![XirSys WebRTC Cloud Support](https://img.shields.io/badge/XirSys%20Cloud-used-blue.svg)](http://xirsys.com/)
+[![Build Status](https://travis-ci.org/RAN3D/foglet-ndp.svg?branch=master)](https://travis-ci.org/RAN3D/foglet-ndp)
 
 Keywords: Simple Neighbours delegated protocol, Random peer sampling, adaptive, browser-to-browser communication, WebRTC
 
@@ -11,7 +11,7 @@ By default it uses the Ladda Query Delegation Protocol.
 ## Install
 
 ```bash
-npm install spray-wrtc foglet-ndp
+npm install foglet-ndp
 ```
 
 ## Usage
@@ -67,7 +67,6 @@ f1.connection().then(status =>  {
 You can create you own custom delegation protocol by extending `DelegationProtocol` and provides an instance of it when creating a new Foglet-NDP.
 ```javascript
 const Q = require('q'); // use q promises for a better workflow
-const Spray = require('spray-wrtc');
 const DelegationProtocol = require('foglet-ndp').DelegationProtocol;
 const NDP = require('foglet-ndp').NDP;
 
