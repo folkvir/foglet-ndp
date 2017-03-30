@@ -18,4 +18,4 @@ deploy:
   api_key: $NPM_KEY
   on:
     tags: true
-    repo: folkvir/foglet-ndp
+    repo: RAN3D/foglet-ndp
