@@ -30,6 +30,7 @@ const StatusQueue = require('./status-queue.js');
 const DelegationProtocol = require('./delegation-protocol.js');
 const NDPMessage = require('./ndp-message.js');
 const uuidV4 = require('uuid/v4');
+const moment = require('moment');
 
 // LDF LOG Disabling
 ldf.Logger.setLevel('EMERGENCY');
@@ -91,16 +92,20 @@ class LaddaProtocol extends DelegationProtocol {
 		super.use(foglet);
 		const self = this;
 		this.foglet.onUnicast((id, message) => {
-			const receiveMessageTime = formatTime(new Date());
+			const receiveMessageTimeDate = new Date();
+			const receiveMessageTime = formatTime(receiveMessageTimeDate);
 			switch (message.type) {
 			case 'request': {
 				self.foglet._log('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
 				if(self.isFree && !self.queryQueue.hasWaitingQueries()) {
 					self.isFree = false;
 					const query = message.payload;
-					const startExecutionTime = formatTime(new Date());
+					const startExecutionTimeDate = new Date();
+					const startExecutionTime = formatTime(startExecutionTimeDate);
 					self.execute(query, message.endpoint).then(result => {
-						const endExecutionTime = formatTime(new Date());
+						const endExecutionTimeDate = new Date();
+						const endExecutionTime = formatTime(endExecutionTimeDate);
+						const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
 						self.isFree = true;
 						const msg = new NDPMessage({
 							type: 'answer',
@@ -114,7 +119,8 @@ class LaddaProtocol extends DelegationProtocol {
 							sendQueryTime: message.sendQueryTime,
 							receiveQueryTime: receiveMessageTime,
 							startExecutionTime,
-							endExecutionTime
+							endExecutionTime,
+							executionTime
 						});
 						self.foglet._log(msg);
 						msg.sendResultsTime = formatTime(new Date());
@@ -149,6 +155,7 @@ class LaddaProtocol extends DelegationProtocol {
 					self.queryQueue.setDone(message.qId);
 					self.busyPeers = this.busyPeers.delete(id);
 					message.receiveResultsTime = receiveMessageTime;
+					message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
 					self.emit(this.signalAnswer, message);
 					// clear the timeout
 					clearTimeout(this.garbageTimeout[message.qId]);
@@ -253,10 +260,13 @@ class LaddaProtocol extends DelegationProtocol {
 						self.isFree = false;
 						self.foglet._log('@LADDA - Selected query:' + query.query);
 						self.queryQueue.setDelegated(query.id);
-						const startExecutionTime = formatTime(new Date());
+						const startExecutionTimeDate = new Date();
+						const startExecutionTime = formatTime(startExecutionTimeDate);
 						self.execute(query.query, endpoint).then(result => {
 							self.queryQueue.setDone(query.id);
-							const endExecutionTime = formatTime(new Date());
+							const endExecutionTimeDate = new Date();
+							const endExecutionTime = formatTime(endExecutionTimeDate);
+							const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
 							self.isFree = true;
 							const msg = new NDPMessage({
 								type: 'answer',
@@ -271,7 +281,9 @@ class LaddaProtocol extends DelegationProtocol {
 								startExecutionTime,
 								endExecutionTime,
 								sendResultsTime: endExecutionTime,
-								receiveResultsTime: endExecutionTime
+								receiveResultsTime: endExecutionTime,
+								executionTime,
+								globalExecutionTime: executionTime
 							});
 							self.foglet._log('@LADDA - client finished query');
 							self.emit(this.signalAnswer, msg);
@@ -366,6 +378,27 @@ class LaddaProtocol extends DelegationProtocol {
 				reject(error);
 			}
 		});
+	}
+
+	_computeExecutionTime (start, end) {
+		const s = moment.duration(start.getTime());
+		const e = moment.duration(end.getTime());
+		return e.subtract(s).asMilliseconds();
+	}
+
+	_computeGlobalExecutionTime (start, end) {
+		// start is a formated date, end is a Date
+		return this._computeExecutionTime(this._toDate(start), end);
+	}
+
+	_toDate (date) {
+		let d = new Date();
+		const split = date.split(':');
+		d.setHours(split[0]);
+		d.setMinutes(split[1]);
+		d.setSeconds(split[2]);
+		d.setMilliseconds(split[3]);
+		return d;
 	}
 
 	/**

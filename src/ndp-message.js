@@ -69,6 +69,8 @@ class NDPMessage {
 		this.endExecutionTime = options.endExecutionTime || 'unknown';
 		this.sendResultsTime = options.sendResultsTime || 'unknown';
 		this.receiveResultsTime = options.receiveResultsTime || 'unknown';
+		this.executionTime = options.executionTime || 'unknown'; // in milliseconds
+		this.globalExecutionTime = options.executionTime || 'unknown'; // in milliseconds
 	}
 }
 
