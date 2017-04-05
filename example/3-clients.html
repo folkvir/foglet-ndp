@@ -2,13 +2,14 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>2 Clients tests</title>
+    <title>3 Clients tests</title>
     <script type='text/javascript' src='../node_modules/jquery/dist/jquery.min.js'> </script>
-    <script type='text/javascript' src='../node_modules/spray-wrtc/build/spray-wrtc.bundle.js'> </script>
     <script type='text/javascript' src='../build/foglet-ndp.bundle.js' > </script>
   </head>
 
   <script type='text/javascript'>
+    localStorage.debug = 'foglet-*';
+
     const NDP = require('foglet-ndp').NDP;
     const endpoint = 'https://query.wikidata.org/bigdata/ldf';
     const request = [
@@ -30,59 +31,51 @@
     f1 = new NDP({
       protocol: 'testNdp',
       webrtc:	{
-        trickle: false,
+        trickle: true,
         iceServers : []
       },
-      room: 'test'
+      rpsType: 'spray-wrtc',
+      room: 'test',
+      verbose: true
     });
     f2 = new NDP({
       protocol: 'testNdp',
       webrtc:	{
-        trickle: false,
+        trickle: true,
         iceServers : []
       },
-      room: 'test'
+      rpsType: 'spray-wrtc',
+      room: 'test',
+      verbose: true
     });
 
     f3 = new NDP({
       protocol: 'testNdp',
       webrtc:	{
-        trickle: false,
+        trickle: true,
         iceServers : []
       },
-      room: 'test'
+      rpsType: 'spray-wrtc',
+      room: 'test',
+      verbose: true
     });
 
     f1.init();
+    f2.init();
+    f3.init();
 
-    let cpt = 0;
-    f1.events.on('ndp-answer', (response) => {
-      console.log(response)
-      cpt++;
-      console.log('Number of answer : ' + cpt);
-    });
-
-    const directConnection = () => {
-      f2.init();
-      f2.connection(f1).then(status =>  {
-        f3.init();
-        return f3.connection(f1);
-      }).then( () => {
-        f1.send(request, endpoint);
-      });
-    };
-
-    const signalingConnection = () => {
-      f1.connection().then(status =>  {
-        f2.init();
-        f2.connection().then( () => {
-          f3.init();
-          f3.connection().then( () => {
-            f1.send(request, endpoint);
+    f1.connection(f2).then(() => {
+      f1.connection(f3).then(() => {
+        f3.connection(f1).then( () => {
+          f2.connection(f1).then( () => {
+            console.log('All clients connected between them.')
+            f1.delegationProtocol.sendPromise(request, endpoint, false).then( (results) => {
+              console.log(results);
+            }).catch(error => console.log(error));
           });
         });
-      })
-    };
+      });
+    });
   </script>
 
   <body>

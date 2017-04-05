@@ -52,7 +52,7 @@ const f2 = new NDP({
 f1.init();
 f2.init();
 
-f1.events.on('ndp-answer', (response) => {
+f1.delegationProtocol.on('ndp-answer', (response) => {
   console.log(response)
 });
 

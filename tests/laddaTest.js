@@ -1,5 +1,8 @@
 'use strict';
 require('chai').should();
+
+localStorage.debug = '*';
+
 const NDP = require('../foglet-ndp.js').NDP;
 // const $ = require('jquery');
 const endpoint = 'https://query.wikidata.org/bigdata/ldf';
@@ -26,6 +29,7 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
+			rpsType: 'spray-wrtc',
 			room: 'test',
 			verbose:true
 		});
@@ -35,6 +39,7 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
+			rpsType: 'spray-wrtc',
 			room: 'test',
 			verbose:true
 		});
@@ -45,6 +50,7 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
+			rpsType: 'spray-wrtc',
 			room: 'test',
 			verbose:true
 		});
@@ -52,7 +58,7 @@ describe('[LADDA]', function () {
 
 		let cpt = 0;
 		const nbResultWantetd = 11;
-		f1.events.on('ndp-answer', (response) => {
+		f1.delegationProtocol.on('ndp-answer', (response) => {
 			console.log(response);
 			cpt++;
 			console.log('Number of answer : ' + cpt);
@@ -91,6 +97,7 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
+			rpsType: 'spray-wrtc',
 			room: 'test2',
 			verbose:true
 		});
@@ -100,6 +107,7 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
+			rpsType: 'spray-wrtc',
 			room: 'test2',
 			verbose:true
 		});
@@ -110,6 +118,7 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
+			rpsType: 'spray-wrtc',
 			room: 'test2',
 			verbose:true
 		});

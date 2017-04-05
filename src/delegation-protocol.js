@@ -24,19 +24,30 @@ SOFTWARE.
 'use strict';
 
 const Q = require('q');
+const _ = require('lodash');
+const debug = require('debug');
+const EventEmitter = require('events');
 
 /**
  * Abstract delegation protocol used by Foglet-NDP to distribute queries between peers
  * @abstract
  * @author Arnaud Grall (Folkvir), Thomas Minier
  */
-class DelegationProtocol {
+class DelegationProtocol extends EventEmitter {
 	/**
 	 * Constructor
-	 * @param {string} name - The protocol's name
+	 * @param {object} options - The protocol's options object where all options are defined
+	 * @param {string} options.name Name of the protocol
+	 * @param {string} options.verbose If true, logs are printed through debug package
 	 */
-	constructor (name) {
-		this.name = name;
+	constructor (options) {
+		super();
+		this.options = _.merge({
+			name: 'ndp',
+			verbose: true
+		}, options);
+		this.name = 'foglet-'+this.options.name;
+		this.logger = debug(this.name);
 		this.foglet = null;
 	}
 
@@ -53,25 +64,6 @@ class DelegationProtocol {
 		this.foglet = foglet;
 	}
 
-	/**
-	 * Forward en event to Foglet
-	 * @param {string} signal - The event's key
-	 * @param {callback} callback - The event value
-	 * @return {void}
-	 */
-	on (signal, callback) {
-		if(this.foglet !== null) this.foglet.events.on(signal, callback);
-	}
-
-	/**
-	 * Forward en event to Foglet
-	 * @param {string} key - The event's key
-	 * @param {*} value - The event value
-	 * @return {void}
-	 */
-	emit (key, value) {
-		if(this.foglet !== null) this.foglet.events.emit(key, value);
-	}
 
 	/**
 	 * Send queries to neighbours and emit results on ndp-answer
@@ -91,6 +83,13 @@ class DelegationProtocol {
 	 */
 	execute (data, endpoint) {
 		return Q(endpoint);
+	}
+
+	_log (...args) {
+		if(this.options.verbose) {
+			this.logger('%O', ...args);
+			this.emit('logs', ...args);
+		}
 	}
 }
 

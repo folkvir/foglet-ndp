@@ -25,6 +25,7 @@ SOFTWARE.
 
 const EventEmitter = require('events');
 const Foglet = require('foglet-core').Foglet;
+const _ = require('lodash');
 const LaddaProtocol = require('./ladda-protocol.js');
 
 /**
@@ -46,10 +47,9 @@ class NDP extends Foglet {
 			throw new Error('Missing options, options.room and options.protocol must be defined in options', 'ndp.js');
 		}
 		super(options);
-		this.events = new EventEmitter();
 		this.maxPeers = options.maxPeers || null;
 		this.timeout = options.timeout || null;
-		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(this.maxPeers, this.timeout);
+		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(this.maxPeers, this.timeout, this.options.verbose);
 	}
 
 	/**
