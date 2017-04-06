@@ -95,17 +95,18 @@ class LaddaProtocol extends DelegationProtocol {
 		super.use(foglet);
 		const self = this;
 		this.foglet.onUnicast((id, message) => {
+
 			const receiveMessageTimeDate = new Date();
 			const receiveMessageTime = formatTime(receiveMessageTimeDate);
 			switch (message.type) {
 			case 'request': {
+				self._log(' message: ', message);
 				self._log('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
 				if(self.isFree && !self.queryQueue.hasWaitingQueries()) {
 					self.isFree = false;
 					const query = message.payload;
 					const startExecutionTimeDate = new Date();
 					const startExecutionTime = formatTime(startExecutionTimeDate);
-					console.log('request-query', message);
 					self.execute(query, message.endpoint).then(result => {
 						const endExecutionTimeDate = new Date();
 						const endExecutionTime = formatTime(endExecutionTimeDate);
@@ -277,7 +278,6 @@ class LaddaProtocol extends DelegationProtocol {
 						self.queryQueue.setDelegated(query.id);
 						const startExecutionTimeDate = new Date();
 						const startExecutionTime = formatTime(startExecutionTimeDate);
-						console.log('me', query);
 						self.execute(query.query, endpoint).then(result => {
 							self.queryQueue.setDone(query.id);
 							const endExecutionTimeDate = new Date();

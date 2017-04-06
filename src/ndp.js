@@ -23,9 +23,7 @@ SOFTWARE.
 */
 'use strict';
 
-const EventEmitter = require('events');
 const Foglet = require('foglet-core').Foglet;
-const _ = require('lodash');
 const LaddaProtocol = require('./ladda-protocol.js');
 
 /**
