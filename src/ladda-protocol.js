@@ -31,6 +31,7 @@ const DelegationProtocol = require('./delegation-protocol.js');
 const NDPMessage = require('./ndp-message.js');
 const uuidV4 = require('uuid/v4');
 const moment = require('moment');
+const _ = require('lodash');
 
 // LDF LOG Disabling
 ldf.Logger.setLevel('EMERGENCY');
@@ -51,6 +52,10 @@ const formatTime = time => {
 	}
 	return `${hours}:${min}:${sec}:${mil}`;
 };
+
+function clone (obj) {
+	return _.merge({}, obj);
+}
 
 /**
  * Ladda delegation protocol
@@ -127,9 +132,9 @@ class LaddaProtocol extends DelegationProtocol {
 							endExecutionTime,
 							executionTime
 						});
-						self._log(msg);
+						self._log(clone(msg));
 						msg.sendResultsTime = formatTime(new Date());
-						self.emit(this.signalDelegatedQueryExecuted, msg);
+						self.emit(this.signalDelegatedQueryExecuted, clone(msg));
 						self.foglet.sendUnicast(msg, id);
 					}).catch(error => {
 						self._log('**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
@@ -145,8 +150,8 @@ class LaddaProtocol extends DelegationProtocol {
 							qId: message.qId,
 							receiveQueryTime: receiveMessageTime
 						});
-						self._log(msg);
-						self.emit(this.signalFailed, msg);
+						self._log(clone(msg));
+						self.emit(this.signalFailed, clone(msg));
 						self.foglet.sendUnicast(msg, id);
 					});
 				} else {
@@ -159,8 +164,8 @@ class LaddaProtocol extends DelegationProtocol {
 						qId: message.qId,
 						receiveQueryTime: receiveMessageTime
 					});
-					self._log(msg);
-					self.emit(this.signalFailed, msg);
+					self._log(clone(msg));
+					self.emit(this.signalFailed, clone(msg));
 					self.foglet.sendUnicast(msg, id);
 				}
 				break;
@@ -172,7 +177,7 @@ class LaddaProtocol extends DelegationProtocol {
 					self.busyPeers = this.busyPeers.delete(id);
 					message.receiveResultsTime = receiveMessageTime;
 					message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
-					self.emit(this.signalAnswer, message);
+					self.emit(this.signalAnswer, clone(message));
 					// clear the timeout
 					clearTimeout(this.garbageTimeout[message.qId]);
 					// retry delegation if there's queries in the queue
@@ -187,7 +192,7 @@ class LaddaProtocol extends DelegationProtocol {
 			}
 			case 'failed': {
 				self._log('@LADDA : failed query from @' + message.id);
-				self.emit(this.signalFailed, message);
+				self.emit(this.signalFailed, clone(message));
 				self.queryQueue.setWaiting(message.qId);
 				clearTimeout(this.garbageTimeout[message.qId]);
 				self.busyPeers = self.busyPeers.delete(id);
@@ -302,7 +307,7 @@ class LaddaProtocol extends DelegationProtocol {
 								globalExecutionTime: executionTime
 							});
 							self._log('@LADDA - client finished query');
-							self.emit(this.signalAnswer, msg);
+							self.emit(this.signalAnswer, clone(msg));
 							// retry delegation if there's queries in the queue
 							if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
 						}).catch(error => {
@@ -336,7 +341,7 @@ class LaddaProtocol extends DelegationProtocol {
 									endpoint,
 									sendQueryTime
 								});
-								self.emit(this.signalDelegateQuery, m);
+								self.emit(this.signalDelegateQuery, clone(m));
 								self.foglet.sendUnicast(m, peer);
 								// set timeout if necessary
 								if (self.timeout > 0) {
