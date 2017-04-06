@@ -133,8 +133,8 @@ class LaddaProtocol extends DelegationProtocol {
 					}).catch(error => {
 						self._log('**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
 						self.isFree = true;
-						self.emit(self.signalError, error.toString());
-						self._log(error.toString());
+						self.emit(self.signalError, error.toString() + '\n' + error.stack);
+						self._log(error.toString() + '\n' + error.stack);
 						self._log('****************************************************************************************');
 						const msg = new NDPMessage({
 							type: 'failed',
@@ -178,8 +178,8 @@ class LaddaProtocol extends DelegationProtocol {
 					if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
 				} catch (error) {
 					self._log('**********************ERROR ANSWER****************************');
-					self._log(error.toString());
-					self.emit(self.signalError, error.toString());
+					self._log(error.toString() + '\n' + error.stack);
+					self.emit(self.signalError, error.toString() + '\n' + error.stack);
 					self._log('**************************************************************');
 				}
 				break;
@@ -309,9 +309,9 @@ class LaddaProtocol extends DelegationProtocol {
 							self._log('**********************ERROR EXECUTE AT ME****************************');
 							self.isFree = true;
 							self.queryQueue.setWaiting(query.id);
-							self._log(error.toString());
-							self._log('@LADDA - Error : ' + error.toString());
-							self.emit(self.signalError, error.toString());
+							self._log(error.toString() + '\n' + error.stack);
+							self._log('@LADDA - Error : ' + error.toString() + '\n' + error.stack);
+							self.emit(self.signalError, error.toString() + '\n' + error.stack);
 							self._log('*********************************************************************');
 						});
 					}
@@ -356,9 +356,9 @@ class LaddaProtocol extends DelegationProtocol {
 			} catch (error) {
 				self._log('**********************ERROR****************************');
 				self.isFree = true;
-				self._log(error.toString());
-				self._log('@LADDA - Error : ' + error.toString());
-				self.emit(self.signalError, error.toString());
+				self._log(error.toString() + '\n' + error.stack);
+				self._log('@LADDA - Error : ' + error.toString() + '\n' + error.stack);
+				self.emit(self.signalError, error.toString() + '\n' + error.stack);
 				self._log('*******************************************************');
 				reject(error);
 			}
@@ -389,8 +389,8 @@ class LaddaProtocol extends DelegationProtocol {
 				});/* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
 			} catch (error) {
 				self._log('**********************ERROR****************************');
-				self._log(error.toString());
-				self.emit(self.signalError, error.toString());
+				self._log(error.toString() + '\n' + error.stack);
+				self.emit(self.signalError, error.toString() + '\n' + error.stack);
 				self._log('*******************************************************');
 				reject(error);
 			}
