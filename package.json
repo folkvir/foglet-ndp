@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "This project aims to provide a simple neighbours delegated protocol and implement various SPARQL query delegation protocols",
   "main": "foglet-ndp.js",
   "scripts": {
