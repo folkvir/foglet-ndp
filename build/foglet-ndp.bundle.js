@@ -41562,7 +41562,9 @@ function UnionIterator(sources, options) {
         this._sources.push(source);
         source.on('readable', fillBuffer);
         source.on('end',      fillBuffer);
-        source.on('error',    emitError);
+        source.on('error', function(error){
+          console.log(error);
+        });
       }
     }
   }
