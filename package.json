@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "This project aims to provide a simple neighbours delegated protocol and implement various SPARQL query delegation protocols",
   "main": "foglet-ndp.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "debug": "^2.6.3",
     "foglet-core": "^1.1.x",
     "immutable": "^3.8.1",
-    "ldf-client": "^2.0.4",
+    "ldf-client": "git://github.com/folkvir/Client.js.git",
     "moment": "^2.18.1",
     "q": "^1.4.1",
     "uuid": "^3.0.1"
