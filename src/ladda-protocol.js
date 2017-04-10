@@ -88,6 +88,10 @@ class LaddaProtocol extends DelegationProtocol {
 		this.signalTimeout = 'ndp-timeout'; // Signal for timed out queries
 		this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
 		this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
+
+
+		// fragmentsClient
+		this.endpoints = {};
 	}
 
 	/**
@@ -112,6 +116,7 @@ class LaddaProtocol extends DelegationProtocol {
 					const query = message.payload;
 					const startExecutionTimeDate = new Date();
 					const startExecutionTime = formatTime(startExecutionTimeDate);
+					self._setFragmentsClient(message.endpoint);
 					self.execute(query, message.endpoint).then(result => {
 						const endExecutionTimeDate = new Date();
 						const endExecutionTime = formatTime(endExecutionTimeDate);
@@ -205,6 +210,13 @@ class LaddaProtocol extends DelegationProtocol {
 		});
 	}
 
+	_setFragmentsClient (endpoint) {
+		let fragmentsClient = this.endpoints[endpoint];
+		if(!fragmentsClient) {
+			this.endpoints[endpoint] = new ldf.FragmentsClient(endpoint);
+		}
+	}
+
 	/**
 	 * Send queries to neighbours and emit results on ndp-answer
 	 * @param {array} data array of element to send (query)
@@ -212,6 +224,7 @@ class LaddaProtocol extends DelegationProtocol {
 	 * @return {promise} A Q promise
 	 */
 	send (data, endpoint) {
+		this._setFragmentsClient (endpoint);
 		// clear queue before anything
 		this.queryQueue.clear();
 		data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
@@ -227,6 +240,7 @@ class LaddaProtocol extends DelegationProtocol {
 	 */
 	sendPromise (data, endpoint, withResults = true) {
 		return Q.Promise( (resolve) => {
+			this._setFragmentsClient (endpoint);
 			// clear queue before anything
 			this.queryQueue.clear();
 			data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
@@ -382,7 +396,9 @@ class LaddaProtocol extends DelegationProtocol {
 		const self = this;
 		return Q.Promise( (resolve, reject) => {
 			try {
-				let fragmentsClient = new ldf.FragmentsClient(endpoint);
+				// let fragmentsClient = new ldf.FragmentsClient(endpoint);
+				const fragmentsClient = self.endpoints[endpoint];
+				console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
 				let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
 				queryResults.on('data', ldfResult => {
 					delegationResults = delegationResults.push(ldfResult);
