@@ -91,7 +91,7 @@ class LaddaProtocol extends DelegationProtocol {
 
 
 		// fragmentsClient
-		this.endpoints = {};
+		this.endpoints = new Map();
 	}
 
 	/**
