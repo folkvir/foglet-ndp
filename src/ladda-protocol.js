@@ -421,6 +421,13 @@ class LaddaProtocol extends DelegationProtocol {
 					self.isFree = true;
 					resolve(delegationResults.toJS());
 				});
+
+				queryResults.on('error', (error, request) => {
+					self._log('@LADDA :**********************ERROR****************************');
+					self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
+					self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
+					self._log('@LADDA :*******************************************************');
+				});
 			} catch (error) {
 				self._log('@LADDA :**********************ERROR****************************');
 				self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);

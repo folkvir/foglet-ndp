@@ -42403,7 +42403,6 @@ HttpClient.prototype._startRequest = function (request) {
         return;
       }
     }
-
     // Emit the response and its metadata
     request.response.source = httpResponse;
     request.response.setProperties({
@@ -71074,6 +71073,13 @@ class LaddaProtocol extends DelegationProtocol {
 					self._log('@LADDA :** ON END EXECUTE **');
 					self.isFree = true;
 					resolve(delegationResults.toJS());
+				});
+
+				queryResults.on('error', (error, request) => {
+					self._log('@LADDA :**********************ERROR****************************');
+					self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
+					self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
+					self._log('@LADDA :*******************************************************');
 				});
 			} catch (error) {
 				self._log('@LADDA :**********************ERROR****************************');
