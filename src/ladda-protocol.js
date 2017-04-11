@@ -80,7 +80,7 @@ class LaddaProtocol extends DelegationProtocol {
 		this.nbDestinations = nbDestinations || 2;
 		this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
 
-		this.garbageTimeout = {};
+
 
 		this.signalAnswer = 'ndp-answer'; // When an answer is received from our workload
 		this.signalError = 'ndp-error'; // An error occurred
@@ -89,7 +89,8 @@ class LaddaProtocol extends DelegationProtocol {
 		this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
 		this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
 
-
+		// garbageTimeout
+		this.garbageTimeout = new Map();
 		// fragmentsClient
 		this.endpoints = new Map();
 	}
@@ -184,7 +185,7 @@ class LaddaProtocol extends DelegationProtocol {
 					message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
 					self.emit(this.signalAnswer, clone(message));
 					// clear the timeout
-					clearTimeout(this.garbageTimeout[message.qId]);
+					self._clearTimeout(message.qId);
 					// retry delegation if there's queries in the queue
 					if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
 				} catch (error) {
@@ -199,7 +200,7 @@ class LaddaProtocol extends DelegationProtocol {
 				self._log('@LADDA : failed query from @' + message.id);
 				self.emit(this.signalFailed, clone(message));
 				self.queryQueue.setWaiting(message.qId);
-				clearTimeout(this.garbageTimeout[message.qId]);
+				self._clearTimeout(message.qId);
 				self.busyPeers = self.busyPeers.delete(id);
 				if(self.isFree) self.delegateQueries(message.endpoint);
 				break;
@@ -208,6 +209,13 @@ class LaddaProtocol extends DelegationProtocol {
 				break;
 			}
 		});
+	}
+
+	_clearTimeout (timeoutId) {
+		let time = this.garbageTimeout.has(timeoutId);
+		if(!time) {
+			clearTimeout(this.garbageTimeout.get(timeoutId));
+		}
 	}
 
 	_setFragmentsClient (endpoint) {
@@ -359,13 +367,13 @@ class LaddaProtocol extends DelegationProtocol {
 								self.foglet.sendUnicast(m, peer);
 								// set timeout if necessary
 								if (self.timeout > 0) {
-									this.garbageTimeout[query.id] = setTimeout(() => {
+									this.garbageTimeout.set(query.id,  setTimeout(() => {
 										if(self.queryQueue.getStatus(query.id) === STATUS_DELEGATED) {
 											self.emit(self.signalTimeout, query);
 											self.queryQueue.setWaiting(query.id);
 											self.busyPeers = self.busyPeers.delete(peer);
 										}
-									}, self.timeout);
+									}, self.timeout));
 								}
 							}
 						});
