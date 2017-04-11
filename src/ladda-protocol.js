@@ -211,7 +211,7 @@ class LaddaProtocol extends DelegationProtocol {
 	}
 
 	_setFragmentsClient (endpoint) {
-		let fragmentsClient = this.has(endpoint);
+		let fragmentsClient = this.endpoints.has(endpoint);
 		if(!fragmentsClient) {
 			this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
 		}
