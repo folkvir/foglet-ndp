@@ -70661,7 +70661,7 @@ const moment = require('moment');
 const _ = require('lodash');
 
 // LDF LOG Disabling
-ldf.Logger.setLevel('EMERGENCY');
+ldf.Logger.setLevel('ERROR');
 // ldf.Logger.setLevel('DEBUG');
 // status
 const STATUS_DELEGATED = 'status_delegated';
