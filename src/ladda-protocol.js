@@ -141,7 +141,8 @@ class LaddaProtocol extends DelegationProtocol {
 						self._log(clone(msg));
 						msg.sendResultsTime = formatTime(new Date());
 						self.emit(this.signalDelegatedQueryExecuted, clone(msg));
-						self.foglet.sendUnicast(msg, id);
+						const messageSent = self.foglet.sendUnicast(msg, id)
+						self._log('Message sent after its execution: ', messageSent);
 					}).catch(error => {
 						self._log('**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
 						self.isFree = true;
@@ -158,7 +159,8 @@ class LaddaProtocol extends DelegationProtocol {
 						});
 						self._log(clone(msg));
 						self.emit(this.signalFailed, clone(msg));
-						self.foglet.sendUnicast(msg, id);
+						const messageSent = self.foglet.sendUnicast(msg, id)
+						self._log('Message sent after it\'s failed: ', messageSent);
 					});
 				} else {
 					self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
@@ -173,6 +175,8 @@ class LaddaProtocol extends DelegationProtocol {
 					self._log(clone(msg));
 					self.emit(this.signalFailed, clone(msg));
 					self.foglet.sendUnicast(msg, id);
+					const messageSent = self.foglet.sendUnicast(msg, id)
+					self._log('Message sent after it\'s failed: ', messageSent);
 				}
 				break;
 			}
@@ -190,8 +194,8 @@ class LaddaProtocol extends DelegationProtocol {
 					if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
 				} catch (error) {
 					self._log('**********************ERROR ANSWER****************************');
-					self._log(error.toString() + '\n' + error.stack);
-					self.emit(self.signalError, error.toString() + '\n' + error.stack);
+					self._log('[ERROR] ' + error.toString() + '\n' + error.stack);
+					self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
 					self._log('**************************************************************');
 				}
 				break;
@@ -417,11 +421,17 @@ class LaddaProtocol extends DelegationProtocol {
 					self._log('** ON END EXECUTE **');
 					self.isFree = true;
 					resolve(delegationResults.toJS());
-				});/* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
+				}).catch( (error) => {
+					self._log('**********************ERROR****************************');
+					self._log('[ERROR] ' + error.toString() + '\n' + error.stack);
+					self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+					self._log('*******************************************************');
+					reject(error);
+				});// SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
 			} catch (error) {
 				self._log('**********************ERROR****************************');
-				self._log(error.toString() + '\n' + error.stack);
-				self.emit(self.signalError, error.toString() + '\n' + error.stack);
+				self._log('[ERROR] ' + error.toString() + '\n' + error.stack);
+				self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
 				self._log('*******************************************************');
 				reject(error);
 			}
