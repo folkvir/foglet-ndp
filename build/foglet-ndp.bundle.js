@@ -70661,8 +70661,8 @@ const moment = require('moment');
 const _ = require('lodash');
 
 // LDF LOG Disabling
-ldf.Logger.setLevel('EMERGENCY');
-// ldf.Logger.setLevel('DEBUG');
+//ldf.Logger.setLevel('EMERGENCY');
+ldf.Logger.setLevel('DEBUG');
 // status
 const STATUS_DELEGATED = 'status_delegated';
 
@@ -71028,13 +71028,15 @@ class LaddaProtocol extends DelegationProtocol {
 			try {
 				// let fragmentsClient = new ldf.FragmentsClient(endpoint);
 				const fragmentsClient = self.endpoints.get(endpoint);
-				console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
+				// console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
 				let queryResults = new ldf.SparqlIterator(query, { fragmentsClient });
 				queryResults.on('data', ldfResult => {
+					self._log('** ON DATA EXECUTE **');
 					delegationResults = delegationResults.push(ldfResult);
 				});
 				// resolve when all results are arrived
 				queryResults.on('end', () => {
+					self._log('** ON END EXECUTE **');
 					self.isFree = true;
 					resolve(delegationResults.toJS());
 				}); /* SEE WITH LDF-CLIENT BECAUSE THIS IS A BUG ! .catch((error) => reject(error) */
