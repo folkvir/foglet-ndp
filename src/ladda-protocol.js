@@ -211,9 +211,9 @@ class LaddaProtocol extends DelegationProtocol {
 	}
 
 	_setFragmentsClient (endpoint) {
-		let fragmentsClient = this.endpoints[endpoint];
+		let fragmentsClient = this.has(endpoint);
 		if(!fragmentsClient) {
-			this.endpoints[endpoint] = new ldf.FragmentsClient(endpoint);
+			this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
 		}
 	}
 
@@ -397,7 +397,7 @@ class LaddaProtocol extends DelegationProtocol {
 		return Q.Promise( (resolve, reject) => {
 			try {
 				// let fragmentsClient = new ldf.FragmentsClient(endpoint);
-				const fragmentsClient = self.endpoints[endpoint];
+				const fragmentsClient = self.endpoints.get(endpoint);
 				console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
 				let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
 				queryResults.on('data', ldfResult => {
