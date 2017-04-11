@@ -17,7 +17,8 @@ let requests = [
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 7',
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 8',
 	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 9',
-	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 10'
+	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 10',
+	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { ?airport a <http://dbpedia.org/ontology/Airport>; rdfs:label ?name. { ?airport <http://dbpedia.org/property/iata> 'EZE'@en. } UNION { ?airport <http://dbpedia.org/ontology/iataLocationIdentifier> 'EZE'@en. }}"
 ];
 
 describe('[LADDA]', function () {
@@ -57,7 +58,7 @@ describe('[LADDA]', function () {
 
 
 		let cpt = 0;
-		const nbResultWantetd = 11;
+		const nbResultWantetd = requests.length;
 		f1.delegationProtocol.on('ndp-answer', (response) => {
 			console.log(response);
 			cpt++;

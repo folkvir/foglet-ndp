@@ -41322,6 +41322,23 @@ var queryConstructors = {
   ASK: SparqlAskIterator,
 };
 
+function injectTriples(root, triples) {
+  switch (root.type) {
+  case 'bgp':
+    return {
+      type: 'bgp',
+      triples: root.triples.concat(triples),
+    };
+  case 'union':
+    return {
+      type: 'union',
+      patterns: root.patterns.map(function (p) { return injectTriples(p, triples); }),
+    };
+  default:
+    return root;
+  }
+}
+
 // Creates an iterator from a SPARQL query
 function SparqlIterator(source, query, options) {
   // Set argument defaults
@@ -41335,6 +41352,14 @@ function SparqlIterator(source, query, options) {
     // Parse the query if needed
     if (typeof query === 'string')
       query = new SparqlParser(options.prefixes).parse(query);
+
+    if (_.some(query.where, { type: 'bgp' }) && _.some(query.where, { type: 'union' })) {
+      var triples = _.flatten(query.where.filter(function (p) { return p.type === 'bgp'; }).map(function (p) { return p.triples; }));
+      query.where = query.where.filter(function (p) { return p.type !== 'bgp'; }).map(function (p) {
+        if (p.type !== 'union') return p;
+        return injectTriples(p, triples);
+      });
+    }
 
     // Create an iterator that projects the bindings according to the query type
     var queryIterator, QueryConstructor = queryConstructors[query.queryType];
