@@ -467,7 +467,7 @@ class LaddaProtocol extends DelegationProtocol {
 		let chosenPeers = Immutable.Set();
 		let _peers = Immutable.Set();
 		// gather non-busy peers
-		_peers = _peers.union(this.foglet.getAllNeighbours());
+		_peers = _peers.union(this.foglet.getNeighbours());
 		_peers = _peers.subtract(this.busyPeers).toList();
 		let index = 0;
 		// random selection beytween non-busy peers (as in LADDA algorithm)
