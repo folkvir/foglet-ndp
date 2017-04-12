@@ -471,7 +471,8 @@ class LaddaProtocol extends DelegationProtocol {
 		_peers = _peers.subtract(this.busyPeers).toList();
 		let index = 0;
 		// random selection beytween non-busy peers (as in LADDA algorithm)
-		while( (chosenPeers.count() < this.nbDestinations) && (_peers.count() > 0)) {
+		// MAXIMUM nbDestinations parallel query
+		while( (chosenPeers.count() < (this.nbDestinations - this.busyPeers.count())) && (_peers.count() > 0)) {
 			index = this._randomInt(0, _peers.count());
 			chosenPeers = chosenPeers.add(_peers.get(index));
 			_peers = _peers.remove(index);
