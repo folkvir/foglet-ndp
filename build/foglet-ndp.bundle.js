@@ -31611,7 +31611,9 @@ var sprayAdapter = function (_AbstractAdapter) {
 
 		var _this = _possibleConstructorReturn(this, (sprayAdapter.__proto__ || Object.getPrototypeOf(sprayAdapter)).call(this));
 
-		_this.options = _.merge({}, options);
+		_this.options = _.merge({
+			origins: '*'
+		}, options);
 
 		_this.rps = new Spray(_this.options);
 		_this.options.rps = _this.rps;
@@ -31625,7 +31627,7 @@ var sprayAdapter = function (_AbstractAdapter) {
 			protocol: _this.options.protocol
 		});
 		//	Connection to the signaling server
-		_this.signaling = io.connect(_this.options.signalingAdress, { origins: '*:*' });
+		_this.signaling = io.connect(_this.options.signalingAdress, { origins: options.origins });
 
 		_this.signalingCallback = function () {
 			return {
@@ -32770,9 +32772,10 @@ var SshControl = function (_EventEmitter) {
 		_this.options = _.merge({
 			foglet: undefined,
 			address: 'http://localhost:4000/',
-			verbose: true
+			verbose: true,
+			origins: '*'
 		}, options);
-		_this.signaling = io.connect(_this.options.address, { origins: '*:*' });
+		_this.signaling = io.connect(_this.options.address, { origins: options.origins });
 		_this.signaling.emit('join', {
 			id: _this.options.foglet.id
 		});
@@ -71399,7 +71402,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
 					var fragmentsClient = self.endpoints.get(endpoint);
 					// console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
 					var queryResults = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
-					console.log(queryResults);
+					// console.log(queryResults);
 					queryResults.on('data', function (ldfResult) {
 						self._log('@LADDA :** ON DATA EXECUTE **');
 						delegationResults = delegationResults.push(ldfResult);
