@@ -411,6 +411,7 @@ class LaddaProtocol extends DelegationProtocol {
 				const fragmentsClient = self.endpoints.get(endpoint);
 				// console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
 				let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
+				// console.log(queryResults);
 				queryResults.on('data', ldfResult => {
 					self._log('@LADDA :** ON DATA EXECUTE **');
 					delegationResults = delegationResults.push(ldfResult);

@@ -553,7 +553,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":229}],4:[function(require,module,exports){
+},{"util/":230}],4:[function(require,module,exports){
 (function (process){
 var EventEmitter = require('events').EventEmitter;
 
@@ -2137,7 +2137,7 @@ AsyncIterator.MultiTransformIterator = MultiTransformIterator;
 AsyncIterator.ClonedIterator = ClonedIterator;
 
 }).call(this,require('_process'))
-},{"_process":178,"events":37,"immediate":93}],5:[function(require,module,exports){
+},{"_process":179,"events":37,"immediate":94}],5:[function(require,module,exports){
 
 /**
  * Expose `Backoff`.
@@ -4416,7 +4416,7 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":7,"ieee754":92,"isarray":103}],12:[function(require,module,exports){
+},{"base64-js":7,"ieee754":93,"isarray":104}],12:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var GUID = require('./guid.js');
@@ -4635,7 +4635,7 @@ CausalBroadcast.prototype.bufferIndexOf = function(id){
 
 module.exports = CausalBroadcast;
 
-},{"./guid.js":13,"./messages":14,"./messages.js":14,"events":37,"unicast-definition":16,"util":229}],13:[function(require,module,exports){
+},{"./guid.js":13,"./messages":14,"./messages.js":14,"events":37,"unicast-definition":16,"util":230}],13:[function(require,module,exports){
 /*
  * \url https://github.com/justayak/yutils/blob/master/yutils.js
  * \author justayak
@@ -4762,7 +4762,7 @@ Unicast.prototype.send = function(message, id){
 
 module.exports = Unicast;
 
-},{"./messages":15,"events":37,"util":229}],17:[function(require,module,exports){
+},{"./messages":15,"events":37,"util":230}],17:[function(require,module,exports){
 /**
  * Slice reference.
  */
@@ -5071,7 +5071,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":102}],21:[function(require,module,exports){
+},{"../../is-buffer/index.js":103}],21:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -5260,7 +5260,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":22,"_process":178}],22:[function(require,module,exports){
+},{"./debug":22,"_process":179}],22:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -5464,7 +5464,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":133}],23:[function(require,module,exports){
+},{"ms":134}],23:[function(require,module,exports){
 
 module.exports = require('./lib/index');
 
@@ -6222,7 +6222,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./transport":26,"./transports/index":27,"component-emitter":18,"debug":33,"engine.io-parser":35,"indexof":100,"parsejson":174,"parseqs":175,"parseuri":176}],26:[function(require,module,exports){
+},{"./transport":26,"./transports/index":27,"component-emitter":18,"debug":33,"engine.io-parser":35,"indexof":101,"parsejson":175,"parseqs":176,"parseuri":177}],26:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -7348,7 +7348,7 @@ Polling.prototype.uri = function () {
   return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
 };
 
-},{"../transport":26,"component-inherit":19,"debug":33,"engine.io-parser":35,"parseqs":175,"xmlhttprequest-ssl":32,"yeast":243}],31:[function(require,module,exports){
+},{"../transport":26,"component-inherit":19,"debug":33,"engine.io-parser":35,"parseqs":176,"xmlhttprequest-ssl":32,"yeast":244}],31:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -7637,7 +7637,7 @@ WS.prototype.check = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../transport":26,"component-inherit":19,"debug":33,"engine.io-parser":35,"parseqs":175,"ws":9,"yeast":243}],32:[function(require,module,exports){
+},{"../transport":26,"component-inherit":19,"debug":33,"engine.io-parser":35,"parseqs":176,"ws":9,"yeast":244}],32:[function(require,module,exports){
 (function (global){
 // browser shim for xmlhttprequest module
 
@@ -7678,7 +7678,7 @@ module.exports = function (opts) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"has-cors":91}],33:[function(require,module,exports){
+},{"has-cors":92}],33:[function(require,module,exports){
 (function (process){
 
 /**
@@ -7859,7 +7859,7 @@ function localstorage(){
 }
 
 }).call(this,require('_process'))
-},{"./debug":34,"_process":178}],34:[function(require,module,exports){
+},{"./debug":34,"_process":179}],34:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -8061,7 +8061,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":133}],35:[function(require,module,exports){
+},{"ms":134}],35:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -8674,7 +8674,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./keys":36,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":6,"blob":8,"has-binary":89,"wtf-8":240}],36:[function(require,module,exports){
+},{"./keys":36,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":6,"blob":8,"has-binary":90,"wtf-8":241}],36:[function(require,module,exports){
 
 /**
  * Gets the keys for an object.
@@ -9234,7 +9234,7 @@ class Fcn extends EventEmitter {
 
 module.exports = { Fcn, uuid };
 
-},{"events":37,"lodash":130,"n2n-overlay-wrtc":135,"q":182,"socket.io-client":200,"uuid/v4":232}],39:[function(require,module,exports){
+},{"events":37,"lodash":131,"n2n-overlay-wrtc":136,"q":183,"socket.io-client":201,"uuid/v4":233}],39:[function(require,module,exports){
 'use strict';
 
 const SortedArray = require('sorted-cmp-array');
@@ -9954,7 +9954,7 @@ class Spray extends EventEmitter {
 
 module.exports = Spray;
 
-},{"./messages.js":40,"./partialview.js":41,"events":37,"lodash":130,"n2n-overlay-wrtc":45}],43:[function(require,module,exports){
+},{"./messages.js":40,"./partialview.js":41,"events":37,"lodash":131,"n2n-overlay-wrtc":45}],43:[function(require,module,exports){
 module.exports = function(haystack, needle, comparator, low, high) {
   var mid, cmp;
 
@@ -28030,9 +28030,9 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../../../../../../../is-buffer/index.js")})
-},{"../../../../../../../../../../is-buffer/index.js":102}],53:[function(require,module,exports){
+},{"../../../../../../../../../../is-buffer/index.js":103}],53:[function(require,module,exports){
 arguments[4][21][0].apply(exports,arguments)
-},{"./debug":54,"_process":178,"dup":21}],54:[function(require,module,exports){
+},{"./debug":54,"_process":179,"dup":21}],54:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
 },{"dup":22,"ms":58}],55:[function(require,module,exports){
 // originally pulled out of simple-peer
@@ -28281,7 +28281,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":178}],60:[function(require,module,exports){
+},{"_process":179}],60:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -28321,7 +28321,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":178,"buffer":11}],61:[function(require,module,exports){
+},{"_process":179,"buffer":11}],61:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -29368,7 +29368,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":61,"./internal/streams/BufferList":66,"_process":178,"buffer":11,"buffer-shims":51,"core-util-is":52,"events":37,"inherits":56,"isarray":57,"process-nextick-args":59,"string_decoder/":70,"util":9}],64:[function(require,module,exports){
+},{"./_stream_duplex":61,"./internal/streams/BufferList":66,"_process":179,"buffer":11,"buffer-shims":51,"core-util-is":52,"events":37,"inherits":56,"isarray":57,"process-nextick-args":59,"string_decoder/":70,"util":9}],64:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -30105,7 +30105,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":61,"_process":178,"buffer":11,"buffer-shims":51,"core-util-is":52,"events":37,"inherits":56,"process-nextick-args":59,"util-deprecate":71}],66:[function(require,module,exports){
+},{"./_stream_duplex":61,"_process":179,"buffer":11,"buffer-shims":51,"core-util-is":52,"events":37,"inherits":56,"process-nextick-args":59,"util-deprecate":71}],66:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -30190,7 +30190,7 @@ if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
 }
 
 }).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":61,"./lib/_stream_passthrough.js":62,"./lib/_stream_readable.js":63,"./lib/_stream_transform.js":64,"./lib/_stream_writable.js":65,"_process":178}],68:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":61,"./lib/_stream_passthrough.js":62,"./lib/_stream_readable.js":63,"./lib/_stream_transform.js":64,"./lib/_stream_writable.js":65,"_process":179}],68:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -31584,7 +31584,7 @@ var fcnAdapter = function (_AbstractAdapter) {
 
 module.exports = fcnAdapter;
 
-},{"../fbroadcast.js":79,"./AbstractAdapter.js":76,"fcn-wrtc":38,"lodash":130,"q":182,"unicast-definition":222}],78:[function(require,module,exports){
+},{"../fbroadcast.js":80,"./AbstractAdapter.js":76,"fcn-wrtc":38,"lodash":131,"q":183,"unicast-definition":223}],78:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -31625,7 +31625,7 @@ var sprayAdapter = function (_AbstractAdapter) {
 			protocol: _this.options.protocol
 		});
 		//	Connection to the signaling server
-		_this.signaling = io.connect(_this.options.signalingAdress);
+		_this.signaling = io.connect(_this.options.signalingAdress, { origins: '*:*' });
 
 		_this.signalingCallback = function () {
 			return {
@@ -31794,7 +31794,252 @@ var sprayAdapter = function (_AbstractAdapter) {
 
 module.exports = sprayAdapter;
 
-},{"../fbroadcast.js":79,"./AbstractAdapter.js":76,"lodash":130,"q":182,"socket.io-client":200,"spray-wrtc":42,"unicast-definition":222}],79:[function(require,module,exports){
+},{"../fbroadcast.js":80,"./AbstractAdapter.js":76,"lodash":131,"q":183,"socket.io-client":201,"spray-wrtc":42,"unicast-definition":223}],79:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _ = require('lodash');
+var Spray = require('spray-wrtc');
+var io = require('socket.io-client');
+var Q = require('q');
+var AbstractAdapter = require('./AbstractAdapter.js');
+// const FBroadcast = require('../fbroadcast.js');
+// const Unicast = require('unicast-definition');
+var log = require('debug')('spray-wrtc-merge');
+
+var sprayAdapter = function (_AbstractAdapter) {
+	_inherits(sprayAdapter, _AbstractAdapter);
+
+	function sprayAdapter(options) {
+		_classCallCheck(this, sprayAdapter);
+
+		var _this = _possibleConstructorReturn(this, (sprayAdapter.__proto__ || Object.getPrototypeOf(sprayAdapter)).call(this));
+
+		_this.options = _.merge({}, options);
+
+		_this.rps = new Spray(_this.options);
+		_this.options.rps = _this.rps;
+
+		_this.peer = _this.rps.register('1');
+
+		_this.inviewId = _this.rps.getInviewId();
+		_this.outviewId = _this.rps.getOutviewId();
+		// COMMUNICATION
+		// this.unicast = new Unicast(this.rps, this.options.protocol + '-unicast');
+		// this.broadcast = new FBroadcast({
+		// 	foglet: this,
+		// 	protocol: this.options.protocol
+		// });
+		//	Connection to the signaling server
+		_this.signaling = io.connect(_this.options.signalingAdress);
+
+		_this.signalingInit = function () {};
+
+		_this.signalingCallback = function () {
+			return {
+
+				onInitiate: function onInitiate(offer) {
+					log('Emit the new offer:', offer);
+					_this.signaling.emit('new', { offer: offer, room: _this.options.room });
+				},
+				onAccept: function onAccept(offer) {
+					log('Emit the accpeted offer:', offer);
+					_this.signaling.emit('accept', { offer: offer, room: _this.options.room });
+				},
+				onReady: function onReady(id) {
+					_this.signaling.emit('connected', { room: _this.options.room });
+					log('Connected to the peer :', id);
+				}
+			};
+		};
+
+		_this.directCallback = function (src, dest) {
+			return function (offer) {
+				src.connect(function (answer) {
+					dest.connect(answer);
+				}, offer);
+			};
+			// return {
+			// 	: (id) => {
+			// 		this.emit('connected', { room: this.options.room });
+			// 		this.rps.log('Connected to the peer :', id);
+			// 	}
+			// };
+		};
+
+		_this.signaling.on('new_spray', function (data) {
+			log('Receive a new offer:', data);
+			_this.rps.connection(_this.signalingCallback(), data);
+		});
+		_this.signaling.on('accept_spray', function (data) {
+			log('Receive an accepted offer:', data);
+			_this.rps.connection(data);
+		});
+		return _this;
+	}
+
+	_createClass(sprayAdapter, [{
+		key: 'connection',
+		value: function connection(rps, timeout) {
+			return Q.Promise(function (resolve, reject) {
+				var _this2 = this;
+
+				try {
+					if (rps) {
+						this.rps.join(this.directCallback(this.rps, rps.rps)).then(function () {
+							_this2.emit('connected', { room: _this2.options.room });
+						});
+						self.once('connected', function () {
+							resolve(true);
+						});
+					} else {
+						self.signaling.emit('joinRoom', { room: self.options.room });
+						self.signaling.once('joinedRoom', function () {
+							log(' Joined the room', self.options.room);
+							self.rps.join(self.signalingCallback());
+						});
+						self.signaling.once('connected', function () {
+							resolve(true);
+						});
+					}
+
+					setTimeout(function () {
+						reject();
+					}, timeout);
+				} catch (error) {
+					reject(error);
+				}
+			});
+
+			var self = this;
+			return Q.Promise(function (resolve, reject) {
+				try {
+					if (rps) {
+						self.rps.connection(self.directCallback(self.rps, rps.rps));
+						self.once('connected', function () {
+							resolve(true);
+						});
+					} else {
+						self.signaling.emit('joinRoom', { room: self.options.room });
+						self.signaling.once('joinedRoom', function () {
+							self.rps.log(' Joined the room', self.options.room);
+							self.rps.connection(self.signalingCallback());
+						});
+						self.signaling.once('connected', function () {
+							resolve(true);
+						});
+					}
+
+					setTimeout(function () {
+						reject();
+					}, timeout);
+				} catch (error) {
+					reject(error);
+				}
+			});
+		}
+	}, {
+		key: 'send',
+		value: function send(id, message) {
+			var retry = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
+
+			return this.rps.send(id, message, retry);
+		}
+
+		/**
+   * Allow to listen on Foglet when a broadcasted message arrived
+   * @function onBroadcast
+   * @param {string} signal - The signal we will listen to.
+   * @param {callback} callback - Callback function that handles the response
+   * @returns {void}
+  **/
+
+	}, {
+		key: 'onBroadcast',
+		value: function onBroadcast(signal, callback) {
+			this.broadcast.on(signal, callback);
+		}
+
+		/**
+   * Send a broadcast message to all connected clients.
+   * @function sendBroadcast
+   * @param {object} msg - Message to send.
+   * @returns {void}
+   */
+
+	}, {
+		key: 'sendBroadcast',
+		value: function sendBroadcast(msg) {
+			this.broadcast.send(msg);
+		}
+
+		/**
+   * This callback is a parameter of the onUnicast function.
+   * @callback callback
+   * @param {string} id - sender id
+   * @param {object} message - the message received
+   */
+		/**
+   * onUnicast function allow you to listen on the Unicast Definition protocol, Use only when you want to receive a message from a neighbour
+   * @function onUnicast
+   * @param {callback} callback The callback for the listener
+   * @return {void}
+   */
+
+	}, {
+		key: 'onUnicast',
+		value: function onUnicast(callback) {
+			this.unicast.on('receive', callback);
+		}
+
+		/**
+   * Send a message to a specific neighbour (id)
+   * @function sendUnicast
+   * @param {object} message - The message to send
+   * @param {string} id - One of your neighbour's id
+   * @return {boolean} return true if it seems to have sent the message, false otherwise.
+   */
+
+	}, {
+		key: 'sendUnicast',
+		value: function sendUnicast(message, id) {
+			return this.unicast.send(message, id);
+		}
+	}, {
+		key: 'getNeighbours',
+		value: function getNeighbours() {
+			var res = [];
+			var peers = this.getPeers().o;
+			if (peers.o.length > 0) peers.forEach(function (p) {
+				return res.push(p);
+			});
+			return res;
+		}
+	}, {
+		key: 'getPeers',
+		value: function getPeers() {
+			return this.rps.getPeers();
+		}
+	}, {
+		key: 'exchange',
+		value: function exchange() {
+			this.rps.exchange();
+		}
+	}]);
+
+	return sprayAdapter;
+}(AbstractAdapter);
+
+module.exports = sprayAdapter;
+
+},{"./AbstractAdapter.js":76,"debug":21,"lodash":131,"q":183,"socket.io-client":201,"spray-wrtc":42}],80:[function(require,module,exports){
 /*
 MIT License
 
@@ -31892,7 +32137,7 @@ var FBroadcast = function (_EventEmitter) {
 
 module.exports = FBroadcast;
 
-},{"causal-broadcast-definition":12,"events":37,"uuid/v4":232,"version-vector-with-exceptions":233}],80:[function(require,module,exports){
+},{"causal-broadcast-definition":12,"events":37,"uuid/v4":233,"version-vector-with-exceptions":234}],81:[function(require,module,exports){
 /*
 MIT License
 
@@ -32266,7 +32511,7 @@ var FInterpreter = function (_EventEmitter) {
 
 module.exports = FInterpreter;
 
-},{"./fbroadcast.js":79,"events":37,"serialize-javascript":198,"unicast-definition":222,"uuid/v4":232}],81:[function(require,module,exports){
+},{"./fbroadcast.js":80,"events":37,"serialize-javascript":199,"unicast-definition":223,"uuid/v4":233}],82:[function(require,module,exports){
 /*
 	MIT License
 
@@ -32402,7 +32647,7 @@ var FRegister = function (_EventEmitter) {
 
 module.exports = FRegister;
 
-},{"causal-broadcast-definition":12,"events":37,"uuid/v4":232,"version-vector-with-exceptions":233}],82:[function(require,module,exports){
+},{"causal-broadcast-definition":12,"events":37,"uuid/v4":233,"version-vector-with-exceptions":234}],83:[function(require,module,exports){
 /*
 MIT License
 
@@ -32497,7 +32742,7 @@ var FStore = function () {
 
 module.exports = FStore;
 
-},{"immutable":99,"uuid/v4":232}],83:[function(require,module,exports){
+},{"immutable":100,"uuid/v4":233}],84:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -32527,14 +32772,14 @@ var SshControl = function (_EventEmitter) {
 			address: 'http://localhost:4000/',
 			verbose: true
 		}, options);
-		_this.signaling = io.connect(_this.options.address);
+		_this.signaling = io.connect(_this.options.address, { origins: '*:*' });
 		_this.signaling.emit('join', {
 			id: _this.options.foglet.id
 		});
 
 		_this.signaling.on('remoteCommand', function (command) {
 			var parsed = void 0;
-			_this.log(command);
+			_this.log('remoteCommand', command);
 			try {
 				parsed = eval('(' + command + ')');
 				_this.log(parsed);
@@ -32565,7 +32810,7 @@ var SshControl = function (_EventEmitter) {
 
 module.exports = SshControl;
 
-},{"events":37,"lodash":130,"socket.io-client":200}],84:[function(require,module,exports){
+},{"events":37,"lodash":131,"socket.io-client":201}],85:[function(require,module,exports){
 /*
 MIT License
 
@@ -32611,6 +32856,7 @@ var Overlay = require('./overlay/overlay.js');
 // Networks
 var AdapterSpray = require('./flib/adapter/sprayAdapter.js');
 var AdapterFcn = require('./flib/adapter/fcnAdapter.js');
+var AdapterSprayMerging = require('./flib/adapter/sprayMergingAdapter.js');
 // SSH COntrol
 var SSH = require('./flib/ssh/ssh.js');
 
@@ -32724,6 +32970,9 @@ var Foglet = function (_EventEmitter) {
 					break;
 				case 'spray-wrtc':
 					rps = AdapterSpray;
+					break;
+				case 'spray-wrtc-merging':
+					rps = AdapterSprayMerging;
 					break;
 				default:
 					rps = AdapterFcn;
@@ -32966,7 +33215,7 @@ var Foglet = function (_EventEmitter) {
 
 module.exports = { Foglet: Foglet, uuid: uuid };
 
-},{"./flib/adapter/fcnAdapter.js":77,"./flib/adapter/sprayAdapter.js":78,"./flib/finterpreter.js":80,"./flib/fregister.js":81,"./flib/fstore.js":82,"./flib/ssh/ssh.js":83,"./overlay/overlay.js":85,"debug":21,"events":37,"lodash":130,"uuid/v4":232}],85:[function(require,module,exports){
+},{"./flib/adapter/fcnAdapter.js":77,"./flib/adapter/sprayAdapter.js":78,"./flib/adapter/sprayMergingAdapter.js":79,"./flib/finterpreter.js":81,"./flib/fregister.js":82,"./flib/fstore.js":83,"./flib/ssh/ssh.js":84,"./overlay/overlay.js":86,"debug":21,"events":37,"lodash":131,"uuid/v4":233}],86:[function(require,module,exports){
 /*
 MIT License
 
@@ -33071,7 +33320,7 @@ var Overlay = function (_EventEmitter) {
 
 module.exports = Overlay;
 
-},{"./tman.js":86,"events":37,"lodash":130}],86:[function(require,module,exports){
+},{"./tman.js":87,"events":37,"lodash":131}],87:[function(require,module,exports){
 /*
 MIT License
 
@@ -33752,7 +34001,7 @@ var TManSpray = function (_EventEmitter) {
 
 module.exports = { TManSpray: TManSpray };
 
-},{"./../utils/socket.js":87,"./../utils/socketping.js":88,"debug":21,"events":37,"lodash":130,"uuid/v4":232,"vivaldi-coordinates":237}],87:[function(require,module,exports){
+},{"./../utils/socket.js":88,"./../utils/socketping.js":89,"debug":21,"events":37,"lodash":131,"uuid/v4":233,"vivaldi-coordinates":238}],88:[function(require,module,exports){
 /*
 MIT License
 
@@ -34262,7 +34511,7 @@ var Socket = function (_EventEmitter) {
 
 module.exports = { Socket: Socket };
 
-},{"debug":21,"events":37,"lodash":130,"n2n-overlay-wrtc":135,"socket.io-client":200}],88:[function(require,module,exports){
+},{"debug":21,"events":37,"lodash":131,"n2n-overlay-wrtc":136,"socket.io-client":201}],89:[function(require,module,exports){
 /*
 MIT License
 
@@ -34378,7 +34627,7 @@ var SocketPing = function (_EventEmitter) {
 
 module.exports = SocketPing;
 
-},{"events":37,"q":182,"uuid/v4":232}],89:[function(require,module,exports){
+},{"events":37,"q":183,"uuid/v4":233}],90:[function(require,module,exports){
 (function (global){
 
 /*
@@ -34441,12 +34690,12 @@ function hasBinary(data) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"isarray":90}],90:[function(require,module,exports){
+},{"isarray":91}],91:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],91:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -34465,7 +34714,7 @@ try {
   module.exports = false;
 }
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -34551,7 +34800,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],93:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 'use strict';
 var types = [
   require('./nextTick'),
@@ -34649,7 +34898,7 @@ function immediate(task) {
   }
 }
 
-},{"./messageChannel":94,"./mutation.js":95,"./nextTick":96,"./stateChange":97,"./timeout":98}],94:[function(require,module,exports){
+},{"./messageChannel":95,"./mutation.js":96,"./nextTick":97,"./stateChange":98,"./timeout":99}],95:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -34670,7 +34919,7 @@ exports.install = function (func) {
   };
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],95:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 (function (global){
 'use strict';
 //based off rsvp https://github.com/tildeio/rsvp.js
@@ -34695,7 +34944,7 @@ exports.install = function (handle) {
   };
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],96:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 (function (process){
 'use strict';
 exports.test = function () {
@@ -34710,7 +34959,7 @@ exports.install = function (func) {
 };
 
 }).call(this,require('_process'))
-},{"_process":178}],97:[function(require,module,exports){
+},{"_process":179}],98:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -34737,7 +34986,7 @@ exports.install = function (handle) {
   };
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 exports.test = function () {
   return true;
@@ -34748,7 +34997,7 @@ exports.install = function (t) {
     setTimeout(t, 0);
   };
 };
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 /**
  *  Copyright (c) 2014-2015, Facebook, Inc.
  *  All rights reserved.
@@ -39728,7 +39977,7 @@ exports.install = function (t) {
   return Immutable;
 
 }));
-},{}],100:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 
 var indexOf = [].indexOf;
 
@@ -39739,9 +39988,9 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],101:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 arguments[4][56][0].apply(exports,arguments)
-},{"dup":56}],102:[function(require,module,exports){
+},{"dup":56}],103:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -39764,9 +40013,9 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],103:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 arguments[4][57][0].apply(exports,arguments)
-},{"dup":57}],104:[function(require,module,exports){
+},{"dup":57}],105:[function(require,module,exports){
 (function (global){
 /*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
@@ -40672,7 +40921,7 @@ arguments[4][57][0].apply(exports,arguments)
 }).call(this);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 /*! @license MIT ©2013-2016 Ruben Verborgh, Ghent University - imec */
 /* Main ldf-client module exports. */
 
@@ -40716,7 +40965,7 @@ Object.keys(exports).forEach(function (submodule) {
 // Restore original require
 require = globalRequire;
 
-},{"./lib/sparql/SparqlIterator.js":114,"./lib/triple-pattern-fragments/federated/FederatedFragmentsClient":121,"./lib/util/HttpClient":124,"./lib/util/Logger":125,"./lib/writers/SparqlResultWriter":128}],106:[function(require,module,exports){
+},{"./lib/sparql/SparqlIterator.js":115,"./lib/triple-pattern-fragments/federated/FederatedFragmentsClient":122,"./lib/util/HttpClient":125,"./lib/util/Logger":126,"./lib/writers/SparqlResultWriter":129}],107:[function(require,module,exports){
 /*! @license MIT ©2013-2016 Ruben Verborgh, Ghent University - imec */
 /* Single-function HTTP(S) request module for browsers */
 
@@ -40770,6 +41019,7 @@ function createRequest(settings) {
     // Emit the response
     requestProxy.emit('response', response);
 
+
     // If the resource was time-negotiated, store its queryless URI
     // to enable the PERFORMANCE HACK explained above
     if (reqHeaders['accept-datetime'] && resHeaders['memento-datetime']) {
@@ -40803,7 +41053,7 @@ function removeQuery(url) {
 
 module.exports = createRequest;
 
-},{"asynciterator":4,"events":37,"lodash":129,"parse-link-header":173,"setimmediate":199}],107:[function(require,module,exports){
+},{"asynciterator":4,"events":37,"lodash":130,"parse-link-header":174,"setimmediate":200}],108:[function(require,module,exports){
 /*! @license MIT ©2015-2016 Ruben Verborgh, Ghent University - imec */
 /* Browser replacement for a subset of crypto. */
 
@@ -40923,7 +41173,7 @@ function toHexStr(n) {
   return s;
 }
 
-},{}],108:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A CompositeExtractor combines metadata from different extractors. */
 
@@ -40978,7 +41228,7 @@ CompositeExtractor.prototype._extract = function (metadata, tripleStream, callba
 
 module.exports = CompositeExtractor;
 
-},{"./MetadataExtractor":111,"lodash":129}],109:[function(require,module,exports){
+},{"./MetadataExtractor":112,"lodash":130}],110:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A ControlsExtractor extracts hypermedia controls from a triple stream. */
 
@@ -41084,7 +41334,7 @@ ControlsExtractor.prototype._extract = function (metadata, tripleStream, callbac
 
 module.exports = ControlsExtractor;
 
-},{"../util/RdfUtil":126,"./MetadataExtractor":111,"assert":3,"uritemplate":223}],110:[function(require,module,exports){
+},{"../util/RdfUtil":127,"./MetadataExtractor":112,"assert":3,"uritemplate":224}],111:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A CountExtractor extracts count metadata from a triple stream. */
 
@@ -41143,7 +41393,7 @@ function toHash(array) {
 
 module.exports = CountExtractor;
 
-},{"../util/RdfUtil":126,"./MetadataExtractor":111}],111:[function(require,module,exports){
+},{"../util/RdfUtil":127,"./MetadataExtractor":112}],112:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* MetadataExtractor is a base class for objects that extract metadata from a triple stream. */
 
@@ -41202,7 +41452,7 @@ MetadataExtractor.prototype._extract = function (metadata, tripleStream, callbac
 
 module.exports = MetadataExtractor;
 
-},{"util":229}],112:[function(require,module,exports){
+},{"util":230}],113:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A DistinctIterator emits the unique items from a source. */
 
@@ -41237,7 +41487,7 @@ DistinctIterator.prototype._hash = function (item) {
 
 module.exports = DistinctIterator;
 
-},{"asynciterator":4,"crypto":107}],113:[function(require,module,exports){
+},{"asynciterator":4,"crypto":108}],114:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A SortIterator emits the items of a source in a sorted way. */
 
@@ -41299,7 +41549,7 @@ function defaultSort(a, b) {
 
 module.exports = SortIterator;
 
-},{"asynciterator":4}],114:[function(require,module,exports){
+},{"asynciterator":4}],115:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A SparqlIterator returns the results of a SPARQL query. */
 
@@ -41559,7 +41809,7 @@ module.exports = SparqlIterator;
 SparqlIterator.InvalidQueryError = InvalidQueryError;
 SparqlIterator.UnsupportedQueryError = UnsupportedQueryError;
 
-},{"../triple-pattern-fragments/ReorderingGraphPatternIterator":117,"../util/CustomError":122,"../util/RdfUtil":126,"../util/SparqlExpressionEvaluator":127,"./DistinctIterator":112,"./SortIterator":113,"./UnionIterator":115,"asynciterator":4,"lodash":129,"sparqljs":217}],115:[function(require,module,exports){
+},{"../triple-pattern-fragments/ReorderingGraphPatternIterator":118,"../util/CustomError":123,"../util/RdfUtil":127,"../util/SparqlExpressionEvaluator":128,"./DistinctIterator":113,"./SortIterator":114,"./UnionIterator":116,"asynciterator":4,"lodash":130,"sparqljs":218}],116:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A UnionIterator returns the results from a set of source iterators. */
 
@@ -41623,7 +41873,7 @@ UnionIterator.prototype._read = function (count, done) {
 
 module.exports = UnionIterator;
 
-},{"asynciterator":4}],116:[function(require,module,exports){
+},{"asynciterator":4}],117:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A FragmentsClient fetches Triple Pattern Fragments through HTTP. */
 /* eslint max-nested-callbacks: [2, 3] */
@@ -41813,7 +42063,7 @@ Fragment.prototype.toString = function () {
 
 module.exports = FragmentsClient;
 
-},{"../extractors/CompositeExtractor":108,"../extractors/ControlsExtractor":109,"../extractors/CountExtractor":110,"../util/HttpClient":124,"../util/RdfUtil":126,"./TrigFragmentIterator":118,"./TurtleFragmentIterator":120,"asynciterator":4,"lodash":129,"lru-cache":131}],117:[function(require,module,exports){
+},{"../extractors/CompositeExtractor":109,"../extractors/ControlsExtractor":110,"../extractors/CountExtractor":111,"../util/HttpClient":125,"../util/RdfUtil":127,"./TrigFragmentIterator":119,"./TurtleFragmentIterator":121,"asynciterator":4,"lodash":130,"lru-cache":132}],118:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A ReorderingGraphPatternIterator builds bindings by reading matches for a basic graph pattern. */
 
@@ -41916,7 +42166,7 @@ ReorderingGraphPatternIterator.prototype.toString = function () {
 
 module.exports = ReorderingGraphPatternIterator;
 
-},{"../util/ExecutionLogger":123,"../util/RdfUtil":126,"./TriplePatternIterator":119,"asynciterator":4,"lodash":129}],118:[function(require,module,exports){
+},{"../util/ExecutionLogger":124,"../util/RdfUtil":127,"./TriplePatternIterator":120,"asynciterator":4,"lodash":130}],119:[function(require,module,exports){
 /*! @license MIT ©2013-2016 Ruben Verborgh, Ghent University - imec */
 /* A TrigFragmentIterator reads data and metadata from Linked Data Fragments in TriG. */
 
@@ -41946,7 +42196,7 @@ TrigFragmentIterator.supportsContentType = function (contentType) {
 
 module.exports = TrigFragmentIterator;
 
-},{"./TurtleFragmentIterator":120}],119:[function(require,module,exports){
+},{"./TurtleFragmentIterator":121}],120:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* A TriplePatternIterator builds bindings by reading matches for a triple pattern. */
 
@@ -42001,7 +42251,7 @@ TriplePatternIterator.prototype.toString = function () {
 
 module.exports = TriplePatternIterator;
 
-},{"../util/ExecutionLogger":123,"../util/RdfUtil":126,"asynciterator":4}],120:[function(require,module,exports){
+},{"../util/ExecutionLogger":124,"../util/RdfUtil":127,"asynciterator":4}],121:[function(require,module,exports){
 /*! @license MIT ©2013-2016 Ruben Verborgh, Ghent University - imec */
 /* A TurtleFragmentIterator reads data and metadata from Linked Data Fragments in Turtle. */
 
@@ -42077,7 +42327,7 @@ TurtleFragmentIterator.supportsContentType = function (contentType) {
 
 module.exports = TurtleFragmentIterator;
 
-},{"../util/RdfUtil":126,"asynciterator":4,"n3":165}],121:[function(require,module,exports){
+},{"../util/RdfUtil":127,"asynciterator":4,"n3":166}],122:[function(require,module,exports){
 /*! @license MIT ©2015-2016 Miel Vander Sande, Ghent University - imec */
 
 var FragmentsClient = require('../FragmentsClient'),
@@ -42222,7 +42472,7 @@ function getIndex(element, index) { return index; }
 
 module.exports = FederatedFragmentsClient;
 
-},{"../../util/RdfUtil":126,"../FragmentsClient":116,"asynciterator":4,"lodash":129}],122:[function(require,module,exports){
+},{"../../util/RdfUtil":127,"../FragmentsClient":117,"asynciterator":4,"lodash":130}],123:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 
 // Creates a constructor for an Error with the given name
@@ -42244,7 +42494,7 @@ function createErrorType(name, init) {
 
 module.exports = createErrorType;
 
-},{}],123:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /*! @license MIT ©2013-2016 Miel Vander Sande, Ghent University - imec */
 
 var Logger = require('./Logger'),
@@ -42282,7 +42532,7 @@ ExecutionLogger.prototype.logFragment = function (iterator, fragment, bindings) 
 
 module.exports = ExecutionLogger;
 
-},{"./Logger":125,"asynciterator":4,"util":229}],124:[function(require,module,exports){
+},{"./Logger":126,"asynciterator":4,"util":230}],125:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 
 var TransformIterator = require('asynciterator').TransformIterator,
@@ -42440,7 +42690,7 @@ HttpClient.prototype.abortAll = function () {
 
 module.exports = HttpClient;
 
-},{"../util/Logger.js":125,"./Request":106,"asynciterator":4,"lodash":129,"parse-link-header":173}],125:[function(require,module,exports){
+},{"../util/Logger.js":126,"./Request":107,"asynciterator":4,"lodash":130,"parse-link-header":174}],126:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh and Miel Vander Sande, Ghent University - imec */
 /* loosely based on https://github.com/visionmedia/log.js/blob/master/lib/log.js */
 /* eslint no-console: 0 */
@@ -42549,7 +42799,7 @@ Logger.setMode = function (modeName) {
 
 module.exports = Logger;
 
-},{"./RdfUtil":126,"lodash":129}],126:[function(require,module,exports){
+},{"./RdfUtil":127,"lodash":130}],127:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 
 var N3 = require('n3'),
@@ -42790,7 +43040,7 @@ function namespace(prefix, base, names) {
 
 Object.freeze(util);
 
-},{"lodash":129,"n3":165}],127:[function(require,module,exports){
+},{"lodash":130,"n3":166}],128:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 
 var N3Util = require('n3').Util,
@@ -43021,7 +43271,7 @@ module.exports.UnsupportedExpressionError = UnsupportedExpressionError;
 module.exports.UnsupportedOperatorError = UnsupportedOperatorError;
 module.exports.InvalidArgumentsNumberError = InvalidArgumentsNumberError;
 
-},{"./CustomError":122,"n3":165}],128:[function(require,module,exports){
+},{"./CustomError":123,"n3":166}],129:[function(require,module,exports){
 /*! @license MIT ©2014-2016 Miel Vander Sande, Ghent University - imec */
 /* Serializing the output of a SparqlIterator */
 
@@ -43081,7 +43331,7 @@ SparqlResultWriter.instantiate = function (mediaType, source) {
 
 module.exports = SparqlResultWriter;
 
-},{"asynciterator":4}],129:[function(require,module,exports){
+},{"asynciterator":4}],130:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -49871,9 +50121,9 @@ module.exports = SparqlResultWriter;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],130:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
-},{"dup":46}],131:[function(require,module,exports){
+},{"dup":46}],132:[function(require,module,exports){
 module.exports = LRUCache
 
 // This will be a proper iterable 'Map' in engines that support it,
@@ -50344,7 +50594,7 @@ function Entry (key, value, length, now, maxAge) {
   this.maxAge = maxAge || 0
 }
 
-},{"pseudomap":179,"util":229,"yallist":242}],132:[function(require,module,exports){
+},{"pseudomap":180,"util":230,"yallist":243}],133:[function(require,module,exports){
 //! moment.js
 //! version : 2.18.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -54809,25 +55059,25 @@ return hooks;
 
 })));
 
-},{}],133:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 arguments[4][58][0].apply(exports,arguments)
-},{"dup":58}],134:[function(require,module,exports){
+},{"dup":58}],135:[function(require,module,exports){
 arguments[4][44][0].apply(exports,arguments)
-},{"dup":44}],135:[function(require,module,exports){
+},{"dup":44}],136:[function(require,module,exports){
 arguments[4][45][0].apply(exports,arguments)
-},{"./messages.js":134,"dup":45,"events":37,"lodash":136,"neighborhood-wrtc":139}],136:[function(require,module,exports){
+},{"./messages.js":135,"dup":45,"events":37,"lodash":137,"neighborhood-wrtc":140}],137:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
-},{"dup":46}],137:[function(require,module,exports){
+},{"dup":46}],138:[function(require,module,exports){
 arguments[4][47][0].apply(exports,arguments)
-},{"dup":47,"sorted-cmp-array":159}],138:[function(require,module,exports){
+},{"dup":47,"sorted-cmp-array":160}],139:[function(require,module,exports){
 arguments[4][48][0].apply(exports,arguments)
-},{"./extended-sorted-array":137,"dup":48}],139:[function(require,module,exports){
+},{"./extended-sorted-array":138,"dup":48}],140:[function(require,module,exports){
 arguments[4][49][0].apply(exports,arguments)
-},{"./extended-sorted-array.js":137,"./multiset.js":138,"dup":49,"events":37,"lodash":136,"simple-peer":158,"uuid/v4":164}],140:[function(require,module,exports){
+},{"./extended-sorted-array.js":138,"./multiset.js":139,"dup":49,"events":37,"lodash":137,"simple-peer":159,"uuid/v4":165}],141:[function(require,module,exports){
 arguments[4][43][0].apply(exports,arguments)
-},{"dup":43}],141:[function(require,module,exports){
+},{"dup":43}],142:[function(require,module,exports){
 arguments[4][10][0].apply(exports,arguments)
-},{"buffer":11,"dup":10}],142:[function(require,module,exports){
+},{"buffer":11,"dup":10}],143:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -54938,51 +55188,51 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../../../is-buffer/index.js")})
-},{"../../../../../../is-buffer/index.js":102}],143:[function(require,module,exports){
+},{"../../../../../../is-buffer/index.js":103}],144:[function(require,module,exports){
 arguments[4][21][0].apply(exports,arguments)
-},{"./debug":144,"_process":178,"dup":21}],144:[function(require,module,exports){
+},{"./debug":145,"_process":179,"dup":21}],145:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
-},{"dup":22,"ms":148}],145:[function(require,module,exports){
+},{"dup":22,"ms":149}],146:[function(require,module,exports){
 arguments[4][55][0].apply(exports,arguments)
-},{"dup":55}],146:[function(require,module,exports){
+},{"dup":55}],147:[function(require,module,exports){
 arguments[4][56][0].apply(exports,arguments)
-},{"dup":56}],147:[function(require,module,exports){
+},{"dup":56}],148:[function(require,module,exports){
 arguments[4][57][0].apply(exports,arguments)
-},{"dup":57}],148:[function(require,module,exports){
+},{"dup":57}],149:[function(require,module,exports){
 arguments[4][58][0].apply(exports,arguments)
-},{"dup":58}],149:[function(require,module,exports){
+},{"dup":58}],150:[function(require,module,exports){
 arguments[4][59][0].apply(exports,arguments)
-},{"_process":178,"dup":59}],150:[function(require,module,exports){
+},{"_process":179,"dup":59}],151:[function(require,module,exports){
 arguments[4][60][0].apply(exports,arguments)
-},{"_process":178,"buffer":11,"dup":60}],151:[function(require,module,exports){
+},{"_process":179,"buffer":11,"dup":60}],152:[function(require,module,exports){
 arguments[4][61][0].apply(exports,arguments)
-},{"./_stream_readable":153,"./_stream_writable":155,"core-util-is":142,"dup":61,"inherits":146,"process-nextick-args":149}],152:[function(require,module,exports){
+},{"./_stream_readable":154,"./_stream_writable":156,"core-util-is":143,"dup":61,"inherits":147,"process-nextick-args":150}],153:[function(require,module,exports){
 arguments[4][62][0].apply(exports,arguments)
-},{"./_stream_transform":154,"core-util-is":142,"dup":62,"inherits":146}],153:[function(require,module,exports){
+},{"./_stream_transform":155,"core-util-is":143,"dup":62,"inherits":147}],154:[function(require,module,exports){
 arguments[4][63][0].apply(exports,arguments)
-},{"./_stream_duplex":151,"./internal/streams/BufferList":156,"_process":178,"buffer":11,"buffer-shims":141,"core-util-is":142,"dup":63,"events":37,"inherits":146,"isarray":147,"process-nextick-args":149,"string_decoder/":160,"util":9}],154:[function(require,module,exports){
+},{"./_stream_duplex":152,"./internal/streams/BufferList":157,"_process":179,"buffer":11,"buffer-shims":142,"core-util-is":143,"dup":63,"events":37,"inherits":147,"isarray":148,"process-nextick-args":150,"string_decoder/":161,"util":9}],155:[function(require,module,exports){
 arguments[4][64][0].apply(exports,arguments)
-},{"./_stream_duplex":151,"core-util-is":142,"dup":64,"inherits":146}],155:[function(require,module,exports){
+},{"./_stream_duplex":152,"core-util-is":143,"dup":64,"inherits":147}],156:[function(require,module,exports){
 arguments[4][65][0].apply(exports,arguments)
-},{"./_stream_duplex":151,"_process":178,"buffer":11,"buffer-shims":141,"core-util-is":142,"dup":65,"events":37,"inherits":146,"process-nextick-args":149,"util-deprecate":161}],156:[function(require,module,exports){
+},{"./_stream_duplex":152,"_process":179,"buffer":11,"buffer-shims":142,"core-util-is":143,"dup":65,"events":37,"inherits":147,"process-nextick-args":150,"util-deprecate":162}],157:[function(require,module,exports){
 arguments[4][66][0].apply(exports,arguments)
-},{"buffer":11,"buffer-shims":141,"dup":66}],157:[function(require,module,exports){
+},{"buffer":11,"buffer-shims":142,"dup":66}],158:[function(require,module,exports){
 arguments[4][67][0].apply(exports,arguments)
-},{"./lib/_stream_duplex.js":151,"./lib/_stream_passthrough.js":152,"./lib/_stream_readable.js":153,"./lib/_stream_transform.js":154,"./lib/_stream_writable.js":155,"_process":178,"dup":67}],158:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":152,"./lib/_stream_passthrough.js":153,"./lib/_stream_readable.js":154,"./lib/_stream_transform.js":155,"./lib/_stream_writable.js":156,"_process":179,"dup":67}],159:[function(require,module,exports){
 arguments[4][68][0].apply(exports,arguments)
-},{"buffer":11,"debug":143,"dup":68,"get-browser-rtc":145,"inherits":146,"randombytes":150,"readable-stream":157}],159:[function(require,module,exports){
+},{"buffer":11,"debug":144,"dup":68,"get-browser-rtc":146,"inherits":147,"randombytes":151,"readable-stream":158}],160:[function(require,module,exports){
 arguments[4][69][0].apply(exports,arguments)
-},{"binary-search":140,"dup":69}],160:[function(require,module,exports){
+},{"binary-search":141,"dup":69}],161:[function(require,module,exports){
 arguments[4][70][0].apply(exports,arguments)
-},{"buffer":11,"dup":70}],161:[function(require,module,exports){
+},{"buffer":11,"dup":70}],162:[function(require,module,exports){
 arguments[4][71][0].apply(exports,arguments)
-},{"dup":71}],162:[function(require,module,exports){
+},{"dup":71}],163:[function(require,module,exports){
 arguments[4][72][0].apply(exports,arguments)
-},{"dup":72}],163:[function(require,module,exports){
+},{"dup":72}],164:[function(require,module,exports){
 arguments[4][73][0].apply(exports,arguments)
-},{"dup":73}],164:[function(require,module,exports){
+},{"dup":73}],165:[function(require,module,exports){
 arguments[4][74][0].apply(exports,arguments)
-},{"./lib/bytesToUuid":162,"./lib/rng":163,"dup":74}],165:[function(require,module,exports){
+},{"./lib/bytesToUuid":163,"./lib/rng":164,"dup":74}],166:[function(require,module,exports){
 // Replace local require by a lazy loader
 var globalRequire = require;
 require = function () {};
@@ -55010,7 +55260,7 @@ Object.keys(exports).forEach(function (submodule) {
   });
 });
 
-},{"./lib/N3Lexer":166,"./lib/N3Parser":167,"./lib/N3Store":168,"./lib/N3StreamParser":169,"./lib/N3StreamWriter":170,"./lib/N3Util":171,"./lib/N3Writer":172}],166:[function(require,module,exports){
+},{"./lib/N3Lexer":167,"./lib/N3Parser":168,"./lib/N3Store":169,"./lib/N3StreamParser":170,"./lib/N3StreamWriter":171,"./lib/N3Util":172,"./lib/N3Writer":173}],167:[function(require,module,exports){
 // **N3Lexer** tokenizes N3 documents.
 var fromCharCode = String.fromCharCode;
 var immediately = typeof setImmediate === 'function' ? setImmediate :
@@ -55422,7 +55672,7 @@ N3Lexer.prototype = {
 // Export the `N3Lexer` class as a whole.
 module.exports = N3Lexer;
 
-},{}],167:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 // **N3Parser** parses N3 documents.
 var N3Lexer = require('./N3Lexer');
 
@@ -56310,7 +56560,7 @@ function noop() {}
 // Export the `N3Parser` class as a whole.
 module.exports = N3Parser;
 
-},{"./N3Lexer":166}],168:[function(require,module,exports){
+},{"./N3Lexer":167}],169:[function(require,module,exports){
 // **N3Store** objects store N3 triples by graph in memory.
 
 var expandPrefixedName = require('./N3Util').expandPrefixedName;
@@ -56701,7 +56951,7 @@ N3Store.prototype = {
 // Export the `N3Store` class as a whole.
 module.exports = N3Store;
 
-},{"./N3Util":171}],169:[function(require,module,exports){
+},{"./N3Util":172}],170:[function(require,module,exports){
 // **N3StreamParser** parses an N3 stream into a triple stream
 var Transform = require('stream').Transform,
     util = require('util'),
@@ -56736,7 +56986,7 @@ util.inherits(N3StreamParser, Transform);
 // Export the `N3StreamParser` class as a whole.
 module.exports = N3StreamParser;
 
-},{"./N3Parser.js":167,"stream":218,"util":229}],170:[function(require,module,exports){
+},{"./N3Parser.js":168,"stream":219,"util":230}],171:[function(require,module,exports){
 // **N3StreamWriter** serializes a triple stream into an N3 stream
 var Transform = require('stream').Transform,
     util = require('util'),
@@ -56768,7 +57018,7 @@ util.inherits(N3StreamWriter, Transform);
 // Export the `N3StreamWriter` class as a whole.
 module.exports = N3StreamWriter;
 
-},{"./N3Writer.js":172,"stream":218,"util":229}],171:[function(require,module,exports){
+},{"./N3Writer.js":173,"stream":219,"util":230}],172:[function(require,module,exports){
 // **N3Util** provides N3 utility functions
 
 var Xsd = 'http://www.w3.org/2001/XMLSchema#';
@@ -56915,7 +57165,7 @@ function applyToThis(f) {
 // Expose N3Util, attaching all functions to it
 module.exports = addN3Util(addN3Util);
 
-},{}],172:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 // **N3Writer** writes N3 documents.
 
 // Matches a literal as represented in memory by the N3 library
@@ -57247,7 +57497,7 @@ function characterReplacer(character) {
 // Export the `N3Writer` class as a whole.
 module.exports = N3Writer;
 
-},{}],173:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 'use strict';
 
 var qs = require('querystring')
@@ -57302,7 +57552,7 @@ module.exports = function (linkHeader) {
    .reduce(intoRels, {});
 };
 
-},{"querystring":185,"url":224,"xtend":241}],174:[function(require,module,exports){
+},{"querystring":186,"url":225,"xtend":242}],175:[function(require,module,exports){
 (function (global){
 /**
  * JSON parse.
@@ -57337,7 +57587,7 @@ module.exports = function parsejson(data) {
   }
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],175:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 /**
  * Compiles a querystring
  * Returns string representation of the object
@@ -57376,7 +57626,7 @@ exports.decode = function(qs){
   return qry;
 };
 
-},{}],176:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 /**
  * Parses an URI
  *
@@ -57417,9 +57667,9 @@ module.exports = function parseuri(str) {
     return uri;
 };
 
-},{}],177:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 arguments[4][59][0].apply(exports,arguments)
-},{"_process":178,"dup":59}],178:[function(require,module,exports){
+},{"_process":179,"dup":59}],179:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -57601,7 +57851,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],179:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 (function (process){
 if (process.env.npm_package_name === 'pseudomap' &&
     process.env.npm_lifecycle_script === 'test')
@@ -57614,7 +57864,7 @@ if (typeof Map === 'function' && !process.env.TEST_PSEUDOMAP) {
 }
 
 }).call(this,require('_process'))
-},{"./pseudomap":180,"_process":178}],180:[function(require,module,exports){
+},{"./pseudomap":181,"_process":179}],181:[function(require,module,exports){
 var hasOwnProperty = Object.prototype.hasOwnProperty
 
 module.exports = PseudoMap
@@ -57729,7 +57979,7 @@ function set (data, k, v) {
   data[key] = new Entry(k, v, key)
 }
 
-},{}],181:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -58266,7 +58516,7 @@ function set (data, k, v) {
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],182:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 (function (process){
 // vim:ts=4:sts=4:sw=4:
 /*!
@@ -60343,7 +60593,7 @@ return Q;
 });
 
 }).call(this,require('_process'))
-},{"_process":178}],183:[function(require,module,exports){
+},{"_process":179}],184:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -60429,7 +60679,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],184:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -60516,20 +60766,20 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],185:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":183,"./encode":184}],186:[function(require,module,exports){
+},{"./decode":184,"./encode":185}],187:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":187}],187:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":188}],188:[function(require,module,exports){
 arguments[4][61][0].apply(exports,arguments)
-},{"./_stream_readable":189,"./_stream_writable":191,"core-util-is":20,"dup":61,"inherits":101,"process-nextick-args":177}],188:[function(require,module,exports){
+},{"./_stream_readable":190,"./_stream_writable":192,"core-util-is":20,"dup":61,"inherits":102,"process-nextick-args":178}],189:[function(require,module,exports){
 arguments[4][62][0].apply(exports,arguments)
-},{"./_stream_transform":190,"core-util-is":20,"dup":62,"inherits":101}],189:[function(require,module,exports){
+},{"./_stream_transform":191,"core-util-is":20,"dup":62,"inherits":102}],190:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -61467,9 +61717,9 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":187,"./internal/streams/BufferList":192,"./internal/streams/stream":193,"_process":178,"buffer":11,"buffer-shims":10,"core-util-is":20,"events":37,"inherits":101,"isarray":103,"process-nextick-args":177,"string_decoder/":219,"util":9}],190:[function(require,module,exports){
+},{"./_stream_duplex":188,"./internal/streams/BufferList":193,"./internal/streams/stream":194,"_process":179,"buffer":11,"buffer-shims":10,"core-util-is":20,"events":37,"inherits":102,"isarray":104,"process-nextick-args":178,"string_decoder/":220,"util":9}],191:[function(require,module,exports){
 arguments[4][64][0].apply(exports,arguments)
-},{"./_stream_duplex":187,"core-util-is":20,"dup":64,"inherits":101}],191:[function(require,module,exports){
+},{"./_stream_duplex":188,"core-util-is":20,"dup":64,"inherits":102}],192:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -62016,15 +62266,15 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":187,"./internal/streams/stream":193,"_process":178,"buffer":11,"buffer-shims":10,"core-util-is":20,"inherits":101,"process-nextick-args":177,"util-deprecate":226}],192:[function(require,module,exports){
+},{"./_stream_duplex":188,"./internal/streams/stream":194,"_process":179,"buffer":11,"buffer-shims":10,"core-util-is":20,"inherits":102,"process-nextick-args":178,"util-deprecate":227}],193:[function(require,module,exports){
 arguments[4][66][0].apply(exports,arguments)
-},{"buffer":11,"buffer-shims":10,"dup":66}],193:[function(require,module,exports){
+},{"buffer":11,"buffer-shims":10,"dup":66}],194:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":37}],194:[function(require,module,exports){
+},{"events":37}],195:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":195}],195:[function(require,module,exports){
+},{"./readable":196}],196:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -62033,13 +62283,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":187,"./lib/_stream_passthrough.js":188,"./lib/_stream_readable.js":189,"./lib/_stream_transform.js":190,"./lib/_stream_writable.js":191}],196:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":188,"./lib/_stream_passthrough.js":189,"./lib/_stream_readable.js":190,"./lib/_stream_transform.js":191,"./lib/_stream_writable.js":192}],197:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":195}],197:[function(require,module,exports){
+},{"./readable":196}],198:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":191}],198:[function(require,module,exports){
+},{"./lib/_stream_writable.js":192}],199:[function(require,module,exports){
 /*
 Copyright (c) 2014, Yahoo! Inc. All rights reserved.
 Copyrights licensed under the New BSD License.
@@ -62150,7 +62400,7 @@ module.exports = function serialize(obj, options) {
     });
 }
 
-},{"util":229}],199:[function(require,module,exports){
+},{"util":230}],200:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -62340,7 +62590,7 @@ module.exports = function serialize(obj, options) {
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":178}],200:[function(require,module,exports){
+},{"_process":179}],201:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -62451,7 +62701,7 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./manager":201,"./socket":203,"./url":204,"debug":205,"socket.io-parser":208}],201:[function(require,module,exports){
+},{"./manager":202,"./socket":204,"./url":205,"debug":206,"socket.io-parser":209}],202:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -63013,7 +63263,7 @@ Manager.prototype.onreconnect = function () {
   this.emitAll('reconnect', attempt);
 };
 
-},{"./on":202,"./socket":203,"backo2":5,"component-bind":17,"component-emitter":18,"debug":205,"engine.io-client":23,"indexof":100,"socket.io-parser":208}],202:[function(require,module,exports){
+},{"./on":203,"./socket":204,"backo2":5,"component-bind":17,"component-emitter":18,"debug":206,"engine.io-client":23,"indexof":101,"socket.io-parser":209}],203:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -63039,7 +63289,7 @@ function on (obj, ev, fn) {
   };
 }
 
-},{}],203:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -63460,7 +63710,7 @@ Socket.prototype.compress = function (compress) {
   return this;
 };
 
-},{"./on":202,"component-bind":17,"component-emitter":18,"debug":205,"has-binary":89,"socket.io-parser":208,"to-array":220}],204:[function(require,module,exports){
+},{"./on":203,"component-bind":17,"component-emitter":18,"debug":206,"has-binary":90,"socket.io-parser":209,"to-array":221}],205:[function(require,module,exports){
 (function (global){
 
 /**
@@ -63539,11 +63789,11 @@ function url (uri, loc) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"debug":205,"parseuri":176}],205:[function(require,module,exports){
+},{"debug":206,"parseuri":177}],206:[function(require,module,exports){
 arguments[4][33][0].apply(exports,arguments)
-},{"./debug":206,"_process":178,"dup":33}],206:[function(require,module,exports){
+},{"./debug":207,"_process":179,"dup":33}],207:[function(require,module,exports){
 arguments[4][34][0].apply(exports,arguments)
-},{"dup":34,"ms":133}],207:[function(require,module,exports){
+},{"dup":34,"ms":134}],208:[function(require,module,exports){
 (function (global){
 /*global Blob,File*/
 
@@ -63688,7 +63938,7 @@ exports.removeBlobs = function(data, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is-buffer":209,"isarray":213}],208:[function(require,module,exports){
+},{"./is-buffer":210,"isarray":214}],209:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -64094,7 +64344,7 @@ function error(data){
   };
 }
 
-},{"./binary":207,"./is-buffer":209,"component-emitter":210,"debug":211,"json3":104}],209:[function(require,module,exports){
+},{"./binary":208,"./is-buffer":210,"component-emitter":211,"debug":212,"json3":105}],210:[function(require,module,exports){
 (function (global){
 
 module.exports = isBuf;
@@ -64111,7 +64361,7 @@ function isBuf(obj) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],210:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -64277,7 +64527,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],211:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 
 /**
  * This is the web browser implementation of `debug()`.
@@ -64447,7 +64697,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-},{"./debug":212}],212:[function(require,module,exports){
+},{"./debug":213}],213:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -64646,9 +64896,9 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":214}],213:[function(require,module,exports){
-arguments[4][90][0].apply(exports,arguments)
-},{"dup":90}],214:[function(require,module,exports){
+},{"ms":215}],214:[function(require,module,exports){
+arguments[4][91][0].apply(exports,arguments)
+},{"dup":91}],215:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -64775,7 +65025,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],215:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 var XSD_INTEGER = 'http://www.w3.org/2001/XMLSchema#integer';
 
 module.exports = function SparqlGenerator() { return { stringify: toQuery }; };
@@ -65040,7 +65290,7 @@ function mapJoin(array, func, sep) { return array.map(func).join(isString(sep) ?
 // Indents each line of the string
 function indent(text) { return text.replace(/^/gm, '  '); }
 
-},{}],216:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 (function (process){
 /* parser generated by jison 0.4.17 */
 /*
@@ -66558,7 +66808,7 @@ if (typeof module !== 'undefined' && require.main === module) {
 }
 }
 }).call(this,require('_process'))
-},{"_process":9,"fs":9,"path":9}],217:[function(require,module,exports){
+},{"_process":9,"fs":9,"path":9}],218:[function(require,module,exports){
 var Parser = require('./lib/SparqlParser').Parser;
 var Generator = require('./lib/SparqlGenerator');
 
@@ -66584,7 +66834,7 @@ module.exports = {
   Generator: Generator,
 };
 
-},{"./lib/SparqlGenerator":215,"./lib/SparqlParser":216}],218:[function(require,module,exports){
+},{"./lib/SparqlGenerator":216,"./lib/SparqlParser":217}],219:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -66713,7 +66963,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":37,"inherits":101,"readable-stream/duplex.js":186,"readable-stream/passthrough.js":194,"readable-stream/readable.js":195,"readable-stream/transform.js":196,"readable-stream/writable.js":197}],219:[function(require,module,exports){
+},{"events":37,"inherits":102,"readable-stream/duplex.js":187,"readable-stream/passthrough.js":195,"readable-stream/readable.js":196,"readable-stream/transform.js":197,"readable-stream/writable.js":198}],220:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -66987,7 +67237,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"buffer":11,"buffer-shims":10}],220:[function(require,module,exports){
+},{"buffer":11,"buffer-shims":10}],221:[function(require,module,exports){
 module.exports = toArray
 
 function toArray(list, index) {
@@ -67002,11 +67252,11 @@ function toArray(list, index) {
     return array
 }
 
-},{}],221:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 arguments[4][15][0].apply(exports,arguments)
-},{"dup":15}],222:[function(require,module,exports){
+},{"dup":15}],223:[function(require,module,exports){
 arguments[4][16][0].apply(exports,arguments)
-},{"./messages":221,"dup":16,"events":37,"util":229}],223:[function(require,module,exports){
+},{"./messages":222,"dup":16,"events":37,"util":230}],224:[function(require,module,exports){
 (function (global){
 /*global unescape, module, define, window, global*/
 
@@ -67895,7 +68145,7 @@ var UriTemplate = (function () {
 ));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -68629,7 +68879,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":225,"punycode":181,"querystring":185}],225:[function(require,module,exports){
+},{"./util":226,"punycode":182,"querystring":186}],226:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -68647,18 +68897,18 @@ module.exports = {
   }
 };
 
-},{}],226:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 arguments[4][71][0].apply(exports,arguments)
-},{"dup":71}],227:[function(require,module,exports){
+},{"dup":71}],228:[function(require,module,exports){
 arguments[4][56][0].apply(exports,arguments)
-},{"dup":56}],228:[function(require,module,exports){
+},{"dup":56}],229:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],229:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -69248,13 +69498,13 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":228,"_process":178,"inherits":227}],230:[function(require,module,exports){
+},{"./support/isBuffer":229,"_process":179,"inherits":228}],231:[function(require,module,exports){
 arguments[4][72][0].apply(exports,arguments)
-},{"dup":72}],231:[function(require,module,exports){
+},{"dup":72}],232:[function(require,module,exports){
 arguments[4][73][0].apply(exports,arguments)
-},{"dup":73}],232:[function(require,module,exports){
+},{"dup":73}],233:[function(require,module,exports){
 arguments[4][74][0].apply(exports,arguments)
-},{"./lib/bytesToUuid":230,"./lib/rng":231,"dup":74}],233:[function(require,module,exports){
+},{"./lib/bytesToUuid":231,"./lib/rng":232,"dup":74}],234:[function(require,module,exports){
 var SortedArray = require('sorted-cmp-array');
 var Comparator = require('./vvweentry.js').Comparator;
 var VVwEEntry = require('./vvweentry.js');
@@ -69401,7 +69651,7 @@ VVwE.prototype.merge = function(other){
 module.exports = VVwE;
 
 
-},{"./vvweentry.js":234,"sorted-cmp-array":235}],234:[function(require,module,exports){
+},{"./vvweentry.js":235,"sorted-cmp-array":236}],235:[function(require,module,exports){
 
 /*!
   \brief create an entry of the version vector with exceptions containing the
@@ -69465,9 +69715,9 @@ function Comparator (a, b){
 module.exports = VVwEEntry;
 module.exports.Comparator = Comparator;
 
-},{}],235:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 arguments[4][69][0].apply(exports,arguments)
-},{"binary-search":236,"dup":69}],236:[function(require,module,exports){
+},{"binary-search":237,"dup":69}],237:[function(require,module,exports){
 module.exports = function(haystack, needle, comparator, low, high) {
   var mid, cmp;
 
@@ -69512,7 +69762,7 @@ module.exports = function(haystack, needle, comparator, low, high) {
   return ~low;
 }
 
-},{}],237:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 'use strict';
 
 const VivaldiPosition = require('./lib/vivaldiposition');
@@ -69577,7 +69827,7 @@ module.exports = {
 	VivaldiPosition,
 	HeightCoordinates
 }
-},{"./lib/heightcoodinates":238,"./lib/vivaldiposition":239}],238:[function(require,module,exports){
+},{"./lib/heightcoodinates":239,"./lib/vivaldiposition":240}],239:[function(require,module,exports){
 'use strict';
 
 const MAX_X = 30000;
@@ -69681,7 +69931,7 @@ function primitive(c1, c2, scale) {
 }
 
 module.exports = HeightCoordinates
-},{}],239:[function(require,module,exports){
+},{}],240:[function(require,module,exports){
 'use strict';
 
 const HeightCoordinates = require('./heightcoodinates');
@@ -69850,7 +70100,7 @@ module.exports = class VivaldiPosition {
 function valid(f) {
 	return Number.isFinite(f);
 }
-},{"./heightcoodinates":238}],240:[function(require,module,exports){
+},{"./heightcoodinates":239}],241:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/wtf8 v1.0.0 by @mathias */
 ;(function(root) {
@@ -70088,7 +70338,7 @@ function valid(f) {
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],241:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -70109,7 +70359,7 @@ function extend() {
     return target
 }
 
-},{}],242:[function(require,module,exports){
+},{}],243:[function(require,module,exports){
 module.exports = Yallist
 
 Yallist.Node = Node
@@ -70481,7 +70731,7 @@ function Node (value, prev, next, list) {
   }
 }
 
-},{}],243:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 'use strict';
 
 var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
@@ -70551,7 +70801,7 @@ yeast.encode = encode;
 yeast.decode = decode;
 module.exports = yeast;
 
-},{}],244:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 /*
 MIT License
 
@@ -70577,32 +70827,47 @@ SOFTWARE.
 */
 'use strict';
 
-const Q = require('q');
-const _ = require('lodash');
-const debug = require('debug');
-const EventEmitter = require('events');
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Q = require('q');
+var _ = require('lodash');
+var debug = require('debug');
+var EventEmitter = require('events');
 
 /**
  * Abstract delegation protocol used by Foglet-NDP to distribute queries between peers
  * @abstract
  * @author Arnaud Grall (Folkvir), Thomas Minier
  */
-class DelegationProtocol extends EventEmitter {
+
+var DelegationProtocol = function (_EventEmitter) {
+	_inherits(DelegationProtocol, _EventEmitter);
+
 	/**
   * Constructor
   * @param {object} options - The protocol's options object where all options are defined
   * @param {string} options.name Name of the protocol
   * @param {string} options.verbose If true, logs are printed through debug package
   */
-	constructor(options) {
-		super();
-		this.options = _.merge({
+	function DelegationProtocol(options) {
+		_classCallCheck(this, DelegationProtocol);
+
+		var _this = _possibleConstructorReturn(this, (DelegationProtocol.__proto__ || Object.getPrototypeOf(DelegationProtocol)).call(this));
+
+		_this.options = _.merge({
 			name: 'ndp',
 			verbose: true
 		}, options);
-		this.name = 'foglet-' + this.options.name;
-		this.logger = debug(this.name);
-		this.foglet = null;
+		_this.name = 'foglet-' + _this.options.name;
+		_this.logger = debug(_this.name);
+		_this.foglet = null;
+		return _this;
 	}
 
 	/**
@@ -70614,41 +70879,59 @@ class DelegationProtocol extends EventEmitter {
   * const ndp = new NDP(config);
   * protocol.use(ndp);
   */
-	use(foglet) {
-		this.foglet = foglet;
-	}
 
-	/**
-  * Send queries to neighbours and emit results on ndp-answer
-  * @param {array} data array of element to send (query)
-  * @param {string} endpoint - Endpoint to send queries
-  * @return {promise} A Q promise
-  */
-	send(data, endpoint) {
-		return Q(endpoint);
-	}
 
-	/**
-  * Execute queries in {data} via ldf-client to the {endpoint}
-  * @param {array} data - Queries to execute
-  * @param {string} endpoint - Endpoint to process queries
-  * @return {promise} Return a promise with results as reponse
-  */
-	execute(data, endpoint) {
-		return Q(endpoint);
-	}
-
-	_log(...args) {
-		if (this.options.verbose) {
-			this.logger('%O', ...args);
-			this.emit('logs', ...args);
+	_createClass(DelegationProtocol, [{
+		key: 'use',
+		value: function use(foglet) {
+			this.foglet = foglet;
 		}
-	}
-}
+
+		/**
+   * Send queries to neighbours and emit results on ndp-answer
+   * @param {array} data array of element to send (query)
+   * @param {string} endpoint - Endpoint to send queries
+   * @return {promise} A Q promise
+   */
+
+	}, {
+		key: 'send',
+		value: function send(data, endpoint) {
+			return Q(endpoint);
+		}
+
+		/**
+   * Execute queries in {data} via ldf-client to the {endpoint}
+   * @param {array} data - Queries to execute
+   * @param {string} endpoint - Endpoint to process queries
+   * @return {promise} Return a promise with results as reponse
+   */
+
+	}, {
+		key: 'execute',
+		value: function execute(data, endpoint) {
+			return Q(endpoint);
+		}
+	}, {
+		key: '_log',
+		value: function _log() {
+			if (this.options.verbose) {
+				for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+					args[_key] = arguments[_key];
+				}
+
+				this.logger.apply(this, ['%O'].concat(args));
+				this.emit.apply(this, ['logs'].concat(args));
+			}
+		}
+	}]);
+
+	return DelegationProtocol;
+}(EventEmitter);
 
 module.exports = DelegationProtocol;
 
-},{"debug":21,"events":37,"lodash":130,"q":182}],245:[function(require,module,exports){
+},{"debug":21,"events":37,"lodash":131,"q":183}],246:[function(require,module,exports){
 /*
 MIT License
 
@@ -70674,34 +70957,44 @@ SOFTWARE.
 */
 'use strict';
 
-const Q = require('q');
-const Immutable = require('immutable');
-const ldf = require('ldf-client');
-const StatusQueue = require('./status-queue.js');
-const DelegationProtocol = require('./delegation-protocol.js');
-const NDPMessage = require('./ndp-message.js');
-const uuidV4 = require('uuid/v4');
-const moment = require('moment');
-const _ = require('lodash');
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Q = require('q');
+var Immutable = require('immutable');
+var ldf = require('ldf-client');
+var StatusQueue = require('./status-queue.js');
+var DelegationProtocol = require('./delegation-protocol.js');
+var NDPMessage = require('./ndp-message.js');
+var uuidV4 = require('uuid/v4');
+var moment = require('moment');
+var _ = require('lodash');
 
 // LDF LOG Disabling
 ldf.Logger.setLevel('ERROR');
 // ldf.Logger.setLevel('DEBUG');
 // status
-const STATUS_DELEGATED = 'status_delegated';
+var STATUS_DELEGATED = 'status_delegated';
 
 // utility to format dates in hh:mm:ss:ms
-const formatTime = time => {
-	const hours = time.getHours().toString(),
-	      min = time.getMinutes().toString(),
-	      sec = time.getSeconds().toString();
-	let mil = time.getMilliseconds().toString();
+var formatTime = function formatTime(time) {
+	var hours = time.getHours().toString(),
+	    min = time.getMinutes().toString(),
+	    sec = time.getSeconds().toString();
+	var mil = time.getMilliseconds().toString();
 	if (mil.length === 1) {
-		mil = `00${mil}`;
+		mil = '00' + mil;
 	} else if (mil.length === 2) {
-		mil = `0${mil}`;
+		mil = '0' + mil;
 	}
-	return `${hours}:${min}:${sec}:${mil}`;
+	return hours + ':' + min + ':' + sec + ':' + mil;
 };
 
 function clone(obj) {
@@ -70713,36 +71006,43 @@ function clone(obj) {
  * @extends DelegationProtocol
  * @author Arnaud Grall (Folkvir), Thomas Minier
  */
-class LaddaProtocol extends DelegationProtocol {
+
+var LaddaProtocol = function (_DelegationProtocol) {
+	_inherits(LaddaProtocol, _DelegationProtocol);
+
 	/**
   * Constructor
   * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2, as in Ladda paper)
   * @param {int|undefined} timeout - (optional) The timeout used by the protocol. Disable by default unless it is set.
   */
-	constructor(nbDestinations, timeout, verbose) {
-		super({
-			name: 'ladda',
-			verbose
-		});
+	function LaddaProtocol(nbDestinations, timeout, verbose) {
+		_classCallCheck(this, LaddaProtocol);
+
 		// this.queryQueue = Immutable.Map();
-		this.queryQueue = new StatusQueue();
-		this.busyPeers = Immutable.Set();
-		this.isFree = true;
-		this.nbDestinations = nbDestinations || 2;
-		this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
+		var _this = _possibleConstructorReturn(this, (LaddaProtocol.__proto__ || Object.getPrototypeOf(LaddaProtocol)).call(this, {
+			name: 'ladda',
+			verbose: verbose
+		}));
+
+		_this.queryQueue = new StatusQueue();
+		_this.busyPeers = Immutable.Set();
+		_this.isFree = true;
+		_this.nbDestinations = nbDestinations || 2;
+		_this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
 
 
-		this.signalAnswer = 'ndp-answer'; // When an answer is received from our workload
-		this.signalError = 'ndp-error'; // An error occurred
-		this.signalFailed = 'ndp-failed'; // a query has failed to be delegated
-		this.signalTimeout = 'ndp-timeout'; // Signal for timed out queries
-		this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
-		this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
+		_this.signalAnswer = 'ndp-answer'; // When an answer is received from our workload
+		_this.signalError = 'ndp-error'; // An error occurred
+		_this.signalFailed = 'ndp-failed'; // a query has failed to be delegated
+		_this.signalTimeout = 'ndp-timeout'; // Signal for timed out queries
+		_this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
+		_this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
 
 		// garbageTimeout
-		this.garbageTimeout = new Map();
+		_this.garbageTimeout = new Map();
 		// fragmentsClient
-		this.endpoints = new Map();
+		_this.endpoints = new Map();
+		return _this;
 	}
 
 	/**
@@ -70751,56 +71051,77 @@ class LaddaProtocol extends DelegationProtocol {
   * @return {void}
   * @override
   */
-	use(foglet) {
-		super.use(foglet);
-		const self = this;
-		this.foglet.onUnicast((id, message) => {
-			self._log(`@LADDA : Receive Message from ${id}`, message);
-			const receiveMessageTimeDate = new Date();
-			const receiveMessageTime = formatTime(receiveMessageTimeDate);
-			switch (message.type) {
-				case 'request':
-					{
-						self._log('@LADDA : Message: ', message);
-						self._log('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
-						if (self.isFree && !self.queryQueue.hasWaitingQueries()) {
-							self.isFree = false;
-							const query = message.payload;
-							const startExecutionTimeDate = new Date();
-							const startExecutionTime = formatTime(startExecutionTimeDate);
-							self._setFragmentsClient(message.endpoint);
-							self.execute(query, message.endpoint).then(result => {
-								const endExecutionTimeDate = new Date();
-								const endExecutionTime = formatTime(endExecutionTimeDate);
-								const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-								self.isFree = true;
-								const msg = new NDPMessage({
-									type: 'answer',
-									id: self.foglet.id,
-									schedulerId: message.id,
-									payload: result,
-									query: query,
-									qId: message.qId,
-									endpoint: message.endpoint,
-									startTime: message.startTime,
-									sendQueryTime: message.sendQueryTime,
-									receiveQueryTime: receiveMessageTime,
-									startExecutionTime,
-									endExecutionTime,
-									executionTime
+
+
+	_createClass(LaddaProtocol, [{
+		key: 'use',
+		value: function use(foglet) {
+			var _this2 = this;
+
+			_get(LaddaProtocol.prototype.__proto__ || Object.getPrototypeOf(LaddaProtocol.prototype), 'use', this).call(this, foglet);
+			var self = this;
+			this.foglet.onUnicast(function (id, message) {
+				self._log('@LADDA : Receive Message from ' + id, message);
+				var receiveMessageTimeDate = new Date();
+				var receiveMessageTime = formatTime(receiveMessageTimeDate);
+				switch (message.type) {
+					case 'request':
+						{
+							self._log('@LADDA : Message: ', message);
+							self._log('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
+							if (self.isFree && !self.queryQueue.hasWaitingQueries()) {
+								self.isFree = false;
+								var query = message.payload;
+								var startExecutionTimeDate = new Date();
+								var startExecutionTime = formatTime(startExecutionTimeDate);
+								self._setFragmentsClient(message.endpoint);
+								self.execute(query, message.endpoint).then(function (result) {
+									var endExecutionTimeDate = new Date();
+									var endExecutionTime = formatTime(endExecutionTimeDate);
+									var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
+									self.isFree = true;
+									var msg = new NDPMessage({
+										type: 'answer',
+										id: self.foglet.id,
+										schedulerId: message.id,
+										payload: result,
+										query: query,
+										qId: message.qId,
+										endpoint: message.endpoint,
+										startTime: message.startTime,
+										sendQueryTime: message.sendQueryTime,
+										receiveQueryTime: receiveMessageTime,
+										startExecutionTime: startExecutionTime,
+										endExecutionTime: endExecutionTime,
+										executionTime: executionTime
+									});
+									self._log(clone(msg));
+									msg.sendResultsTime = formatTime(new Date());
+									self.emit(_this2.signalDelegatedQueryExecuted, clone(msg));
+									self.foglet.sendUnicast(msg, id);
+									self._log('@LADDA : Message sent after its execution.');
+								}).catch(function (error) {
+									self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
+									self.isFree = true;
+									self.emit(self.signalError, error.toString() + '\n' + error.stack);
+									self._log(error.toString() + '\n' + error.stack);
+									self._log('@LADDA :****************************************************************************************');
+									var msg = new NDPMessage({
+										type: 'failed',
+										id: self.foglet.id,
+										payload: message.payload,
+										endpoint: message.endpoint,
+										qId: message.qId,
+										receiveQueryTime: receiveMessageTime
+									});
+									self._log(clone(msg));
+									self.emit(_this2.signalFailed, clone(msg));
+									self.foglet.sendUnicast(msg, id);
+									self._log('@LADDA : Message sent after it\'s failed. ');
 								});
-								self._log(clone(msg));
-								msg.sendResultsTime = formatTime(new Date());
-								self.emit(this.signalDelegatedQueryExecuted, clone(msg));
-								self.foglet.sendUnicast(msg, id);
-								self._log('@LADDA : Message sent after its execution.');
-							}).catch(error => {
-								self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
-								self.isFree = true;
-								self.emit(self.signalError, error.toString() + '\n' + error.stack);
-								self._log(error.toString() + '\n' + error.stack);
-								self._log('@LADDA :****************************************************************************************');
-								const msg = new NDPMessage({
+							} else {
+								self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
+								var msg = new NDPMessage({
 									type: 'failed',
 									id: self.foglet.id,
 									payload: message.payload,
@@ -70809,348 +71130,375 @@ class LaddaProtocol extends DelegationProtocol {
 									receiveQueryTime: receiveMessageTime
 								});
 								self._log(clone(msg));
-								self.emit(this.signalFailed, clone(msg));
+								self.emit(_this2.signalFailed, clone(msg));
 								self.foglet.sendUnicast(msg, id);
 								self._log('@LADDA : Message sent after it\'s failed. ');
-							});
-						} else {
-							self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
-							const msg = new NDPMessage({
-								type: 'failed',
-								id: self.foglet.id,
-								payload: message.payload,
-								endpoint: message.endpoint,
-								qId: message.qId,
-								receiveQueryTime: receiveMessageTime
-							});
-							self._log(clone(msg));
-							self.emit(this.signalFailed, clone(msg));
-							self.foglet.sendUnicast(msg, id);
-							self._log('@LADDA : Message sent after it\'s failed. ');
+							}
+							break;
 						}
-						break;
-					}
-				case 'answer':
-					{
-						try {
-							self._log('@LADDA : Received an answer from @' + message.id);
-							self.queryQueue.setDone(message.qId);
-							self.busyPeers = this.busyPeers.delete(id);
-							message.receiveResultsTime = receiveMessageTime;
-							message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
-							self.emit(this.signalAnswer, clone(message));
-							// clear the timeout
+					case 'answer':
+						{
+							try {
+								self._log('@LADDA : Received an answer from @' + message.id);
+								self.queryQueue.setDone(message.qId);
+								self.busyPeers = _this2.busyPeers.delete(id);
+								message.receiveResultsTime = receiveMessageTime;
+								message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
+								self.emit(_this2.signalAnswer, clone(message));
+								// clear the timeout
+								self._clearTimeout(message.qId);
+								// retry delegation if there's queries in the queue
+								if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
+							} catch (error) {
+								self._log('**********************ERROR ANSWER****************************');
+								self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
+								self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+								self._log('**************************************************************');
+							}
+							break;
+						}
+					case 'failed':
+						{
+							self._log('@LADDA : failed query from @' + message.id);
+							self.emit(_this2.signalFailed, clone(message));
+							self.queryQueue.setWaiting(message.qId);
 							self._clearTimeout(message.qId);
-							// retry delegation if there's queries in the queue
-							if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
-						} catch (error) {
-							self._log('**********************ERROR ANSWER****************************');
-							self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
-							self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
-							self._log('**************************************************************');
+							self.busyPeers = self.busyPeers.delete(id);
+							if (self.isFree) self.delegateQueries(message.endpoint);
+							break;
 						}
+					default:
 						break;
-					}
-				case 'failed':
-					{
-						self._log('@LADDA : failed query from @' + message.id);
-						self.emit(this.signalFailed, clone(message));
-						self.queryQueue.setWaiting(message.qId);
-						self._clearTimeout(message.qId);
-						self.busyPeers = self.busyPeers.delete(id);
-						if (self.isFree) self.delegateQueries(message.endpoint);
-						break;
-					}
-				default:
-					break;
+				}
+			});
+		}
+	}, {
+		key: '_clearTimeout',
+		value: function _clearTimeout(timeoutId) {
+			var time = this.garbageTimeout.has(timeoutId);
+			if (!time) {
+				clearTimeout(this.garbageTimeout.get(timeoutId));
 			}
-		});
-	}
-
-	_clearTimeout(timeoutId) {
-		let time = this.garbageTimeout.has(timeoutId);
-		if (!time) {
-			clearTimeout(this.garbageTimeout.get(timeoutId));
 		}
-	}
-
-	_setFragmentsClient(endpoint) {
-		let fragmentsClient = this.endpoints.has(endpoint);
-		if (!fragmentsClient) {
-			this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
+	}, {
+		key: '_setFragmentsClient',
+		value: function _setFragmentsClient(endpoint) {
+			var fragmentsClient = this.endpoints.has(endpoint);
+			if (!fragmentsClient) {
+				this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
+			}
 		}
-	}
 
-	/**
-  * Send queries to neighbours and emit results on ndp-answer
-  * @param {array} data array of element to send (query)
-  * @param {string} endpoint - Endpoint to send queries
-  * @return {promise} A Q promise
-  */
-	send(data, endpoint) {
-		this._setFragmentsClient(endpoint);
-		// clear queue before anything
-		this.queryQueue.clear();
-		data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
-		return this.delegateQueries(endpoint);
-	}
+		/**
+   * Send queries to neighbours and emit results on ndp-answer
+   * @param {array} data array of element to send (query)
+   * @param {string} endpoint - Endpoint to send queries
+   * @return {promise} A Q promise
+   */
 
-	/**
-  * Send queries to neighbours and emit results on ndp-answer
-  * @param {array} data array of element to send (query)
-  * @param {string} endpoint - Endpoint to send queries
-  * @param {boolean} withResults - True if you want response with query results or false, just metadata
-  * @return {promise} A Q promise
-  */
-	sendPromise(data, endpoint, withResults = true) {
-		return Q.Promise(resolve => {
+	}, {
+		key: 'send',
+		value: function send(data, endpoint) {
+			var _this3 = this;
+
 			this._setFragmentsClient(endpoint);
 			// clear queue before anything
 			this.queryQueue.clear();
-			data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
-			this.delegateQueries(endpoint);
-			let result = 0;
-			let results = [];
-			this.on(this.signalAnswer, response => {
-				result++;
-				if (!withResults) {
-					response.payload = withResults;
-				}
-				results.push(response);
-				if (result === data.length) {
-					this._log(results);
-					resolve(results);
+			data.forEach(function (query) {
+				return _this3.queryQueue.push(_this3._getNewUid(), query);
+			});
+			return this.delegateQueries(endpoint);
+		}
+
+		/**
+   * Send queries to neighbours and emit results on ndp-answer
+   * @param {array} data array of element to send (query)
+   * @param {string} endpoint - Endpoint to send queries
+   * @param {boolean} withResults - True if you want response with query results or false, just metadata
+   * @return {promise} A Q promise
+   */
+
+	}, {
+		key: 'sendPromise',
+		value: function sendPromise(data, endpoint) {
+			var _this4 = this;
+
+			var withResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+			return Q.Promise(function (resolve) {
+				_this4._setFragmentsClient(endpoint);
+				// clear queue before anything
+				_this4.queryQueue.clear();
+				data.forEach(function (query) {
+					return _this4.queryQueue.push(_this4._getNewUid(), query);
+				});
+				_this4.delegateQueries(endpoint);
+				var result = 0;
+				var results = [];
+				_this4.on(_this4.signalAnswer, function (response) {
+					result++;
+					if (!withResults) {
+						response.payload = withResults;
+					}
+					results.push(response);
+					if (result === data.length) {
+						_this4._log(results);
+						resolve(results);
+					}
+				});
+			});
+		}
+
+		/**
+   * Generate and return  a v4 UUID (random) based on uuid npm package
+   * @return {string} uuidv4
+   */
+
+	}, {
+		key: '_getNewUid',
+		value: function _getNewUid() {
+			return uuidV4();
+		}
+
+		// /**
+		//  * Return true if the queue has queries to delegate
+		//  * @return {boolean} True or false
+		//  */
+		// queueIsNotEmpty () {
+		// 	return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
+		// }
+
+		/**
+   * Perform delegation using Ladda algorithm
+   * @param {string} endpoint - The LDF-server on which queries will be evaluated
+   * @return {Q.Promise} A Q Promise fullfilled when delegation is complete
+   */
+
+	}, {
+		key: 'delegateQueries',
+		value: function delegateQueries(endpoint) {
+			var _this5 = this;
+
+			this._log('@LADDA - beginning delegation');
+			var self = this;
+			return Q.Promise(function (resolve, reject) {
+				try {
+					if (self.queryQueue.hasWaitingQueries()) {
+						self._log('@LADDA - queue not empty, try to delegate to me first');
+						if (self.isFree) {
+							self._log('@LADDA - Peer @' + self.foglet.id + ' (client) will execute one query');
+							var query = self.queryQueue.first();
+							self.isFree = false;
+							self._log('@LADDA - Selected query:' + query.query);
+							self.queryQueue.setDelegated(query.id);
+							var startExecutionTimeDate = new Date();
+							var startExecutionTime = formatTime(startExecutionTimeDate);
+							self.execute(query.query, endpoint).then(function (result) {
+								self.queryQueue.setDone(query.id);
+								var endExecutionTimeDate = new Date();
+								var endExecutionTime = formatTime(endExecutionTimeDate);
+								var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
+								self.isFree = true;
+								var msg = new NDPMessage({
+									type: 'answer',
+									id: 'me',
+									schedulerId: 'me',
+									payload: result,
+									query: query.query,
+									qId: query.id,
+									endpoint: endpoint,
+									sendQueryTime: startExecutionTime,
+									receiveQueryTime: startExecutionTime,
+									startExecutionTime: startExecutionTime,
+									endExecutionTime: endExecutionTime,
+									sendResultsTime: endExecutionTime,
+									receiveResultsTime: endExecutionTime,
+									executionTime: executionTime,
+									globalExecutionTime: executionTime
+								});
+								self._log('@LADDA - client finished query');
+								self.emit(_this5.signalAnswer, clone(msg));
+								// retry delegation if there's queries in the queue
+								if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+							}).catch(function (error) {
+								self._log('@LADDA :**********************ERROR EXECUTE AT ME****************************');
+								self.isFree = true;
+								self.queryQueue.setWaiting(query.id);
+								self._log(error.toString() + '\n' + error.stack);
+								self._log('@LADDA - Error : ' + error.toString() + '\n' + error.stack);
+								self.emit(self.signalError, error.toString() + '\n' + error.stack);
+								self._log('@LADDA :*********************************************************************');
+							});
+						}
+						self._log('@LADDA - trying to delegate to peers');
+						if (self.queryQueue.hasWaitingQueries()) {
+							// delegate queries to peers
+							var peers = self._choosePeers();
+							self._log('@LADDA - chosen peers: ' + peers);
+							peers.forEach(function (peer) {
+								if (self.queryQueue.hasWaitingQueries()) {
+									var _query = self.queryQueue.first();
+									self._log('@LADDA - delegate ' + _query.query + ' to peer @' + peer);
+									self.queryQueue.setDelegated(_query.id);
+									// mark the peer as 'busy'
+									self.busyPeers = self.busyPeers.add(peer);
+									var sendQueryTime = formatTime(new Date());
+									var m = new NDPMessage({
+										type: 'request',
+										id: self.foglet.id,
+										payload: _query.query,
+										qId: _query.id,
+										endpoint: endpoint,
+										sendQueryTime: sendQueryTime
+									});
+									self.emit(_this5.signalDelegateQuery, clone(m));
+									self.foglet.sendUnicast(m, peer);
+									// set timeout if necessary
+									if (self.timeout > 0) {
+										_this5.garbageTimeout.set(_query.id, setTimeout(function () {
+											if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED) {
+												self.emit(self.signalTimeout, _query);
+												self.queryQueue.setWaiting(_query.id);
+												self.busyPeers = self.busyPeers.delete(peer);
+											}
+										}, self.timeout));
+									}
+								}
+							});
+						}
+					}
+					resolve('delegation done');
+				} catch (error) {
+					self._log('@LADDA :**********************ERROR****************************');
+					self.isFree = true;
+					self._log(error.toString() + '\n' + error.stack);
+					self._log('@LADDA [ERROR] : ' + error.toString() + '\n' + error.stack);
+					self.emit(self.signalError, error.toString() + '\n' + error.stack);
+					self._log('@LADDA :*******************************************************');
+					reject(error);
 				}
 			});
-		});
-	}
-
-	/**
-  * Generate and return  a v4 UUID (random) based on uuid npm package
-  * @return {string} uuidv4
-  */
-	_getNewUid() {
-		return uuidV4();
-	}
-
-	// /**
-	//  * Return true if the queue has queries to delegate
-	//  * @return {boolean} True or false
-	//  */
-	// queueIsNotEmpty () {
-	// 	return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
-	// }
-
-	/**
-  * Perform delegation using Ladda algorithm
-  * @param {string} endpoint - The LDF-server on which queries will be evaluated
-  * @return {Q.Promise} A Q Promise fullfilled when delegation is complete
-  */
-	delegateQueries(endpoint) {
-		this._log('@LADDA - beginning delegation');
-		const self = this;
-		return Q.Promise((resolve, reject) => {
-			try {
-				if (self.queryQueue.hasWaitingQueries()) {
-					self._log('@LADDA - queue not empty, try to delegate to me first');
-					if (self.isFree) {
-						self._log('@LADDA - Peer @' + self.foglet.id + ' (client) will execute one query');
-						const query = self.queryQueue.first();
-						self.isFree = false;
-						self._log('@LADDA - Selected query:' + query.query);
-						self.queryQueue.setDelegated(query.id);
-						const startExecutionTimeDate = new Date();
-						const startExecutionTime = formatTime(startExecutionTimeDate);
-						self.execute(query.query, endpoint).then(result => {
-							self.queryQueue.setDone(query.id);
-							const endExecutionTimeDate = new Date();
-							const endExecutionTime = formatTime(endExecutionTimeDate);
-							const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-							self.isFree = true;
-							const msg = new NDPMessage({
-								type: 'answer',
-								id: 'me',
-								schedulerId: 'me',
-								payload: result,
-								query: query.query,
-								qId: query.id,
-								endpoint,
-								sendQueryTime: startExecutionTime,
-								receiveQueryTime: startExecutionTime,
-								startExecutionTime,
-								endExecutionTime,
-								sendResultsTime: endExecutionTime,
-								receiveResultsTime: endExecutionTime,
-								executionTime,
-								globalExecutionTime: executionTime
-							});
-							self._log('@LADDA - client finished query');
-							self.emit(this.signalAnswer, clone(msg));
-							// retry delegation if there's queries in the queue
-							if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
-						}).catch(error => {
-							self._log('@LADDA :**********************ERROR EXECUTE AT ME****************************');
-							self.isFree = true;
-							self.queryQueue.setWaiting(query.id);
-							self._log(error.toString() + '\n' + error.stack);
-							self._log('@LADDA - Error : ' + error.toString() + '\n' + error.stack);
-							self.emit(self.signalError, error.toString() + '\n' + error.stack);
-							self._log('@LADDA :*********************************************************************');
-						});
-					}
-					self._log('@LADDA - trying to delegate to peers');
-					if (self.queryQueue.hasWaitingQueries()) {
-						// delegate queries to peers
-						const peers = self._choosePeers();
-						self._log('@LADDA - chosen peers: ' + peers);
-						peers.forEach(peer => {
-							if (self.queryQueue.hasWaitingQueries()) {
-								const query = self.queryQueue.first();
-								self._log('@LADDA - delegate ' + query.query + ' to peer @' + peer);
-								self.queryQueue.setDelegated(query.id);
-								// mark the peer as 'busy'
-								self.busyPeers = self.busyPeers.add(peer);
-								const sendQueryTime = formatTime(new Date());
-								const m = new NDPMessage({
-									type: 'request',
-									id: self.foglet.id,
-									payload: query.query,
-									qId: query.id,
-									endpoint,
-									sendQueryTime
-								});
-								self.emit(this.signalDelegateQuery, clone(m));
-								self.foglet.sendUnicast(m, peer);
-								// set timeout if necessary
-								if (self.timeout > 0) {
-									this.garbageTimeout.set(query.id, setTimeout(() => {
-										if (self.queryQueue.getStatus(query.id) === STATUS_DELEGATED) {
-											self.emit(self.signalTimeout, query);
-											self.queryQueue.setWaiting(query.id);
-											self.busyPeers = self.busyPeers.delete(peer);
-										}
-									}, self.timeout));
-								}
-							}
-						});
-					}
-				}
-				resolve('delegation done');
-			} catch (error) {
-				self._log('@LADDA :**********************ERROR****************************');
-				self.isFree = true;
-				self._log(error.toString() + '\n' + error.stack);
-				self._log('@LADDA [ERROR] : ' + error.toString() + '\n' + error.stack);
-				self.emit(self.signalError, error.toString() + '\n' + error.stack);
-				self._log('@LADDA :*******************************************************');
-				reject(error);
-			}
-		});
-	}
-
-	/**
-  * Execute one query on an endpoint using ldf-client
-  * @param {string} query - The query to execute
-  * @param {string} endpoint - Endpoint to process queries
-  * @return {Promise} A Promise with results as reponse
-  */
-	execute(query, endpoint) {
-		this._log('@LADDA : Execution of : ' + query + ' on ' + endpoint);
-		let delegationResults = Immutable.List();
-		const self = this;
-		return Q.Promise((resolve, reject) => {
-			try {
-				// let fragmentsClient = new ldf.FragmentsClient(endpoint);
-				const fragmentsClient = self.endpoints.get(endpoint);
-				// console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
-				let queryResults = new ldf.SparqlIterator(query, { fragmentsClient });
-				queryResults.on('data', ldfResult => {
-					self._log('@LADDA :** ON DATA EXECUTE **');
-					delegationResults = delegationResults.push(ldfResult);
-				});
-				// resolve when all results are arrived
-				queryResults.on('end', () => {
-					self._log('@LADDA :** ON END EXECUTE **');
-					self.isFree = true;
-					resolve(delegationResults.toJS());
-				});
-
-				queryResults.on('error', (error, request) => {
-					self._log('@LADDA :**********************ERROR****************************');
-					self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
-					self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
-					self._log('@LADDA :*******************************************************');
-				});
-			} catch (error) {
-				self._log('@LADDA :**********************ERROR****************************');
-				self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
-				self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
-				self._log('@LADDA :*******************************************************');
-				reject(error);
-			}
-		});
-	}
-
-	_computeExecutionTime(start, end) {
-		const s = moment.duration(start.getTime());
-		const e = moment.duration(end.getTime());
-		return e.subtract(s).asMilliseconds();
-	}
-
-	_computeGlobalExecutionTime(start, end) {
-		// start is a formated date, end is a Date
-		return this._computeExecutionTime(this._toDate(start), end);
-	}
-
-	_toDate(date) {
-		let d = new Date();
-		const split = date.split(':');
-		d.setHours(split[0]);
-		d.setMinutes(split[1]);
-		d.setSeconds(split[2]);
-		d.setMilliseconds(split[3]);
-		return d;
-	}
-
-	/**
-  * Choose non-busy peers fro query delegation
-  * @return {Immutable.Set} A set of peers selected for delegation
-  */
-	_choosePeers() {
-		let chosenPeers = Immutable.Set();
-		let _peers = Immutable.Set();
-		// gather non-busy peers
-		_peers = _peers.union(this.foglet.getNeighbours());
-		_peers = _peers.subtract(this.busyPeers).toList();
-		let index = 0;
-		// random selection beytween non-busy peers (as in LADDA algorithm)
-		// MAXIMUM nbDestinations parallel query
-		if (this.busyPeers.count() < this.nbDestinations) {
-			while (chosenPeers.count() < this.nbDestinations - this.busyPeers.count() && _peers.count() > 0) {
-				index = this._randomInt(0, _peers.count());
-				chosenPeers = chosenPeers.add(_peers.get(index));
-				_peers = _peers.remove(index);
-			}
 		}
-		return chosenPeers;
-	}
 
-	/**
-  * Pick a random int between two values
-  * @param {int} min - The lower bound
-  * @param {int} max - The upper bound (excluded)
-  * @return {int} A random int between min and max (excluded)
-  */
-	_randomInt(min, max) {
-		min = Math.ceil(min);
-		max = Math.floor(max);
-		return Math.floor(Math.random() * (max - min)) + min;
-	}
-}
+		/**
+   * Execute one query on an endpoint using ldf-client
+   * @param {string} query - The query to execute
+   * @param {string} endpoint - Endpoint to process queries
+   * @return {Promise} A Promise with results as reponse
+   */
+
+	}, {
+		key: 'execute',
+		value: function execute(query, endpoint) {
+			this._log('@LADDA : Execution of : ' + query + ' on ' + endpoint);
+			var delegationResults = Immutable.List();
+			var self = this;
+			return Q.Promise(function (resolve, reject) {
+				try {
+					// let fragmentsClient = new ldf.FragmentsClient(endpoint);
+					var fragmentsClient = self.endpoints.get(endpoint);
+					// console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
+					var queryResults = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
+					console.log(queryResults);
+					queryResults.on('data', function (ldfResult) {
+						self._log('@LADDA :** ON DATA EXECUTE **');
+						delegationResults = delegationResults.push(ldfResult);
+					});
+					// resolve when all results are arrived
+					queryResults.on('end', function () {
+						self._log('@LADDA :** ON END EXECUTE **');
+						self.isFree = true;
+						resolve(delegationResults.toJS());
+					});
+
+					queryResults.on('error', function (error, request) {
+						self._log('@LADDA :**********************ERROR****************************');
+						self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
+						self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
+						self._log('@LADDA :*******************************************************');
+					});
+				} catch (error) {
+					self._log('@LADDA :**********************ERROR****************************');
+					self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
+					self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+					self._log('@LADDA :*******************************************************');
+					reject(error);
+				}
+			});
+		}
+	}, {
+		key: '_computeExecutionTime',
+		value: function _computeExecutionTime(start, end) {
+			var s = moment.duration(start.getTime());
+			var e = moment.duration(end.getTime());
+			return e.subtract(s).asMilliseconds();
+		}
+	}, {
+		key: '_computeGlobalExecutionTime',
+		value: function _computeGlobalExecutionTime(start, end) {
+			// start is a formated date, end is a Date
+			return this._computeExecutionTime(this._toDate(start), end);
+		}
+	}, {
+		key: '_toDate',
+		value: function _toDate(date) {
+			var d = new Date();
+			var split = date.split(':');
+			d.setHours(split[0]);
+			d.setMinutes(split[1]);
+			d.setSeconds(split[2]);
+			d.setMilliseconds(split[3]);
+			return d;
+		}
+
+		/**
+   * Choose non-busy peers fro query delegation
+   * @return {Immutable.Set} A set of peers selected for delegation
+   */
+
+	}, {
+		key: '_choosePeers',
+		value: function _choosePeers() {
+			var chosenPeers = Immutable.Set();
+			var _peers = Immutable.Set();
+			// gather non-busy peers
+			_peers = _peers.union(this.foglet.getNeighbours());
+			_peers = _peers.subtract(this.busyPeers).toList();
+			var index = 0;
+			// random selection beytween non-busy peers (as in LADDA algorithm)
+			// MAXIMUM nbDestinations parallel query
+			if (this.busyPeers.count() < this.nbDestinations) {
+				while (chosenPeers.count() < this.nbDestinations - this.busyPeers.count() && _peers.count() > 0) {
+					index = this._randomInt(0, _peers.count());
+					chosenPeers = chosenPeers.add(_peers.get(index));
+					_peers = _peers.remove(index);
+				}
+			}
+			return chosenPeers;
+		}
+
+		/**
+   * Pick a random int between two values
+   * @param {int} min - The lower bound
+   * @param {int} max - The upper bound (excluded)
+   * @return {int} A random int between min and max (excluded)
+   */
+
+	}, {
+		key: '_randomInt',
+		value: function _randomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min)) + min;
+		}
+	}]);
+
+	return LaddaProtocol;
+}(DelegationProtocol);
 
 module.exports = LaddaProtocol;
 
-},{"./delegation-protocol.js":244,"./ndp-message.js":246,"./status-queue.js":248,"immutable":99,"ldf-client":105,"lodash":130,"moment":132,"q":182,"uuid/v4":232}],246:[function(require,module,exports){
+},{"./delegation-protocol.js":245,"./ndp-message.js":247,"./status-queue.js":249,"immutable":100,"ldf-client":106,"lodash":131,"moment":133,"q":183,"uuid/v4":233}],247:[function(require,module,exports){
 /*
 MIT License
 
@@ -71182,55 +71530,58 @@ SOFTWARE.
  * @author Grall Arnaud(Folkvir), Thomas Minier
  */
 
-class NDPMessage {
-	/**
-  * Constructor
-  * @param {object} options The content of the delegation message
-  * @param {string} options.type - The type of the message ('answer', 'request' or 'failed')
-  * @param {string} options.id - The id of the peer who sent this message
-  * @param {*} options.payload - The response to the delegated query or a delegated query to execute
-  * @param {string} options.endpoint - The endpoint used to execute the query
-  * @param {string} options.query - The delegated SPARQL query
-  * @param {string|undefined} options.schedulerId - (optional) The id of the peer who delegated the query
-  * @param {string|undefined} options.sendQueryTime - (optional) The time (hh:mm:ss:ms) on which the query was delegated
-  * @param {string|undefined} options.receiveQueryTime - (optional) The time (hh:mm:ss:ms) on which a delegated query was received
-  * @param {string|undefined} options.startExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution started
-  * @param {string|undefined} options.endExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution ended
-  * @param {string|undefined} options.sendResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was sent
-  * @param {string|undefined} options.receiveResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was received
-  */
-	constructor(options) {
-		if (options.type === undefined) throw new TypeError('Error: a delegation message must have a type');
-		if (options.payload === undefined) throw new TypeError('Error: a delegation message must have data to transmit in the "payload" field');
-		// Is 'answer', 'request' or 'failed'
-		this.type = options.type;
-		// Owner id
-		this.id = options.id;
-		// Id of the peer who delegated the request to the peer
-		this.schedulerId = options.schedulerId || 'unknown';
-		// Message to sent
-		this.payload = options.payload;
-		// Endpoint representing the source of the payload
-		this.endpoint = options.endpoint;
-		// query
-		this.query = options.query;
-		// query id
-		this.qId = options.qId;
-		// timestamps
-		this.sendQueryTime = options.sendQueryTime || 'unknown';
-		this.receiveQueryTime = options.receiveQueryTime || 'unknown';
-		this.startExecutionTime = options.startExecutionTime || 'unknown';
-		this.endExecutionTime = options.endExecutionTime || 'unknown';
-		this.sendResultsTime = options.sendResultsTime || 'unknown';
-		this.receiveResultsTime = options.receiveResultsTime || 'unknown';
-		this.executionTime = options.executionTime || 'unknown'; // in milliseconds
-		this.globalExecutionTime = options.executionTime || 'unknown'; // in milliseconds
-	}
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var NDPMessage =
+/**
+ * Constructor
+ * @param {object} options The content of the delegation message
+ * @param {string} options.type - The type of the message ('answer', 'request' or 'failed')
+ * @param {string} options.id - The id of the peer who sent this message
+ * @param {*} options.payload - The response to the delegated query or a delegated query to execute
+ * @param {string} options.endpoint - The endpoint used to execute the query
+ * @param {string} options.query - The delegated SPARQL query
+ * @param {string|undefined} options.schedulerId - (optional) The id of the peer who delegated the query
+ * @param {string|undefined} options.sendQueryTime - (optional) The time (hh:mm:ss:ms) on which the query was delegated
+ * @param {string|undefined} options.receiveQueryTime - (optional) The time (hh:mm:ss:ms) on which a delegated query was received
+ * @param {string|undefined} options.startExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution started
+ * @param {string|undefined} options.endExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution ended
+ * @param {string|undefined} options.sendResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was sent
+ * @param {string|undefined} options.receiveResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was received
+ */
+function NDPMessage(options) {
+	_classCallCheck(this, NDPMessage);
+
+	if (options.type === undefined) throw new TypeError('Error: a delegation message must have a type');
+	if (options.payload === undefined) throw new TypeError('Error: a delegation message must have data to transmit in the "payload" field');
+	// Is 'answer', 'request' or 'failed'
+	this.type = options.type;
+	// Owner id
+	this.id = options.id;
+	// Id of the peer who delegated the request to the peer
+	this.schedulerId = options.schedulerId || 'unknown';
+	// Message to sent
+	this.payload = options.payload;
+	// Endpoint representing the source of the payload
+	this.endpoint = options.endpoint;
+	// query
+	this.query = options.query;
+	// query id
+	this.qId = options.qId;
+	// timestamps
+	this.sendQueryTime = options.sendQueryTime || 'unknown';
+	this.receiveQueryTime = options.receiveQueryTime || 'unknown';
+	this.startExecutionTime = options.startExecutionTime || 'unknown';
+	this.endExecutionTime = options.endExecutionTime || 'unknown';
+	this.sendResultsTime = options.sendResultsTime || 'unknown';
+	this.receiveResultsTime = options.receiveResultsTime || 'unknown';
+	this.executionTime = options.executionTime || 'unknown'; // in milliseconds
+	this.globalExecutionTime = options.executionTime || 'unknown'; // in milliseconds
+};
 
 module.exports = NDPMessage;
 
-},{}],247:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 /*
 MIT License
 
@@ -71256,15 +71607,26 @@ SOFTWARE.
 */
 'use strict';
 
-const Foglet = require('foglet-core').Foglet;
-const LaddaProtocol = require('./ladda-protocol.js');
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Foglet = require('foglet-core').Foglet;
+var LaddaProtocol = require('./ladda-protocol.js');
 
 /**
  * A Foglet using Neighbours Delegation Protocol to delegate SPARQL query to its neighbours
  * @extends Foglet
  * @author Grall Arnaud (Folkvir), Thomas Minier
  */
-class NDP extends Foglet {
+
+var NDP = function (_Foglet) {
+	_inherits(NDP, _Foglet);
+
 	/**
   * This is the constructor of the NDP class, need options as parameter
   * @constructor
@@ -71273,14 +71635,19 @@ class NDP extends Foglet {
   * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link LaddaProtocol}
   * @param {int|undefined} options.maxPeers - (optional) The maximum number of peer to delegated queries (default to Number.MAX_VALUE)
   */
-	constructor(options) {
+	function NDP(options) {
+		_classCallCheck(this, NDP);
+
 		if (options === undefined || options.room === undefined || options.protocol === undefined) {
 			throw new Error('Missing options, options.room and options.protocol must be defined in options', 'ndp.js');
 		}
-		super(options);
-		this.maxPeers = options.maxPeers || null;
-		this.timeout = options.timeout || null;
-		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(this.maxPeers, this.timeout, this.options.verbose);
+
+		var _this = _possibleConstructorReturn(this, (NDP.__proto__ || Object.getPrototypeOf(NDP)).call(this, options));
+
+		_this.maxPeers = options.maxPeers || null;
+		_this.timeout = options.timeout || null;
+		_this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(_this.maxPeers, _this.timeout, _this.options.verbose);
+		return _this;
 	}
 
 	/**
@@ -71288,24 +71655,34 @@ class NDP extends Foglet {
   * @return {void}
   * @override
   */
-	init() {
-		this.delegationProtocol.use(this);
-	}
 
-	/**
-  * Send queries to neighbours and emit results on ndp-answer
-  * @param {array} data array of element to send (query)
-  * @param {string} endpoint - Endpoint to send queries
-  * @return {promise} Return a Q promise
-  */
-	send(data, endpoint) {
-		return this.delegationProtocol.send(data, endpoint);
-	}
-}
+
+	_createClass(NDP, [{
+		key: 'init',
+		value: function init() {
+			this.delegationProtocol.use(this);
+		}
+
+		/**
+   * Send queries to neighbours and emit results on ndp-answer
+   * @param {array} data array of element to send (query)
+   * @param {string} endpoint - Endpoint to send queries
+   * @return {promise} Return a Q promise
+   */
+
+	}, {
+		key: 'send',
+		value: function send(data, endpoint) {
+			return this.delegationProtocol.send(data, endpoint);
+		}
+	}]);
+
+	return NDP;
+}(Foglet);
 
 module.exports = NDP;
 
-},{"./ladda-protocol.js":245,"foglet-core":84}],248:[function(require,module,exports){
+},{"./ladda-protocol.js":246,"foglet-core":85}],249:[function(require,module,exports){
 /*
 MIT License
 
@@ -71332,21 +71709,30 @@ SOFTWARE.
 
 'use strict';
 
-const IList = require('immutable').List;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var IList = require('immutable').List;
 
 // status
-const STATUS_WAITING = 'status_waiting';
-const STATUS_DELEGATED = 'status_delegated';
-const STATUS_DONE = 'status_done';
+var STATUS_WAITING = 'status_waiting';
+var STATUS_DELEGATED = 'status_delegated';
+var STATUS_DONE = 'status_done';
 
 /**
  * A StatusQueue is a queue which contains values that can be reinserted after deletion
  */
-class StatusQueue {
+
+var StatusQueue = function () {
 	/**
   * Constructor
   */
-	constructor() {
+	function StatusQueue() {
+		_classCallCheck(this, StatusQueue);
+
 		this.queries = IList();
 	}
 
@@ -71355,148 +71741,212 @@ class StatusQueue {
   * @param {string[]} array - An array of queries used to build the queue
   * @return {StatusQueue} A new StatusQueue
   */
-	static from(array) {
-		const statusQueue = new StatusQueue();
-		statusQueue.pushMany(...array);
-		return statusQueue;
-	}
 
-	/**
-  * Get the number of elements in the queue
-  * @return {int} The number of elements in the queue
-  */
-	count() {
-		return this.queries.count();
-	}
 
-	/**
-  * Returns True if the queue is empty (i.e. all queries have been executed), otherwise False
-  * @return {boolean} True if the queue is empty, otherwise False
-  */
-	isEmpty() {
-		return this.queries.filter(q => q.status === STATUS_DONE).count() === this.count();
-	}
+	_createClass(StatusQueue, [{
+		key: 'count',
 
-	/**
-  * Push an element in the queue, at the end or at a specific index
-  * @param {string} id - Query unique id
-  * @param {string} query - The query to insert
-  * @param {int|undefined} index - (optional) Specify a index to insert the query at
-  * @return {void}
-  */
-	push(id, query) {
-		this.queries = this.queries.push({
-			id,
-			query,
-			status: STATUS_WAITING
-		});
-	}
 
-	/**
-  * Push multiple queries into the queue
-  * @param {...string} queries - Queries to push in the queue
-  * @return {void}
-  */
-	pushMany(...queries) {
-		queries.forEach(q => this.push(q, q));
-	}
+		/**
+   * Get the number of elements in the queue
+   * @return {int} The number of elements in the queue
+   */
+		value: function count() {
+			return this.queries.count();
+		}
 
-	/**
-  * Remove a query from the queue
-  * @param {string} id - Query unique id
-  * @return {int} The index of the removed element in the queue
-  */
-	remove(id) {
-		const index = this.queries.findKey(q => q.id === id);
-		this.queries = this.queries.delete(index);
-		return index;
-	}
+		/**
+   * Returns True if the queue is empty (i.e. all queries have been executed), otherwise False
+   * @return {boolean} True if the queue is empty, otherwise False
+   */
 
-	/**
-  * Clear the queue
-  * @return {void}
-  */
-	clear() {
-		this.queries = this.queries.clear();
-	}
+	}, {
+		key: 'isEmpty',
+		value: function isEmpty() {
+			return this.queries.filter(function (q) {
+				return q.status === STATUS_DONE;
+			}).count() === this.count();
+		}
 
-	/**
-  * Get first waiting query in the queue
-  * @return {string} The first wiaiting query in the queue
-  */
-	first() {
-		const index = this.queries.findKey(q => q.status === STATUS_WAITING);
-		if (index <= -1) return null;
-		const query = this.queries.get(index);
-		return query;
-	}
+		/**
+   * Push an element in the queue, at the end or at a specific index
+   * @param {string} id - Query unique id
+   * @param {string} query - The query to insert
+   * @param {int|undefined} index - (optional) Specify a index to insert the query at
+   * @return {void}
+   */
 
-	/**
-  * Return true if the queue has 1 or more waiting queries
-  * @return {boolean} True if one or more queries have the status STATUS_WAITING
-  */
-	hasWaitingQueries() {
-		return this.queries.filter(q => q.status === STATUS_WAITING).count() > 0;
-	}
-
-	/**
-  * Set the status of a query
-  * @param {string} id - Query unique id
-  * @param {string} status - The new status
-  * @return {void}
-  */
-	_setStatus(id, status) {
-		const index = this.queries.findKey(q => q.id === id);
-		if (index > -1) {
-			this.queries = this.queries.update(index, q => {
-				return {
-					id: q.id,
-					query: q.query,
-					status
-				};
+	}, {
+		key: 'push',
+		value: function push(id, query) {
+			this.queries = this.queries.push({
+				id: id,
+				query: query,
+				status: STATUS_WAITING
 			});
 		}
-	}
 
-	getStatus(id) {
-		const index = this.queries.findKey(q => q.id === id);
-		if (index > -1) {
-			return this.queries.get(index).status;
+		/**
+   * Push multiple queries into the queue
+   * @param {...string} queries - Queries to push in the queue
+   * @return {void}
+   */
+
+	}, {
+		key: 'pushMany',
+		value: function pushMany() {
+			var _this = this;
+
+			for (var _len = arguments.length, queries = Array(_len), _key = 0; _key < _len; _key++) {
+				queries[_key] = arguments[_key];
+			}
+
+			queries.forEach(function (q) {
+				return _this.push(q, q);
+			});
 		}
-		return null;
-	}
 
-	/**
-  * Set the status of a query to "waiting"
-  * @param {string} id - Query unique id
-  * @return {void}
-  */
-	setWaiting(id) {
-		this._setStatus(id, STATUS_WAITING);
-	}
+		/**
+   * Remove a query from the queue
+   * @param {string} id - Query unique id
+   * @return {int} The index of the removed element in the queue
+   */
 
-	/**
-  * Set the status of a query to "delegated"
-  * @param {string} id - Query unique id
-  * @return {void}
-  */
-	setDelegated(id) {
-		this._setStatus(id, STATUS_DELEGATED);
-	}
+	}, {
+		key: 'remove',
+		value: function remove(id) {
+			var index = this.queries.findKey(function (q) {
+				return q.id === id;
+			});
+			this.queries = this.queries.delete(index);
+			return index;
+		}
 
-	/**
-  * Set the status of a query to "done"
-  * @param {string} id - Query unique id
-  * @return {void}
-  */
-	setDone(id) {
-		this._setStatus(id, STATUS_DONE);
-	}
-}
+		/**
+   * Clear the queue
+   * @return {void}
+   */
+
+	}, {
+		key: 'clear',
+		value: function clear() {
+			this.queries = this.queries.clear();
+		}
+
+		/**
+   * Get first waiting query in the queue
+   * @return {string} The first wiaiting query in the queue
+   */
+
+	}, {
+		key: 'first',
+		value: function first() {
+			var index = this.queries.findKey(function (q) {
+				return q.status === STATUS_WAITING;
+			});
+			if (index <= -1) return null;
+			var query = this.queries.get(index);
+			return query;
+		}
+
+		/**
+   * Return true if the queue has 1 or more waiting queries
+   * @return {boolean} True if one or more queries have the status STATUS_WAITING
+   */
+
+	}, {
+		key: 'hasWaitingQueries',
+		value: function hasWaitingQueries() {
+			return this.queries.filter(function (q) {
+				return q.status === STATUS_WAITING;
+			}).count() > 0;
+		}
+
+		/**
+   * Set the status of a query
+   * @param {string} id - Query unique id
+   * @param {string} status - The new status
+   * @return {void}
+   */
+
+	}, {
+		key: '_setStatus',
+		value: function _setStatus(id, status) {
+			var index = this.queries.findKey(function (q) {
+				return q.id === id;
+			});
+			if (index > -1) {
+				this.queries = this.queries.update(index, function (q) {
+					return {
+						id: q.id,
+						query: q.query,
+						status: status
+					};
+				});
+			}
+		}
+	}, {
+		key: 'getStatus',
+		value: function getStatus(id) {
+			var index = this.queries.findKey(function (q) {
+				return q.id === id;
+			});
+			if (index > -1) {
+				return this.queries.get(index).status;
+			}
+			return null;
+		}
+
+		/**
+   * Set the status of a query to "waiting"
+   * @param {string} id - Query unique id
+   * @return {void}
+   */
+
+	}, {
+		key: 'setWaiting',
+		value: function setWaiting(id) {
+			this._setStatus(id, STATUS_WAITING);
+		}
+
+		/**
+   * Set the status of a query to "delegated"
+   * @param {string} id - Query unique id
+   * @return {void}
+   */
+
+	}, {
+		key: 'setDelegated',
+		value: function setDelegated(id) {
+			this._setStatus(id, STATUS_DELEGATED);
+		}
+
+		/**
+   * Set the status of a query to "done"
+   * @param {string} id - Query unique id
+   * @return {void}
+   */
+
+	}, {
+		key: 'setDone',
+		value: function setDone(id) {
+			this._setStatus(id, STATUS_DONE);
+		}
+	}], [{
+		key: 'from',
+		value: function from(array) {
+			var statusQueue = new StatusQueue();
+			statusQueue.pushMany.apply(statusQueue, _toConsumableArray(array));
+			return statusQueue;
+		}
+	}]);
+
+	return StatusQueue;
+}();
 
 module.exports = StatusQueue;
 
-},{"immutable":99}],"foglet-ndp":[function(require,module,exports){
+},{"immutable":100}],"foglet-ndp":[function(require,module,exports){
 /*
 MIT License
 
@@ -71522,14 +71972,14 @@ SOFTWARE.
 */
 'use strict';
 
-const NDP = require('./src/ndp.js');
-const DelegationProtocol = require('./src/delegation-protocol.js');
-const LaddaProtocol = require('./src/ladda-protocol.js');
+var NDP = require('./src/ndp.js');
+var DelegationProtocol = require('./src/delegation-protocol.js');
+var LaddaProtocol = require('./src/ladda-protocol.js');
 
 module.exports = {
-	NDP,
-	DelegationProtocol,
-	LaddaProtocol
+	NDP: NDP,
+	DelegationProtocol: DelegationProtocol,
+	LaddaProtocol: LaddaProtocol
 };
 
-},{"./src/delegation-protocol.js":244,"./src/ladda-protocol.js":245,"./src/ndp.js":247}]},{},[]);
+},{"./src/delegation-protocol.js":245,"./src/ladda-protocol.js":246,"./src/ndp.js":248}]},{},[]);
