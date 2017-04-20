@@ -1,6 +1,6 @@
 {
   "name": "foglet-ndp",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "This project aims to provide a simple neighbours delegated protocol and implement various SPARQL query delegation protocols",
   "main": "foglet-ndp.js",
   "scripts": {
@@ -56,7 +56,7 @@
     "eslint": "^3.13.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
-    "foglet-signaling-server": "^0.2.0",
+    "foglet-signaling-server": "^0.3.0",
     "istanbul": "^0.4.5",
     "jquery": "^3.1.1",
     "jsdoc": "^3.4.3",
@@ -88,5 +88,17 @@
     "moment",
     "q",
     "uuid"
-  ]
+  ],
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  }
 }
