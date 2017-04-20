@@ -30,7 +30,6 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
-			rpsType: 'spray-wrtc',
 			room: 'test',
 			verbose:true
 		});
@@ -40,7 +39,6 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
-			rpsType: 'spray-wrtc',
 			room: 'test',
 			verbose:true
 		});
@@ -51,7 +49,6 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
-			rpsType: 'spray-wrtc',
 			room: 'test',
 			verbose:true
 		});
@@ -98,7 +95,6 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
-			rpsType: 'spray-wrtc',
 			room: 'test2',
 			verbose:true
 		});
@@ -108,7 +104,6 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
-			rpsType: 'spray-wrtc',
 			room: 'test2',
 			verbose:true
 		});
@@ -119,7 +114,6 @@ describe('[LADDA]', function () {
 				trickle: true,
 				iceServers: []
 			},
-			rpsType: 'spray-wrtc',
 			room: 'test2',
 			verbose:true
 		});
