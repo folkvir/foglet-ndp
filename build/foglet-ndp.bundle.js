@@ -69298,13 +69298,35 @@ SOFTWARE.
 */
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _createClass = function () {
+	function defineProperties(target, props) {
+		for (var i = 0; i < props.length; i++) {
+			var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+		}
+	}return function (Constructor, protoProps, staticProps) {
+		if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	};
+}();
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _classCallCheck(instance, Constructor) {
+	if (!(instance instanceof Constructor)) {
+		throw new TypeError("Cannot call a class as a function");
+	}
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _possibleConstructorReturn(self, call) {
+	if (!self) {
+		throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	}return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+	if (typeof superClass !== "function" && superClass !== null) {
+		throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
 
 var Q = require('q');
 var _ = require('lodash');
@@ -69350,7 +69372,6 @@ var DelegationProtocol = function (_EventEmitter) {
   * const ndp = new NDP(config);
   * protocol.use(ndp);
   */
-
 
 	_createClass(DelegationProtocol, [{
 		key: 'use',
@@ -69428,15 +69449,51 @@ SOFTWARE.
 */
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _get = function get(object, property, receiver) {
+  if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {
+    var parent = Object.getPrototypeOf(object);if (parent === null) {
+      return undefined;
+    } else {
+      return get(parent, property, receiver);
+    }
+  } else if ("value" in desc) {
+    return desc.value;
+  } else {
+    var getter = desc.get;if (getter === undefined) {
+      return undefined;
+    }return getter.call(receiver);
+  }
+};
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
 
 var Q = require('q');
 var Immutable = require('immutable');
@@ -69456,515 +69513,518 @@ var STATUS_DELEGATED = 'status_delegated';
 
 // utility to format dates in hh:mm:ss:ms
 var formatTime = function formatTime(time) {
-	var hours = time.getHours().toString(),
-	    min = time.getMinutes().toString(),
-	    sec = time.getSeconds().toString();
-	var mil = time.getMilliseconds().toString();
-	if (mil.length === 1) {
-		mil = '00' + mil;
-	} else if (mil.length === 2) {
-		mil = '0' + mil;
-	}
-	return hours + ':' + min + ':' + sec + ':' + mil;
+  var hours = time.getHours().toString(),
+      min = time.getMinutes().toString(),
+      sec = time.getSeconds().toString();
+  var mil = time.getMilliseconds().toString();
+  if (mil.length === 1) {
+    mil = '00' + mil;
+  } else if (mil.length === 2) {
+    mil = '0' + mil;
+  }
+  return hours + ':' + min + ':' + sec + ':' + mil;
 };
 
 function clone(obj) {
-	return _.merge({}, obj);
+  return _.merge({}, obj);
 }
 
 /**
- * Ladda delegation protocol
- * @extends DelegationProtocol
- * @author Arnaud Grall (Folkvir), Thomas Minier
- */
+* Ladda delegation protocol
+* @extends DelegationProtocol
+* @author Arnaud Grall (Folkvir), Thomas Minier
+*/
 
 var LaddaProtocol = function (_DelegationProtocol) {
-	_inherits(LaddaProtocol, _DelegationProtocol);
+  _inherits(LaddaProtocol, _DelegationProtocol);
 
-	/**
+  /**
   * Constructor
   * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2, as in Ladda paper)
   * @param {int|undefined} timeout - (optional) The timeout used by the protocol. Disable by default unless it is set.
   */
-	function LaddaProtocol(nbDestinations, timeout, verbose) {
-		_classCallCheck(this, LaddaProtocol);
+  function LaddaProtocol(nbDestinations, timeout, verbose) {
+    _classCallCheck(this, LaddaProtocol);
 
-		// this.queryQueue = Immutable.Map();
-		var _this = _possibleConstructorReturn(this, (LaddaProtocol.__proto__ || Object.getPrototypeOf(LaddaProtocol)).call(this, {
-			name: 'ladda',
-			verbose: verbose
-		}));
+    // this.queryQueue = Immutable.Map();
+    var _this = _possibleConstructorReturn(this, (LaddaProtocol.__proto__ || Object.getPrototypeOf(LaddaProtocol)).call(this, {
+      name: 'ladda',
+      verbose: verbose
+    }));
 
-		_this.queryQueue = new StatusQueue();
-		_this.busyPeers = Immutable.Set();
-		_this.isFree = true;
-		_this.nbDestinations = nbDestinations || 2;
-		_this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
+    _this.queryQueue = new StatusQueue();
+    _this.busyPeers = Immutable.Set();
+    _this.isFree = true;
+    _this.nbDestinations = nbDestinations || 2;
+    _this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
 
 
-		_this.signalAnswer = 'ndp-answer'; // When an answer is received from our workload
-		_this.signalError = 'ndp-error'; // An error occurred
-		_this.signalFailed = 'ndp-failed'; // a query has failed to be delegated
-		_this.signalTimeout = 'ndp-timeout'; // Signal for timed out queries
-		_this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
-		_this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
+    _this.signalAnswer = 'ndp-answer'; // When an answer is received from our workload
+    _this.signalError = 'ndp-error'; // An error occurred
+    _this.signalFailed = 'ndp-failed'; // a query has failed to be delegated
+    _this.signalTimeout = 'ndp-timeout'; // Signal for timed out queries
+    _this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
+    _this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
 
-		// garbageTimeout
-		_this.garbageTimeout = new Map();
-		// fragmentsClient
-		_this.endpoints = new Map();
-		return _this;
-	}
+    // garbageTimeout
+    _this.garbageTimeout = new Map();
+    // fragmentsClient
+    _this.endpoints = new Map();
+    return _this;
+  }
 
-	/**
+  /**
   * Set the foglet used by the protocol and configure how to handle incoming messages
   * @param {NDP} foglet - The foglet used by the delegation protocol
   * @return {void}
   * @override
   */
 
+  _createClass(LaddaProtocol, [{
+    key: 'use',
+    value: function use(foglet) {
+      var _this2 = this;
 
-	_createClass(LaddaProtocol, [{
-		key: 'use',
-		value: function use(foglet) {
-			var _this2 = this;
+      _get(LaddaProtocol.prototype.__proto__ || Object.getPrototypeOf(LaddaProtocol.prototype), 'use', this).call(this, foglet);
+      var self = this;
+      this.foglet.onUnicast(function (id, message) {
+        self._log('@LADDA : Receive Message from ' + id, message);
+        var receiveMessageTimeDate = new Date();
+        var receiveMessageTime = formatTime(receiveMessageTimeDate);
+        switch (message.type) {
+          case 'request':
+            {
+              self._log('@LADDA : Message: ', message);
+              self._log('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
+              if (self.isFree && !self.queryQueue.hasWaitingQueries()) {
+                self.isFree = false;
+                var query = message.payload;
+                var startExecutionTimeDate = new Date();
+                var startExecutionTime = formatTime(startExecutionTimeDate);
+                self._setFragmentsClient(message.endpoint);
+                self.execute(query, message.endpoint).then(function (result) {
+                  var endExecutionTimeDate = new Date();
+                  var endExecutionTime = formatTime(endExecutionTimeDate);
+                  var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
+                  self.isFree = true;
+                  var msg = new NDPMessage({
+                    type: 'answer',
+                    id: self.foglet.id,
+                    schedulerId: message.id,
+                    payload: result,
+                    query: query,
+                    qId: message.qId,
+                    endpoint: message.endpoint,
+                    startTime: message.startTime,
+                    sendQueryTime: message.sendQueryTime,
+                    receiveQueryTime: receiveMessageTime,
+                    startExecutionTime: startExecutionTime,
+                    endExecutionTime: endExecutionTime,
+                    executionTime: executionTime,
+                    peerId: message.peerId
+                  });
+                  self._log(clone(msg));
+                  msg.sendResultsTime = formatTime(new Date());
+                  self.emit(_this2.signalDelegatedQueryExecuted, clone(msg));
+                  self.foglet.sendUnicast(msg, id);
+                  self._log('@LADDA : Message sent after its execution.');
+                }).catch(function (error) {
+                  self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
+                  self.isFree = true;
+                  self.emit(self.signalError, error.toString() + '\n' + error.stack);
+                  self._log(error.toString() + '\n' + error.stack);
+                  self._log('@LADDA :****************************************************************************************');
+                  var msg = new NDPMessage({
+                    type: 'failed',
+                    id: self.foglet.id,
+                    payload: message.payload,
+                    endpoint: message.endpoint,
+                    qId: message.qId,
+                    receiveQueryTime: receiveMessageTime,
+                    peerId: message.peerId
+                  });
+                  self._log(clone(msg));
+                  self.emit(_this2.signalFailed, clone(msg));
+                  self.foglet.sendUnicast(msg, id);
+                  self._log('@LADDA : Message sent after it\'s failed. ');
+                });
+              } else {
+                self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
+                var msg = new NDPMessage({
+                  type: 'failed',
+                  id: self.foglet.id,
+                  payload: message.payload,
+                  endpoint: message.endpoint,
+                  qId: message.qId,
+                  receiveQueryTime: receiveMessageTime,
+                  peerId: message.peerId
+                });
+                self._log(clone(msg));
+                self.emit(_this2.signalFailed, clone(msg));
+                self.foglet.sendUnicast(msg, id);
+                self._log('@LADDA : Message sent after it\'s failed. ');
+              }
+              break;
+            }
+          case 'answer':
+            {
+              try {
+                self._log('@LADDA : Received an answer from @' + message.id);
+                self.queryQueue.setDone(message.qId);
+                self.busyPeers = _this2.busyPeers.delete(message.peerId);
+                message.receiveResultsTime = receiveMessageTime;
+                message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
+                self.emit(_this2.signalAnswer, clone(message));
+                // clear the timeout
+                self._clearTimeout(message.qId);
+                // retry delegation if there's queries in the queue
+                if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
+              } catch (error) {
+                self._log('**********************ERROR ANSWER****************************');
+                self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
+                self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+                self._log('**************************************************************');
+              }
+              break;
+            }
+          case 'failed':
+            {
+              self._log('@LADDA : failed query from @' + message.id);
+              self.emit(_this2.signalFailed, clone(message));
+              self.queryQueue.setWaiting(message.qId);
+              self._clearTimeout(message.qId);
+              self.busyPeers = self.busyPeers.delete(message.peerId);
+              if (self.isFree) self.delegateQueries(message.endpoint);
+              break;
+            }
+          default:
+            break;
+        }
+      });
+    }
+  }, {
+    key: '_clearTimeout',
+    value: function _clearTimeout(timeoutId) {
+      var time = this.garbageTimeout.has(timeoutId);
+      if (!time) {
+        clearTimeout(this.garbageTimeout.get(timeoutId));
+      }
+    }
+  }, {
+    key: '_setFragmentsClient',
+    value: function _setFragmentsClient(endpoint) {
+      var fragmentsClient = this.endpoints.has(endpoint);
+      if (!fragmentsClient) {
+        this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
+      }
+    }
 
-			_get(LaddaProtocol.prototype.__proto__ || Object.getPrototypeOf(LaddaProtocol.prototype), 'use', this).call(this, foglet);
-			var self = this;
-			this.foglet.onUnicast(function (id, message) {
-				self._log('@LADDA : Receive Message from ' + id, message);
-				var receiveMessageTimeDate = new Date();
-				var receiveMessageTime = formatTime(receiveMessageTimeDate);
-				switch (message.type) {
-					case 'request':
-						{
-							self._log('@LADDA : Message: ', message);
-							self._log('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
-							if (self.isFree && !self.queryQueue.hasWaitingQueries()) {
-								self.isFree = false;
-								var query = message.payload;
-								var startExecutionTimeDate = new Date();
-								var startExecutionTime = formatTime(startExecutionTimeDate);
-								self._setFragmentsClient(message.endpoint);
-								self.execute(query, message.endpoint).then(function (result) {
-									var endExecutionTimeDate = new Date();
-									var endExecutionTime = formatTime(endExecutionTimeDate);
-									var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-									self.isFree = true;
-									var msg = new NDPMessage({
-										type: 'answer',
-										id: self.foglet.id,
-										schedulerId: message.id,
-										payload: result,
-										query: query,
-										qId: message.qId,
-										endpoint: message.endpoint,
-										startTime: message.startTime,
-										sendQueryTime: message.sendQueryTime,
-										receiveQueryTime: receiveMessageTime,
-										startExecutionTime: startExecutionTime,
-										endExecutionTime: endExecutionTime,
-										executionTime: executionTime
-									});
-									self._log(clone(msg));
-									msg.sendResultsTime = formatTime(new Date());
-									self.emit(_this2.signalDelegatedQueryExecuted, clone(msg));
-									self.foglet.sendUnicast(msg, id);
-									self._log('@LADDA : Message sent after its execution.');
-								}).catch(function (error) {
-									self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
-									self.isFree = true;
-									self.emit(self.signalError, error.toString() + '\n' + error.stack);
-									self._log(error.toString() + '\n' + error.stack);
-									self._log('@LADDA :****************************************************************************************');
-									var msg = new NDPMessage({
-										type: 'failed',
-										id: self.foglet.id,
-										payload: message.payload,
-										endpoint: message.endpoint,
-										qId: message.qId,
-										receiveQueryTime: receiveMessageTime
-									});
-									self._log(clone(msg));
-									self.emit(_this2.signalFailed, clone(msg));
-									self.foglet.sendUnicast(msg, id);
-									self._log('@LADDA : Message sent after it\'s failed. ');
-								});
-							} else {
-								self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
-								var msg = new NDPMessage({
-									type: 'failed',
-									id: self.foglet.id,
-									payload: message.payload,
-									endpoint: message.endpoint,
-									qId: message.qId,
-									receiveQueryTime: receiveMessageTime
-								});
-								self._log(clone(msg));
-								self.emit(_this2.signalFailed, clone(msg));
-								self.foglet.sendUnicast(msg, id);
-								self._log('@LADDA : Message sent after it\'s failed. ');
-							}
-							break;
-						}
-					case 'answer':
-						{
-							try {
-								self._log('@LADDA : Received an answer from @' + message.id);
-								self.queryQueue.setDone(message.qId);
-								self.busyPeers = _this2.busyPeers.delete(id);
-								message.receiveResultsTime = receiveMessageTime;
-								message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
-								self.emit(_this2.signalAnswer, clone(message));
-								// clear the timeout
-								self._clearTimeout(message.qId);
-								// retry delegation if there's queries in the queue
-								if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
-							} catch (error) {
-								self._log('**********************ERROR ANSWER****************************');
-								self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
-								self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
-								self._log('**************************************************************');
-							}
-							break;
-						}
-					case 'failed':
-						{
-							self._log('@LADDA : failed query from @' + message.id);
-							self.emit(_this2.signalFailed, clone(message));
-							self.queryQueue.setWaiting(message.qId);
-							self._clearTimeout(message.qId);
-							self.busyPeers = self.busyPeers.delete(id);
-							if (self.isFree) self.delegateQueries(message.endpoint);
-							break;
-						}
-					default:
-						break;
-				}
-			});
-		}
-	}, {
-		key: '_clearTimeout',
-		value: function _clearTimeout(timeoutId) {
-			var time = this.garbageTimeout.has(timeoutId);
-			if (!time) {
-				clearTimeout(this.garbageTimeout.get(timeoutId));
-			}
-		}
-	}, {
-		key: '_setFragmentsClient',
-		value: function _setFragmentsClient(endpoint) {
-			var fragmentsClient = this.endpoints.has(endpoint);
-			if (!fragmentsClient) {
-				this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
-			}
-		}
+    /**
+    * Send queries to neighbours and emit results on ndp-answer
+    * @param {array} data array of element to send (query)
+    * @param {string} endpoint - Endpoint to send queries
+    * @return {promise} A Q promise
+    */
 
-		/**
-   * Send queries to neighbours and emit results on ndp-answer
-   * @param {array} data array of element to send (query)
-   * @param {string} endpoint - Endpoint to send queries
-   * @return {promise} A Q promise
-   */
+  }, {
+    key: 'send',
+    value: function send(data, endpoint) {
+      var _this3 = this;
 
-	}, {
-		key: 'send',
-		value: function send(data, endpoint) {
-			var _this3 = this;
+      this._setFragmentsClient(endpoint);
+      // clear queue before anything
+      this.queryQueue.clear();
+      data.forEach(function (query) {
+        return _this3.queryQueue.push(_this3._getNewUid(), query);
+      });
+      return this.delegateQueries(endpoint);
+    }
 
-			this._setFragmentsClient(endpoint);
-			// clear queue before anything
-			this.queryQueue.clear();
-			data.forEach(function (query) {
-				return _this3.queryQueue.push(_this3._getNewUid(), query);
-			});
-			return this.delegateQueries(endpoint);
-		}
+    /**
+    * Send queries to neighbours and emit results on ndp-answer
+    * @param {array} data array of element to send (query)
+    * @param {string} endpoint - Endpoint to send queries
+    * @param {boolean} withResults - True if you want response with query results or false, just metadata
+    * @return {promise} A Q promise
+    */
 
-		/**
-   * Send queries to neighbours and emit results on ndp-answer
-   * @param {array} data array of element to send (query)
-   * @param {string} endpoint - Endpoint to send queries
-   * @param {boolean} withResults - True if you want response with query results or false, just metadata
-   * @return {promise} A Q promise
-   */
+  }, {
+    key: 'sendPromise',
+    value: function sendPromise(data, endpoint) {
+      var _this4 = this;
 
-	}, {
-		key: 'sendPromise',
-		value: function sendPromise(data, endpoint) {
-			var _this4 = this;
+      var withResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-			var withResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      return Q.Promise(function (resolve) {
+        _this4._setFragmentsClient(endpoint);
+        // clear queue before anything
+        _this4.queryQueue.clear();
+        data.forEach(function (query) {
+          return _this4.queryQueue.push(_this4._getNewUid(), query);
+        });
+        _this4.delegateQueries(endpoint);
+        var result = 0;
+        var results = [];
+        _this4.on(_this4.signalAnswer, function (response) {
+          result++;
+          if (!withResults) {
+            response.payload = withResults;
+          }
+          results.push(response);
+          if (result === data.length) {
+            _this4._log(results);
+            resolve(results);
+          }
+        });
+      });
+    }
 
-			return Q.Promise(function (resolve) {
-				_this4._setFragmentsClient(endpoint);
-				// clear queue before anything
-				_this4.queryQueue.clear();
-				data.forEach(function (query) {
-					return _this4.queryQueue.push(_this4._getNewUid(), query);
-				});
-				_this4.delegateQueries(endpoint);
-				var result = 0;
-				var results = [];
-				_this4.on(_this4.signalAnswer, function (response) {
-					result++;
-					if (!withResults) {
-						response.payload = withResults;
-					}
-					results.push(response);
-					if (result === data.length) {
-						_this4._log(results);
-						resolve(results);
-					}
-				});
-			});
-		}
+    /**
+    * Generate and return  a v4 UUID (random) based on uuid npm package
+    * @return {string} uuidv4
+    */
 
-		/**
-   * Generate and return  a v4 UUID (random) based on uuid npm package
-   * @return {string} uuidv4
-   */
+  }, {
+    key: '_getNewUid',
+    value: function _getNewUid() {
+      return uuidV4();
+    }
 
-	}, {
-		key: '_getNewUid',
-		value: function _getNewUid() {
-			return uuidV4();
-		}
+    // /**
+    //  * Return true if the queue has queries to delegate
+    //  * @return {boolean} True or false
+    //  */
+    // queueIsNotEmpty () {
+    // 	return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
+    // }
 
-		// /**
-		//  * Return true if the queue has queries to delegate
-		//  * @return {boolean} True or false
-		//  */
-		// queueIsNotEmpty () {
-		// 	return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
-		// }
+    /**
+    * Perform delegation using Ladda algorithm
+    * @param {string} endpoint - The LDF-server on which queries will be evaluated
+    * @return {Q.Promise} A Q Promise fullfilled when delegation is complete
+    */
 
-		/**
-   * Perform delegation using Ladda algorithm
-   * @param {string} endpoint - The LDF-server on which queries will be evaluated
-   * @return {Q.Promise} A Q Promise fullfilled when delegation is complete
-   */
+  }, {
+    key: 'delegateQueries',
+    value: function delegateQueries(endpoint) {
+      var _this5 = this;
 
-	}, {
-		key: 'delegateQueries',
-		value: function delegateQueries(endpoint) {
-			var _this5 = this;
+      this._log('@LADDA - beginning delegation');
+      var self = this;
+      return Q.Promise(function (resolve, reject) {
+        try {
+          if (self.queryQueue.hasWaitingQueries()) {
+            self._log('@LADDA - queue not empty, try to delegate to me first');
+            if (self.isFree) {
+              self._log('@LADDA - Peer @' + self.foglet.id + ' (client) will execute one query');
+              var query = self.queryQueue.first();
+              self.isFree = false;
+              self._log('@LADDA - Selected query:' + query.query);
+              self.queryQueue.setDelegated(query.id);
+              var startExecutionTimeDate = new Date();
+              var startExecutionTime = formatTime(startExecutionTimeDate);
+              self.execute(query.query, endpoint).then(function (result) {
+                self.queryQueue.setDone(query.id);
+                var endExecutionTimeDate = new Date();
+                var endExecutionTime = formatTime(endExecutionTimeDate);
+                var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
+                self.isFree = true;
+                var msg = new NDPMessage({
+                  type: 'answer',
+                  id: 'me',
+                  schedulerId: 'me',
+                  payload: result,
+                  query: query.query,
+                  qId: query.id,
+                  endpoint: endpoint,
+                  sendQueryTime: startExecutionTime,
+                  receiveQueryTime: startExecutionTime,
+                  startExecutionTime: startExecutionTime,
+                  endExecutionTime: endExecutionTime,
+                  sendResultsTime: endExecutionTime,
+                  receiveResultsTime: endExecutionTime,
+                  executionTime: executionTime,
+                  globalExecutionTime: executionTime
+                });
+                self._log('@LADDA - client finished query');
+                self.emit(_this5.signalAnswer, clone(msg));
+                // retry delegation if there's queries in the queue
+                if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+              }).catch(function (error) {
+                self._log('@LADDA :**********************ERROR EXECUTE AT ME****************************');
+                self.isFree = true;
+                self.queryQueue.setWaiting(query.id);
+                self._log(error.toString() + '\n' + error.stack);
+                self._log('@LADDA - Error : ' + error.toString() + '\n' + error.stack);
+                self.emit(self.signalError, error.toString() + '\n' + error.stack);
+                self._log('@LADDA :*********************************************************************');
+              });
+            }
+            self._log('@LADDA - trying to delegate to peers');
+            if (self.queryQueue.hasWaitingQueries()) {
+              // delegate queries to peers
+              var peers = self._choosePeers();
+              self._log('@LADDA - chosen peers: ' + peers);
+              peers.forEach(function (peer) {
+                if (self.queryQueue.hasWaitingQueries()) {
+                  var _query = self.queryQueue.first();
+                  self._log('@LADDA - delegate ' + _query.query + ' to peer @' + peer);
+                  self.queryQueue.setDelegated(_query.id);
+                  // mark the peer as 'busy'
+                  self.busyPeers = self.busyPeers.add(peer);
+                  var sendQueryTime = formatTime(new Date());
+                  var m = new NDPMessage({
+                    type: 'request',
+                    id: self.foglet.id,
+                    payload: _query.query,
+                    qId: _query.id,
+                    endpoint: endpoint,
+                    sendQueryTime: sendQueryTime,
+                    peerId: peer
+                  });
+                  self.emit(_this5.signalDelegateQuery, clone(m));
+                  self.foglet.sendUnicast(m, peer);
+                  // set timeout if necessary
+                  if (self.timeout > 0) {
+                    _this5.garbageTimeout.set(_query.id, setTimeout(function () {
+                      if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED) {
+                        self.emit(self.signalTimeout, _query);
+                        self.queryQueue.setWaiting(_query.id);
+                        self.busyPeers = self.busyPeers.delete(peer);
+                      }
+                    }, self.timeout));
+                  }
+                }
+              });
+            }
+          }
+          resolve('delegation done');
+        } catch (error) {
+          self._log('@LADDA :**********************ERROR****************************');
+          self.isFree = true;
+          self._log(error.toString() + '\n' + error.stack);
+          self._log('@LADDA [ERROR] : ' + error.toString() + '\n' + error.stack);
+          self.emit(self.signalError, error.toString() + '\n' + error.stack);
+          self._log('@LADDA :*******************************************************');
+          reject(error);
+        }
+      });
+    }
 
-			this._log('@LADDA - beginning delegation');
-			var self = this;
-			return Q.Promise(function (resolve, reject) {
-				try {
-					if (self.queryQueue.hasWaitingQueries()) {
-						self._log('@LADDA - queue not empty, try to delegate to me first');
-						if (self.isFree) {
-							self._log('@LADDA - Peer @' + self.foglet.id + ' (client) will execute one query');
-							var query = self.queryQueue.first();
-							self.isFree = false;
-							self._log('@LADDA - Selected query:' + query.query);
-							self.queryQueue.setDelegated(query.id);
-							var startExecutionTimeDate = new Date();
-							var startExecutionTime = formatTime(startExecutionTimeDate);
-							self.execute(query.query, endpoint).then(function (result) {
-								self.queryQueue.setDone(query.id);
-								var endExecutionTimeDate = new Date();
-								var endExecutionTime = formatTime(endExecutionTimeDate);
-								var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-								self.isFree = true;
-								var msg = new NDPMessage({
-									type: 'answer',
-									id: 'me',
-									schedulerId: 'me',
-									payload: result,
-									query: query.query,
-									qId: query.id,
-									endpoint: endpoint,
-									sendQueryTime: startExecutionTime,
-									receiveQueryTime: startExecutionTime,
-									startExecutionTime: startExecutionTime,
-									endExecutionTime: endExecutionTime,
-									sendResultsTime: endExecutionTime,
-									receiveResultsTime: endExecutionTime,
-									executionTime: executionTime,
-									globalExecutionTime: executionTime
-								});
-								self._log('@LADDA - client finished query');
-								self.emit(_this5.signalAnswer, clone(msg));
-								// retry delegation if there's queries in the queue
-								if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
-							}).catch(function (error) {
-								self._log('@LADDA :**********************ERROR EXECUTE AT ME****************************');
-								self.isFree = true;
-								self.queryQueue.setWaiting(query.id);
-								self._log(error.toString() + '\n' + error.stack);
-								self._log('@LADDA - Error : ' + error.toString() + '\n' + error.stack);
-								self.emit(self.signalError, error.toString() + '\n' + error.stack);
-								self._log('@LADDA :*********************************************************************');
-							});
-						}
-						self._log('@LADDA - trying to delegate to peers');
-						if (self.queryQueue.hasWaitingQueries()) {
-							// delegate queries to peers
-							var peers = self._choosePeers();
-							self._log('@LADDA - chosen peers: ' + peers);
-							peers.forEach(function (peer) {
-								if (self.queryQueue.hasWaitingQueries()) {
-									var _query = self.queryQueue.first();
-									self._log('@LADDA - delegate ' + _query.query + ' to peer @' + peer);
-									self.queryQueue.setDelegated(_query.id);
-									// mark the peer as 'busy'
-									self.busyPeers = self.busyPeers.add(peer);
-									var sendQueryTime = formatTime(new Date());
-									var m = new NDPMessage({
-										type: 'request',
-										id: self.foglet.id,
-										payload: _query.query,
-										qId: _query.id,
-										endpoint: endpoint,
-										sendQueryTime: sendQueryTime
-									});
-									self.emit(_this5.signalDelegateQuery, clone(m));
-									self.foglet.sendUnicast(m, peer);
-									// set timeout if necessary
-									if (self.timeout > 0) {
-										_this5.garbageTimeout.set(_query.id, setTimeout(function () {
-											if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED) {
-												self.emit(self.signalTimeout, _query);
-												self.queryQueue.setWaiting(_query.id);
-												self.busyPeers = self.busyPeers.delete(peer);
-											}
-										}, self.timeout));
-									}
-								}
-							});
-						}
-					}
-					resolve('delegation done');
-				} catch (error) {
-					self._log('@LADDA :**********************ERROR****************************');
-					self.isFree = true;
-					self._log(error.toString() + '\n' + error.stack);
-					self._log('@LADDA [ERROR] : ' + error.toString() + '\n' + error.stack);
-					self.emit(self.signalError, error.toString() + '\n' + error.stack);
-					self._log('@LADDA :*******************************************************');
-					reject(error);
-				}
-			});
-		}
+    /**
+    * Execute one query on an endpoint using ldf-client
+    * @param {string} query - The query to execute
+    * @param {string} endpoint - Endpoint to process queries
+    * @return {Promise} A Promise with results as reponse
+    */
 
-		/**
-   * Execute one query on an endpoint using ldf-client
-   * @param {string} query - The query to execute
-   * @param {string} endpoint - Endpoint to process queries
-   * @return {Promise} A Promise with results as reponse
-   */
+  }, {
+    key: 'execute',
+    value: function execute(query, endpoint) {
+      this._log('@LADDA : Execution of : ' + query + ' on ' + endpoint);
+      var delegationResults = Immutable.List();
+      var self = this;
+      return Q.Promise(function (resolve, reject) {
+        try {
+          // let fragmentsClient = new ldf.FragmentsClient(endpoint);
+          var fragmentsClient = self.endpoints.get(endpoint);
+          // console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
+          var queryResults = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
+          // console.log(queryResults);
+          queryResults.on('data', function (ldfResult) {
+            self._log('@LADDA :** ON DATA EXECUTE **');
+            delegationResults = delegationResults.push(ldfResult);
+          });
+          // resolve when all results are arrived
+          queryResults.on('end', function () {
+            self._log('@LADDA :** ON END EXECUTE **');
+            self.isFree = true;
+            resolve(delegationResults.toJS());
+          });
 
-	}, {
-		key: 'execute',
-		value: function execute(query, endpoint) {
-			this._log('@LADDA : Execution of : ' + query + ' on ' + endpoint);
-			var delegationResults = Immutable.List();
-			var self = this;
-			return Q.Promise(function (resolve, reject) {
-				try {
-					// let fragmentsClient = new ldf.FragmentsClient(endpoint);
-					var fragmentsClient = self.endpoints.get(endpoint);
-					// console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
-					var queryResults = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
-					// console.log(queryResults);
-					queryResults.on('data', function (ldfResult) {
-						self._log('@LADDA :** ON DATA EXECUTE **');
-						delegationResults = delegationResults.push(ldfResult);
-					});
-					// resolve when all results are arrived
-					queryResults.on('end', function () {
-						self._log('@LADDA :** ON END EXECUTE **');
-						self.isFree = true;
-						resolve(delegationResults.toJS());
-					});
+          queryResults.on('error', function (error, request) {
+            self._log('@LADDA :**********************ERROR****************************');
+            self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
+            self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
+            self._log('@LADDA :*******************************************************');
+          });
+        } catch (error) {
+          self._log('@LADDA :**********************ERROR****************************');
+          self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
+          self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+          self._log('@LADDA :*******************************************************');
+          reject(error);
+        }
+      });
+    }
+  }, {
+    key: '_computeExecutionTime',
+    value: function _computeExecutionTime(start, end) {
+      var s = moment.duration(start.getTime());
+      var e = moment.duration(end.getTime());
+      return e.subtract(s).asMilliseconds();
+    }
+  }, {
+    key: '_computeGlobalExecutionTime',
+    value: function _computeGlobalExecutionTime(start, end) {
+      // start is a formated date, end is a Date
+      return this._computeExecutionTime(this._toDate(start), end);
+    }
+  }, {
+    key: '_toDate',
+    value: function _toDate(date) {
+      var d = new Date();
+      var split = date.split(':');
+      d.setHours(split[0]);
+      d.setMinutes(split[1]);
+      d.setSeconds(split[2]);
+      d.setMilliseconds(split[3]);
+      return d;
+    }
 
-					queryResults.on('error', function (error, request) {
-						self._log('@LADDA :**********************ERROR****************************');
-						self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
-						self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
-						self._log('@LADDA :*******************************************************');
-					});
-				} catch (error) {
-					self._log('@LADDA :**********************ERROR****************************');
-					self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
-					self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
-					self._log('@LADDA :*******************************************************');
-					reject(error);
-				}
-			});
-		}
-	}, {
-		key: '_computeExecutionTime',
-		value: function _computeExecutionTime(start, end) {
-			var s = moment.duration(start.getTime());
-			var e = moment.duration(end.getTime());
-			return e.subtract(s).asMilliseconds();
-		}
-	}, {
-		key: '_computeGlobalExecutionTime',
-		value: function _computeGlobalExecutionTime(start, end) {
-			// start is a formated date, end is a Date
-			return this._computeExecutionTime(this._toDate(start), end);
-		}
-	}, {
-		key: '_toDate',
-		value: function _toDate(date) {
-			var d = new Date();
-			var split = date.split(':');
-			d.setHours(split[0]);
-			d.setMinutes(split[1]);
-			d.setSeconds(split[2]);
-			d.setMilliseconds(split[3]);
-			return d;
-		}
+    /**
+    * Choose non-busy peers fro query delegation
+    * @return {Immutable.Set} A set of peers selected for delegation
+    */
 
-		/**
-   * Choose non-busy peers fro query delegation
-   * @return {Immutable.Set} A set of peers selected for delegation
-   */
+  }, {
+    key: '_choosePeers',
+    value: function _choosePeers() {
+      var chosenPeers = Immutable.Set();
+      var _peers = Immutable.Set();
+      // gather non-busy peers
+      _peers = _peers.union(this.foglet.getNeighbours());
+      _peers = _peers.subtract(this.busyPeers).toList();
+      var index = 0;
+      // random selection beytween non-busy peers (as in LADDA algorithm)
+      // MAXIMUM nbDestinations parallel query
+      if (this.busyPeers.count() < this.nbDestinations) {
+        while (chosenPeers.count() < this.nbDestinations - this.busyPeers.count() && _peers.count() > 0) {
+          index = this._randomInt(0, _peers.count());
+          chosenPeers = chosenPeers.add(_peers.get(index));
+          _peers = _peers.remove(index);
+        }
+      }
+      return chosenPeers;
+    }
 
-	}, {
-		key: '_choosePeers',
-		value: function _choosePeers() {
-			var chosenPeers = Immutable.Set();
-			var _peers = Immutable.Set();
-			// gather non-busy peers
-			_peers = _peers.union(this.foglet.getNeighbours());
-			_peers = _peers.subtract(this.busyPeers).toList();
-			var index = 0;
-			// random selection beytween non-busy peers (as in LADDA algorithm)
-			// MAXIMUM nbDestinations parallel query
-			if (this.busyPeers.count() < this.nbDestinations) {
-				while (chosenPeers.count() < this.nbDestinations - this.busyPeers.count() && _peers.count() > 0) {
-					index = this._randomInt(0, _peers.count());
-					chosenPeers = chosenPeers.add(_peers.get(index));
-					_peers = _peers.remove(index);
-				}
-			}
-			return chosenPeers;
-		}
+    /**
+    * Pick a random int between two values
+    * @param {int} min - The lower bound
+    * @param {int} max - The upper bound (excluded)
+    * @return {int} A random int between min and max (excluded)
+    */
 
-		/**
-   * Pick a random int between two values
-   * @param {int} min - The lower bound
-   * @param {int} max - The upper bound (excluded)
-   * @return {int} A random int between min and max (excluded)
-   */
+  }, {
+    key: '_randomInt',
+    value: function _randomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+  }]);
 
-	}, {
-		key: '_randomInt',
-		value: function _randomInt(min, max) {
-			min = Math.ceil(min);
-			max = Math.floor(max);
-			return Math.floor(Math.random() * (max - min)) + min;
-		}
-	}]);
-
-	return LaddaProtocol;
+  return LaddaProtocol;
 }(DelegationProtocol);
 
 module.exports = LaddaProtocol;
@@ -69997,57 +70057,64 @@ SOFTWARE.
 'use strict';
 
 /**
- * Delegation message in the Foglet-NDP protocol
- * @author Grall Arnaud(Folkvir), Thomas Minier
- */
+* Delegation message in the Foglet-NDP protocol
+* @author Grall Arnaud(Folkvir), Thomas Minier
+*/
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
 var NDPMessage =
 /**
- * Constructor
- * @param {object} options The content of the delegation message
- * @param {string} options.type - The type of the message ('answer', 'request' or 'failed')
- * @param {string} options.id - The id of the peer who sent this message
- * @param {*} options.payload - The response to the delegated query or a delegated query to execute
- * @param {string} options.endpoint - The endpoint used to execute the query
- * @param {string} options.query - The delegated SPARQL query
- * @param {string|undefined} options.schedulerId - (optional) The id of the peer who delegated the query
- * @param {string|undefined} options.sendQueryTime - (optional) The time (hh:mm:ss:ms) on which the query was delegated
- * @param {string|undefined} options.receiveQueryTime - (optional) The time (hh:mm:ss:ms) on which a delegated query was received
- * @param {string|undefined} options.startExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution started
- * @param {string|undefined} options.endExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution ended
- * @param {string|undefined} options.sendResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was sent
- * @param {string|undefined} options.receiveResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was received
- */
+* Constructor
+* @param {object} options The content of the delegation message
+* @param {string} options.type - The type of the message ('answer', 'request' or 'failed')
+* @param {string} options.id - The id of the peer who sent this message
+* @param {*} options.payload - The response to the delegated query or a delegated query to execute
+* @param {string} options.endpoint - The endpoint used to execute the query
+* @param {string} options.query - The delegated SPARQL query
+* @param {string} options.peerId - The peer id who will receive this message
+* @param {string|undefined} options.schedulerId - (optional) The id of the peer who delegated the query
+* @param {string|undefined} options.sendQueryTime - (optional) The time (hh:mm:ss:ms) on which the query was delegated
+* @param {string|undefined} options.receiveQueryTime - (optional) The time (hh:mm:ss:ms) on which a delegated query was received
+* @param {string|undefined} options.startExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution started
+* @param {string|undefined} options.endExecutionTime - (optional) The time (hh:mm:ss:ms) on which query execution ended
+* @param {string|undefined} options.sendResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was sent
+* @param {string|undefined} options.receiveResultsTime - (optional) The time (hh:mm:ss:ms) on which query results was received
+*/
 function NDPMessage(options) {
-	_classCallCheck(this, NDPMessage);
+  _classCallCheck(this, NDPMessage);
 
-	if (options.type === undefined) throw new TypeError('Error: a delegation message must have a type');
-	if (options.payload === undefined) throw new TypeError('Error: a delegation message must have data to transmit in the "payload" field');
-	// Is 'answer', 'request' or 'failed'
-	this.type = options.type;
-	// Owner id
-	this.id = options.id;
-	// Id of the peer who delegated the request to the peer
-	this.schedulerId = options.schedulerId || 'unknown';
-	// Message to sent
-	this.payload = options.payload;
-	// Endpoint representing the source of the payload
-	this.endpoint = options.endpoint;
-	// query
-	this.query = options.query;
-	// query id
-	this.qId = options.qId;
-	// timestamps
-	this.sendQueryTime = options.sendQueryTime || 'unknown';
-	this.receiveQueryTime = options.receiveQueryTime || 'unknown';
-	this.startExecutionTime = options.startExecutionTime || 'unknown';
-	this.endExecutionTime = options.endExecutionTime || 'unknown';
-	this.sendResultsTime = options.sendResultsTime || 'unknown';
-	this.receiveResultsTime = options.receiveResultsTime || 'unknown';
-	this.executionTime = options.executionTime || 'unknown'; // in milliseconds
-	this.globalExecutionTime = options.executionTime || 'unknown'; // in milliseconds
+  if (options.type === undefined) throw new TypeError('Error: a delegation message must have a type');
+  if (options.payload === undefined) throw new TypeError('Error: a delegation message must have data to transmit in the "payload" field');
+  // Is 'answer', 'request' or 'failed'
+  this.type = options.type;
+  // Owner id
+  this.id = options.id;
+  // Id of the peer who delegated the request to the peer
+  this.schedulerId = options.schedulerId || 'unknown';
+  // peer id who will receive this message
+  this.peerId = options.peerId;
+  // Message to sent
+  this.payload = options.payload;
+  // Endpoint representing the source of the payload
+  this.endpoint = options.endpoint;
+  // query
+  this.query = options.query;
+  // query id
+  this.qId = options.qId;
+  // timestamps
+  this.sendQueryTime = options.sendQueryTime || 'unknown';
+  this.receiveQueryTime = options.receiveQueryTime || 'unknown';
+  this.startExecutionTime = options.startExecutionTime || 'unknown';
+  this.endExecutionTime = options.endExecutionTime || 'unknown';
+  this.sendResultsTime = options.sendResultsTime || 'unknown';
+  this.receiveResultsTime = options.receiveResultsTime || 'unknown';
+  this.executionTime = options.executionTime || 'unknown'; // in milliseconds
+  this.globalExecutionTime = options.executionTime || 'unknown'; // in milliseconds
 };
 
 module.exports = NDPMessage;
@@ -70078,13 +70145,35 @@ SOFTWARE.
 */
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _createClass = function () {
+	function defineProperties(target, props) {
+		for (var i = 0; i < props.length; i++) {
+			var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+		}
+	}return function (Constructor, protoProps, staticProps) {
+		if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	};
+}();
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _classCallCheck(instance, Constructor) {
+	if (!(instance instanceof Constructor)) {
+		throw new TypeError("Cannot call a class as a function");
+	}
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _possibleConstructorReturn(self, call) {
+	if (!self) {
+		throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	}return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+	if (typeof superClass !== "function" && superClass !== null) {
+		throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
 
 var Foglet = require('foglet-core').Foglet;
 var LaddaProtocol = require('./ladda-protocol.js');
@@ -70126,7 +70215,6 @@ var NDP = function (_Foglet) {
   * @return {void}
   * @override
   */
-
 
 	_createClass(NDP, [{
 		key: 'init',
@@ -70180,11 +70268,31 @@ SOFTWARE.
 
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () {
+	function defineProperties(target, props) {
+		for (var i = 0; i < props.length; i++) {
+			var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+		}
+	}return function (Constructor, protoProps, staticProps) {
+		if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	};
+}();
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+function _toConsumableArray(arr) {
+	if (Array.isArray(arr)) {
+		for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+			arr2[i] = arr[i];
+		}return arr2;
+	} else {
+		return Array.from(arr);
+	}
+}
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) {
+	if (!(instance instanceof Constructor)) {
+		throw new TypeError("Cannot call a class as a function");
+	}
+}
 
 var IList = require('immutable').List;
 
@@ -70213,10 +70321,8 @@ var StatusQueue = function () {
   * @return {StatusQueue} A new StatusQueue
   */
 
-
 	_createClass(StatusQueue, [{
 		key: 'count',
-
 
 		/**
    * Get the number of elements in the queue
