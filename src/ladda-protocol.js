@@ -432,6 +432,7 @@ class LaddaProtocol extends DelegationProtocol {
           self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
           self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
           self._log('@LADDA :*******************************************************');
+          reject(error);
         });
       } catch (error) {
         self._log('@LADDA :**********************ERROR****************************');

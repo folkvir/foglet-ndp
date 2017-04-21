@@ -34,7 +34,6 @@
         trickle: true,
         iceServers : []
       },
-      rpsType: 'spray-wrtc',
       room: 'test',
       verbose: true
     });
@@ -44,7 +43,6 @@
         trickle: true,
         iceServers : []
       },
-      rpsType: 'spray-wrtc',
       room: 'test',
       verbose: true
     });
@@ -55,7 +53,6 @@
         trickle: true,
         iceServers : []
       },
-      rpsType: 'spray-wrtc',
       room: 'test',
       verbose: true
     });
@@ -76,6 +73,10 @@
         });
       });
     });
+
+    f1.onUnicast((id, message) => console.log);
+    f2.onUnicast((id, message) => console.log);
+    f3.onUnicast((id, message) => console.log);
   </script>
 
   <body>
