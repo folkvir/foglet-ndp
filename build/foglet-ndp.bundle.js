@@ -69710,11 +69710,20 @@ var LaddaProtocol = function (_DelegationProtocol) {
         clearTimeout(this.garbageTimeout.get(timeoutId));
       }
     }
+
+    /**
+     * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
+     * @param {string} endpoint endpoint of the fragmentsClient
+     * @param {boolean} force Force to set the endpoint
+     */
+
   }, {
     key: '_setFragmentsClient',
     value: function _setFragmentsClient(endpoint) {
+      var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
       var fragmentsClient = this.endpoints.has(endpoint);
-      if (!fragmentsClient) {
+      if (!fragmentsClient || force) {
         this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
       }
     }
@@ -69943,16 +69952,18 @@ var LaddaProtocol = function (_DelegationProtocol) {
           });
 
           queryResults.on('error', function (error, request) {
-            self._log('@LADDA :**********************ERROR****************************');
-            self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
-            self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
+            self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
+            self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
+            self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
             self._log('@LADDA :*******************************************************');
+            reject(error);
           });
         } catch (error) {
-          self._log('@LADDA :**********************ERROR****************************');
-          self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
-          self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+          self._log('@LADDA :**********************ERROR-EXECUTE****************************');
+          self._log('@LADDA :[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
+          self.emit(self.signalError, '[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
+          self._setFragmentsClient(endpoint, true); // force the client to be re-set to a new fragmentsClients because an error occured
           reject(error);
         }
       });
