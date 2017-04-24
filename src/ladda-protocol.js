@@ -117,7 +117,7 @@ class LaddaProtocol extends DelegationProtocol {
           const query = message.payload;
           const startExecutionTimeDate = new Date();
           const startExecutionTime = formatTime(startExecutionTimeDate);
-          self._setFragmentsClient(message.endpoint);
+          self._setFragmentsClient(message.endpoint, false);
           self.execute(query, message.endpoint).then(result => {
             const endExecutionTimeDate = new Date();
             const endExecutionTime = formatTime(endExecutionTimeDate);
@@ -244,7 +244,7 @@ class LaddaProtocol extends DelegationProtocol {
   * @return {promise} A Q promise
   */
   send (data, endpoint) {
-    this._setFragmentsClient (endpoint);
+    this._setFragmentsClient (endpoint, false);
     // clear queue before anything
     this.queryQueue.clear();
     data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
@@ -260,7 +260,7 @@ class LaddaProtocol extends DelegationProtocol {
   */
   sendPromise (data, endpoint, withResults = true) {
     return Q.Promise( (resolve) => {
-      this._setFragmentsClient (endpoint);
+      this._setFragmentsClient (endpoint, false);
       // clear queue before anything
       this.queryQueue.clear();
       data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
@@ -433,13 +433,14 @@ class LaddaProtocol extends DelegationProtocol {
           resolve(delegationResults.toJS());
         });
 
-        queryResults.on('error', (error, request) => {
+        queryResults.on('error', (error) => {
           self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-          self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
-          self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
+          self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
+          self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
-          queryResults = null;
-          self._setFragmentsClient(endpoint, true); // force the client to be re-set to a new fragmentsClients because an error occured
+          queryResults.removeAllListeners();
+          self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
+          self._setFragmentsClient(endpoint, true);
           reject(error);
         });
       } catch (error) {
