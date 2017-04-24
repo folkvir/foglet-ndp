@@ -69601,7 +69601,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
                 var query = message.payload;
                 var startExecutionTimeDate = new Date();
                 var startExecutionTime = formatTime(startExecutionTimeDate);
-                self._setFragmentsClient(message.endpoint);
+                self._setFragmentsClient(message.endpoint, false);
                 self.execute(query, message.endpoint).then(function (result) {
                   var endExecutionTimeDate = new Date();
                   var endExecutionTime = formatTime(endExecutionTimeDate);
@@ -69741,7 +69741,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
     value: function send(data, endpoint) {
       var _this3 = this;
 
-      this._setFragmentsClient(endpoint);
+      this._setFragmentsClient(endpoint, false);
       // clear queue before anything
       this.queryQueue.clear();
       data.forEach(function (query) {
@@ -69766,7 +69766,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
       var withResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
       return Q.Promise(function (resolve) {
-        _this4._setFragmentsClient(endpoint);
+        _this4._setFragmentsClient(endpoint, false);
         // clear queue before anything
         _this4.queryQueue.clear();
         data.forEach(function (query) {
@@ -69952,13 +69952,14 @@ var LaddaProtocol = function (_DelegationProtocol) {
             resolve(delegationResults.toJS());
           });
 
-          queryResults.on('error', function (error, request) {
+          queryResults.on('error', function (error) {
             self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-            self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
-            self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
+            self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
+            self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
             self._log('@LADDA :*******************************************************');
-            queryResults = null;
-            self._setFragmentsClient(endpoint, true); // force the client to be re-set to a new fragmentsClients because an error occured
+            queryResults.removeAllListeners();
+            self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
+            self._setFragmentsClient(endpoint, true);
             reject(error);
           });
         } catch (error) {
