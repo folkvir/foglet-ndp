@@ -145,24 +145,38 @@ class LaddaProtocol extends DelegationProtocol {
             self.foglet.sendUnicast(msg, id);
             self._log('@LADDA : Message sent after its execution.');
           }).catch(error => {
-            self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
-            self.isFree = true;
-            self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + error.toString() + '\n' + error.stack);
-            self._log(error.toString() + '\n' + error.stack);
-            self._log('@LADDA :****************************************************************************************');
-            const msg = new NDPMessage({
-              type: 'failed',
-              id: self.foglet.id,
-              payload: message.payload,
-              endpoint: message.endpoint,
-              qId: message.qId,
-              receiveQueryTime: receiveMessageTime,
-              peerId: message.peerId
-            });
-            self._log(clone(msg));
-            self.emit(this.signalFailed, clone(msg));
-            self.foglet.sendUnicast(msg, id);
-            self._log('@LADDA : Message sent after it\'s failed. ');
+            try {
+              self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
+              self.isFree = true;
+              self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + error.toString() + '\n' + error.stack);
+              self._log(error.toString() + '\n' + error.stack);
+              self._log('@LADDA :****************************************************************************************');
+              const msg = new NDPMessage({
+                type: 'failed',
+                id: self.foglet.id,
+                payload: message.payload,
+                endpoint: message.endpoint,
+                qId: message.qId,
+                receiveQueryTime: receiveMessageTime,
+                peerId: message.peerId
+              });
+              self._log(clone(msg));
+              self.emit(this.signalFailed, clone(msg));
+              self.foglet.sendUnicast(msg, id);
+              self._log('@LADDA : Message sent after it\'s failed. ');
+            } catch (e) {
+              self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + e.toString() + '\n' + e.stack);
+              self.sendUnicast(new NDPMessage({
+                type: 'failed',
+                id: self.foglet.id,
+                payload: message.payload,
+                endpoint: message.endpoint,
+                qId: message.qId,
+                receiveQueryTime: receiveMessageTime,
+                peerId: message.peerId
+              }), id);
+            }
+
           });
         } else {
           self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
