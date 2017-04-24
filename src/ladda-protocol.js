@@ -42,8 +42,8 @@ const STATUS_DELEGATED = 'status_delegated';
 // utility to format dates in hh:mm:ss:ms
 const formatTime = time => {
   const hours = time.getHours().toString(),
-  min = time.getMinutes().toString(),
-  sec = time.getSeconds().toString();
+    min = time.getMinutes().toString(),
+    sec = time.getSeconds().toString();
   let mil = time.getMilliseconds().toString();
   if(mil.length === 1) {
     mil = `00${mil}`;
@@ -224,9 +224,14 @@ class LaddaProtocol extends DelegationProtocol {
     }
   }
 
-  _setFragmentsClient (endpoint) {
+  /**
+   * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
+   * @param {string} endpoint endpoint of the fragmentsClient
+   * @param {boolean} force Force to set the endpoint
+   */
+  _setFragmentsClient (endpoint, force = false) {
     let fragmentsClient = this.endpoints.has(endpoint);
-    if(!fragmentsClient) {
+    if(!fragmentsClient || force) {
       this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
     }
   }
@@ -428,16 +433,16 @@ class LaddaProtocol extends DelegationProtocol {
         });
 
         queryResults.on('error', (error, request) => {
-          self._log('@LADDA :**********************ERROR****************************');
-          self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack, request);
-          self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack, request);
+          self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
+          self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
+          self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
           self._log('@LADDA :*******************************************************');
           reject(error);
         });
       } catch (error) {
-        self._log('@LADDA :**********************ERROR****************************');
-        self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
-        self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+        self._log('@LADDA :**********************ERROR-EXECUTE****************************');
+        self._log('@LADDA :[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
+        self.emit(self.signalError, '[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
         self._log('@LADDA :*******************************************************');
         reject(error);
       }
