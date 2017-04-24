@@ -69631,7 +69631,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
                 }).catch(function (error) {
                   self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
                   self.isFree = true;
-                  self.emit(self.signalError, error.toString() + '\n' + error.stack);
+                  self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + error.toString() + '\n' + error.stack);
                   self._log(error.toString() + '\n' + error.stack);
                   self._log('@LADDA :****************************************************************************************');
                   var msg = new NDPMessage({
@@ -69681,8 +69681,8 @@ var LaddaProtocol = function (_DelegationProtocol) {
                 if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
               } catch (error) {
                 self._log('**********************ERROR ANSWER****************************');
-                self._log('@LADDA :[ERROR] ' + error.toString() + '\n' + error.stack);
-                self.emit(self.signalError, '[ERROR] ' + error.toString() + '\n' + error.stack);
+                self._log('@LADDA :[ERROR-ANSWER] ' + error.toString() + '\n' + error.stack);
+                self.emit(self.signalError, '[ERROR-ANSWER] ' + error.toString() + '\n' + error.stack);
                 self._log('**************************************************************');
               }
               break;
@@ -69715,6 +69715,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
      * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
      * @param {string} endpoint endpoint of the fragmentsClient
      * @param {boolean} force Force to set the endpoint
+     * @return {void}
      */
 
   }, {
@@ -69860,12 +69861,12 @@ var LaddaProtocol = function (_DelegationProtocol) {
                 // retry delegation if there's queries in the queue
                 if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               }).catch(function (error) {
-                self._log('@LADDA :**********************ERROR EXECUTE AT ME****************************');
+                self._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
                 self.isFree = true;
                 self.queryQueue.setWaiting(query.id);
                 self._log(error.toString() + '\n' + error.stack);
-                self._log('@LADDA - Error : ' + error.toString() + '\n' + error.stack);
-                self.emit(self.signalError, error.toString() + '\n' + error.stack);
+                self._log('@LADDA - [ERROR:EXECUTE-AT-ME] : ' + error.toString() + '\n' + error.stack);
+                self.emit(self.signalError, '[ERROR:EXECUTE-AT-ME] ' + error.toString() + '\n' + error.stack);
                 self._log('@LADDA :*********************************************************************');
               });
             }
@@ -69909,11 +69910,11 @@ var LaddaProtocol = function (_DelegationProtocol) {
           }
           resolve('delegation done');
         } catch (error) {
-          self._log('@LADDA :**********************ERROR****************************');
+          self._log('@LADDA :**********************ERROR-DELEGATE-FUNCTION****************************');
           self.isFree = true;
           self._log(error.toString() + '\n' + error.stack);
-          self._log('@LADDA [ERROR] : ' + error.toString() + '\n' + error.stack);
-          self.emit(self.signalError, error.toString() + '\n' + error.stack);
+          self._log('@LADDA [ERROR-DELEGATE-FUNCTION] : ' + error.toString() + '\n' + error.stack);
+          self.emit(self.signalError, '[ERROR-DELEGATE-FUNCTION] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
           reject(error);
         }
@@ -69941,12 +69942,12 @@ var LaddaProtocol = function (_DelegationProtocol) {
           var queryResults = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
           // console.log(queryResults);
           queryResults.on('data', function (ldfResult) {
-            self._log('@LADDA :** ON DATA EXECUTE **');
+            // self._log('@LADDA :** ON DATA EXECUTE **');
             delegationResults = delegationResults.push(ldfResult);
           });
           // resolve when all results are arrived
           queryResults.on('end', function () {
-            self._log('@LADDA :** ON END EXECUTE **');
+            // self._log('@LADDA :** ON END EXECUTE **');
             self.isFree = true;
             resolve(delegationResults.toJS());
           });
@@ -69956,6 +69957,8 @@ var LaddaProtocol = function (_DelegationProtocol) {
             self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
             self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack, request);
             self._log('@LADDA :*******************************************************');
+            queryResults = null;
+            self._setFragmentsClient(endpoint, true); // force the client to be re-set to a new fragmentsClients because an error occured
             reject(error);
           });
         } catch (error) {
