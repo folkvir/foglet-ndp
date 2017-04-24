@@ -444,6 +444,7 @@ class LaddaProtocol extends DelegationProtocol {
         self._log('@LADDA :[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
         self.emit(self.signalError, '[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
         self._log('@LADDA :*******************************************************');
+        self._setFragmentsClient(endpoint, true); // force the client to be re-set to a new fragmentsClients because an error occured
         reject(error);
       }
     });
