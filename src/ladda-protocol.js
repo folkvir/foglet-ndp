@@ -337,30 +337,33 @@ class LaddaProtocol extends DelegationProtocol {
             const startExecutionTimeDate = new Date();
             const startExecutionTime = formatTime(startExecutionTimeDate);
             self.execute(query.query, endpoint).then(result => {
-              self.queryQueue.setDone(query.id);
-              const endExecutionTimeDate = new Date();
-              const endExecutionTime = formatTime(endExecutionTimeDate);
-              const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-              self.isFree = true;
-              const msg = new NDPMessage({
-                type: 'answer',
-                id: 'me',
-                schedulerId: 'me',
-                payload: result,
-                query: query.query,
-                qId: query.id,
-                endpoint,
-                sendQueryTime: startExecutionTime,
-                receiveQueryTime: startExecutionTime,
-                startExecutionTime,
-                endExecutionTime,
-                sendResultsTime: endExecutionTime,
-                receiveResultsTime: endExecutionTime,
-                executionTime,
-                globalExecutionTime: executionTime
-              });
-              self._log('@LADDA - client finished query');
-              self.emit(this.signalAnswer, clone(msg));
+              if(self.queryQueue.getStatus(query.id) !== STATUS_DONE ) {
+                self.queryQueue.setDone(query.id);
+                const endExecutionTimeDate = new Date();
+                const endExecutionTime = formatTime(endExecutionTimeDate);
+                const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
+                self.isFree = true;
+                const msg = new NDPMessage({
+                  type: 'answer',
+                  id: 'me',
+                  schedulerId: 'me',
+                  payload: result,
+                  query: query.query,
+                  qId: query.id,
+                  endpoint,
+                  sendQueryTime: startExecutionTime,
+                  receiveQueryTime: startExecutionTime,
+                  startExecutionTime,
+                  endExecutionTime,
+                  sendResultsTime: endExecutionTime,
+                  receiveResultsTime: endExecutionTime,
+                  executionTime,
+                  globalExecutionTime: executionTime
+                });
+                self._log('@LADDA - client finished query');
+                self.emit(this.signalAnswer, clone(msg));
+              }
+
               // retry delegation if there's queries in the queue
               if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             }).catch(error => {

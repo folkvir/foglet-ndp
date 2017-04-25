@@ -69852,30 +69852,33 @@ var LaddaProtocol = function (_DelegationProtocol) {
               var startExecutionTimeDate = new Date();
               var startExecutionTime = formatTime(startExecutionTimeDate);
               self.execute(query.query, endpoint).then(function (result) {
-                self.queryQueue.setDone(query.id);
-                var endExecutionTimeDate = new Date();
-                var endExecutionTime = formatTime(endExecutionTimeDate);
-                var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-                self.isFree = true;
-                var msg = new NDPMessage({
-                  type: 'answer',
-                  id: 'me',
-                  schedulerId: 'me',
-                  payload: result,
-                  query: query.query,
-                  qId: query.id,
-                  endpoint: endpoint,
-                  sendQueryTime: startExecutionTime,
-                  receiveQueryTime: startExecutionTime,
-                  startExecutionTime: startExecutionTime,
-                  endExecutionTime: endExecutionTime,
-                  sendResultsTime: endExecutionTime,
-                  receiveResultsTime: endExecutionTime,
-                  executionTime: executionTime,
-                  globalExecutionTime: executionTime
-                });
-                self._log('@LADDA - client finished query');
-                self.emit(_this5.signalAnswer, clone(msg));
+                if (self.queryQueue.getStatus(query.id) !== STATUS_DONE) {
+                  self.queryQueue.setDone(query.id);
+                  var endExecutionTimeDate = new Date();
+                  var endExecutionTime = formatTime(endExecutionTimeDate);
+                  var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
+                  self.isFree = true;
+                  var msg = new NDPMessage({
+                    type: 'answer',
+                    id: 'me',
+                    schedulerId: 'me',
+                    payload: result,
+                    query: query.query,
+                    qId: query.id,
+                    endpoint: endpoint,
+                    sendQueryTime: startExecutionTime,
+                    receiveQueryTime: startExecutionTime,
+                    startExecutionTime: startExecutionTime,
+                    endExecutionTime: endExecutionTime,
+                    sendResultsTime: endExecutionTime,
+                    receiveResultsTime: endExecutionTime,
+                    executionTime: executionTime,
+                    globalExecutionTime: executionTime
+                  });
+                  self._log('@LADDA - client finished query');
+                  self.emit(_this5.signalAnswer, clone(msg));
+                }
+
                 // retry delegation if there's queries in the queue
                 if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               }).catch(function (error) {
