@@ -69683,13 +69683,15 @@ var LaddaProtocol = function (_DelegationProtocol) {
             {
               try {
                 self._log('@LADDA : Received an answer from @' + message.id);
-                self.queryQueue.setDone(message.qId);
-                self.busyPeers = _this2.busyPeers.delete(message.peerId);
-                message.receiveResultsTime = receiveMessageTime;
-                message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
-                self.emit(_this2.signalAnswer, clone(message));
-                // clear the timeout
-                self._clearTimeout(message.qId);
+                if (!self.queryQueue.isDone(message.qId)) {
+                  self.queryQueue.setDone(message.qId);
+                  self.busyPeers = _this2.busyPeers.delete(message.peerId);
+                  message.receiveResultsTime = receiveMessageTime;
+                  message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
+                  self.emit(_this2.signalAnswer, clone(message));
+                  // clear the timeout
+                  self._clearTimeout(message.qId);
+                }
                 // retry delegation if there's queries in the queue
                 if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
               } catch (error) {
@@ -70297,29 +70299,29 @@ SOFTWARE.
 'use strict';
 
 var _createClass = function () {
-	function defineProperties(target, props) {
-		for (var i = 0; i < props.length; i++) {
-			var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-		}
-	}return function (Constructor, protoProps, staticProps) {
-		if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-	};
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
 }();
 
 function _toConsumableArray(arr) {
-	if (Array.isArray(arr)) {
-		for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-			arr2[i] = arr[i];
-		}return arr2;
-	} else {
-		return Array.from(arr);
-	}
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }return arr2;
+  } else {
+    return Array.from(arr);
+  }
 }
 
 function _classCallCheck(instance, Constructor) {
-	if (!(instance instanceof Constructor)) {
-		throw new TypeError("Cannot call a class as a function");
-	}
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
 }
 
 var IList = require('immutable').List;
@@ -70330,223 +70332,235 @@ var STATUS_DELEGATED = 'status_delegated';
 var STATUS_DONE = 'status_done';
 
 /**
- * A StatusQueue is a queue which contains values that can be reinserted after deletion
- */
+* A StatusQueue is a queue which contains values that can be reinserted after deletion
+*/
 
 var StatusQueue = function () {
-	/**
+  /**
   * Constructor
   */
-	function StatusQueue() {
-		_classCallCheck(this, StatusQueue);
+  function StatusQueue() {
+    _classCallCheck(this, StatusQueue);
 
-		this.queries = IList();
-	}
+    this.queries = IList();
+  }
 
-	/**
+  /**
   * Creates a StatusQueue from an existing array
   * @param {string[]} array - An array of queries used to build the queue
   * @return {StatusQueue} A new StatusQueue
   */
 
-	_createClass(StatusQueue, [{
-		key: 'count',
+  _createClass(StatusQueue, [{
+    key: 'count',
 
-		/**
-   * Get the number of elements in the queue
-   * @return {int} The number of elements in the queue
-   */
-		value: function count() {
-			return this.queries.count();
-		}
+    /**
+    * Get the number of elements in the queue
+    * @return {int} The number of elements in the queue
+    */
+    value: function count() {
+      return this.queries.count();
+    }
 
-		/**
-   * Returns True if the queue is empty (i.e. all queries have been executed), otherwise False
-   * @return {boolean} True if the queue is empty, otherwise False
-   */
+    /**
+    * Returns True if the queue is empty (i.e. all queries have been executed), otherwise False
+    * @return {boolean} True if the queue is empty, otherwise False
+    */
 
-	}, {
-		key: 'isEmpty',
-		value: function isEmpty() {
-			return this.queries.filter(function (q) {
-				return q.status === STATUS_DONE;
-			}).count() === this.count();
-		}
+  }, {
+    key: 'isEmpty',
+    value: function isEmpty() {
+      return this.queries.filter(function (q) {
+        return q.status === STATUS_DONE;
+      }).count() === this.count();
+    }
 
-		/**
-   * Push an element in the queue, at the end or at a specific index
-   * @param {string} id - Query unique id
-   * @param {string} query - The query to insert
-   * @param {int|undefined} index - (optional) Specify a index to insert the query at
-   * @return {void}
-   */
+    /**
+    * Returns True if the queue is empty (i.e. all queries have been executed), otherwise False
+    * @param {string} id Query id
+    * @return {boolean} True if the query is done false otherwise
+    */
 
-	}, {
-		key: 'push',
-		value: function push(id, query) {
-			this.queries = this.queries.push({
-				id: id,
-				query: query,
-				status: STATUS_WAITING
-			});
-		}
+  }, {
+    key: 'isDone',
+    value: function isDone(id) {
+      return this.getStatus(id) === STATUS_DONE;
+    }
 
-		/**
-   * Push multiple queries into the queue
-   * @param {...string} queries - Queries to push in the queue
-   * @return {void}
-   */
+    /**
+    * Push an element in the queue, at the end or at a specific index
+    * @param {string} id - Query unique id
+    * @param {string} query - The query to insert
+    * @param {int|undefined} index - (optional) Specify a index to insert the query at
+    * @return {void}
+    */
 
-	}, {
-		key: 'pushMany',
-		value: function pushMany() {
-			var _this = this;
+  }, {
+    key: 'push',
+    value: function push(id, query) {
+      this.queries = this.queries.push({
+        id: id,
+        query: query,
+        status: STATUS_WAITING
+      });
+    }
 
-			for (var _len = arguments.length, queries = Array(_len), _key = 0; _key < _len; _key++) {
-				queries[_key] = arguments[_key];
-			}
+    /**
+    * Push multiple queries into the queue
+    * @param {...string} queries - Queries to push in the queue
+    * @return {void}
+    */
 
-			queries.forEach(function (q) {
-				return _this.push(q, q);
-			});
-		}
+  }, {
+    key: 'pushMany',
+    value: function pushMany() {
+      var _this = this;
 
-		/**
-   * Remove a query from the queue
-   * @param {string} id - Query unique id
-   * @return {int} The index of the removed element in the queue
-   */
+      for (var _len = arguments.length, queries = Array(_len), _key = 0; _key < _len; _key++) {
+        queries[_key] = arguments[_key];
+      }
 
-	}, {
-		key: 'remove',
-		value: function remove(id) {
-			var index = this.queries.findKey(function (q) {
-				return q.id === id;
-			});
-			this.queries = this.queries.delete(index);
-			return index;
-		}
+      queries.forEach(function (q) {
+        return _this.push(q, q);
+      });
+    }
 
-		/**
-   * Clear the queue
-   * @return {void}
-   */
+    /**
+    * Remove a query from the queue
+    * @param {string} id - Query unique id
+    * @return {int} The index of the removed element in the queue
+    */
 
-	}, {
-		key: 'clear',
-		value: function clear() {
-			this.queries = this.queries.clear();
-		}
+  }, {
+    key: 'remove',
+    value: function remove(id) {
+      var index = this.queries.findKey(function (q) {
+        return q.id === id;
+      });
+      this.queries = this.queries.delete(index);
+      return index;
+    }
 
-		/**
-   * Get first waiting query in the queue
-   * @return {string} The first wiaiting query in the queue
-   */
+    /**
+    * Clear the queue
+    * @return {void}
+    */
 
-	}, {
-		key: 'first',
-		value: function first() {
-			var index = this.queries.findKey(function (q) {
-				return q.status === STATUS_WAITING;
-			});
-			if (index <= -1) return null;
-			var query = this.queries.get(index);
-			return query;
-		}
+  }, {
+    key: 'clear',
+    value: function clear() {
+      this.queries = this.queries.clear();
+    }
 
-		/**
-   * Return true if the queue has 1 or more waiting queries
-   * @return {boolean} True if one or more queries have the status STATUS_WAITING
-   */
+    /**
+    * Get first waiting query in the queue
+    * @return {string} The first wiaiting query in the queue
+    */
 
-	}, {
-		key: 'hasWaitingQueries',
-		value: function hasWaitingQueries() {
-			return this.queries.filter(function (q) {
-				return q.status === STATUS_WAITING;
-			}).count() > 0;
-		}
+  }, {
+    key: 'first',
+    value: function first() {
+      var index = this.queries.findKey(function (q) {
+        return q.status === STATUS_WAITING;
+      });
+      if (index <= -1) return null;
+      var query = this.queries.get(index);
+      return query;
+    }
 
-		/**
-   * Set the status of a query
-   * @param {string} id - Query unique id
-   * @param {string} status - The new status
-   * @return {void}
-   */
+    /**
+    * Return true if the queue has 1 or more waiting queries
+    * @return {boolean} True if one or more queries have the status STATUS_WAITING
+    */
 
-	}, {
-		key: '_setStatus',
-		value: function _setStatus(id, status) {
-			var index = this.queries.findKey(function (q) {
-				return q.id === id;
-			});
-			if (index > -1) {
-				this.queries = this.queries.update(index, function (q) {
-					return {
-						id: q.id,
-						query: q.query,
-						status: status
-					};
-				});
-			}
-		}
-	}, {
-		key: 'getStatus',
-		value: function getStatus(id) {
-			var index = this.queries.findKey(function (q) {
-				return q.id === id;
-			});
-			if (index > -1) {
-				return this.queries.get(index).status;
-			}
-			return null;
-		}
+  }, {
+    key: 'hasWaitingQueries',
+    value: function hasWaitingQueries() {
+      return this.queries.filter(function (q) {
+        return q.status === STATUS_WAITING;
+      }).count() > 0;
+    }
 
-		/**
-   * Set the status of a query to "waiting"
-   * @param {string} id - Query unique id
-   * @return {void}
-   */
+    /**
+    * Set the status of a query
+    * @param {string} id - Query unique id
+    * @param {string} status - The new status
+    * @return {void}
+    */
 
-	}, {
-		key: 'setWaiting',
-		value: function setWaiting(id) {
-			this._setStatus(id, STATUS_WAITING);
-		}
+  }, {
+    key: '_setStatus',
+    value: function _setStatus(id, status) {
+      var index = this.queries.findKey(function (q) {
+        return q.id === id;
+      });
+      if (index > -1) {
+        this.queries = this.queries.update(index, function (q) {
+          return {
+            id: q.id,
+            query: q.query,
+            status: status
+          };
+        });
+      }
+    }
+  }, {
+    key: 'getStatus',
+    value: function getStatus(id) {
+      var index = this.queries.findKey(function (q) {
+        return q.id === id;
+      });
+      if (index > -1) {
+        return this.queries.get(index).status;
+      }
+      return null;
+    }
 
-		/**
-   * Set the status of a query to "delegated"
-   * @param {string} id - Query unique id
-   * @return {void}
-   */
+    /**
+    * Set the status of a query to "waiting"
+    * @param {string} id - Query unique id
+    * @return {void}
+    */
 
-	}, {
-		key: 'setDelegated',
-		value: function setDelegated(id) {
-			this._setStatus(id, STATUS_DELEGATED);
-		}
+  }, {
+    key: 'setWaiting',
+    value: function setWaiting(id) {
+      this._setStatus(id, STATUS_WAITING);
+    }
 
-		/**
-   * Set the status of a query to "done"
-   * @param {string} id - Query unique id
-   * @return {void}
-   */
+    /**
+    * Set the status of a query to "delegated"
+    * @param {string} id - Query unique id
+    * @return {void}
+    */
 
-	}, {
-		key: 'setDone',
-		value: function setDone(id) {
-			this._setStatus(id, STATUS_DONE);
-		}
-	}], [{
-		key: 'from',
-		value: function from(array) {
-			var statusQueue = new StatusQueue();
-			statusQueue.pushMany.apply(statusQueue, _toConsumableArray(array));
-			return statusQueue;
-		}
-	}]);
+  }, {
+    key: 'setDelegated',
+    value: function setDelegated(id) {
+      this._setStatus(id, STATUS_DELEGATED);
+    }
 
-	return StatusQueue;
+    /**
+    * Set the status of a query to "done"
+    * @param {string} id - Query unique id
+    * @return {void}
+    */
+
+  }, {
+    key: 'setDone',
+    value: function setDone(id) {
+      this._setStatus(id, STATUS_DONE);
+    }
+  }], [{
+    key: 'from',
+    value: function from(array) {
+      var statusQueue = new StatusQueue();
+      statusQueue.pushMany.apply(statusQueue, _toConsumableArray(array));
+      return statusQueue;
+    }
+  }]);
+
+  return StatusQueue;
 }();
 
 module.exports = StatusQueue;

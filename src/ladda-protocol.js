@@ -199,13 +199,15 @@ class LaddaProtocol extends DelegationProtocol {
       case 'answer': {
         try {
           self._log('@LADDA : Received an answer from @' + message.id);
-          self.queryQueue.setDone(message.qId);
-          self.busyPeers = this.busyPeers.delete(message.peerId);
-          message.receiveResultsTime = receiveMessageTime;
-          message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
-          self.emit(this.signalAnswer, clone(message));
-          // clear the timeout
-          self._clearTimeout(message.qId);
+          if(!self.queryQueue.isDone(message.qId)) {
+            self.queryQueue.setDone(message.qId);
+            self.busyPeers = this.busyPeers.delete(message.peerId);
+            message.receiveResultsTime = receiveMessageTime;
+            message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
+            self.emit(this.signalAnswer, clone(message));
+            // clear the timeout
+            self._clearTimeout(message.qId);
+          }
           // retry delegation if there's queries in the queue
           if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
         } catch (error) {
