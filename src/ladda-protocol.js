@@ -36,8 +36,10 @@ const _ = require('lodash');
 // LDF LOG Disabling
 ldf.Logger.setLevel('ERROR');
 // ldf.Logger.setLevel('DEBUG');
+
 // status
 const STATUS_DELEGATED = 'status_delegated';
+const STATUS_DONE = 'status_done';
 
 // utility to format dates in hh:mm:ss:ms
 const formatTime = time => {
@@ -199,7 +201,7 @@ class LaddaProtocol extends DelegationProtocol {
       case 'answer': {
         try {
           self._log('@LADDA : Received an answer from @' + message.id);
-          if(!self.queryQueue.isDone(message.qId)) {
+          if(self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
             self.queryQueue.setDone(message.qId);
             self.busyPeers = this.busyPeers.delete(message.peerId);
             message.receiveResultsTime = receiveMessageTime;

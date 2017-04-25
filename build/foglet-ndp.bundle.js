@@ -69508,8 +69508,10 @@ var _ = require('lodash');
 // LDF LOG Disabling
 ldf.Logger.setLevel('ERROR');
 // ldf.Logger.setLevel('DEBUG');
+
 // status
 var STATUS_DELEGATED = 'status_delegated';
+var STATUS_DONE = 'status_done';
 
 // utility to format dates in hh:mm:ss:ms
 var formatTime = function formatTime(time) {
@@ -69683,7 +69685,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
             {
               try {
                 self._log('@LADDA : Received an answer from @' + message.id);
-                if (!self.queryQueue.isDone(message.qId)) {
+                if (self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
                   self.queryQueue.setDone(message.qId);
                   self.busyPeers = _this2.busyPeers.delete(message.peerId);
                   message.receiveResultsTime = receiveMessageTime;
