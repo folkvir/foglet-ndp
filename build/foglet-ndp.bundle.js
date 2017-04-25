@@ -69685,6 +69685,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
             {
               try {
                 self._log('@LADDA : Received an answer from @' + message.id);
+                if (self.queryQueue.getStatus(message.qId) === STATUS_DONE) self.emit(self.signalError, '[ERROR-ANSWER] ' + self.queryQueue.getStatus(message.qId));
                 if (self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
                   self.queryQueue.setDone(message.qId);
                   self.busyPeers = _this2.busyPeers.delete(message.peerId);
