@@ -69800,6 +69800,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
           }
           results.push(response);
           if (result === data.length) {
+            _this4._log('Workload finished.');
             _this4._log(results);
             resolve(results);
           }

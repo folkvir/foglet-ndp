@@ -293,6 +293,7 @@ class LaddaProtocol extends DelegationProtocol {
         }
         results.push(response);
         if(result === data.length) {
+          this._log('Workload finished.');
           this._log(results);
           resolve(results);
         }
