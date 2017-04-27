@@ -377,6 +377,8 @@ class LaddaProtocol extends DelegationProtocol {
                 });
                 self._log('@LADDA - client finished query');
                 self.emit(this.signalAnswer, clone(msg));
+                // retry delegation if there's queries in the queue
+                if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               }
             }).catch(error => {
               /**
@@ -389,6 +391,7 @@ class LaddaProtocol extends DelegationProtocol {
               self._log('@LADDA - [ERROR:EXECUTE-AT-ME] : ' + error.toString() + '\n' + error.stack);
               self.emit(self.signalError, '[ERROR:EXECUTE-AT-ME] ' + error.toString() + '\n' + error.stack);
               self._log('@LADDA :*********************************************************************');
+              if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             });
           }
           self._log('@LADDA - trying to delegate to peers');
