@@ -166,7 +166,14 @@ class LaddaProtocol extends DelegationProtocol {
               self.emit(this.signalFailed, clone(msg));
               self.foglet.sendUnicast(msg, id);
               self._log('@LADDA : Message sent after it\'s failed. ');
+
+              if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
             } catch (e) {
+
+              /**
+               * THROW ERROR
+               */
+
               self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + e.toString() + '\n' + e.stack);
               self.sendUnicast(new NDPMessage({
                 type: 'failed',
@@ -178,7 +185,6 @@ class LaddaProtocol extends DelegationProtocol {
                 peerId: message.peerId
               }), id);
             }
-
           });
         } else {
           self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
@@ -195,6 +201,7 @@ class LaddaProtocol extends DelegationProtocol {
           self.emit(this.signalFailed, clone(msg));
           self.foglet.sendUnicast(msg, id);
           self._log('@LADDA : Message sent after it\'s failed. ');
+
         }
         break;
       }
@@ -208,16 +215,23 @@ class LaddaProtocol extends DelegationProtocol {
             message.receiveResultsTime = receiveMessageTime;
             message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
             self.emit(this.signalAnswer, clone(message));
-            // clear the timeout
-            self._clearTimeout(message.qId);
           }
+          // clear the timeout
+          self._clearTimeout(message.qId);
           // retry delegation if there's queries in the queue
-          if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
+          if(self.isFree ||  self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
         } catch (error) {
+          /**
+           * THROW ERROR
+           */
           self._log('**********************ERROR ANSWER****************************');
           self._log('@LADDA :[ERROR-ANSWER] ' + error.toString() + '\n' + error.stack);
           self.emit(self.signalError, '[ERROR-ANSWER] ' + error.toString() + '\n' + error.stack);
           self._log('**************************************************************');
+          // clear the timeout
+          self._clearTimeout(message.qId);
+          self.busyPeers = this.busyPeers.delete(message.peerId);
+          if(self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
         }
         break;
       }
@@ -227,12 +241,12 @@ class LaddaProtocol extends DelegationProtocol {
         self.queryQueue.setWaiting(message.qId);
         self._clearTimeout(message.qId);
         self.busyPeers = self.busyPeers.delete(message.peerId);
-        if(self.isFree) self.delegateQueries(message.endpoint);
         break;
       }
       default:
         break;
       }
+
     });
   }
 
@@ -364,10 +378,10 @@ class LaddaProtocol extends DelegationProtocol {
                 self._log('@LADDA - client finished query');
                 self.emit(this.signalAnswer, clone(msg));
               }
-
-              // retry delegation if there's queries in the queue
-              if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             }).catch(error => {
+              /**
+               * THROW ERROR
+               */
               self._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
               self.isFree = true;
               self.queryQueue.setWaiting(query.id);
@@ -409,6 +423,7 @@ class LaddaProtocol extends DelegationProtocol {
                       self.queryQueue.setWaiting(query.id);
                       self.busyPeers = self.busyPeers.delete(peer);
                     }
+                    if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
                   }, self.timeout));
                 }
               }
