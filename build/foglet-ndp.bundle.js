@@ -69653,11 +69653,9 @@ var LaddaProtocol = function (_DelegationProtocol) {
 
                     if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
                   } catch (e) {
-
                     /**
                      * THROW ERROR
                      */
-
                     self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + e.toString() + '\n' + e.stack);
                     self.sendUnicast(new NDPMessage({
                       type: 'failed',
@@ -69692,7 +69690,6 @@ var LaddaProtocol = function (_DelegationProtocol) {
             {
               try {
                 self._log('@LADDA : Received an answer from @' + message.id);
-                if (self.queryQueue.getStatus(message.qId) === STATUS_DONE) self.emit(self.signalError, '[ERROR-ANSWER] ' + self.queryQueue.getStatus(message.qId));
                 if (self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
                   self.queryQueue.setDone(message.qId);
                   self.busyPeers = _this2.busyPeers.delete(message.peerId);
@@ -69721,11 +69718,13 @@ var LaddaProtocol = function (_DelegationProtocol) {
             }
           case 'failed':
             {
-              self._log('@LADDA : failed query from @' + message.id);
-              self.emit(_this2.signalFailed, clone(message));
-              self.queryQueue.setWaiting(message.qId);
-              self._clearTimeout(message.qId);
-              self.busyPeers = self.busyPeers.delete(message.peerId);
+              if (self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
+                self._log('@LADDA : failed query from @' + message.id);
+                self.emit(_this2.signalFailed, clone(message));
+                self.queryQueue.setWaiting(message.qId);
+                self._clearTimeout(message.qId);
+                self.busyPeers = self.busyPeers.delete(message.peerId);
+              }
               break;
             }
           default:
@@ -69898,14 +69897,16 @@ var LaddaProtocol = function (_DelegationProtocol) {
                 /**
                  * THROW ERROR
                  */
-                self._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
-                self.isFree = true;
-                self.queryQueue.setWaiting(query.id);
-                self._log(error.toString() + '\n' + error.stack);
-                self._log('@LADDA - [ERROR:EXECUTE-AT-ME] : ' + error.toString() + '\n' + error.stack);
-                self.emit(self.signalError, '[ERROR:EXECUTE-AT-ME] ' + error.toString() + '\n' + error.stack);
-                self._log('@LADDA :*********************************************************************');
-                if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                if (self.queryQueue.getStatus(query.qId) !== STATUS_DONE) {
+                  self._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
+                  self.isFree = true;
+                  self.queryQueue.setWaiting(query.id);
+                  self._log(error.toString() + '\n' + error.stack);
+                  self._log('@LADDA - [ERROR:EXECUTE-AT-ME] : ' + error.toString() + '\n' + error.stack);
+                  self.emit(self.signalError, '[ERROR:EXECUTE-AT-ME] ' + error.toString() + '\n' + error.stack);
+                  self._log('@LADDA :*********************************************************************');
+                  if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                }
               });
             }
             self._log('@LADDA - trying to delegate to peers');
@@ -69935,7 +69936,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
                   // set timeout if necessary
                   if (self.timeout > 0) {
                     _this5.garbageTimeout.set(_query.id, setTimeout(function () {
-                      if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED) {
+                      if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED && self.queryQueue.getStatus(_query.id) !== STATUS_DONE) {
                         self.emit(self.signalTimeout, _query);
                         self.queryQueue.setWaiting(_query.id);
                         self.busyPeers = self.busyPeers.delete(peer);
