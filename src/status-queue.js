@@ -40,6 +40,7 @@ class StatusQueue {
   */
   constructor () {
     this.queries = IList();
+    this.done = 0;
   }
 
   /**
@@ -121,6 +122,7 @@ class StatusQueue {
   */
   clear () {
     this.queries = this.queries.clear();
+    this.done = 0;
   }
 
   /**
@@ -194,7 +196,9 @@ class StatusQueue {
   */
   setDone (id) {
     this._setStatus(id, STATUS_DONE);
+    this.done++;
   }
+
 }
 
 module.exports = StatusQueue;
