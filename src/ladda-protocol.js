@@ -241,7 +241,7 @@ class LaddaProtocol extends DelegationProtocol {
 
   _clearTimeout (timeoutId) {
     let time = this.garbageTimeout.has(timeoutId);
-    if(!time) {
+    if(time) {
       clearTimeout(this.garbageTimeout.get(timeoutId));
     }
   }

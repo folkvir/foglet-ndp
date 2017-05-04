@@ -69727,7 +69727,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
     key: '_clearTimeout',
     value: function _clearTimeout(timeoutId) {
       var time = this.garbageTimeout.has(timeoutId);
-      if (!time) {
+      if (time) {
         clearTimeout(this.garbageTimeout.get(timeoutId));
       }
     }
