@@ -69666,6 +69666,8 @@ var LaddaProtocol = function (_DelegationProtocol) {
                       receiveQueryTime: receiveMessageTime,
                       peerId: message.peerId
                     }), id);
+
+                    if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
                   }
                 });
               } else {
@@ -69691,15 +69693,14 @@ var LaddaProtocol = function (_DelegationProtocol) {
               self._log('@LADDA : Received an answer from @' + message.id);
               if (self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
                 self.queryQueue.setDone(message.qId);
-                self.busyPeers = _this2.busyPeers.delete(message.peerId);
                 message.receiveResultsTime = receiveMessageTime;
                 message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
                 self.emit(_this2.signalAnswer, clone(message));
-                if (self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
               }
               // clear the timeout
               self._clearTimeout(message.qId);
-
+              self.busyPeers = _this2.busyPeers.delete(message.peerId);
+              if (self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
               break;
             }
           case 'failed':
@@ -69708,9 +69709,9 @@ var LaddaProtocol = function (_DelegationProtocol) {
                 self._log('@LADDA : failed query from @' + message.id);
                 self.emit(_this2.signalFailed, clone(message));
                 self.queryQueue.setWaiting(message.qId);
-                self.busyPeers = self.busyPeers.delete(message.peerId);
               }
               self._clearTimeout(message.qId);
+              self.busyPeers = self.busyPeers.delete(message.peerId);
               break;
             }
           default:
@@ -69789,15 +69790,13 @@ var LaddaProtocol = function (_DelegationProtocol) {
           return _this4.queryQueue.push(_this4._getNewUid(), query);
         });
         _this4.delegateQueries(endpoint);
-        var result = 0;
         var results = [];
         _this4.on(_this4.signalAnswer, function (response) {
-          result++;
           if (!withResults) {
             response.payload = withResults;
           }
           results.push(response);
-          if (result === data.length) {
+          if (_this4.queryQueue.done === data.length) {
             _this4._log('Workload finished.');
             _this4._log(results);
             resolve(results);
@@ -69856,7 +69855,6 @@ var LaddaProtocol = function (_DelegationProtocol) {
                   var endExecutionTimeDate = new Date();
                   var endExecutionTime = formatTime(endExecutionTimeDate);
                   var executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-                  self.isFree = true;
                   var msg = new NDPMessage({
                     type: 'answer',
                     id: 'me',
@@ -69877,21 +69875,20 @@ var LaddaProtocol = function (_DelegationProtocol) {
                   self._log('@LADDA - client finished query');
                   self.emit(_this5.signalAnswer, clone(msg));
                 }
+                self.isFree = true;
                 // retry delegation if there's queries in the queue
                 if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               }).catch(function (error) {
-                /**
-                 * THROW ERROR
-                 */
                 if (self.queryQueue.getStatus(query.qId) !== STATUS_DONE) {
                   self._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
-                  self.isFree = true;
                   self.queryQueue.setWaiting(query.id);
                   self._log(error.toString() + '\n' + error.stack);
                   self._log('@LADDA - [ERROR:EXECUTE-AT-ME] : ' + error.toString() + '\n' + error.stack);
                   self.emit(self.signalError, '[ERROR:EXECUTE-AT-ME] ' + error.toString() + '\n' + error.stack);
                   self._log('@LADDA :*********************************************************************');
                 }
+                self.isFree = true;
+                // retry delegation if there's queries in the queue
                 if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               });
             }
@@ -69925,9 +69922,9 @@ var LaddaProtocol = function (_DelegationProtocol) {
                       if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED) {
                         self.emit(self.signalTimeout, _query);
                         self.queryQueue.setWaiting(_query.id);
-                        self.busyPeers = self.busyPeers.delete(peer);
                       }
-                      if (self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                      self.busyPeers = self.busyPeers.delete(peer);
+                      if (self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
                     }, self.timeout));
                   }
                 }
@@ -70354,6 +70351,7 @@ var StatusQueue = function () {
     _classCallCheck(this, StatusQueue);
 
     this.queries = IList();
+    this.done = 0;
   }
 
   /**
@@ -70461,6 +70459,7 @@ var StatusQueue = function () {
     key: 'clear',
     value: function clear() {
       this.queries = this.queries.clear();
+      this.done = 0;
     }
 
     /**
@@ -70561,6 +70560,7 @@ var StatusQueue = function () {
     key: 'setDone',
     value: function setDone(id) {
       this._setStatus(id, STATUS_DONE);
+      this.done++;
     }
   }], [{
     key: 'from',
