@@ -69685,6 +69685,8 @@ var LaddaProtocol = function (_DelegationProtocol) {
                 self.emit(_this2.signalFailed, clone(msg));
                 self.foglet.sendUnicast(msg, id);
                 self._log('@LADDA : Message sent after it\'s failed. ');
+
+                if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
               }
               break;
             }
@@ -69921,10 +69923,10 @@ var LaddaProtocol = function (_DelegationProtocol) {
                     _this5.garbageTimeout.set(_query.id, setTimeout(function () {
                       if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED) {
                         self.emit(self.signalTimeout, _query);
-                        if (self.queryQueue.getStatus(_query.id) !== STATUS_DONE) self.queryQueue.setWaiting(_query.id);
+                        self.queryQueue.setWaiting(_query.id);
                       }
                       self.busyPeers = self.busyPeers.delete(peer);
-                      if (self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                      if (self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
                     }, self.timeout));
                   }
                 }

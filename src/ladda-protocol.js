@@ -202,6 +202,7 @@ class LaddaProtocol extends DelegationProtocol {
           self.foglet.sendUnicast(msg, id);
           self._log('@LADDA : Message sent after it\'s failed. ');
 
+          if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
         }
         break;
       }
@@ -407,10 +408,10 @@ class LaddaProtocol extends DelegationProtocol {
                   this.garbageTimeout.set(query.id,  setTimeout(() => {
                     if(self.queryQueue.getStatus(query.id) === STATUS_DELEGATED) {
                       self.emit(self.signalTimeout, query);
-                      if(self.queryQueue.getStatus(query.id) !== STATUS_DONE) self.queryQueue.setWaiting(query.id);
+                      self.queryQueue.setWaiting(query.id);
                     }
                     self.busyPeers = self.busyPeers.delete(peer);
-                    if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                    if(self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
                   }, self.timeout));
                 }
               }
