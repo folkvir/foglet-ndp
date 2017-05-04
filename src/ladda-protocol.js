@@ -229,6 +229,7 @@ class LaddaProtocol extends DelegationProtocol {
         }
         self._clearTimeout(message.qId);
         self.busyPeers = self.busyPeers.delete(message.peerId);
+        if(self.isFree) self.delegateQueries(message.endpoint);
         break;
       }
       default:
@@ -319,7 +320,7 @@ class LaddaProtocol extends DelegationProtocol {
   // 	return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
   // }
 
-  systemState(message){
+  systemState (message) {
     this._log(`@LADDA - SYSTEM STATE:
       Message: ${message}
 

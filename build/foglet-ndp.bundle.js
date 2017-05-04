@@ -69715,6 +69715,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
               }
               self._clearTimeout(message.qId);
               self.busyPeers = self.busyPeers.delete(message.peerId);
+              if (self.isFree) self.delegateQueries(message.endpoint);
               break;
             }
           default:
