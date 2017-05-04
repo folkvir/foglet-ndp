@@ -69728,6 +69728,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
     value: function _clearTimeout(timeoutId) {
       var time = this.garbageTimeout.has(timeoutId);
       if (time) {
+        this.systemState('@LADDA: Timeout cleared for: ' + timeoutId);
         clearTimeout(this.garbageTimeout.get(timeoutId));
       }
     }
@@ -69746,6 +69747,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
 
       var fragmentsClient = this.endpoints.has(endpoint);
       if (!fragmentsClient || force) {
+        this.systemState('@LADDA: Fragments Client reset for: ' + endpoint);
         this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
       }
     }
@@ -69798,6 +69800,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
         _this4.delegateQueries(endpoint);
         var results = [];
         _this4.on(_this4.signalAnswer, function (response) {
+          _this4.systemState('@LADDA: Answer received ! #CurrentlyDone: ' + results.length);
           if (!withResults) {
             response.payload = withResults;
           }
@@ -69888,8 +69891,8 @@ var LaddaProtocol = function (_DelegationProtocol) {
                   self.emit(_this5.signalAnswer, clone(msg));
                 }
                 self.isFree = true;
-                // retry delegation if there's queries in the queue
-                if (self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                // // retry delegation if there's queries in the queue
+                // if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               }).catch(function (error) {
                 if (self.queryQueue.getStatus(query.qId) !== STATUS_DONE) {
                   self.queryQueue.setWaiting(query.id);
@@ -69900,8 +69903,8 @@ var LaddaProtocol = function (_DelegationProtocol) {
                   self._log('@LADDA :*********************************************************************');
                 }
                 self.isFree = true;
-                // retry delegation if there's queries in the queue
-                if (self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                // // retry delegation if there's queries in the queue
+                // if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               });
             }
             self._log('@LADDA - trying to delegate to peers');
@@ -69940,7 +69943,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
                         _this5.systemState('@LADDA :********************** TIMEOUT TRIGGERED: query is already done ****************************');
                       }
                       self.busyPeers = self.busyPeers.delete(peer);
-                      if (self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                      if (self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
                     }, self.timeout));
                   }
                 }

@@ -242,6 +242,7 @@ class LaddaProtocol extends DelegationProtocol {
   _clearTimeout (timeoutId) {
     let time = this.garbageTimeout.has(timeoutId);
     if(time) {
+      this.systemState ('@LADDA: Timeout cleared for: '+ timeoutId);
       clearTimeout(this.garbageTimeout.get(timeoutId));
     }
   }
@@ -255,6 +256,7 @@ class LaddaProtocol extends DelegationProtocol {
   _setFragmentsClient (endpoint, force = false) {
     let fragmentsClient = this.endpoints.has(endpoint);
     if(!fragmentsClient || force) {
+      this.systemState ('@LADDA: Fragments Client reset for: '+ endpoint);
       this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
     }
   }
@@ -291,6 +293,7 @@ class LaddaProtocol extends DelegationProtocol {
       this.delegateQueries(endpoint);
       let results = [];
       this.on(this.signalAnswer, (response) => {
+        this.systemState ('@LADDA: Answer received ! #CurrentlyDone: '+ results.length);
         if(!withResults) {
           response.payload = withResults;
         }
@@ -378,8 +381,8 @@ class LaddaProtocol extends DelegationProtocol {
                 self.emit(this.signalAnswer, clone(msg));
               }
               self.isFree = true;
-              // retry delegation if there's queries in the queue
-              if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+              // // retry delegation if there's queries in the queue
+              // if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             }).catch(error => {
               if(self.queryQueue.getStatus(query.qId) !== STATUS_DONE) {
                 self.queryQueue.setWaiting(query.id);
@@ -390,8 +393,8 @@ class LaddaProtocol extends DelegationProtocol {
                 self._log('@LADDA :*********************************************************************');
               }
               self.isFree = true;
-              // retry delegation if there's queries in the queue
-              if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+              // // retry delegation if there's queries in the queue
+              // if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             });
           }
           self._log('@LADDA - trying to delegate to peers');
@@ -430,7 +433,7 @@ class LaddaProtocol extends DelegationProtocol {
                       this.systemState('@LADDA :********************** TIMEOUT TRIGGERED: query is already done ****************************');
                     }
                     self.busyPeers = self.busyPeers.delete(peer);
-                    if(self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                    if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
                   }, self.timeout));
                 }
               }
