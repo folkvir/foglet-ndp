@@ -69510,6 +69510,7 @@ ldf.Logger.setLevel('ERROR');
 // ldf.Logger.setLevel('DEBUG');
 
 // status
+var STATUS_WAITING = 'status_waiting';
 var STATUS_DELEGATED = 'status_delegated';
 var STATUS_DONE = 'status_done';
 
@@ -69763,6 +69764,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
       this._setFragmentsClient(endpoint, false);
       // clear queue before anything
       this.queryQueue.clear();
+      this.busyPeers.clear();
       data.forEach(function (query) {
         return _this3.queryQueue.push(_this3._getNewUid(), query);
       });
@@ -69788,6 +69790,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
         _this4._setFragmentsClient(endpoint, false);
         // clear queue before anything
         _this4.queryQueue.clear();
+        _this4.busyPeers.clear();
         data.forEach(function (query) {
           return _this4.queryQueue.push(_this4._getNewUid(), query);
         });
@@ -69826,6 +69829,12 @@ var LaddaProtocol = function (_DelegationProtocol) {
     // 	return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
     // }
 
+  }, {
+    key: 'systemState',
+    value: function systemState(message) {
+      this._log('@LADDA - SYSTEM STATE:\n      Message: ' + message + '\n\n      #BusyPeers:' + this.busyPeers.count() + ',\n      #WaitingQueries:' + this.queryQueue.getQueriesByStatus(STATUS_WAITING).count() + ',\n      #DoneQueries: ' + this.queryQueue.getQueriesByStatus(STATUS_DONE).count() + ',\n      #DelegatedQueries: ' + this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count());
+    }
+
     /**
     * Perform delegation using Ladda algorithm
     * @param {string} endpoint - The LDF-server on which queries will be evaluated
@@ -69837,17 +69846,17 @@ var LaddaProtocol = function (_DelegationProtocol) {
     value: function delegateQueries(endpoint) {
       var _this5 = this;
 
-      this._log('@LADDA - beginning delegation');
+      this.systemState('@LADDA - beginning delegation');
       var self = this;
       return Q.Promise(function (resolve, reject) {
         try {
           if (self.queryQueue.hasWaitingQueries()) {
-            self._log('@LADDA - queue not empty, try to delegate to me first');
+            _this5.systemState('@LADDA - queue not empty, try to delegate to me first');
             if (self.isFree) {
-              self._log('@LADDA - Peer @' + self.foglet.id + ' (client) will execute one query');
+              _this5.systemState('@LADDA - Peer @' + self.foglet.id + ' (client) will execute one query');
               var query = self.queryQueue.first();
               self.isFree = false;
-              self._log('@LADDA - Selected query:' + query.query);
+              _this5.systemState('@LADDA - Selected query:' + query.query);
               self.queryQueue.setDelegated(query.id);
               var startExecutionTimeDate = new Date();
               var startExecutionTime = formatTime(startExecutionTimeDate);
@@ -69874,31 +69883,31 @@ var LaddaProtocol = function (_DelegationProtocol) {
                     executionTime: executionTime,
                     globalExecutionTime: executionTime
                   });
-                  self._log('@LADDA - client finished query');
+                  _this5.systemState('@LADDA - client finished query');
                   self.emit(_this5.signalAnswer, clone(msg));
                 }
                 self.isFree = true;
                 // retry delegation if there's queries in the queue
-                if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                if (self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               }).catch(function (error) {
                 if (self.queryQueue.getStatus(query.qId) !== STATUS_DONE) {
                   self.queryQueue.setWaiting(query.id);
-                  self._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
-                  self._log(error.toString() + '\n' + error.stack);
-                  self._log('@LADDA - [ERROR:EXECUTE-AT-ME] : ' + error.toString() + '\n' + error.stack);
+                  _this5._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
+                  _this5.systemState(error.toString() + '\n' + error.stack);
+                  _this5.systemState('@LADDA - [ERROR:EXECUTE-AT-ME] : ' + error.toString() + '\n' + error.stack);
                   self.emit(self.signalError, '[ERROR:EXECUTE-AT-ME] ' + error.toString() + '\n' + error.stack);
                   self._log('@LADDA :*********************************************************************');
                 }
                 self.isFree = true;
                 // retry delegation if there's queries in the queue
-                if (self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                if (self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
               });
             }
             self._log('@LADDA - trying to delegate to peers');
             if (self.queryQueue.hasWaitingQueries()) {
               // delegate queries to peers
               var peers = self._choosePeers();
-              self._log('@LADDA - chosen peers: ' + peers);
+              _this5.systemState('@LADDA - chosen peers: ' + peers);
               peers.forEach(function (peer) {
                 if (self.queryQueue.hasWaitingQueries()) {
                   var _query = self.queryQueue.first();
@@ -69921,9 +69930,13 @@ var LaddaProtocol = function (_DelegationProtocol) {
                   // set timeout if necessary
                   if (self.timeout > 0) {
                     _this5.garbageTimeout.set(_query.id, setTimeout(function () {
+                      _this5.systemState('@LADDA :********************** TIMEOUT TRIGGERED ****************************');
                       if (self.queryQueue.getStatus(_query.id) === STATUS_DELEGATED) {
+                        _this5.systemState('@LADDA :********************** TIMEOUT TRIGGERED: query is delegated ****************************');
                         self.emit(self.signalTimeout, _query);
                         self.queryQueue.setWaiting(_query.id);
+                      } else {
+                        _this5.systemState('@LADDA :********************** TIMEOUT TRIGGERED: query is already done ****************************');
                       }
                       self.busyPeers = self.busyPeers.delete(peer);
                       if (self.isFree || self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
@@ -69933,12 +69946,13 @@ var LaddaProtocol = function (_DelegationProtocol) {
               });
             }
           }
+          _this5.systemState('@LADDA - SYSTEM STATE AT DELEGATION DONE');
           resolve('delegation done');
         } catch (error) {
-          self._log('@LADDA :**********************ERROR-DELEGATE-FUNCTION****************************');
+          _this5._log('@LADDA :**********************ERROR-DELEGATE-FUNCTION****************************');
           self.isFree = true;
-          self._log(error.toString() + '\n' + error.stack);
-          self._log('@LADDA [ERROR-DELEGATE-FUNCTION] : ' + error.toString() + '\n' + error.stack);
+          _this5.systemState(error.toString() + '\n' + error.stack);
+          _this5.systemState('@LADDA [ERROR-DELEGATE-FUNCTION] : ' + error.toString() + '\n' + error.stack);
           self.emit(self.signalError, '[ERROR-DELEGATE-FUNCTION] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
           reject(error);
@@ -69956,6 +69970,8 @@ var LaddaProtocol = function (_DelegationProtocol) {
   }, {
     key: 'execute',
     value: function execute(query, endpoint) {
+      var _this6 = this;
+
       this._log('@LADDA : Execution of : ' + query + ' on ' + endpoint);
       var delegationResults = Immutable.List();
       var self = this;
@@ -69978,20 +69994,18 @@ var LaddaProtocol = function (_DelegationProtocol) {
 
           queryResults.on('error', function (error) {
             self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-            self._log('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
+            _this6.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
             self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
             self._log('@LADDA :*******************************************************');
-            queryResults.removeAllListeners();
-            self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
-            self._setFragmentsClient(endpoint, true);
-            reject(error);
+            throw new Error('ERROR-SPARQLITERATOR');
           });
         } catch (error) {
           self._log('@LADDA :**********************ERROR-EXECUTE****************************');
-          self._log('@LADDA :[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
+          _this6.systemState('@LADDA :[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
           self.emit(self.signalError, '[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
-          self._setFragmentsClient(endpoint, true); // force the client to be re-set to a new fragmentsClients because an error occured
+          self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
+          self._setFragmentsClient(endpoint, true);
           reject(error);
         }
       });
@@ -70490,6 +70504,13 @@ var StatusQueue = function () {
       return this.queries.filter(function (q) {
         return q.status === STATUS_WAITING;
       }).count() > 0;
+    }
+  }, {
+    key: 'getQueriesByStatus',
+    value: function getQueriesByStatus(status) {
+      return this.queries.filter(function (q) {
+        return q.status === status;
+      });
     }
 
     /**

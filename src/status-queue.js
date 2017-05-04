@@ -144,6 +144,10 @@ class StatusQueue {
     return this.queries.filter(q => q.status === STATUS_WAITING).count() > 0;
   }
 
+  getQueriesByStatus (status) {
+    return this.queries.filter(q => q.status === status);
+  }
+
   /**
   * Set the status of a query
   * @param {string} id - Query unique id
