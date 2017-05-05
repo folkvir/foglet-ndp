@@ -108,13 +108,13 @@ class LaddaProtocol extends DelegationProtocol {
     super.use(foglet);
     const self = this;
     this.foglet.onUnicast((id, message) => {
-      self._log(`@LADDA : Receive Message from ${id}`, message);
+      self.systemState(`@LADDA : Receive Message from ${id}`, message);
       const receiveMessageTimeDate = new Date();
       const receiveMessageTime = formatTime(receiveMessageTimeDate);
       switch (message.type) {
       case 'request': {
-        self._log('@LADDA : Message: ', message);
-        self._log('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
+        self.systemState('@LADDA : Message: ', message);
+        self.systemState('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
         if(self.isFree && !self.queryQueue.hasWaitingQueries()) {
           self.isFree = false;
           const query = message.payload;
@@ -149,14 +149,14 @@ class LaddaProtocol extends DelegationProtocol {
             self.emit(this.signalDelegatedQueryExecuted, clone(msg));
             // never mind that there is a bug to send the response
             self.foglet.sendUnicast(msg, id);
-            self._log('@LADDA : Message sent after its execution.');
+            self.systemState('@LADDA : Message sent after its execution.');
           }).catch(error => {
             self.isFree = true;
             // If execution failed
             try {
               self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
               self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + error.toString() + '\n' + error.stack);
-              self._log(error.toString() + '\n' + error.stack);
+              self.systemState(error.toString() + '\n' + error.stack);
               self._log('@LADDA :****************************************************************************************');
               const msg = new NDPMessage({
                 type: 'failed',
@@ -167,7 +167,7 @@ class LaddaProtocol extends DelegationProtocol {
                 receiveQueryTime: receiveMessageTime,
                 peerId: message.peerId
               });
-              self._log(clone(msg));
+              self.systemState(clone(msg));
               self.emit(this.signalFailed, clone(msg));
               self.foglet.sendUnicast(msg, id);
               self._log('@LADDA : Message sent after it\'s failed. ');
@@ -188,7 +188,7 @@ class LaddaProtocol extends DelegationProtocol {
             receiveQueryTime: receiveMessageTime,
             peerId: message.peerId
           });
-          self._log(clone(msg));
+          self.systemState(clone(msg));
           self.emit(this.signalFailed, clone(msg));
           try {
             self.foglet.sendUnicast(msg, id);
@@ -200,7 +200,7 @@ class LaddaProtocol extends DelegationProtocol {
         break;
       }
       case 'answer': {
-        self._log('@LADDA : Received an answer from @' + message.id);
+        self.systemState('@LADDA : Received an answer from @' + message.id);
         if(self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
           self.queryQueue.setDone(message.qId);
           message.receiveResultsTime = receiveMessageTime;
@@ -211,13 +211,14 @@ class LaddaProtocol extends DelegationProtocol {
         self._clearTimeout(message.qId);
         self.busyPeers = this.busyPeers.delete(message.peerId);
         // retry at any case
+        self.systemState('Retry delegateQueries');
         self.delegateQueries(message.endpoint);
         break;
       }
       case 'failed': {
         if(self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
           self.queryQueue.setWaiting(message.qId);
-          self._log('@LADDA : failed query from @' + message.id);
+          self.systemState('@LADDA : failed query from @' + message.id);
           self.emit(this.signalFailed, clone(message));
         }
         self._clearTimeout(message.qId);
@@ -225,7 +226,10 @@ class LaddaProtocol extends DelegationProtocol {
 
         // retry only if we are free
         if(self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
-          if(self.isFree) self.delegateQueries(message.endpoint);
+          if(self.isFree) {
+            self.systemState('Retry delegateQueries');
+            self.delegateQueries(message.endpoint);
+          }
         }
         break;
       }
@@ -324,10 +328,11 @@ class LaddaProtocol extends DelegationProtocol {
     this._log(`@LADDA - SYSTEM STATE:
       Message: ${message}
 
-      #BusyPeers:${this.busyPeers.count()},
-      #WaitingQueries:${this.queryQueue.getQueriesByStatus(STATUS_WAITING).count()},
-      #DoneQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DONE).count()},
-      #DelegatedQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count()}`
+      #Free: ${this.isFree} \n
+      #BusyPeers:${this.busyPeers.count()}, \n
+      #WaitingQueries:${this.queryQueue.getQueriesByStatus(STATUS_WAITING).count()}, \n
+      #DoneQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DONE).count()}, \n
+      #DelegatedQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count()} \n`
     );
   }
 
@@ -402,7 +407,7 @@ class LaddaProtocol extends DelegationProtocol {
             peers.forEach(peer => {
               if (self.queryQueue.hasWaitingQueries()) {
                 const query = self.queryQueue.first();
-                self._log('@LADDA - delegate ' + query.query + ' to peer @' + peer);
+                self.systemState('@LADDA - delegate ' + query.query + ' to peer @' + peer);
                 self.queryQueue.setDelegated(query.id);
                 // mark the peer as 'busy'
                 self.busyPeers = self.busyPeers.add(peer);
