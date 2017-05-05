@@ -12,6 +12,10 @@
 
     const NDP = require('foglet-ndp').NDP;
     let endpoint = 'https://query.wikidata.org/bigdata/ldf';
+    //endpoint = 'http://172.16.9.3:6000/dbpedia_3_8';
+    //endpoint = 'http://curiosiphi.lina.sciences.univ-nantes.prive/dbpedia_3_8';
+    //endpoint = 'http://fragments.dbpedia.org/';
+    //endpoint = 'http://52.39.116.115/watDiv_100';
     let request = [
       'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
   		'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
@@ -30,6 +34,7 @@
 
     let f1,f2,f3;
 
+    let verbose = false;
 
     f1 = new NDP({
       protocol: 'testNdp',
@@ -38,7 +43,7 @@
         iceServers : []
       },
       room: 'test',
-      verbose: true
+      verbose: verbose
     });
     f2 = new NDP({
       protocol: 'testNdp',
@@ -47,7 +52,7 @@
         iceServers : []
       },
       room: 'test',
-      verbose: true
+      verbose: verbose
     });
 
     f3 = new NDP({
@@ -57,7 +62,7 @@
         iceServers : []
       },
       room: 'test',
-      verbose: true
+      verbose: verbose
     });
 
     f1.init();
@@ -69,9 +74,20 @@
         f3.connection(f1).then( () => {
           f2.connection(f1).then( () => {
             console.log('All clients connected between them.')
-            f1.delegationProtocol.sendPromise(request, endpoint, false).then( (results) => {
-              console.log(results);
-            }).catch(error => console.log(error));
+            f1.delegationProtocol.timeout = 10*1000;
+            f1.delegationProtocol.nbDestinations = 0;
+            let a = 0, i = 0;
+            let list = [];
+            for(i = 0; i<100; ++i) list.push(i);
+
+            list.reduce(elem => elem.then((results) => {
+              a++;
+              console.log('Results: '+a, results);
+              return f1.delegationProtocol.sendPromise(request, endpoint, false);
+            }), Promise.resolve(undefined));
+
+
+
           });
         });
       });

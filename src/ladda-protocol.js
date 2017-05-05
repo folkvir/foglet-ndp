@@ -118,14 +118,16 @@ class LaddaProtocol extends DelegationProtocol {
         if(self.isFree && !self.queryQueue.hasWaitingQueries()) {
           self.isFree = false;
           const query = message.payload;
+          // Set if not set the fragmentsClient before to timestamp anything
+          self._setFragmentsClient(message.endpoint, false);
           const startExecutionTimeDate = new Date();
           const startExecutionTime = formatTime(startExecutionTimeDate);
-          self._setFragmentsClient(message.endpoint, false);
+          // Execution of a remote query
           self.execute(query, message.endpoint).then(result => {
+            self.isFree = true;
             const endExecutionTimeDate = new Date();
             const endExecutionTime = formatTime(endExecutionTimeDate);
             const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-            self.isFree = true;
             const msg = new NDPMessage({
               type: 'answer',
               id: self.foglet.id,
@@ -145,12 +147,14 @@ class LaddaProtocol extends DelegationProtocol {
             self._log(clone(msg));
             msg.sendResultsTime = formatTime(new Date());
             self.emit(this.signalDelegatedQueryExecuted, clone(msg));
+            // never mind that there is a bug to send the response
             self.foglet.sendUnicast(msg, id);
             self._log('@LADDA : Message sent after its execution.');
           }).catch(error => {
+            self.isFree = true;
+            // If execution failed
             try {
               self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
-              self.isFree = true;
               self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + error.toString() + '\n' + error.stack);
               self._log(error.toString() + '\n' + error.stack);
               self._log('@LADDA :****************************************************************************************');
@@ -168,23 +172,9 @@ class LaddaProtocol extends DelegationProtocol {
               self.foglet.sendUnicast(msg, id);
               self._log('@LADDA : Message sent after it\'s failed. ');
 
-              if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
             } catch (e) {
-              /**
-               * THROW ERROR
-               */
               self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + e.toString() + '\n' + e.stack);
-              self.sendUnicast(new NDPMessage({
-                type: 'failed',
-                id: self.foglet.id,
-                payload: message.payload,
-                endpoint: message.endpoint,
-                qId: message.qId,
-                receiveQueryTime: receiveMessageTime,
-                peerId: message.peerId
-              }), id);
-
-              if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
+              this.systemState(`[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY] ${e.toString()} \n  ${e.stack}`);
             }
           });
         } else {
@@ -200,16 +190,18 @@ class LaddaProtocol extends DelegationProtocol {
           });
           self._log(clone(msg));
           self.emit(this.signalFailed, clone(msg));
-          self.foglet.sendUnicast(msg, id);
-          self._log('@LADDA : Message sent after it\'s failed. ');
-
-          if(self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
+          try {
+            self.foglet.sendUnicast(msg, id);
+          } catch (e) {
+            self.emit(self.signalError, '[ERROR-REQUEST-BUSY-PEER]' + e.toString() + '\n' + e.stack);
+            this.systemState(`[ERROR-REQUEST-BUSY-PEER] ${e.toString()} \n  ${e.stack}`);
+          }
         }
         break;
       }
       case 'answer': {
         self._log('@LADDA : Received an answer from @' + message.id);
-        if(self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
+        if(self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
           self.queryQueue.setDone(message.qId);
           message.receiveResultsTime = receiveMessageTime;
           message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
@@ -218,18 +210,23 @@ class LaddaProtocol extends DelegationProtocol {
         // clear the timeout
         self._clearTimeout(message.qId);
         self.busyPeers = this.busyPeers.delete(message.peerId);
-        if(self.isFree ||  self.queryQueue.hasWaitingQueries()) self.delegateQueries(message.endpoint);
+        // retry at any case
+        self.delegateQueries(message.endpoint);
         break;
       }
       case 'failed': {
-        if(self.queryQueue.getStatus(message.qId) !== STATUS_DONE) {
+        if(self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
+          self.queryQueue.setWaiting(message.qId);
           self._log('@LADDA : failed query from @' + message.id);
           self.emit(this.signalFailed, clone(message));
-          self.queryQueue.setWaiting(message.qId);
         }
         self._clearTimeout(message.qId);
         self.busyPeers = self.busyPeers.delete(message.peerId);
-        if(self.isFree) self.delegateQueries(message.endpoint);
+
+        // retry only if we are free
+        if(self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
+          if(self.isFree) self.delegateQueries(message.endpoint);
+        }
         break;
       }
       default:
@@ -382,7 +379,7 @@ class LaddaProtocol extends DelegationProtocol {
               }
               self.isFree = true;
               // // retry delegation if there's queries in the queue
-              // if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+              if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             }).catch(error => {
               if(self.queryQueue.getStatus(query.qId) !== STATUS_DONE) {
                 self.queryQueue.setWaiting(query.id);
@@ -394,7 +391,7 @@ class LaddaProtocol extends DelegationProtocol {
               }
               self.isFree = true;
               // // retry delegation if there's queries in the queue
-              // if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+              if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             });
           }
           self._log('@LADDA - trying to delegate to peers');
@@ -420,7 +417,13 @@ class LaddaProtocol extends DelegationProtocol {
                   peerId: peer
                 });
                 self.emit(this.signalDelegateQuery, clone(m));
-                self.foglet.sendUnicast(m, peer);
+                try {
+                  self.foglet.sendUnicast(m, peer);
+                } catch (e) {
+                  this.systemState(`@LADDA : **** MESSAGE CANNOT BE SENT TO ${peer} **** \n ${e.stack} \n ${e.toString()} `);
+                  self.busyPeers = self.busyPeers.delete(peer);
+                  self._clearTimeout(query.id);
+                }
                 // set timeout if necessary
                 if (self.timeout > 0) {
                   this.garbageTimeout.set(query.id,  setTimeout(() => {
@@ -433,7 +436,7 @@ class LaddaProtocol extends DelegationProtocol {
                       this.systemState('@LADDA :********************** TIMEOUT TRIGGERED: query is already done ****************************');
                     }
                     self.busyPeers = self.busyPeers.delete(peer);
-                    if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
+                    self.delegateQueries(endpoint);
                   }, self.timeout));
                 }
               }
