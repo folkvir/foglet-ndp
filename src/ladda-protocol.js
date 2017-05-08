@@ -56,6 +56,11 @@ const formatTime = time => {
   return `${hours}:${min}:${sec}:${mil}`;
 };
 
+/**
+ * Clone an object
+ * @param  {object} obj Object to clone
+ * @return {object} Object cloned
+ */
 function clone (obj) {
   return _.merge({}, obj);
 }
@@ -96,6 +101,58 @@ class LaddaProtocol extends DelegationProtocol {
     this.garbageTimeout = new Map();
     // fragmentsClient
     this.endpoints = new Map();
+
+    this.garbageQueries = undefined;
+  }
+
+  /**
+  * Send queries to neighbours and emit results on ndp-answer
+  * @param {array} data array of element to send (query)
+  * @param {string} endpoint - Endpoint to send queries
+  * @return {promise} A Q promise
+  */
+  send (data, endpoint) {
+    this._setFragmentsClient (endpoint, false);
+    // clear queue before anything
+    this.queryQueue.clear();
+    this.busyPeers.clear();
+    data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
+    return this.delegateQueries(endpoint);
+  }
+
+  /**
+  * Send queries to neighbours and emit results on ndp-answer
+  * @param {array} data array of element to send (query)
+  * @param {string} endpoint - Endpoint to send queries
+  * @param {boolean} withResults - True if you want response with query results or false, just metadata
+  * @param {number} interval - Interval to check before executing waiting queries if we are free
+  * @return {promise} A Q promise
+  */
+  sendPromise (data, endpoint, withResults = true, interval = 500) {
+    return Q.Promise( (resolve) => {
+      this._setFragmentsClient (endpoint, false);
+      // clear queue before anything
+      this.queryQueue.clear();
+      this.busyPeers.clear();
+      this.garbageQueries = this.initGarbageQueries(interval, endpoint);
+      data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
+      this.delegateQueries(endpoint);
+      let results = [];
+      this.on(this.signalAnswer, (response) => {
+        this.systemState ('@LADDA: Answer received ! #CurrentlyDone: '+ results.length);
+        if(!withResults) {
+          response.payload = withResults;
+        }
+        results.push(response);
+        if(this.queryQueue.done === data.length) {
+          // Clear the Interval
+          clearInterval(this.garbageQueries);
+          this._log('Workload finished.');
+          this._log(results);
+          resolve(results);
+        }
+      });
+    });
   }
 
   /**
@@ -225,11 +282,9 @@ class LaddaProtocol extends DelegationProtocol {
         self.busyPeers = self.busyPeers.delete(message.peerId);
 
         // retry only if we are free
-        if(self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
-          if(self.isFree) {
-            self.systemState('Retry delegateQueries');
-            self.delegateQueries(message.endpoint);
-          }
+        if(self.isFree) {
+          self.systemState('Retry delegateQueries');
+          self.delegateQueries(message.endpoint);
         }
         break;
       }
@@ -238,102 +293,6 @@ class LaddaProtocol extends DelegationProtocol {
       }
 
     });
-  }
-
-  _clearTimeout (timeoutId) {
-    let time = this.garbageTimeout.has(timeoutId);
-    if(time) {
-      this.systemState ('@LADDA: Timeout cleared for: '+ timeoutId);
-      clearTimeout(this.garbageTimeout.get(timeoutId));
-    }
-  }
-
-  /**
-   * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
-   * @param {string} endpoint endpoint of the fragmentsClient
-   * @param {boolean} force Force to set the endpoint
-   * @return {void}
-   */
-  _setFragmentsClient (endpoint, force = false) {
-    let fragmentsClient = this.endpoints.has(endpoint);
-    if(!fragmentsClient || force) {
-      this.systemState ('@LADDA: Fragments Client reset for: '+ endpoint);
-      this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
-    }
-  }
-
-  /**
-  * Send queries to neighbours and emit results on ndp-answer
-  * @param {array} data array of element to send (query)
-  * @param {string} endpoint - Endpoint to send queries
-  * @return {promise} A Q promise
-  */
-  send (data, endpoint) {
-    this._setFragmentsClient (endpoint, false);
-    // clear queue before anything
-    this.queryQueue.clear();
-    this.busyPeers.clear();
-    data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
-    return this.delegateQueries(endpoint);
-  }
-
-  /**
-  * Send queries to neighbours and emit results on ndp-answer
-  * @param {array} data array of element to send (query)
-  * @param {string} endpoint - Endpoint to send queries
-  * @param {boolean} withResults - True if you want response with query results or false, just metadata
-  * @return {promise} A Q promise
-  */
-  sendPromise (data, endpoint, withResults = true) {
-    return Q.Promise( (resolve) => {
-      this._setFragmentsClient (endpoint, false);
-      // clear queue before anything
-      this.queryQueue.clear();
-      this.busyPeers.clear();
-      data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
-      this.delegateQueries(endpoint);
-      let results = [];
-      this.on(this.signalAnswer, (response) => {
-        this.systemState ('@LADDA: Answer received ! #CurrentlyDone: '+ results.length);
-        if(!withResults) {
-          response.payload = withResults;
-        }
-        results.push(response);
-        if(this.queryQueue.done === data.length) {
-          this._log('Workload finished.');
-          this._log(results);
-          resolve(results);
-        }
-      });
-    });
-  }
-
-  /**
-  * Generate and return  a v4 UUID (random) based on uuid npm package
-  * @return {string} uuidv4
-  */
-  _getNewUid () {
-    return uuidV4();
-  }
-
-  // /**
-  //  * Return true if the queue has queries to delegate
-  //  * @return {boolean} True or false
-  //  */
-  // queueIsNotEmpty () {
-  // 	return this.queryQueue.filter(x => x === STATUS_WAITING).count() > 0;
-  // }
-
-  systemState (message) {
-    this._log(`@LADDA - SYSTEM STATE:
-      Message: ${message}
-
-      #Free: ${this.isFree} \n
-      #BusyPeers:${this.busyPeers.count()}, \n
-      #WaitingQueries:${this.queryQueue.getQueriesByStatus(STATUS_WAITING).count()}, \n
-      #DoneQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DONE).count()}, \n
-      #DelegatedQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count()} \n`
-    );
   }
 
   /**
@@ -508,17 +467,109 @@ class LaddaProtocol extends DelegationProtocol {
     });
   }
 
+  /** ***********************
+   * *** UTILITY FUNTIONS ***
+   * ************************
+   */
+
+  /**
+   * Clear a timeout specified by its id if it exists in garbageTimeout Map.
+   * @param {number} timeoutId Id of the timeout
+   * @return {void}
+   */
+  _clearTimeout (timeoutId) {
+    let time = this.garbageTimeout.has(timeoutId);
+    if(time) {
+      this.systemState ('@LADDA: Timeout cleared for: '+ timeoutId);
+      clearTimeout(this.garbageTimeout.get(timeoutId));
+    }
+  }
+
+  /**
+   * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
+   * @param {string} endpoint endpoint of the fragmentsClient
+   * @param {boolean} force Force to set the endpoint
+   * @return {void}
+   */
+  _setFragmentsClient (endpoint, force = false) {
+    let fragmentsClient = this.endpoints.has(endpoint);
+    if(!fragmentsClient || force) {
+      this.systemState ('@LADDA: Fragments Client reset for: '+ endpoint);
+      this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
+    }
+  }
+
+  /**
+  * Generate and return  a v4 UUID (random) based on uuid npm package
+  * @return {string} uuidv4
+  */
+  _getNewUid () {
+    return uuidV4();
+  }
+
+  /**
+   * Log a message with specific informations of the system state
+   * @param {string} message String Message to log
+   * @return {void}
+   */
+  systemState (message) {
+    this._log(`@LADDA - SYSTEM STATE:
+      Message: ${message}
+
+      #Free: ${this.isFree} \n
+      #BusyPeers:${this.busyPeers.count()}, \n
+      #WaitingQueries:${this.queryQueue.getQueriesByStatus(STATUS_WAITING).count()}, \n
+      #DoneQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DONE).count()}, \n
+      #DelegatedQueries: ${this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count()} \n`
+    );
+  }
+
+  /**
+   * Init the Interval which will check if there is no waiting queries. Removed when we have fully fullfilled the send promise
+   * @param {time} time time in milliseconds of the loop
+   * @param {string} endpoint Endpoint needed for the delegateQueries function
+   * @return {number} ID of the Interval
+   */
+  initGarbageQueries (time, endpoint) {
+    return setInterval(() => {
+      // Check we have no waiting queries and if we are free and we have waiting queries, process them
+      if(this.queryQueue.hasWaitingQueries() && this.isFree){
+        this.systemState('[CHECKING-LOOP] We have waiting queries and we are free ! Need to do something...');
+        this.delegateQueries(endpoint);
+      } else {
+        this.systemState('[CHECKING-LOOP] No queries to process or we are busy');
+      }
+    }, time);
+  }
+
+  /**
+   * Compute the execuion time between start and end.
+   * @param {time} start getTime() of a (new Date) representing the beginning of the execution
+   * @param {time} end getTime() of a (new Date) representing the end of the executio
+   * @return {time} Time in milliseconds of the execution
+   */
   _computeExecutionTime (start, end) {
     const s = moment.duration(start.getTime());
     const e = moment.duration(end.getTime());
     return e.subtract(s).asMilliseconds();
   }
 
+  /**
+   * Compute the global execuion time between start and end.
+   * @param {time} start getTime() of a (new Date) representing the beginning of the global execution
+   * @param {time} end getTime() of a (new Date) representing the end of the global execution
+   * @return {time} Time in milliseconds of the execution
+   */
   _computeGlobalExecutionTime (start, end) {
     // start is a formated date, end is a Date
     return this._computeExecutionTime(this._toDate(start), end);
   }
 
+  /**
+   * Return a date from a string representation
+   * @param {string} date String date representation
+   * @return {date} Return the custom date specified by its string representation
+   */
   _toDate (date) {
     let d = new Date();
     const split = date.split(':');
