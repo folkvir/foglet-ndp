@@ -34,7 +34,8 @@ const moment = require('moment');
 const _ = require('lodash');
 
 // LDF LOG Disabling
-ldf.Logger.setLevel('ERROR');
+ldf.logger.setLevel('WARNING');
+// ldf.Logger.setLevel('ERROR');
 // ldf.Logger.setLevel('DEBUG');
 
 // status
