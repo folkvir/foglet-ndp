@@ -453,7 +453,9 @@ class LaddaProtocol extends DelegationProtocol {
           this.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
-          throw new Error('ERROR-SPARQLITERATOR');
+          self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
+          self._setFragmentsClient(endpoint, true);
+          reject(error);
         });
       } catch (error) {
         self._log('@LADDA :**********************ERROR-EXECUTE****************************');
