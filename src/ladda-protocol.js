@@ -438,6 +438,30 @@ class LaddaProtocol extends DelegationProtocol {
         const fragmentsClient = self.endpoints.get(endpoint);
         // console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
         let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
+
+        // fragmentsClient._httpClient.on('error', function (error) {
+        //   self._log('@LADDA :**********************ERROR-FRAGMENTSCLIENT****************************');
+        //   this.systemState('@LADDA :[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
+        //   self.emit(self.signalError, '[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
+        //   self._log('@LADDA :*******************************************************');
+        //   self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
+        //   self._setFragmentsClient(endpoint, true);
+        //   reject(error);
+        // })
+        // fragmentsClient.logger.event.once('error', function (error) {
+        //   self._log('@LADDA :**********************ERROR-FRAGMENTSCLIENT****************************');
+        //   this.systemState('@LADDA :[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
+        //   self.emit(self.signalError, '[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
+        //   self._log('@LADDA :*******************************************************');
+        //   self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
+        //   self._setFragmentsClient(endpoint, true);
+        //   reject(error);
+        // });
+        //
+        fragmentsClient.logger.event.on('info', function (message) {
+          this.systemState('@LADDA :[EXECUTE-INFO] ' + message);
+        });
+
         // console.log(queryResults);
         queryResults.on('data', ldfResult => {
           // self._log('@LADDA :** ON DATA EXECUTE **');
@@ -449,7 +473,7 @@ class LaddaProtocol extends DelegationProtocol {
           resolve(delegationResults.toJS());
         });
 
-        queryResults.on('error', (error) => {
+        queryResults.once('error', (error) => {
           self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
           this.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
