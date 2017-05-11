@@ -70148,12 +70148,12 @@ var LaddaProtocol = function (_DelegationProtocol) {
     _this.queryQueue = new StatusQueue();
     _this.busyPeers = Immutable.Set();
     _this.isFree = true;
+    _this.fanoutSet = false;
+    _this.fanoutValidity = 5000; // 5 seconds
     _this.nbDestinations = nbDestinations || 2;
     _this.nbDestinationsLoop = null;
     _this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
     _this.maxError = 5;
-    _this.fanoutSet = false;
-    _this.fanoutValidity = 5000; // 5 seconds
 
     _this.workloadFinished = 'ndp-workload-finished'; // for internal use
     _this.signalAnswerNdp = 'ndp-answer-internal'; // When an answer is received from our workload, for internal use
@@ -70283,7 +70283,6 @@ var LaddaProtocol = function (_DelegationProtocol) {
           }
           results.push(response);
           // if we have no errors
-          console.log('State: ', _this4.queryQueue.done, _this4.queryQueue.errored);
           if (_this4.queryQueue.done + _this4.queryQueue.errored === data.length) {
             _this4.emit(_this4.workloadFinished, true);
           }
@@ -70317,6 +70316,9 @@ var LaddaProtocol = function (_DelegationProtocol) {
         } else {
           // no neighbours we are alone, set to true
           _this5.fanoutSet = true;
+          _this5.nbDestinationsLoop = setInterval(function () {
+            _this5.increaseFanout();
+          }, _this5.fanoutValidity);
           _this5.emit(_this5.signalFanoutSet, _this5.fanoutSet);
         }
       });
@@ -70329,7 +70331,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
             clearInterval(_this5.nbDestinationsLoop);
           }
           _this5.nbDestinationsLoop = setInterval(function () {
-            _this5.nbDestinations = Math.max(_this5.nbDestinations + 1, Math.min(_this5.getNeighbours().length, _this5.nbDestinations + 1));
+            _this5.increaseFanout();
           }, _this5.fanoutValidity);
         }
       });
@@ -70350,6 +70352,9 @@ var LaddaProtocol = function (_DelegationProtocol) {
               self.systemState('@LADDA : Receive fanout value: ' + message.value + ' from ' + id);
               _this5.nbDestinations = message.value;
               _this5.fanoutSet = true;
+              _this5.nbDestinationsLoop = setInterval(function () {
+                _this5.increaseFanout();
+              }, _this5.fanoutValidity);
               _this5.emit(_this5.signalFanoutSet, _this5.fanoutSet);
               break;
             }
@@ -70663,9 +70668,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
           // });
           //
           fragmentsClient.events.once('error', function (error, stack) {
-            console.log('FragmentsClientLADDA: ', error, stack);
             self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-            console.log('QueryResultsError: ', error, stack);
             _this7.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
             self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
             self._log('@LADDA :*******************************************************');
@@ -70689,7 +70692,6 @@ var LaddaProtocol = function (_DelegationProtocol) {
 
           queryResults.once('error', function (error, stack) {
             self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-            console.log('QueryResultsError: ', error, stack);
             self.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
             self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
             self._log('@LADDA :*******************************************************');
@@ -70718,6 +70720,16 @@ var LaddaProtocol = function (_DelegationProtocol) {
      */
 
     /**
+     * increase the fanout, it take care to not be greater than the number of neighbours
+     * @return {void}
+     */
+
+  }, {
+    key: 'increaseFanout',
+    value: function increaseFanout() {
+      this.nbDestinations = Math.min(this.nbDestinations + 1, Math.min(this.foglet.getNeighbours().length, this.nbDestinations + 1) + 1);
+    }
+    /**
      * Process errors to adjust the fanout or just do some work on errors
      * @param {object} error Error formated as { error:object, stack:object}
      * @return {void}
@@ -70726,9 +70738,7 @@ var LaddaProtocol = function (_DelegationProtocol) {
   }, {
     key: '_processErrors',
     value: function _processErrors(error) {
-      console.log(error);
       if (error && error.error) {
-        console.log(error.error, error.stack);
         // reduce the fanout in any case
         if (this.nbDestinations > 0) {
           this.nbDestinations--;
@@ -70737,7 +70747,6 @@ var LaddaProtocol = function (_DelegationProtocol) {
             type: 'ndp-new-fanout',
             value: this.nbDestinations
           });
-          console.log('New fanout: ', this.nbDestinations);
         }
       }
     }

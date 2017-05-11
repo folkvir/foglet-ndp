@@ -87,12 +87,12 @@ class LaddaProtocol extends DelegationProtocol {
     this.queryQueue = new StatusQueue();
     this.busyPeers = Immutable.Set();
     this.isFree = true;
+    this.fanoutSet = false;
+    this.fanoutValidity = 5000; // 5 seconds
     this.nbDestinations = nbDestinations || 2;
     this.nbDestinationsLoop = null;
     this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
     this.maxError = 5;
-    this.fanoutSet = false;
-    this.fanoutValidity = 5000; // 5 seconds
 
     this.workloadFinished = 'ndp-workload-finished'; // for internal use
     this.signalAnswerNdp = 'ndp-answer-internal'; // When an answer is received from our workload, for internal use
@@ -190,7 +190,6 @@ class LaddaProtocol extends DelegationProtocol {
         }
         results.push(response);
         // if we have no errors
-        console.log('State: ', this.queryQueue.done, this.queryQueue.errored);
         if((this.queryQueue.done+this.queryQueue.errored) === data.length) {
           this.emit(this.workloadFinished, true);
         }
@@ -221,6 +220,9 @@ class LaddaProtocol extends DelegationProtocol {
       } else {
         // no neighbours we are alone, set to true
         this.fanoutSet = true;
+        this.nbDestinationsLoop = setInterval(() => {
+          this.increaseFanout();
+        }, this.fanoutValidity);
         this.emit(this.signalFanoutSet, this.fanoutSet);
       }
     });
@@ -233,7 +235,7 @@ class LaddaProtocol extends DelegationProtocol {
           clearInterval(this.nbDestinationsLoop);
         }
         this.nbDestinationsLoop = setInterval(() => {
-          this.nbDestinations = Math.max(this.nbDestinations + 1, Math.min(this.getNeighbours().length, this.nbDestinations + 1));
+          this.increaseFanout();
         }, this.fanoutValidity);
       }
     });
@@ -252,6 +254,9 @@ class LaddaProtocol extends DelegationProtocol {
         self.systemState(`@LADDA : Receive fanout value: ${message.value} from ${id}`);
         this.nbDestinations = message.value;
         this.fanoutSet = true;
+        this.nbDestinationsLoop = setInterval(() => {
+          this.increaseFanout();
+        }, this.fanoutValidity);
         this.emit(this.signalFanoutSet, this.fanoutSet);
         break;
       }
@@ -554,9 +559,7 @@ class LaddaProtocol extends DelegationProtocol {
         // });
         //
         fragmentsClient.events.once('error', (error, stack) => {
-          console.log('FragmentsClientLADDA: ', error, stack);
           self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-          console.log('QueryResultsError: ', error, stack);
           this.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
@@ -580,7 +583,6 @@ class LaddaProtocol extends DelegationProtocol {
 
         queryResults.once('error', (error, stack) => {
           self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-          console.log('QueryResultsError: ', error, stack);
           self.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self.emit(self.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
           self._log('@LADDA :*******************************************************');
@@ -608,15 +610,20 @@ class LaddaProtocol extends DelegationProtocol {
    * ************************
    */
 
+  /**
+   * increase the fanout, it take care to not be greater than the number of neighbours
+   * @return {void}
+   */
+  increaseFanout () {
+    this.nbDestinations = Math.min(this.nbDestinations + 1, Math.min(this.foglet.getNeighbours().length, this.nbDestinations + 1) + 1);
+  }
 /**
  * Process errors to adjust the fanout or just do some work on errors
  * @param {object} error Error formated as { error:object, stack:object}
  * @return {void}
  */
   _processErrors (error) {
-    console.log(error);
     if(error && error.error) {
-      console.log(error.error, error.stack);
       // reduce the fanout in any case
       if(this.nbDestinations > 0) {
         this.nbDestinations--;
@@ -625,7 +632,6 @@ class LaddaProtocol extends DelegationProtocol {
           type: 'ndp-new-fanout',
           value: this.nbDestinations
         });
-        console.log('New fanout: ', this.nbDestinations);
       }
     }
   }
