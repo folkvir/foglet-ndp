@@ -58,19 +58,19 @@
         console.log('Client connected');
       });
     }
-
+    let list = [];
     function workload(){
       f1.delegationProtocol.timeout = 10*1000;
       f1.delegationProtocol.nbDestinations = 2;
-      let a = 0, i = 0;
-      let list = [];
+      f1.delegationProtocol.sendPromise(request, endpoint, false);
+      /*
+      let i = 0;
+      list = [];
       for(i = 0; i<1; ++i) list.push(i);
-
+      console.log(list);
       list.reduce(elem => elem.then((results) => {
-        a++;
-        console.log('Results: '+a, results);
         return f1.delegationProtocol.sendPromise(request, endpoint, false);
-      }), Promise.resolve(undefined));
+      }), Promise.resolve(undefined)); */
     }
   </script>
 

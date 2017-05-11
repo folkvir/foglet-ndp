@@ -30,6 +30,7 @@ const IList = require('immutable').List;
 const STATUS_WAITING = 'status_waiting';
 const STATUS_DELEGATED = 'status_delegated';
 const STATUS_DONE = 'status_done';
+const STATUS_ERRORED = 'status_errored';
 
 /**
 * A StatusQueue is a queue which contains values that can be reinserted after deletion
@@ -41,6 +42,7 @@ class StatusQueue {
   constructor () {
     this.queries = IList();
     this.done = 0;
+    this.errored = 0;
   }
 
   /**
@@ -123,6 +125,7 @@ class StatusQueue {
   clear () {
     this.queries = this.queries.clear();
     this.done = 0;
+    this.errored = 0;
   }
 
   /**
@@ -203,6 +206,15 @@ class StatusQueue {
     this.done++;
   }
 
+  /**
+  * Set the status of a query to "errored"
+  * @param {string} id - Query unique id
+  * @return {void}
+  */
+  setErrored (id) {
+    this._setStatus(id, STATUS_ERRORED);
+    this.errored++;
+  }
 }
 
 module.exports = StatusQueue;
