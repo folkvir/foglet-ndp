@@ -92,6 +92,7 @@ class LaddaProtocol extends DelegationProtocol {
     this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
     this.maxError = 5;
     this.fanoutSet = false;
+    this.fanoutValidity = 5000; // 5 seconds
 
     this.workloadFinished = 'ndp-workload-finished'; // for internal use
     this.signalAnswerNdp = 'ndp-answer-internal'; // When an answer is received from our workload, for internal use
@@ -226,7 +227,15 @@ class LaddaProtocol extends DelegationProtocol {
 
     const self = this;
     this.foglet.onBroadcast((message) => {
-      console.log('Broadcast: ', message);
+      if(message.type && message.type === 'ndp-new-fanout' && message.value) {
+        this.systemState('Fanout is going to change to :' + message.value);
+        if(this.nbDestinationsLoop) {
+          clearInterval(this.nbDestinationsLoop);
+        }
+        this.nbDestinationsLoop = setInterval(() => {
+          this.nbDestinations = Math.max(this.nbDestinations + 1, Math.min(this.getNeighbours().length, this.nbDestinations + 1));
+        }, this.fanoutValidity);
+      }
     });
 
     this.foglet.onUnicast((id, message) => {
