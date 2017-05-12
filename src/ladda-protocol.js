@@ -121,11 +121,14 @@ class LaddaProtocol extends DelegationProtocol {
   * @param {string} endpoint - Endpoint to send queries
   * @return {promise} A Q promise
   */
-  send (data, endpoint) {
+  send (data, endpoint, interval = 500, maxErrors = 5, fanoutValidity = 10000) {
+    this.maxErrors = maxErrors;
+    this.fanoutValidity = fanoutValidity;
     this._setFragmentsClient (endpoint, false);
     // clear queue before anything
     this.queryQueue.clear();
     this.busyPeers.clear();
+    this.garbageQueries = this.initGarbageQueries(interval, endpoint);
     data.forEach(query => this.queryQueue.push(this._getNewUid(), query));
     return this.delegateQueries(endpoint);
   }

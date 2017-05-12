@@ -1,7 +1,7 @@
 'use strict';
 require('chai').should();
 
-localStorage.debug = 'foglet-*';
+localStorage.debug = '';
 
 const NDP = require('../foglet-ndp.js').NDP;
 // const $ = require('jquery');
@@ -57,7 +57,6 @@ describe('[LADDA]', function () {
     let cpt = 0;
     const nbResultWantetd = requests.length;
     f1.delegationProtocol.on('ndp-answer', (response) => {
-      console.log(response);
       cpt++;
       console.log('Number of answer : ' + cpt);
 

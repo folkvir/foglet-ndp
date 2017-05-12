@@ -70187,12 +70187,20 @@ var LaddaProtocol = function (_DelegationProtocol) {
   _createClass(LaddaProtocol, [{
     key: 'send',
     value: function send(data, endpoint) {
+      var interval = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 500;
+
       var _this2 = this;
 
+      var maxErrors = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 5;
+      var fanoutValidity = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 10000;
+
+      this.maxErrors = maxErrors;
+      this.fanoutValidity = fanoutValidity;
       this._setFragmentsClient(endpoint, false);
       // clear queue before anything
       this.queryQueue.clear();
       this.busyPeers.clear();
+      this.garbageQueries = this.initGarbageQueries(interval, endpoint);
       data.forEach(function (query) {
         return _this2.queryQueue.push(_this2._getNewUid(), query);
       });
