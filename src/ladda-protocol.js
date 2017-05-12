@@ -160,7 +160,7 @@ class LaddaProtocol extends DelegationProtocol {
   _sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5, fanoutValidity = 10000) {
     return Q.Promise( (resolve) => {
       this.maxErrors = maxErrors;
-      this.fanoutValidity = 10000;
+      this.fanoutValidity = fanoutValidity;
       this._setFragmentsClient (endpoint, false);
       // clear queue before anything
       this.queryQueue.clear();
@@ -351,7 +351,8 @@ class LaddaProtocol extends DelegationProtocol {
       }
       case 'answer': {
         self.systemState('@LADDA : Received an answer from @' + message.id);
-        if(self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
+        if(self.queryQueue.getStatus(message.qId) === STATUS_ERRORED || self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
+          // in case we received an answer for a query that is errored for us
           self.queryQueue.setDone(message.qId);
           message.receiveResultsTime = receiveMessageTime;
           message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
@@ -441,8 +442,6 @@ class LaddaProtocol extends DelegationProtocol {
               if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             }).catch(error => {
               // anyway process error
-              self._processErrors(error);
-
               if(self.queryQueue.getStatus(query.id) !== STATUS_DONE) {
                 self.queryQueue.setWaiting(query.id);
                 self._log('@LADDA :**********************ERROR:EXECUTE-AT-ME****************************');
@@ -452,9 +451,11 @@ class LaddaProtocol extends DelegationProtocol {
                 self._log('@LADDA :*********************************************************************');
                 // finally check if the query is errored;
                 self._checkErroredQueries(query.id, true);
+                // adjust the fanout cause we have an error (in a catch)
+                self._processErrors(error);
               }
               self.isFree = true;
-              // // retry delegation if there's queries in the queue
+              // retry delegation if there's queries in the queue
               if(self.isFree && self.queryQueue.hasWaitingQueries()) self.delegateQueries(endpoint);
             });
           }

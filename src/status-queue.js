@@ -202,6 +202,10 @@ class StatusQueue {
   * @return {void}
   */
   setDone (id) {
+    // check if the status is errored and adjust the number of query errored. need to do this cause the promise will not resolve
+    if(this.getStatus(id) === STATUS_ERRORED) {
+      self.queryQueue.errored--;
+    }
     this._setStatus(id, STATUS_DONE);
     this.done++;
   }

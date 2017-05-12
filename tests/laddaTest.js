@@ -5,7 +5,7 @@ localStorage.debug = 'foglet-*';
 
 const NDP = require('../foglet-ndp.js').NDP;
 // const $ = require('jquery');
-let endpoint = 'https://query.wikidata.org/bigdata/ldf';
+let endpoint = 'http://fragments.dbpedia.org/';
 let requests = [
   'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 1',
   'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 1',
