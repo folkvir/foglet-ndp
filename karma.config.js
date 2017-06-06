@@ -17,11 +17,8 @@ module.exports = function (config) {
       'karma-chai',
       'karma-coverage',
       'karma-mocha-reporter',
-      'karma-chrome-launcher',
       'karma-firefox-launcher',
-      'karma-express-http-server',
-      'karma-edge-launcher',
-      'karma-safari-launcher'
+      'karma-express-http-server'
     ],
     // list of files / patterns to load in the browser
     files: [
