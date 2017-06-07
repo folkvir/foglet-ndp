@@ -18,7 +18,7 @@ let requests = [
   'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 8',
   'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 9',
   'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o } LIMIT 10',
-  "PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { ?airport a <http://dbpedia.org/ontology/Airport>; rdfs:label ?name. { ?airport <http://dbpedia.org/property/iata> 'EZE'@en. } UNION { ?airport <http://dbpedia.org/ontology/iataLocationIdentifier> 'EZE'@en. }}"
+  'PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { ?airport a <http://dbpedia.org/ontology/Airport>; rdfs:label ?name. { ?airport <http://dbpedia.org/property/iata> "EZE"@en. } UNION { ?airport <http://dbpedia.org/ontology/iataLocationIdentifier> "EZE"@en. }}'
 ];
 
 describe('[LADDA]', function () {
@@ -56,7 +56,7 @@ describe('[LADDA]', function () {
 
     let cpt = 0;
     const nbResultWantetd = requests.length;
-    f1.delegationProtocol.on('ndp-answer', (response) => {
+    f1.delegationProtocol.on('ndp-answer', () => {
       cpt++;
       console.log('Number of answer : ' + cpt);
 
@@ -129,7 +129,7 @@ describe('[LADDA]', function () {
         f3.connection().then( () => {
           console.log('F3 connected');
           f1.delegationProtocol.sendPromise(requests, endpoint, false).then( (results) => {
-            assert(results.length, requests.length);
+            results.length.should.equal(requests.length);
             done();
           });
         }).catch(error => {

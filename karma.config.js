@@ -25,11 +25,11 @@ module.exports = function (config) {
       // './node_modules/spray-wrtc/build/spray-wrtc.bundle.js',
       'http://localhost:4000/socket.io/socket.io.js',
       'tests/status-queue-test.js',
-      'tests/laddaTest.js',
+      'tests/ladda-protocol-test.js',
     ],
     preprocessors: {
       'tests/status-queue-test.js' : [ 'coverage', 'browserify' ],
-      'tests/laddaTest.js' : [ 'coverage', 'browserify' ]
+      'tests/ladda-protocol-test.js' : [ 'coverage', 'browserify' ]
     },
     // list of files to exclude
     exclude: [
