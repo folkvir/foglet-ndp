@@ -32,42 +32,42 @@ const LaddaProtocol = require('./ladda-protocol.js');
  * @author Grall Arnaud (Folkvir), Thomas Minier
  */
 class NDP extends Foglet {
-	/**
-	 * This is the constructor of the NDP class, need options as parameter
-	 * @constructor
-	 * @param {object} options Options used to build the Foglet-ndp
-	 * @param {Spray} options.spray - The Spray network used by the foglet
-	 * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link LaddaProtocol}
-	 * @param {int|undefined} options.maxPeers - (optional) The maximum number of peer to delegated queries (default to Number.MAX_VALUE)
-	 */
-	constructor (options) {
-		if (options === undefined || options.room === undefined || options.protocol === undefined ) {
-			throw new Error('Missing options, options.room and options.protocol must be defined in options', 'ndp.js');
-		}
-		super(options);
-		this.maxPeers = options.maxPeers || null;
-		this.timeout = options.timeout || null;
-		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(this.maxPeers, this.timeout, this.options.verbose);
-	}
+  /**
+   * This is the constructor of the NDP class, need options as parameter
+   * @constructor
+   * @param {object} options Options used to build the Foglet-ndp
+   * @param {Spray} options.spray - The Spray network used by the foglet
+   * @param {DelegationProtocol|undefined} options.delegationProtocol - (optional) The delegation protocol used by the Foglet. Default to {@link LaddaProtocol}
+   * @param {int|undefined} options.maxPeers - (optional) The maximum number of peer to delegated queries (default to Number.MAX_VALUE)
+   */
+  constructor (options) {
+    if (options === undefined || options.room === undefined || options.protocol === undefined ) {
+      throw new Error('Missing options, options.room and options.protocol must be defined in options', 'ndp.js');
+    }
+    super(options);
+    this.maxPeers = options.maxPeers || null;
+    this.timeout = options.timeout || null;
+    this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(this.maxPeers, this.timeout, this.options.verbose);
+  }
 
-	/**
-	 * Initialize the foglet, and connect it to the delegation protocol
-	 * @return {void}
-	 * @override
-	 */
-	init () {
-		this.delegationProtocol.use(this);
-	}
+  /**
+   * Initialize the foglet, and connect it to the delegation protocol
+   * @return {void}
+   * @override
+   */
+  init () {
+    this.delegationProtocol.use(this);
+  }
 
-	/**
-	 * Send queries to neighbours and emit results on ndp-answer
-	 * @param {array} data array of element to send (query)
-	 * @param {string} endpoint - Endpoint to send queries
-	 * @return {promise} Return a Q promise
-	 */
-	send (data, endpoint) {
-		return this.delegationProtocol.send(data, endpoint);
-	}
+  /**
+   * Send queries to neighbours and emit results on ndp-answer
+   * @param {array} data array of element to send (query)
+   * @param {string} endpoint - Endpoint to send queries
+   * @return {promise} Return a Q promise
+   */
+  send (data, endpoint) {
+    return this.delegationProtocol.send(data, endpoint);
+  }
 }
 
 module.exports = NDP;
