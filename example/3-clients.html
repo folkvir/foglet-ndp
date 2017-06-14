@@ -8,26 +8,21 @@
   </head>
 
   <script type='text/javascript'>
-    localStorage.debug = 'foglet-ladda,HttpClient';
+    localStorage.debug = 'HttpClient,*ladda*';
 
     const NDP = require('foglet-ndp').NDP;
-    let endpoint = 'https://query.wikidata.org/bigdata/ldf';
-    //endpoint = 'http://172.16.9.3:6000/dbpedia_3_8';
-    //endpoint = 'http://curiosiphi.lina.sciences.univ-nantes.prive/dbpedia_3_8';
-    //endpoint = 'http://fragments.dbpedia.org/';
-    //endpoint = 'http://52.39.116.115/watDiv_100';
+    let endpoint = 'http://172.16.9.3:5000/dbpedia_3_8';
     let request = [
-      'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
-  		'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 10 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 20 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 30 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 40 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 50 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 60 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 70 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 80 LIMIT 10',
-    	'PREFIX wd: <http://www.wikidata.org/entity/> SELECT * WHERE { ?s ?p wd:Q142. ?s ?p ?o . } OFFSET 90 LIMIT 10'
+      "PREFIX dbp: <http://dbpedia.org/resource/Jos%C3%A9_Amaya> \t\t\t   PREFIX dbp2: <http://dbpedia.org/ontology/> \t\t\t  \t\t\t   SELECT ?abstract \t\t\t   WHERE { \t\t\t\t  dbp:  \t\t\t\t  dbp2:abstract ?abstract .  \t\t\t\t  FILTER langMatches(lang(?abstract), 'en') \t\t\t   }\n",
+    	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { {?city rdfs:label 'El Badari'@en.} UNION { ?alias <http://dbpedia.org/property/redirect> ?city;  rdfs:label 'El Badari'@en. } UNION { ?alias <http://dbpedia.org/property/disambiguates> ?city;  rdfs:label 'El Badari'@en. } OPTIONAL { ?city <http://dbpedia.org/ontology/abstract> ?abstract} OPTIONAL { ?city geo:lat ?latitude; geo:long ?longitude}OPTIONAL { ?city foaf:depiction ?image } OPTIONAL { ?city rdfs:label ?name } OPTIONAL { ?city foaf:homepage ?home } OPTIONAL { ?city <http://dbpedia.org/ontology/populationTotal> ?population } OPTIONAL { ?city <http://dbpedia.org/ontology/thumbnail> ?thumbnail } FILTER (langMatches( lang(?abstract), 'en'))}\n",
+    	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { {?city rdfs:label 'Alghisi'@en.} UNION { ?alias <http://dbpedia.org/property/redirect> ?city;  rdfs:label 'Alghisi'@en. } UNION { ?alias <http://dbpedia.org/property/disambiguates> ?city;  rdfs:label 'Alghisi'@en. } OPTIONAL { ?city <http://dbpedia.org/ontology/abstract> ?abstract} OPTIONAL { ?city geo:lat ?latitude; geo:long ?longitude}OPTIONAL { ?city foaf:depiction ?image } OPTIONAL { ?city rdfs:label ?name } OPTIONAL { ?city foaf:homepage ?home } OPTIONAL { ?city <http://dbpedia.org/ontology/populationTotal> ?population } OPTIONAL { ?city <http://dbpedia.org/ontology/thumbnail> ?thumbnail } FILTER (langMatches( lang(?abstract), 'en'))}\n",
+    	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { ?city a <http://dbpedia.org/ontology/Place>; rdfs:label 'Lužnice'@en.  ?airport a <http://dbpedia.org/ontology/Airport>. {?airport <http://dbpedia.org/ontology/city> ?city} UNION {?airport <http://dbpedia.org/ontology/location> ?city} UNION {?airport <http://dbpedia.org/property/cityServed> ?city.} UNION {?airport <http://dbpedia.org/ontology/city> ?city. }{?airport <http://dbpedia.org/property/iata> ?iata.} UNION  {?airport <http://dbpedia.org/ontology/iataLocationIdentifier> ?iata. } OPTIONAL { ?airport foaf:homepage ?airport_home. } OPTIONAL { ?airport rdfs:label ?name. } OPTIONAL { ?airport <http://dbpedia.org/property/nativename> ?airport_name.} FILTER ( !bound(?name) || langMatches( lang(?name), 'en') )}\n",
+    	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { {?city rdfs:label 'Lužnice'@en.} UNION { ?alias <http://dbpedia.org/property/redirect> ?city;  rdfs:label 'Lužnice'@en. } UNION { ?alias <http://dbpedia.org/property/disambiguates> ?city;  rdfs:label 'Lužnice'@en. } OPTIONAL { ?city <http://dbpedia.org/ontology/abstract> ?abstract} OPTIONAL { ?city geo:lat ?latitude; geo:long ?longitude}OPTIONAL { ?city foaf:depiction ?image } OPTIONAL { ?city rdfs:label ?name } OPTIONAL { ?city foaf:homepage ?home } OPTIONAL { ?city <http://dbpedia.org/ontology/populationTotal> ?population } OPTIONAL { ?city <http://dbpedia.org/ontology/thumbnail> ?thumbnail } FILTER (langMatches( lang(?abstract), 'en'))}\n",
+    	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE {  ?airport a <http://dbpedia.org/ontology/Airport>; rdfs:label ?name. {?airport <http://dbpedia.org/property/iata> 'LNZ'@en.} UNION  {?airport <http://dbpedia.org/ontology/iataLocationIdentifier> 'LNZ'@en. } OPTIONAL { ?airport foaf:homepage ?airport_home. } OPTIONAL { ?airport rdfs:label ?name. } OPTIONAL { ?airport <http://dbpedia.org/property/nativename> ?airport_name.} FILTER ( !bound(?name) || langMatches( lang(?name), 'en') )}\n",
+    	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { ?city a <http://dbpedia.org/ontology/Place>; rdfs:label 'Rožmberk nad Vltavou'@en.  ?airport a <http://dbpedia.org/ontology/Airport>. {?airport <http://dbpedia.org/ontology/city> ?city} UNION {?airport <http://dbpedia.org/ontology/location> ?city} UNION {?airport <http://dbpedia.org/property/cityServed> ?city.} UNION {?airport <http://dbpedia.org/ontology/city> ?city. }{?airport <http://dbpedia.org/property/iata> ?iata.} UNION  {?airport <http://dbpedia.org/ontology/iataLocationIdentifier> ?iata. } OPTIONAL { ?airport foaf:homepage ?airport_home. } OPTIONAL { ?airport rdfs:label ?name. } OPTIONAL { ?airport <http://dbpedia.org/property/nativename> ?airport_name.} FILTER ( !bound(?name) || langMatches( lang(?name), 'en') )}\n",
+    	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { {?city rdfs:label 'Rožmberk nad Vltavou'@en.} UNION { ?alias <http://dbpedia.org/property/redirect> ?city;  rdfs:label 'Rožmberk nad Vltavou'@en. } UNION { ?alias <http://dbpedia.org/property/disambiguates> ?city;  rdfs:label 'Rožmberk nad Vltavou'@en. } OPTIONAL { ?city <http://dbpedia.org/ontology/abstract> ?abstract} OPTIONAL { ?city geo:lat ?latitude; geo:long ?longitude}OPTIONAL { ?city foaf:depiction ?image } OPTIONAL { ?city rdfs:label ?name } OPTIONAL { ?city foaf:homepage ?home } OPTIONAL { ?city <http://dbpedia.org/ontology/populationTotal> ?population } OPTIONAL { ?city <http://dbpedia.org/ontology/thumbnail> ?thumbnail } FILTER (langMatches( lang(?abstract), 'en'))}\n",
+    	"PREFIX onto: <http://dbpedia.org/ontology/>\r \t\tPREFIX foaf: <http://xmlns.com/foaf/0.1/>\r \t\tSELECT ?page ?reference  WHERE {\r \t\t<http://dbpedia.org/resource/Parliament_of_Norway> foaf:page ?page .\r \t\tOPTIONAL {<http://dbpedia.org/resource/Parliament_of_Norway> onto:wikiPageExternalLink ?reference .}\r \t\t}\n",
+    	"PREFIX onto: <http://dbpedia.org/ontology/>\r \t\tPREFIX foaf: <http://xmlns.com/foaf/0.1/>\r \t\tSELECT ?page ?reference  WHERE {\r \t\t<http://dbpedia.org/resource/H%C3%A9l%C3%A8ne_Cixous> foaf:page ?page .\r \t\tOPTIONAL {<http://dbpedia.org/resource/H%C3%A9l%C3%A8ne_Cixous> onto:wikiPageExternalLink ?reference .}\r \t\t}\n"
     ];
 
 
@@ -42,6 +37,7 @@
         trickle: true,
         iceServers : []
       },
+      signalingAdress: 'http://signaling.herokuapp.com/',
       room: 'test',
       verbose: verbose
     });
@@ -51,6 +47,7 @@
         trickle: true,
         iceServers : []
       },
+      signalingAdress: 'http://signaling.herokuapp.com/',
       room: 'test',
       verbose: verbose
     });
@@ -61,6 +58,7 @@
         trickle: true,
         iceServers : []
       },
+      signalingAdress: 'http://signaling.herokuapp.com/',
       room: 'test',
       verbose: verbose
     });
@@ -69,25 +67,11 @@
     f2.init();
     f3.init();
 
-    f1.connection(f2).then(() => {
-      f1.connection(f3).then(() => {
-        f3.connection(f1).then( () => {
-          f2.connection(f1).then( () => {
-            console.log('All clients connected between them.')
-            f1.delegationProtocol.timeout = 10*1000;
-            f1.delegationProtocol.nbDestinations = 0;
-            let a = 0, i = 0;
-            let list = [];
-            for(i = 0; i<1; ++i) list.push(i);
-
-            list.reduce(elem => elem.then((results) => {
-              a++;
-              console.log('Results: '+a, results);
-              return f1.delegationProtocol.sendPromise(request, endpoint, false);
-            }), Promise.resolve(undefined));
-
-
-
+    f1.connection().then(() => {
+      f2.connection().then(() => {
+        f3.connection().then(() => {
+          f1.delegationProtocol.sendPromise(request, endpoint).then(response => {
+            console.log(response);
           });
         });
       });

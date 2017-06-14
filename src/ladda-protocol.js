@@ -32,6 +32,7 @@ const NDPMessage = require('./ndp-message.js');
 const uuidV4 = require('uuid/v4');
 const moment = require('moment');
 const _ = require('lodash');
+const Fanout = require('./fanout.js');
 
 // LDF LOG Disabling
 // ldf.Logger.setLevel('INFO');
@@ -113,6 +114,11 @@ class LaddaProtocol extends DelegationProtocol {
     this.garbageQueries = undefined;
 
     this.erroredQueries = new Map();
+
+    this.fanout = new Fanout({
+      verbose: true
+    });
+    console.log(this.fanout);
   }
 
   /**
@@ -543,25 +549,6 @@ class LaddaProtocol extends DelegationProtocol {
         // console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
         let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
 
-        // fragmentsClient._httpClient.on('error', function (error) {
-        //   self._log('@LADDA :**********************ERROR-FRAGMENTSCLIENT****************************');
-        //   this.systemState('@LADDA :[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
-        //   self.emit(self.signalError, '[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
-        //   self._log('@LADDA :*******************************************************');
-        //   self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
-        //   self._setFragmentsClient(endpoint, true);
-        //   reject(error);
-        // })
-        // fragmentsClient.logger.event.once('error', function (error) {
-        //   self._log('@LADDA :**********************ERROR-FRAGMENTSCLIENT****************************');
-        //   this.systemState('@LADDA :[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
-        //   self.emit(self.signalError, '[ERROR-FRAGMENTSCLIENT] ' + error.toString() + '\n' + error.stack);
-        //   self._log('@LADDA :*******************************************************');
-        //   self.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
-        //   self._setFragmentsClient(endpoint, true);
-        //   reject(error);
-        // });
-        //
         fragmentsClient.events.once('error', (error, stack) => {
           self._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
           this.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
@@ -577,11 +564,13 @@ class LaddaProtocol extends DelegationProtocol {
         // console.log(queryResults);
         queryResults.on('data', ldfResult => {
           // self._log('@LADDA :** ON DATA EXECUTE **');
+          self.checkFanout(fragmentsClient._httpClient._statistics.responseTime.average);
           delegationResults = delegationResults.push(ldfResult);
         });
         // resolve when all results are arrived
         queryResults.on('end', () => {
           // self._log('@LADDA :** ON END EXECUTE **');
+          self.checkFanout(fragmentsClient._httpClient._statistics.responseTime.average);
           resolve(delegationResults.toJS());
         });
 
@@ -613,6 +602,33 @@ class LaddaProtocol extends DelegationProtocol {
    * *** UTILITY FUNTIONS ***
    * ************************
    */
+
+  /**
+   * Check if we have the right to increase or decrease the fanout by passing a value representing a time response of a Triple pattern query.
+   * @param {number} value Response time of TPQ
+   * @return {void}
+   */
+  checkFanout (value) {
+    this._log('Estimation of a new responseTime average: ', value);
+    switch(this.fanout.estimate(value, this.options.threshold)) {
+    case 1: {
+      this.increaseFanout();
+      break;
+    }
+    case -1: {
+      // decrease the fanout, same behavior than _processErrors
+      this._processErrors({error: 'decrease the fanout'});
+      break;
+    }
+    case 0: {
+      // noop
+      break;
+    }
+    default: {
+      throw new Error('Estimate function return an unknown value.');
+    }
+    }
+  }
 
   /**
    * increase the fanout, it take care to not be greater than the number of neighbours

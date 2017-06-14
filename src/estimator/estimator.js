@@ -1,0 +1,168 @@
+'use strict';
+
+const debug = require('debug')('ladda:estimator');
+const _ = require('lodash');
+const EventEmitter = require('events');
+const regression = require('regression');
+const Reference = require('./reference.json');
+
+class Estimator extends EventEmitter {
+  constructor (options = {}) {
+    super();
+    this.options = _.merge({
+      verbose: true
+    }, options);
+
+    this.data = {
+      x: [],
+      y: [],
+      max: undefined,
+      min: undefined
+    };
+    this.regression = undefined;
+    /**
+     * Return the value corresponding to x
+     * @param  {number} x The number of queries
+     * @return {number}   The response time associated for the number of queries associated
+     */
+    this.f = (x) => {
+      return x;
+    };
+    /**
+     * Return the y value, eg: a query response time. We can extrapolate the number of parallel queries on the server.
+     * @param  {number} y Response Time
+     * @return {number}   The number of parallel queries on the server
+     */
+    this.y = (y) => {
+      return y;
+    };
+
+    this._log('[*] Estimator created.');
+  }
+
+  /**
+  * Add a point to the data to process
+  * @param {object} point Point to add to data
+  * @return {void}
+  */
+  addPoint (point = {x: undefined, y: undefined}) {
+    if((point.x || point.x === 0) && (point.y || point.y === 0)) {
+      this.data.x.push(point.x);
+      this.data.y.push(point.y);
+    } else {
+      throw new Error('Need a well-formed point: {x: ..., y: ... }');
+    }
+  }
+
+  /**
+  * Add a point by providing this y value, y = f(x).
+  * We found x with the function providing by the regression.
+  * And we compute again the regression to adjust f and y functions
+  * @param {number} y Point to add to data
+  * @return {void}
+  */
+  addPointY (y = 0) {
+    this.addPoint({
+      x: this.y(y),
+      y: y
+    });
+    if(!this.data.max) {
+      this.data.max = y;
+    } else {
+      this.data.max = _.max([ y, this.data.max ]);
+    }
+    if(!this.data.min) {
+      this.data.min = y;
+    } else {
+      this.data.min = _.max([ y, this.data.min ]);
+    }
+    this.run();
+  }
+
+  /**
+  * Add a point by providing this y value, y = f(x).
+  * We found x with the function providing by the regression.
+  * And we compute again the regression to adjust f and y functions
+  * @param {number} y Point to add to data
+  * @return {void}
+  */
+  addPointX (x = 0) {
+    this.addPoint({
+      x: x,
+      y: this.f(x)
+    });
+    this.run();
+  }
+
+  /**
+  * Add an array of point [{x:, y:},...] to data, If one point is not well-formed, this point is not added
+  * @param {array} array Array of point to add
+  * @return {void}
+  */
+  addArray (array = []) {
+    if(array.length > 0) {
+      array.forEach(elem => {
+        if(elem.x && elem.y) this.addPoint(elem);
+      });
+    }
+  }
+
+  get _data () {
+    let result = [];
+    for(let i = 0; i<this.data.x.length; ++i ) {
+      result.push([ this.data.x[i], this.data.y[i] ]);
+    }
+    return result;
+  }
+
+  run () {
+    this.regression = this._computeRegression();
+    this._log('Estimator found an approximate function: ', this.regression.string);
+    this.f = (x) => {
+      // // polynomial
+      // let equation = this.regression.equation;
+      // let a = equation[2], b= equation[1], c = equation[0];
+      // return a * x * x + b * x + c;
+      // linear
+      let equation = this.regression.equation;
+      return equation[0]*x + (equation[1]);
+    };
+    this.y = (y) => {
+      // polynomial
+      // let equation = this.regression.equation;
+      // let a = equation[2], b = equation[1], c = equation[0];
+      // // quadratic formula for the second order polynome, assuming that the curve is only positive
+      // return (-b + Math.sqrt((b*b - 4 * a * (c - y))))/(2 * a);
+      // linear
+      let equation = this.regression.equation;
+      return (y - equation[1])/equation[0];
+    };
+  }
+
+  _computeRegression () {
+    return regression('linear', this._data);
+  }
+
+  loadReference () {
+    let data = Reference;
+    this.addPoint({
+      x: 0,
+      y: 0
+    });
+    this.data.max = _.maxBy(data, 'max').max;
+    this.data.min = _.minBy(data, 'min').min;
+    data.forEach(d => {
+      this.addPoint({
+        x: d.clients,
+        y: d.average
+      });
+    });
+    this.run();
+  }
+
+  _log (message) {
+    if(this.options.verbose) debug(message);
+  }
+}
+
+module.exports = Estimator;
