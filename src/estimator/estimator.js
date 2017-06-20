@@ -115,6 +115,7 @@ class Estimator extends EventEmitter {
     return result;
   }
 
+
   run () {
     this.regression = this._computeRegression();
     this._log('Estimator found an approximate function: ', this.regression.string);
@@ -125,7 +126,7 @@ class Estimator extends EventEmitter {
       // return a * x * x + b * x + c;
       // linear
       let equation = this.regression.equation;
-      return equation[0]*x + (equation[1]);
+      return equation[0]*x; // + (equation[1]);
     };
     this.y = (y) => {
       // polynomial
@@ -135,12 +136,13 @@ class Estimator extends EventEmitter {
       // return (-b + Math.sqrt((b*b - 4 * a * (c - y))))/(2 * a);
       // linear
       let equation = this.regression.equation;
-      return (y - equation[1])/equation[0];
+      return (y /*- equation[1]*/)/equation[0];
     };
   }
 
   _computeRegression () {
-    return regression('linear', this._data);
+    return regression('linearThroughOrigin', this._data);
+    // return regression('linear', this._data);
   }
 
   loadReference () {

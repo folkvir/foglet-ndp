@@ -8,10 +8,10 @@
   </head>
 
   <script type='text/javascript'>
-    localStorage.debug = 'foglet-ladda,HttpClient';
+    localStorage.debug = '*ladda*';
 
     const NDP = require('foglet-ndp').NDP;
-    let endpoint = 'http://fragments.dbpedia.org/';
+
     let request = [
     	"PREFIX dbp: <http://dbpedia.org/resource/Jos%C3%A9_Amaya> \t\t\t   PREFIX dbp2: <http://dbpedia.org/ontology/> \t\t\t  \t\t\t   SELECT ?abstract \t\t\t   WHERE { \t\t\t\t  dbp:  \t\t\t\t  dbp2:abstract ?abstract .  \t\t\t\t  FILTER langMatches(lang(?abstract), 'en') \t\t\t   }\n",
     	"PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT * WHERE { {?city rdfs:label 'El Badari'@en.} UNION { ?alias <http://dbpedia.org/property/redirect> ?city;  rdfs:label 'El Badari'@en. } UNION { ?alias <http://dbpedia.org/property/disambiguates> ?city;  rdfs:label 'El Badari'@en. } OPTIONAL { ?city <http://dbpedia.org/ontology/abstract> ?abstract} OPTIONAL { ?city geo:lat ?latitude; geo:long ?longitude}OPTIONAL { ?city foaf:depiction ?image } OPTIONAL { ?city rdfs:label ?name } OPTIONAL { ?city foaf:homepage ?home } OPTIONAL { ?city <http://dbpedia.org/ontology/populationTotal> ?population } OPTIONAL { ?city <http://dbpedia.org/ontology/thumbnail> ?thumbnail } FILTER (langMatches( lang(?abstract), 'en'))}\n",
@@ -1563,26 +1563,11 @@
     f2.init();
     f3.init();
 
-    f1.connection(f2).then(() => {
-      f1.connection(f3).then(() => {
-        f3.connection(f1).then( () => {
-          f2.connection(f1).then( () => {
-            console.log('All clients connected between them.')
-            f1.delegationProtocol.timeout = 10*1000;
-            f1.delegationProtocol.nbDestinations = 10;
-            let a = 0, i = 0;
-            let list = [];
-            for(i = 0; i<1; ++i) list.push(i);
+    f1.connection().then(() => {
+      f2.connection().then(() => {
+        f3.connection().then( () => {
+          f1.delegationProtocol.timeout = 10*1000;
 
-            list.reduce(elem => elem.then((results) => {
-              a++;
-              console.log('Results: '+a, results);
-              return f1.delegationProtocol.sendPromise(request, endpoint, false, 60000);
-            }), Promise.resolve(undefined));
-
-
-
-          });
         });
       });
     });
@@ -1590,6 +1575,10 @@
     f1.onUnicast((id, message) => console.log);
     f2.onUnicast((id, message) => console.log);
     f3.onUnicast((id, message) => console.log);
+
+    function load(endpoint = 'http://fragments.mementodepot.org/dbpedia_3_8') {
+      f1.delegationProtocol.sendPromise(request, endpoint, false, 2000, 5, 500);
+    }
   </script>
 
   <body>

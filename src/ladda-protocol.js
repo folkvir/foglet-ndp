@@ -48,8 +48,8 @@ const STATUS_ERRORED = 'status_errored';
 // utility to format dates in hh:mm:ss:ms
 const formatTime = time => {
   const hours = time.getHours().toString(),
-    min = time.getMinutes().toString(),
-    sec = time.getSeconds().toString();
+  min = time.getMinutes().toString(),
+  sec = time.getSeconds().toString();
   let mil = time.getMilliseconds().toString();
   if(mil.length === 1) {
     mil = `00${mil}`;
@@ -60,10 +60,10 @@ const formatTime = time => {
 };
 
 /**
- * Clone an object
- * @param  {object} obj Object to clone
- * @return {object} Object cloned
- */
+* Clone an object
+* @param  {object} obj Object to clone
+* @return {object} Object cloned
+*/
 function clone (obj) {
   return _.merge({}, obj);
 }
@@ -118,7 +118,6 @@ class LaddaProtocol extends DelegationProtocol {
     this.fanout = new Fanout({
       verbose: true
     });
-    console.log(this.fanout);
   }
 
   /**
@@ -217,11 +216,9 @@ class LaddaProtocol extends DelegationProtocol {
     this.foglet.options.rps.on('connected', () => {
       // ask a neighbours  its fanout
       const neigh = this.foglet.getNeighbours();
-      console.log(neigh);
       if(neigh.length > 0) {
         // need to ask my neighbourhood for the fanout value
         neigh.forEach(n => {
-          console.log(n);
           this.foglet.sendUnicast({ type: 'ask-fanout' }, n);
         });
 
@@ -229,9 +226,6 @@ class LaddaProtocol extends DelegationProtocol {
       } else {
         // no neighbours we are alone, set to true
         this.fanoutSet = true;
-        this.nbDestinationsLoop = setInterval(() => {
-          this.increaseFanout();
-        }, this.fanoutValidity);
         this.emit(this.signalFanoutSet, this.fanoutSet);
       }
     });
@@ -240,12 +234,7 @@ class LaddaProtocol extends DelegationProtocol {
     this.foglet.onBroadcast((message) => {
       if(message.type && message.type === 'ndp-new-fanout' && message.value) {
         this.systemState('Fanout is going to change to :' + message.value);
-        if(this.nbDestinationsLoop) {
-          clearInterval(this.nbDestinationsLoop);
-        }
-        this.nbDestinationsLoop = setInterval(() => {
-          this.increaseFanout();
-        }, this.fanoutValidity);
+        this.nbDestinations = message.value;
       }
     });
 
@@ -254,145 +243,142 @@ class LaddaProtocol extends DelegationProtocol {
       const receiveMessageTimeDate = new Date();
       const receiveMessageTime = formatTime(receiveMessageTimeDate);
       switch (message.type) {
-      case 'ask-fanout' : {
-        self.systemState(`@LADDA : Someone ask for a fanout value ${id}`);
-        this.foglet.sendUnicast({ type: 'answer-fanout', value: this.nbDestinations}, id);
-        break;
-      }
-      case 'answer-fanout' : {
-        self.systemState(`@LADDA : Receive fanout value: ${message.value} from ${id}`);
-        this.nbDestinations = message.value;
-        this.fanoutSet = true;
-        this.nbDestinationsLoop = setInterval(() => {
-          this.increaseFanout();
-        }, this.fanoutValidity);
-        this.emit(this.signalFanoutSet, this.fanoutSet);
-        break;
-      }
-      case 'request': {
-        self.systemState('@LADDA : Message: ', message);
-        self.systemState('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
-        if(self.isFree && !self.queryQueue.hasWaitingQueries()) {
-          self.isFree = false;
-          const query = message.payload;
-          // Set if not set the fragmentsClient before to timestamp anything
-          self._setFragmentsClient(message.endpoint, false);
-          const startExecutionTimeDate = new Date();
-          const startExecutionTime = formatTime(startExecutionTimeDate);
-          // Execution of a remote query
-          self.execute(query, message.endpoint).then(result => {
-            self.isFree = true;
-            const endExecutionTimeDate = new Date();
-            const endExecutionTime = formatTime(endExecutionTimeDate);
-            const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
-            const msg = new NDPMessage({
-              type: 'answer',
-              id: self.foglet.id,
-              schedulerId: message.id,
-              payload: result,
-              query: query,
-              qId: message.qId,
-              endpoint: message.endpoint,
-              startTime: message.startTime,
-              sendQueryTime: message.sendQueryTime,
-              receiveQueryTime: receiveMessageTime,
-              startExecutionTime,
-              endExecutionTime,
-              executionTime,
-              peerId: message.peerId
-            });
-            self._log(clone(msg));
-            msg.sendResultsTime = formatTime(new Date());
-            self.emit(this.signalDelegatedQueryExecuted, clone(msg));
-            // never mind that there is a bug to send the response
-            self.foglet.sendUnicast(msg, id);
-            self.systemState('@LADDA : Message sent after its execution.');
-          }).catch(error => {
-            self.isFree = true;
-            // If execution failed
-            self._processErrors(error);
-
-            try {
-              self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
-              self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + error.toString() + '\n' + error.stack);
-              self.systemState(error.toString() + '\n' + error.stack);
-              self._log('@LADDA :****************************************************************************************');
+        case 'ask-fanout' : {
+          self.systemState(`@LADDA : Someone ask for a fanout value ${id}`);
+          this.foglet.sendUnicast({ type: 'answer-fanout', value: this.nbDestinations}, id);
+          break;
+        }
+        case 'answer-fanout' : {
+          self.systemState(`@LADDA : Receive fanout value: ${message.value} from ${id}`);
+          this.nbDestinations = message.value;
+          this.fanoutSet = true;
+          this.emit(this.signalFanoutSet, this.fanoutSet);
+          break;
+        }
+        case 'request': {
+          self.systemState('@LADDA : Message: ', message);
+          self.systemState('@LADDA - Peer @' + self.foglet.id + ' received a query to execute from : @' + id);
+          if(self.isFree && !self.queryQueue.hasWaitingQueries()) {
+            self.isFree = false;
+            const query = message.payload;
+            // Set if not set the fragmentsClient before to timestamp anything
+            self._setFragmentsClient(message.endpoint, false);
+            const startExecutionTimeDate = new Date();
+            const startExecutionTime = formatTime(startExecutionTimeDate);
+            // Execution of a remote query
+            self.execute(query, message.endpoint).then(result => {
+              self.isFree = true;
+              const endExecutionTimeDate = new Date();
+              const endExecutionTime = formatTime(endExecutionTimeDate);
+              const executionTime = self._computeExecutionTime(startExecutionTimeDate, endExecutionTimeDate);
               const msg = new NDPMessage({
-                type: 'failed',
+                type: 'answer',
                 id: self.foglet.id,
-                payload: message.payload,
-                endpoint: message.endpoint,
+                schedulerId: message.id,
+                payload: result,
+                query: query,
                 qId: message.qId,
+                endpoint: message.endpoint,
+                startTime: message.startTime,
+                sendQueryTime: message.sendQueryTime,
                 receiveQueryTime: receiveMessageTime,
+                startExecutionTime,
+                endExecutionTime,
+                executionTime,
                 peerId: message.peerId
               });
-              self.systemState(clone(msg));
-              self.emit(this.signalFailed, clone(msg));
+              self._log(clone(msg));
+              msg.sendResultsTime = formatTime(new Date());
+              self.emit(this.signalDelegatedQueryExecuted, clone(msg));
+              // never mind that there is a bug to send the response
               self.foglet.sendUnicast(msg, id);
-              self._log('@LADDA : Message sent after it\'s failed. ');
+              self.systemState('@LADDA : Message sent after its execution.');
+            }).catch(error => {
+              self.isFree = true;
+              // If execution failed
+              self._processErrors(error);
 
+              try {
+                self._log('@LADDA :**********************ERROR REQUEST EXECUTE DELEGATED QUERY ****************************');
+                self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + error.toString() + '\n' + error.stack);
+                self.systemState(error.toString() + '\n' + error.stack);
+                self._log('@LADDA :****************************************************************************************');
+                const msg = new NDPMessage({
+                  type: 'failed',
+                  id: self.foglet.id,
+                  payload: message.payload,
+                  endpoint: message.endpoint,
+                  qId: message.qId,
+                  receiveQueryTime: receiveMessageTime,
+                  peerId: message.peerId
+                });
+                self.systemState(clone(msg));
+                self.emit(this.signalFailed, clone(msg));
+                self.foglet.sendUnicast(msg, id);
+                self._log('@LADDA : Message sent after it\'s failed. ');
+
+              } catch (e) {
+                self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + e.toString() + '\n' + e.stack);
+                this.systemState(`[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY] ${e.toString()} \n  ${e.stack}`);
+              }
+            });
+          } else {
+            self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
+            const msg = new NDPMessage({
+              type: 'failed',
+              id: self.foglet.id,
+              payload: message.payload,
+              endpoint: message.endpoint,
+              qId: message.qId,
+              receiveQueryTime: receiveMessageTime,
+              peerId: message.peerId
+            });
+            self.systemState(clone(msg));
+            self.emit(this.signalFailed, clone(msg));
+            try {
+              self.foglet.sendUnicast(msg, id);
             } catch (e) {
-              self.emit(self.signalError, '[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY]' + e.toString() + '\n' + e.stack);
-              this.systemState(`[ERROR-REQUEST-EXECUTE-DELEGATED-QUERY] ${e.toString()} \n  ${e.stack}`);
+              self.emit(self.signalError, '[ERROR-REQUEST-BUSY-PEER]' + e.toString() + '\n' + e.stack);
+              this.systemState(`[ERROR-REQUEST-BUSY-PEER] ${e.toString()} \n  ${e.stack}`);
             }
-          });
-        } else {
-          self._log('@LADDA - Peer @' + self.foglet.id + ' is busy, cannot execute query ' + message.payload + ' from ' + id);
-          const msg = new NDPMessage({
-            type: 'failed',
-            id: self.foglet.id,
-            payload: message.payload,
-            endpoint: message.endpoint,
-            qId: message.qId,
-            receiveQueryTime: receiveMessageTime,
-            peerId: message.peerId
-          });
-          self.systemState(clone(msg));
-          self.emit(this.signalFailed, clone(msg));
-          try {
-            self.foglet.sendUnicast(msg, id);
-          } catch (e) {
-            self.emit(self.signalError, '[ERROR-REQUEST-BUSY-PEER]' + e.toString() + '\n' + e.stack);
-            this.systemState(`[ERROR-REQUEST-BUSY-PEER] ${e.toString()} \n  ${e.stack}`);
           }
+          break;
         }
-        break;
-      }
-      case 'answer': {
-        self.systemState('@LADDA : Received an answer from @' + message.id);
-        if(self.queryQueue.getStatus(message.qId) === STATUS_ERRORED || self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
-          // in case we received an answer for a query that is errored for us
-          self.queryQueue.setDone(message.qId);
-          message.receiveResultsTime = receiveMessageTime;
-          message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
-          self.emit(self.signalAnswerNdp, clone(message));
-          self.emit(self.signalAnswer, clone(message));
-        }
-        // clear the timeout
-        self._clearTimeout(message.qId);
-        self.busyPeers = this.busyPeers.delete(message.peerId);
-        // retry at any case
-        self.systemState('Retry delegateQueries');
-        self.delegateQueries(message.endpoint);
-        break;
-      }
-      case 'failed': {
-        if(self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
-          self.queryQueue.setWaiting(message.qId);
-          self.systemState('@LADDA : failed query from @' + message.id);
-          self.emit(this.signalFailed, clone(message));
-        }
-        self._clearTimeout(message.qId);
-        self.busyPeers = self.busyPeers.delete(message.peerId);
-
-        // retry only if we are free
-        if(self.isFree) {
+        case 'answer': {
+          self.systemState('@LADDA : Received an answer from @' + message.id);
+          if(self.queryQueue.getStatus(message.qId) === STATUS_ERRORED || self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
+            // in case we received an answer for a query that is errored for us
+            self.queryQueue.setDone(message.qId);
+            message.receiveResultsTime = receiveMessageTime;
+            message.globalExecutionTime = self._computeGlobalExecutionTime(message.sendQueryTime, receiveMessageTimeDate);
+            self.emit(self.signalAnswerNdp, clone(message));
+            self.emit(self.signalAnswer, clone(message));
+          }
+          // clear the timeout
+          self._clearTimeout(message.qId);
+          self.busyPeers = this.busyPeers.delete(message.peerId);
+          // retry at any case
           self.systemState('Retry delegateQueries');
           self.delegateQueries(message.endpoint);
+          break;
         }
-        break;
-      }
-      default:
+        case 'failed': {
+          if(self.queryQueue.getStatus(message.qId) === STATUS_DELEGATED || self.queryQueue.getStatus(message.qId) === STATUS_WAITING) {
+            self.queryQueue.setWaiting(message.qId);
+            self.systemState('@LADDA : failed query from @' + message.id);
+            self.emit(this.signalFailed, clone(message));
+          }
+          self._clearTimeout(message.qId);
+          self.busyPeers = self.busyPeers.delete(message.peerId);
+
+          // retry only if we are free
+          if(self.isFree) {
+            self.systemState('Retry delegateQueries');
+            self.delegateQueries(message.endpoint);
+          }
+          break;
+        }
+        default:
         break;
       }
 
@@ -599,25 +585,36 @@ class LaddaProtocol extends DelegationProtocol {
   }
 
   /** ***********************
-   * *** UTILITY FUNTIONS ***
-   * ************************
-   */
+  * *** UTILITY FUNTIONS ***
+  * ************************
+  */
 
   /**
-   * Check if we have the right to increase or decrease the fanout by passing a value representing a time response of a Triple pattern query.
-   * @param {number} value Response time of TPQ
-   * @return {void}
-   */
+  * Check if we have the right to increase or decrease the fanout by passing a value representing a time response of a Triple pattern query.
+  * @param {number} value Response time of TPQ
+  * @return {void}
+  */
   checkFanout (value) {
-    this._log('Estimation of a new responseTime average: ', value);
-    switch(this.fanout.estimate(value, this.options.threshold)) {
+    let oldFanout = this.nbDestinations;
+    let estimation = this.fanout.estimateByThreshold(value, this.nbDestinations);
+    this._log('Estimation of a new responseTime average: ', value, estimation);
+
+    switch(estimation.flag) {
     case 1: {
-      this.increaseFanout();
+      if(estimation.value) {
+        this.setNbDestination(estimation.value);
+      } else {
+        this.increaseFanout();
+      }
       break;
     }
     case -1: {
-      // decrease the fanout, same behavior than _processErrors
-      this._processErrors({error: 'decrease the fanout'});
+      if(estimation.value) {
+        this.setNbDestination(estimation.value);
+      } else {
+        // decrease the fanout, same behavior than _processErrors
+        this._processErrors({error: 'decrease the fanout'});
+      }
       break;
     }
     case 0: {
@@ -628,39 +625,56 @@ class LaddaProtocol extends DelegationProtocol {
       throw new Error('Estimate function return an unknown value.');
     }
     }
+    this._log('Old Fanout: ', oldFanout, ' New Fanout: ', this.nbDestinations);
   }
 
   /**
-   * increase the fanout, it take care to not be greater than the number of neighbours
-   * @return {void}
-   */
+  * increase the fanout, it take care to not be greater than the number of neighbours
+  * @return {void}
+  */
   increaseFanout () {
-    this.nbDestinations = Math.min(this.nbDestinations + 1, Math.min(this.foglet.getNeighbours().length, this.nbDestinations + 1) + 1);
+    this.setNbDestination(Math.min(this.nbDestinations + 1, Math.min(this.foglet.getNeighbours().length, this.nbDestinations + 1) + 1));
   }
-/**
- * Process errors to adjust the fanout or just do some work on errors
- * @param {object} error Error formated as { error:object, stack:object}
- * @return {void}
- */
+
+  /**
+  * Set the new fanout
+  * @param {number} newValue the new fanout
+  * @return {void}
+  */
+  setNbDestination (newValue) {
+    this.nbDestinations = newValue;
+    this.broadcastFanout();
+  }
+  /**
+  * Process errors to adjust the fanout or just do some work on errors
+  * @param {object} error Error formated as { error:object, stack:object}
+  * @return {void}
+  */
   _processErrors (error) {
     if(error && error.error) {
       // reduce the fanout in any case
       if(this.nbDestinations > 0) {
-        this.nbDestinations--;
-        // now broadcast the new fanout to the whole network
-        this.foglet.sendBroadcast({
-          type: 'ndp-new-fanout',
-          value: this.nbDestinations
-        });
+        this.setNbDestination(this.nbDestinations - 1);
       }
     }
   }
-   /**
-    * Check if a queries is errored or not and if maxErrors is exceeded set to errored
-    * @param {string} id Id of the query
-    * @param {boolean} errored If true increase the number of errors for the query
-    * @return {void}
-    */
+  /**
+   * Broadcast the fanout to all neighbours in the network
+   * @return {void}
+   */
+  broadcastFanout () {
+    // now broadcast the new fanout to the whole network
+    this.foglet.sendBroadcast({
+      type: 'ndp-new-fanout',
+      value: this.nbDestinations
+    });
+  }
+  /**
+  * Check if a queries is errored or not and if maxErrors is exceeded set to errored
+  * @param {string} id Id of the query
+  * @param {boolean} errored If true increase the number of errors for the query
+  * @return {void}
+  */
   _checkErroredQueries (id, errored = false) {
     const find = this.erroredQueries.has(id);
     if(!find) {
@@ -678,10 +692,10 @@ class LaddaProtocol extends DelegationProtocol {
 
 
   /**
-   * Clear a timeout specified by its id if it exists in garbageTimeout Map.
-   * @param {number} timeoutId Id of the timeout
-   * @return {void}
-   */
+  * Clear a timeout specified by its id if it exists in garbageTimeout Map.
+  * @param {number} timeoutId Id of the timeout
+  * @return {void}
+  */
   _clearTimeout (timeoutId) {
     let time = this.garbageTimeout.has(timeoutId);
     if(time) {
@@ -691,11 +705,11 @@ class LaddaProtocol extends DelegationProtocol {
   }
 
   /**
-   * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
-   * @param {string} endpoint endpoint of the fragmentsClient
-   * @param {boolean} force Force to set the endpoint
-   * @return {void}
-   */
+  * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
+  * @param {string} endpoint endpoint of the fragmentsClient
+  * @param {boolean} force Force to set the endpoint
+  * @return {void}
+  */
   _setFragmentsClient (endpoint, force = false) {
     let fragmentsClient = this.endpoints.has(endpoint);
     if(!fragmentsClient || force) {
@@ -713,10 +727,10 @@ class LaddaProtocol extends DelegationProtocol {
   }
 
   /**
-   * Log a message with specific informations of the system state
-   * @param {string} message String Message to log
-   * @return {void}
-   */
+  * Log a message with specific informations of the system state
+  * @param {string} message String Message to log
+  * @return {void}
+  */
   systemState (message) {
     this._log(`@LADDA - SYSTEM STATE:
       Message: ${message}
@@ -731,11 +745,11 @@ class LaddaProtocol extends DelegationProtocol {
   }
 
   /**
-   * Init the Interval which will check if there is no waiting queries. Removed when we have fully fullfilled the send promise
-   * @param {time} time time in milliseconds of the loop
-   * @param {string} endpoint Endpoint needed for the delegateQueries function
-   * @return {number} ID of the Interval
-   */
+  * Init the Interval which will check if there is no waiting queries. Removed when we have fully fullfilled the send promise
+  * @param {time} time time in milliseconds of the loop
+  * @param {string} endpoint Endpoint needed for the delegateQueries function
+  * @return {number} ID of the Interval
+  */
   initGarbageQueries (time, endpoint) {
     return setInterval(() => {
       // Check we have no waiting queries and if we are free and we have waiting queries, process them
@@ -753,11 +767,11 @@ class LaddaProtocol extends DelegationProtocol {
   }
 
   /**
-   * Compute the execuion time between start and end.
-   * @param {time} start getTime() of a (new Date) representing the beginning of the execution
-   * @param {time} end getTime() of a (new Date) representing the end of the executio
-   * @return {time} Time in milliseconds of the execution
-   */
+  * Compute the execuion time between start and end.
+  * @param {time} start getTime() of a (new Date) representing the beginning of the execution
+  * @param {time} end getTime() of a (new Date) representing the end of the executio
+  * @return {time} Time in milliseconds of the execution
+  */
   _computeExecutionTime (start, end) {
     const s = moment.duration(start.getTime());
     const e = moment.duration(end.getTime());
@@ -765,21 +779,21 @@ class LaddaProtocol extends DelegationProtocol {
   }
 
   /**
-   * Compute the global execuion time between start and end.
-   * @param {time} start getTime() of a (new Date) representing the beginning of the global execution
-   * @param {time} end getTime() of a (new Date) representing the end of the global execution
-   * @return {time} Time in milliseconds of the execution
-   */
+  * Compute the global execuion time between start and end.
+  * @param {time} start getTime() of a (new Date) representing the beginning of the global execution
+  * @param {time} end getTime() of a (new Date) representing the end of the global execution
+  * @return {time} Time in milliseconds of the execution
+  */
   _computeGlobalExecutionTime (start, end) {
     // start is a formated date, end is a Date
     return this._computeExecutionTime(this._toDate(start), end);
   }
 
   /**
-   * Return a date from a string representation
-   * @param {string} date String date representation
-   * @return {date} Return the custom date specified by its string representation
-   */
+  * Return a date from a string representation
+  * @param {string} date String date representation
+  * @return {date} Return the custom date specified by its string representation
+  */
   _toDate (date) {
     let d = new Date();
     const split = date.split(':');

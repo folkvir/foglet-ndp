@@ -19,6 +19,7 @@ class Fanout extends EventEmitter {
 
     this.estimator = new Estimator();
     this.estimator.loadReference();
+    console.log(this.estimator);
   }
 
   /**
@@ -42,9 +43,9 @@ class Fanout extends EventEmitter {
     let min = this.estimator.data.min,
       max = this.estimator.data.max,
       average = (max + min) /2;
-    const finish = (message, val) => {
-      this._log('Increase/Decrease/Noop: ' + val + ', Message: '+ message);
-      return val;
+    const finish = (message = 'noop', flag = 0, value = undefined) => {
+      this._log('Increase/Decrease/Noop: ' + flag + ', Message: '+ message + ', New Value: ' + value);
+      return {flag, value};
     };
     // if y is upper than max, decrease
     if(y >= max) return finish('upper than max', -1);
@@ -59,6 +60,18 @@ class Fanout extends EventEmitter {
     }
 
     return finish('noop', 0);
+  }
+
+  estimateByThreshold (y, fanout) {
+    const finish = (message = 'noop', flag = 0, value = undefined, thresholdFanout) => {
+      this._log('Increase/Decrease/Noop: ' + flag + ', Message: '+ message + ', New Value: ' + value, ' Threshold: ', thresholdFanout);
+      return {flag, value, thresholdFanout};
+    };
+
+    let thresholdFanout = Math.floor( y / this.estimator.f(1) );
+    if( thresholdFanout > fanout) return finish('threshold upper than fanout, increase', 1, fanout+1, thresholdFanout);
+    if( thresholdFanout < fanout) return finish('threshold lower than fanout, decrease', -1, thresholdFanout, thresholdFanout);
+    return finish('noop', 0, fanout, thresholdFanout);
   }
 
   _log (message) {
