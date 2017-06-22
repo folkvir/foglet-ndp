@@ -5,6 +5,7 @@
     <title>3 Clients tests</title>
     <script type='text/javascript' src='../node_modules/jquery/dist/jquery.min.js'> </script>
     <script type='text/javascript' src='../build/foglet-ndp.bundle.js' > </script>
+    <script type='text/javascript' src='../node_modules/chart.js/dist/Chart.js'></script>
   </head>
 
   <script type='text/javascript'>
@@ -1568,6 +1569,83 @@
         f3.connection().then( () => {
           f1.delegationProtocol.timeout = 10*1000;
 
+          let data = f1.delegationProtocol.fanout.estimator.data;
+
+          let ctx = document.getElementById("chart");
+          let chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: [],
+              datasets: [{
+                  id: null,
+                  label: 'Original Data',
+                  fill: false,
+                  lineTension: 0.1,
+                  backgroundColor: "rgba(75,192,192,0.4)",
+                  borderColor: "rgba(75,192,192,1)",
+                  borderCapStyle: 'butt',
+                  borderDash: [],
+                  borderDashOffset: 0.0,
+                  borderJoinStyle: 'miter',
+                  pointBorderColor: "rgba(75,192,192,1)",
+                  pointBackgroundColor: "#fff",
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 5,
+                  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                  pointHoverBorderColor: "rgba(220,220,220,1)",
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 1,
+                  pointHitRadius: 10,
+                  data: [],
+                  spanGaps: false,
+              },
+              {
+                  id: null,
+                  label: 'Regression',
+                  fill: false,
+                  lineTension: 0.1,
+                  backgroundColor: "rgba(239,46,46,0.4)",
+                  borderColor: "rgba(239,46,46,1)",
+                  borderCapStyle: 'butt',
+                  borderDash: [],
+                  borderDashOffset: 0.0,
+                  borderJoinStyle: 'miter',
+                  pointBorderColor: "rgba(239,46,46,1)",
+                  pointBackgroundColor: "#fff",
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 5,
+                  pointHoverBackgroundColor: "rgba(239,46,46,1)",
+                  pointHoverBorderColor: "rgba(239,46,46,1)",
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 1,
+                  pointHitRadius: 10,
+                  data: [],
+                  spanGaps: false,
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom'
+                }],
+                yAxes: [{
+                    ticks: {
+                      stacked: true,
+                      beginAtZero:true
+                    }
+                }]
+              }
+            }
+          });
+          for(let i=0; i<data.x.length; ++i){
+            console.log({ x: data.x[i], y:data.y[i] }, { x: data.x[i], y:f1.delegationProtocol.fanout.estimator.f(data.x[i]) });
+            chart.data.datasets[0].data.push({ x: data.x[i], y:data.y[i] });
+            chart.data.datasets[1].data.push({ x: data.x[i], y:f1.delegationProtocol.fanout.estimator.f(data.x[i]) });
+          }
+
+          chart.update();
         });
       });
     });
@@ -1579,12 +1657,16 @@
     function load(endpoint = 'http://fragments.mementodepot.org/dbpedia_3_8') {
       f1.delegationProtocol.sendPromise(request, endpoint, false, 2000, 5, 500);
     }
+
+
   </script>
 
   <body>
     <h3> Please see your console (F12) to see logs of the example </h3>
     <p> If an error appeared with jquery, it's because you did not clone the repository from github, you just installed the package with npm.
-      <br/> JQuery is not in the dependencies installed.</p>
+      <br/> JQuery is not in the dependencies installed. Idem for chart.js</p>
+
+      <canvas id="chart" width="400" height="200"></canvas>
   </body>
 
 </html>

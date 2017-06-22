@@ -3,8 +3,12 @@
 const debug = require('debug')('ladda:estimator');
 const _ = require('lodash');
 const EventEmitter = require('events');
+/**
+ * TYPE OF REGRESSION
+ */
 const regression = require('regression');
-const Reference = require('./reference.json');
+const Reference = require('./reference_smallserver.json');
+
 
 class Estimator extends EventEmitter {
   constructor (options = {}) {
@@ -124,9 +128,13 @@ class Estimator extends EventEmitter {
       // let equation = this.regression.equation;
       // let a = equation[2], b= equation[1], c = equation[0];
       // return a * x * x + b * x + c;
+
       // linear
       let equation = this.regression.equation;
-      return equation[0]*x; // + (equation[1]);
+      return equation[0]*x + (equation[1]);
+      // console.log('Coefficients: ', this.regression.calculateCoefficients());
+      // console.log('Hypothesize: ', this.regression.hypothesize({x:[ x ]}));
+      // return this.regression.hypothesize({x:[ x ]})[0];
     };
     this.y = (y) => {
       // polynomial
@@ -134,22 +142,28 @@ class Estimator extends EventEmitter {
       // let a = equation[2], b = equation[1], c = equation[0];
       // // quadratic formula for the second order polynome, assuming that the curve is only positive
       // return (-b + Math.sqrt((b*b - 4 * a * (c - y))))/(2 * a);
+
       // linear
       let equation = this.regression.equation;
-      return (y /*- equation[1]*/)/equation[0];
+      return (y - equation[1] )/equation[0];
+      // return y / this.regression.calculateCoefficients()[0];
     };
   }
 
   _computeRegression () {
-    return regression('linearThroughOrigin', this._data);
-    // return regression('linear', this._data);
+    // let model = Loess.loess_pairs(this._data, 0.5);
+    // this.regression = new smr.Regression({ numX: 1, numY: 1 });
+    // for(let i = 0; i<this.data.x.length; ++i) this.regression.push({x: [ this.data.x[i] ], y: [ this.data.y[i] ] });
+    // return this.regression;
+    //return regression('linearThroughOrigin', this._data);
+     return regression('linear', this._data);
   }
 
   loadReference () {
     let data = Reference;
     this.addPoint({
       x: 0,
-      y: 0
+      y: data[0].average
     });
     this.data.max = _.maxBy(data, 'max').max;
     this.data.min = _.minBy(data, 'min').min;

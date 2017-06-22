@@ -4,6 +4,7 @@ const debug = require('debug')('ladda:fanout');
 const _ = require('lodash');
 const EventEmitter = require('events');
 const Estimator = require('./estimator/estimator.js');
+const FixedArray = require('fixed-array');
 
 class Fanout extends EventEmitter {
   constructor (options = {}) {
@@ -11,11 +12,14 @@ class Fanout extends EventEmitter {
     this.options = _.merge({
       verbose: true,
       threshold: 0.30,
+      maxValue: 100,
       maxParallelConnections: 10,
       networkSize: function (sizeView, a, b) {
         return Math.exp((sizeView - b)/a);
       }
     }, options);
+
+    this.stack = FixedArray(this.options.maxValue);
 
     this.estimator = new Estimator();
     this.estimator.loadReference();
@@ -62,16 +66,28 @@ class Fanout extends EventEmitter {
     return finish('noop', 0);
   }
 
-  estimateByThreshold (y, fanout) {
-    const finish = (message = 'noop', flag = 0, value = undefined, thresholdFanout) => {
-      this._log('Increase/Decrease/Noop: ' + flag + ', Message: '+ message + ', New Value: ' + value, ' Threshold: ', thresholdFanout);
-      return {flag, value, thresholdFanout};
-    };
+  estimateByThreshold (y) {
+    this.stack.push(y);
+    const average = this.stack.mean();
 
-    let thresholdFanout = Math.floor( y / this.estimator.f(1) );
-    if( thresholdFanout > fanout) return finish('threshold upper than fanout, increase', 1, fanout+1, thresholdFanout);
-    if( thresholdFanout < fanout) return finish('threshold lower than fanout, decrease', -1, thresholdFanout, thresholdFanout);
-    return finish('noop', 0, fanout, thresholdFanout);
+    let max = this.estimator.f(
+        Math.abs(
+          (- this.estimator.regression.equation[1])
+          /
+          (this.estimator.f(1) - this.estimator.regression.equation[0])
+        )
+    );
+
+    const finish = (message = 'noop', flag = 0, value = undefined, ...args) => {
+      return {flag, value, args};
+    };
+    if( average > max) return finish('value upper than max, decrease', -1);
+    if( average < max) return finish('value lower than max, increase', +1);
+    return finish('noop', 0);
+    // let thresholdFanout = Math.floor( y / this.estimator.f(1) );
+    // if( thresholdFanout > fanout) return finish('threshold upper than fanout, increase', 1, fanout+1, thresholdFanout);
+    // if( thresholdFanout < fanout) return finish('threshold lower than fanout, decrease', -1, thresholdFanout, thresholdFanout);
+    // return finish('noop', 0, fanout, thresholdFanout);
   }
 
   _log (message) {

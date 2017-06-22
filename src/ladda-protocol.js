@@ -550,13 +550,13 @@ class LaddaProtocol extends DelegationProtocol {
         // console.log(queryResults);
         queryResults.on('data', ldfResult => {
           // self._log('@LADDA :** ON DATA EXECUTE **');
-          self.checkFanout(fragmentsClient._httpClient._statistics.responseTime.average);
+          self.checkFanout(fragmentsClient._httpClient._statistics.responseTime.latest);
           delegationResults = delegationResults.push(ldfResult);
         });
         // resolve when all results are arrived
         queryResults.on('end', () => {
           // self._log('@LADDA :** ON END EXECUTE **');
-          self.checkFanout(fragmentsClient._httpClient._statistics.responseTime.average);
+          self.checkFanout(fragmentsClient._httpClient._statistics.responseTime.latest);
           resolve(delegationResults.toJS());
         });
 
@@ -596,8 +596,8 @@ class LaddaProtocol extends DelegationProtocol {
   */
   checkFanout (value) {
     let oldFanout = this.nbDestinations;
-    let estimation = this.fanout.estimateByThreshold(value, this.nbDestinations);
-    this._log('Estimation of a new responseTime average: ', value, estimation);
+    let estimation = this.fanout.estimateByThreshold(value, this.nbDestinations, this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count());
+    this._log('Estimation of a new responseTime average: ', value, estimation, this.fanout.estimator.f(1));
 
     switch(estimation.flag) {
     case 1: {
