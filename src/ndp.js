@@ -42,12 +42,10 @@ class NDP extends Foglet {
 	 */
 	constructor (options) {
 		if (options === undefined || options.room === undefined || options.protocol === undefined ) {
-			throw new Error('Missing options, options.room and options.protocol must be defined in options', 'ndp.js');
+			throw new Error('Missing options, options.room and options.protocol must be defined in options for foglet-core', 'ndp.js');
 		}
 		super(options);
-		this.maxPeers = options.maxPeers || null;
-		this.timeout = options.timeout || null;
-		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(this.maxPeers, this.timeout, this.options.verbose);
+		this.delegationProtocol = options.delegationProtocol || new LaddaProtocol(options);
 	}
 
 	/**

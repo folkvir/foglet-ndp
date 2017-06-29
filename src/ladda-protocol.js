@@ -79,21 +79,24 @@ class LaddaProtocol extends DelegationProtocol {
   * @param {int|undefined} nbDestinations - (optional) The number of destinations for delegation (default to 2, as in Ladda paper)
   * @param {int|undefined} timeout - (optional) The timeout used by the protocol. Disable by default unless it is set.
   */
-  constructor (nbDestinations, timeout, verbose) {
-    super({
+  constructor (options) {
+    let opts = _.merge({
       name: 'ladda',
-      verbose
-    });
+      verbose: true,
+      nbDestinations: 2,
+      timeout: 10000
+    }, options);
+    super(opts);
+    this.opts = opts;
     // this.queryQueue = Immutable.Map();
     this.queryQueue = new StatusQueue();
     this.busyPeers = Immutable.Set();
     this.isFree = true;
     this.fanoutSet = false;
-    this.fanoutValidity = 5000; // 5 seconds
-    this.nbDestinations = nbDestinations || 2;
+    this.nbDestinations = this.opts.nbDestinations || 2;
     this.nbDestinationsLoop = null;
-    this.timeout = timeout || 300 * 1000; // 300 secondes by default = 5 minutes
-    this.maxError = 5;
+    this.timeout = this.opts.timeout || 300 * 1000; // 300 secondes by default = 5 minutes
+    this.maxError = this.opts.maxErrors || 5;
 
     this.workloadFinished = 'ndp-workload-finished'; // for internal use
     this.signalAnswerNdp = 'ndp-answer-internal'; // When an answer is received from our workload, for internal use
@@ -105,18 +108,18 @@ class LaddaProtocol extends DelegationProtocol {
     this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
     this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
     this.signalFanoutSet = 'ndp-fanout-set';
+
+    this.enableFanoutBroadcast = this.opts.enableFanoutBroadcast || false;
+
     // garbageTimeout
     this.garbageTimeout = new Map();
     // fragmentsClient
     this.endpoints = new Map();
-
     // checking loop
     this.garbageQueries = undefined;
-
     this.erroredQueries = new Map();
-
     this.fanout = new Fanout({
-      verbose: true
+      verbose: verbose
     });
   }
 
@@ -126,9 +129,8 @@ class LaddaProtocol extends DelegationProtocol {
   * @param {string} endpoint - Endpoint to send queries
   * @return {promise} A Q promise
   */
-  send (data, endpoint, interval = 500, maxErrors = 5, fanoutValidity = 10000) {
+  send (data, endpoint, interval = 500, maxErrors = 5) {
     this.maxErrors = maxErrors;
-    this.fanoutValidity = fanoutValidity;
     this._setFragmentsClient (endpoint, false);
     // clear queue before anything
     this.queryQueue.clear();
@@ -146,14 +148,14 @@ class LaddaProtocol extends DelegationProtocol {
   * @param {number} interval - Interval to check before executing waiting queries if we are free
   * @return {promise} A Q promise
   */
-  sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5, fanoutValidity = 10000) {
+  sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5) {
     // need to get the fanout before process queries if we have neighbours();
     if(!this.fanoutSet) {
       this.on(this.signalFanoutSet, () => {
-        return this._sendPromise(data, endpoint, withResults, interval, maxErrors, fanoutValidity);
+        return this._sendPromise(data, endpoint, withResults, interval, maxErrors);
       });
     } else {
-      return this._sendPromise(data, endpoint, withResults, interval, maxErrors, fanoutValidity);
+      return this._sendPromise(data, endpoint, withResults, interval, maxErrors);
     }
   }
 
@@ -165,10 +167,9 @@ class LaddaProtocol extends DelegationProtocol {
   * @param {number} interval - Interval to check before executing waiting queries if we are free
   * @return {promise} A Q promise
   */
-  _sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5, fanoutValidity = 10000) {
+  _sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5) {
     return Q.Promise( (resolve) => {
       this.maxErrors = maxErrors;
-      this.fanoutValidity = fanoutValidity;
       this._setFragmentsClient (endpoint, false);
       // clear queue before anything
       this.queryQueue.clear();
@@ -596,7 +597,8 @@ class LaddaProtocol extends DelegationProtocol {
   */
   checkFanout (value) {
     let oldFanout = this.nbDestinations;
-    let estimation = this.fanout.estimateByThreshold(value, this.nbDestinations, this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count());
+    let estimation = this.fanout.estimate(value);
+
     this._log('Estimation of a new responseTime average: ', value, estimation, this.fanout.estimator.f(1));
 
     switch(estimation.flag) {
@@ -633,7 +635,13 @@ class LaddaProtocol extends DelegationProtocol {
   * @return {void}
   */
   increaseFanout () {
-    this.setNbDestination(Math.min(this.nbDestinations + 1, Math.min(this.foglet.getNeighbours().length, this.nbDestinations + 1) + 1));
+    let oldFanout = this.nbDestinations;
+    let neighbours = this.foglet.getNeighbours().length;
+    let newFanout = oldFanout + 1;
+    if(newFanout >= neighbours) {
+      newFanout = neighbours;
+    }
+    this.setNbDestination(newFanout);
   }
 
   /**
@@ -663,11 +671,13 @@ class LaddaProtocol extends DelegationProtocol {
    * @return {void}
    */
   broadcastFanout () {
-    // now broadcast the new fanout to the whole network
-    this.foglet.sendBroadcast({
-      type: 'ndp-new-fanout',
-      value: this.nbDestinations
-    });
+    if(this.enableFanoutBroadcast) {
+      // now broadcast the new fanout to the whole network
+      this.foglet.sendBroadcast({
+        type: 'ndp-new-fanout',
+        value: this.nbDestinations
+      });
+    }
   }
   /**
   * Check if a queries is errored or not and if maxErrors is exceeded set to errored

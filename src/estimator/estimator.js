@@ -14,7 +14,7 @@ class Estimator extends EventEmitter {
   constructor (options = {}) {
     super();
     this.options = _.merge({
-      verbose: true
+      verbose: true,
     }, options);
 
     this.data = {
@@ -87,7 +87,7 @@ class Estimator extends EventEmitter {
   * Add a point by providing this y value, y = f(x).
   * We found x with the function providing by the regression.
   * And we compute again the regression to adjust f and y functions
-  * @param {number} y Point to add to data
+  * @param {number} x Point to add to data
   * @return {void}
   */
   addPointX (x = 0) {
@@ -155,8 +155,8 @@ class Estimator extends EventEmitter {
     // this.regression = new smr.Regression({ numX: 1, numY: 1 });
     // for(let i = 0; i<this.data.x.length; ++i) this.regression.push({x: [ this.data.x[i] ], y: [ this.data.y[i] ] });
     // return this.regression;
-    //return regression('linearThroughOrigin', this._data);
-     return regression('linear', this._data);
+    // return regression('linearThroughOrigin', this._data);
+    return regression('linear', this._data);
   }
 
   loadReference () {
@@ -167,6 +167,7 @@ class Estimator extends EventEmitter {
     });
     this.data.max = _.maxBy(data, 'max').max;
     this.data.min = _.minBy(data, 'min').min;
+    this.data.limit = _.maxBy(data, 'clients').clients;
     data.forEach(d => {
       this.addPoint({
         x: d.clients,
