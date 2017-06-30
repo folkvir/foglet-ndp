@@ -119,7 +119,7 @@ class LaddaProtocol extends DelegationProtocol {
     this.garbageQueries = undefined;
     this.erroredQueries = new Map();
     this.fanout = new Fanout({
-      verbose: verbose
+      verbose: this.opts.verbose
     });
   }
 
