@@ -1123,9 +1123,13 @@
       });
     });
 
-    f1.onUnicast((id, message) => console.log('Fanout: ', f3.delegationProtocol.nbDestinations, f2.delegationProtocol.nbDestinations,f1.delegationProtocol.nbDestinations));
-    f2.onUnicast((id, message) => console.log('Fanout: ', f3.delegationProtocol.nbDestinations, f2.delegationProtocol.nbDestinations,f1.delegationProtocol.nbDestinations));
-    f3.onUnicast((id, message) => console.log('Fanout: ', f3.delegationProtocol.nbDestinations, f2.delegationProtocol.nbDestinations,f1.delegationProtocol.nbDestinations));
+    f1.delegationProtocol.on('ndp-fanout-changed', (y, fanout, neighbours, delegationQueries) => {
+      console.log('Listen : ', y, fanout, neighbours, delegationQueries);
+    });
+
+    // f1.onUnicast((id, message) => console.log('Fanout: ', f3.delegationProtocol.nbDestinations, f2.delegationProtocol.nbDestinations,f1.delegationProtocol.nbDestinations));
+    // f2.onUnicast((id, message) => console.log('Fanout: ', f3.delegationProtocol.nbDestinations, f2.delegationProtocol.nbDestinations,f1.delegationProtocol.nbDestinations));
+    // f3.onUnicast((id, message) => console.log('Fanout: ', f3.delegationProtocol.nbDestinations, f2.delegationProtocol.nbDestinations,f1.delegationProtocol.nbDestinations));
 
     function load(endpoint = 'http://fragments.mementodepot.org/dbpedia_3_8') {
       f1.delegationProtocol.sendPromise(request, endpoint, false, 2000, 5, 500);
