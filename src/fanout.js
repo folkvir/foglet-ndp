@@ -20,7 +20,6 @@ class Fanout extends EventEmitter {
     }, options);
 
     this.stack = FixedArray(this.options.maxValue);
-
     this.estimator = new Estimator(this.options);
     this.estimator.loadReference();
   }
@@ -43,6 +42,7 @@ class Fanout extends EventEmitter {
    * @return {number} 1 (increase the fanout) || -1 (decrease the fanout)
    */
   estimate (y, threshold = this.options.threshold) {
+
     this.stack.push(y);
     y = this.stack.mean();
     let min = this.estimator.data.min,

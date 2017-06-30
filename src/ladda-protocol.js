@@ -94,7 +94,6 @@ class LaddaProtocol extends DelegationProtocol {
     this.isFree = true;
     this.fanoutSet = false;
     this.nbDestinations = this.opts.nbDestinations || 2;
-    this.nbDestinationsLoop = null;
     this.timeout = this.opts.timeout || 300 * 1000; // 300 secondes by default = 5 minutes
     this.maxError = this.opts.maxErrors || 5;
 
@@ -108,6 +107,7 @@ class LaddaProtocol extends DelegationProtocol {
     this.signalDelegateQuery = 'ndp-delegated'; // We are delegating a query
     this.signalDelegatedQueryExecuted = 'ndp-delegated-query-executed'; // We executed a delegated query
     this.signalFanoutSet = 'ndp-fanout-set';
+    this.signalFanoutChanged = 'ndp-fanout-changed';
 
     this.enableFanoutBroadcast = this.opts.enableFanoutBroadcast || false;
 
@@ -596,27 +596,24 @@ class LaddaProtocol extends DelegationProtocol {
   * @return {void}
   */
   checkFanout (value) {
-    let oldFanout = this.nbDestinations;
     let estimation = this.fanout.estimate(value);
-
-    this._log('Estimation of a new responseTime average: ', value, estimation, this.fanout.estimator.f(1));
 
     switch(estimation.flag) {
     case 1: {
-      if(estimation.value) {
-        this.setNbDestination(estimation.value);
-      } else {
-        this.increaseFanout();
-      }
+      // if(estimation.value) {
+      //   this.setNbDestination(estimation.value);
+      // } else {
+      this.increaseFanout();
+      // }
       break;
     }
     case -1: {
-      if(estimation.value) {
-        this.setNbDestination(estimation.value);
-      } else {
+      // if(estimation.value) {
+      //   this.setNbDestination(estimation.value);
+      // } else {
         // decrease the fanout, same behavior than _processErrors
-        this._processErrors({error: 'decrease the fanout'});
-      }
+      this._processErrors({error: 'decrease the fanout'});
+      // }
       break;
     }
     case 0: {
@@ -627,7 +624,8 @@ class LaddaProtocol extends DelegationProtocol {
       throw new Error('Estimate function return an unknown value.');
     }
     }
-    this._log('Old Fanout: ', oldFanout, ' New Fanout: ', this.nbDestinations);
+
+    this.emit(this.signalFanoutChanged, value, this.nbDestinations, this.foglet.getNeighbours().length, this.queryQueue.getQueriesByStatus(STATUS_DELEGATED).count());
   }
 
   /**
