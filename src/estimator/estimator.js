@@ -7,7 +7,7 @@ const EventEmitter = require('events');
  * TYPE OF REGRESSION
  */
 const regression = require('regression');
-const Reference = require('./reference_smallserver.json');
+const Reference = require('./reference.json');
 
 
 class Estimator extends EventEmitter {

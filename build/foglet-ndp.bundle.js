@@ -72721,7 +72721,7 @@ var EventEmitter = require('events');
  * TYPE OF REGRESSION
  */
 var regression = require('regression');
-var Reference = require('./reference_smallserver.json');
+var Reference = require('./reference.json');
 
 var Estimator = function (_EventEmitter) {
   _inherits(Estimator, _EventEmitter);
@@ -72938,343 +72938,7999 @@ var Estimator = function (_EventEmitter) {
 
 module.exports = Estimator;
 
-},{"./reference_smallserver.json":345,"debug":7,"events":9,"lodash":289,"regression":322}],345:[function(require,module,exports){
+},{"./reference.json":345,"debug":7,"events":9,"lodash":289,"regression":322}],345:[function(require,module,exports){
 module.exports=[
 	{
-		"ok": 1485,
+		"ok": 214,
 		"errored": 0,
 		"clients": 1,
-		"average": 6.921885521885522,
-		"min": "5",
-		"max": "303"
+		"average": 50.73364485981308,
+		"min": "12",
+		"max": "76"
 	},
 	{
-		"ok": 2804,
+		"ok": 352,
 		"errored": 0,
 		"clients": 2,
-		"average": 6.562410841654779,
-		"min": "5",
-		"max": "71"
+		"average": 57.09659090909091,
+		"min": "13",
+		"max": "91"
+	},
+	{
+		"ok": 464,
+		"errored": 0,
+		"clients": 3,
+		"average": 64.07112068965517,
+		"min": "14",
+		"max": "100"
+	},
+	{
+		"ok": 552,
+		"errored": 0,
+		"clients": 4,
+		"average": 70.89492753623189,
+		"min": "16",
+		"max": "112"
+	},
+	{
+		"ok": 595,
+		"errored": 0,
+		"clients": 5,
+		"average": 81.65714285714286,
+		"min": "14",
+		"max": "143"
+	},
+	{
+		"ok": 642,
+		"errored": 0,
+		"clients": 6,
+		"average": 90.14953271028037,
+		"min": "17",
+		"max": "140"
+	},
+	{
+		"ok": 653,
+		"errored": 0,
+		"clients": 7,
+		"average": 101.71516079632465,
+		"min": "17",
+		"max": "231"
+	},
+	{
+		"ok": 704,
+		"errored": 0,
+		"clients": 8,
+		"average": 107.94176136363636,
+		"min": "17",
+		"max": "162"
+	},
+	{
+		"ok": 720,
+		"errored": 0,
+		"clients": 9,
+		"average": 117.86944444444444,
+		"min": "17",
+		"max": "168"
+	},
+	{
+		"ok": 740,
+		"errored": 0,
+		"clients": 10,
+		"average": 126.66216216216216,
+		"min": "17",
+		"max": "196"
+	},
+	{
+		"ok": 773,
+		"errored": 0,
+		"clients": 11,
+		"average": 130.83182406209573,
+		"min": "17",
+		"max": "196"
+	},
+	{
+		"ok": 792,
+		"errored": 0,
+		"clients": 12,
+		"average": 137.41540404040404,
+		"min": "17",
+		"max": "217"
+	},
+	{
+		"ok": 819,
+		"errored": 0,
+		"clients": 13,
+		"average": 142.1770451770452,
+		"min": "18",
+		"max": "231"
+	},
+	{
+		"ok": 868,
+		"errored": 0,
+		"clients": 14,
+		"average": 144.74884792626727,
+		"min": "16",
+		"max": "215"
+	},
+	{
+		"ok": 930,
+		"errored": 0,
+		"clients": 15,
+		"average": 145.11505376344087,
+		"min": "10",
+		"max": "223"
+	},
+	{
+		"ok": 896,
+		"errored": 0,
+		"clients": 16,
+		"average": 157.49553571428572,
+		"min": "16",
+		"max": "249"
+	},
+	{
+		"ok": 901,
+		"errored": 0,
+		"clients": 17,
+		"average": 161.43951165371809,
+		"min": "17",
+		"max": "259"
+	},
+	{
+		"ok": 951,
+		"errored": 0,
+		"clients": 18,
+		"average": 160.26182965299685,
+		"min": "15",
+		"max": "259"
+	},
+	{
+		"ok": 915,
+		"errored": 0,
+		"clients": 19,
+		"average": 173.94754098360656,
+		"min": "18",
+		"max": "310"
+	},
+	{
+		"ok": 984,
+		"errored": 0,
+		"clients": 20,
+		"average": 168.4979674796748,
+		"min": "13",
+		"max": "307"
+	},
+	{
+		"ok": 969,
+		"errored": 0,
+		"clients": 21,
+		"average": 178.70485036119712,
+		"min": "17",
+		"max": "291"
+	},
+	{
+		"ok": 1016,
+		"errored": 0,
+		"clients": 22,
+		"average": 181.58956692913387,
+		"min": "13",
+		"max": "319"
+	},
+	{
+		"ok": 1022,
+		"errored": 0,
+		"clients": 23,
+		"average": 189.3904109589041,
+		"min": "17",
+		"max": "322"
+	},
+	{
+		"ok": 1096,
+		"errored": 0,
+		"clients": 24,
+		"average": 180.17883211678833,
+		"min": "13",
+		"max": "329"
+	},
+	{
+		"ok": 1079,
+		"errored": 0,
+		"clients": 25,
+		"average": 193.1835032437442,
+		"min": "8",
+		"max": "346"
+	},
+	{
+		"ok": 1118,
+		"errored": 0,
+		"clients": 26,
+		"average": 192.47853309481218,
+		"min": "12",
+		"max": "359"
+	},
+	{
+		"ok": 1141,
+		"errored": 0,
+		"clients": 27,
+		"average": 193.977212971078,
+		"min": "13",
+		"max": "374"
+	},
+	{
+		"ok": 1207,
+		"errored": 0,
+		"clients": 28,
+		"average": 191.7738193869097,
+		"min": "12",
+		"max": "406"
+	},
+	{
+		"ok": 1237,
+		"errored": 0,
+		"clients": 29,
+		"average": 195.99919159256265,
+		"min": "13",
+		"max": "358"
+	},
+	{
+		"ok": 1166,
+		"errored": 0,
+		"clients": 30,
+		"average": 217.7229845626072,
+		"min": "14",
+		"max": "408"
+	},
+	{
+		"ok": 1244,
+		"errored": 0,
+		"clients": 31,
+		"average": 207.35691318327974,
+		"min": "12",
+		"max": "458"
+	},
+	{
+		"ok": 1115,
+		"errored": 0,
+		"clients": 32,
+		"average": 240.64215246636772,
+		"min": "14",
+		"max": "413"
+	},
+	{
+		"ok": 1258,
+		"errored": 0,
+		"clients": 33,
+		"average": 215.11526232114468,
+		"min": "16",
+		"max": "474"
+	},
+	{
+		"ok": 1375,
+		"errored": 0,
+		"clients": 34,
+		"average": 212.78836363636364,
+		"min": "10",
+		"max": "460"
+	},
+	{
+		"ok": 1344,
+		"errored": 0,
+		"clients": 35,
+		"average": 217.41815476190476,
+		"min": "14",
+		"max": "470"
+	},
+	{
+		"ok": 1365,
+		"errored": 0,
+		"clients": 36,
+		"average": 216.15238095238095,
+		"min": "10",
+		"max": "480"
+	},
+	{
+		"ok": 1534,
+		"errored": 0,
+		"clients": 37,
+		"average": 205.09517601043024,
+		"min": "11",
+		"max": "537"
+	},
+	{
+		"ok": 1260,
+		"errored": 0,
+		"clients": 38,
+		"average": 253.79444444444445,
+		"min": "18",
+		"max": "526"
+	},
+	{
+		"ok": 1331,
+		"errored": 0,
+		"clients": 39,
+		"average": 238.8632607062359,
+		"min": "13",
+		"max": "452"
+	},
+	{
+		"ok": 1289,
+		"errored": 0,
+		"clients": 40,
+		"average": 253.5321955003879,
+		"min": "14",
+		"max": "508"
+	},
+	{
+		"ok": 1334,
+		"errored": 0,
+		"clients": 41,
+		"average": 256.5817091454273,
+		"min": "12",
+		"max": "508"
+	},
+	{
+		"ok": 1708,
+		"errored": 0,
+		"clients": 42,
+		"average": 204.7295081967213,
+		"min": "9",
+		"max": "500"
+	},
+	{
+		"ok": 1387,
+		"errored": 0,
+		"clients": 43,
+		"average": 260.9379956741168,
+		"min": "9",
+		"max": "548"
+	},
+	{
+		"ok": 1543,
+		"errored": 0,
+		"clients": 44,
+		"average": 238.53143227478938,
+		"min": "9",
+		"max": "520"
+	},
+	{
+		"ok": 1349,
+		"errored": 0,
+		"clients": 45,
+		"average": 276.4855448480356,
+		"min": "16",
+		"max": "640"
+	},
+	{
+		"ok": 1647,
+		"errored": 0,
+		"clients": 46,
+		"average": 229.1766848816029,
+		"min": "9",
+		"max": "537"
+	},
+	{
+		"ok": 1556,
+		"errored": 0,
+		"clients": 47,
+		"average": 245.24485861182518,
+		"min": "9",
+		"max": "638"
+	},
+	{
+		"ok": 1691,
+		"errored": 0,
+		"clients": 48,
+		"average": 236.91602602010644,
+		"min": "10",
+		"max": "556"
+	},
+	{
+		"ok": 1587,
+		"errored": 0,
+		"clients": 49,
+		"average": 246.66225582860744,
+		"min": "9",
+		"max": "595"
+	},
+	{
+		"ok": 1738,
+		"errored": 0,
+		"clients": 50,
+		"average": 234.29861910241658,
+		"min": "8",
+		"max": "688"
+	},
+	{
+		"ok": 1876,
+		"errored": 0,
+		"clients": 51,
+		"average": 220.8720682302772,
+		"min": "8",
+		"max": "589"
+	},
+	{
+		"ok": 1610,
+		"errored": 0,
+		"clients": 52,
+		"average": 266.00124223602484,
+		"min": "9",
+		"max": "719"
+	},
+	{
+		"ok": 1860,
+		"errored": 0,
+		"clients": 53,
+		"average": 232.30215053763442,
+		"min": "9",
+		"max": "641"
+	},
+	{
+		"ok": 1680,
+		"errored": 0,
+		"clients": 54,
+		"average": 260.8232142857143,
+		"min": "16",
+		"max": "692"
+	},
+	{
+		"ok": 1548,
+		"errored": 0,
+		"clients": 55,
+		"average": 284.27713178294573,
+		"min": "8",
+		"max": "612"
+	},
+	{
+		"ok": 2081,
+		"errored": 0,
+		"clients": 56,
+		"average": 222.85391638635272,
+		"min": "9",
+		"max": "646"
+	},
+	{
+		"ok": 1722,
+		"errored": 0,
+		"clients": 57,
+		"average": 277.520325203252,
+		"min": "19",
+		"max": "643"
+	},
+	{
+		"ok": 1638,
+		"errored": 0,
+		"clients": 58,
+		"average": 296.09157509157507,
+		"min": "9",
+		"max": "694"
+	},
+	{
+		"ok": 1778,
+		"errored": 0,
+		"clients": 59,
+		"average": 282.7154105736783,
+		"min": "9",
+		"max": "712"
+	},
+	{
+		"ok": 1657,
+		"errored": 0,
+		"clients": 60,
+		"average": 304.99336149668073,
+		"min": "9",
+		"max": "650"
+	},
+	{
+		"ok": 1842,
+		"errored": 0,
+		"clients": 61,
+		"average": 271.85504885993487,
+		"min": "8",
+		"max": "724"
+	},
+	{
+		"ok": 1992,
+		"errored": 0,
+		"clients": 62,
+		"average": 252.08534136546186,
+		"min": "9",
+		"max": "773"
+	},
+	{
+		"ok": 1776,
+		"errored": 0,
+		"clients": 63,
+		"average": 291.30743243243245,
+		"min": "9",
+		"max": "694"
+	},
+	{
+		"ok": 1866,
+		"errored": 0,
+		"clients": 64,
+		"average": 289.07609860664525,
+		"min": "9",
+		"max": "747"
+	},
+	{
+		"ok": 2144,
+		"errored": 0,
+		"clients": 65,
+		"average": 254.3162313432836,
+		"min": "9",
+		"max": "660"
+	},
+	{
+		"ok": 1727,
+		"errored": 0,
+		"clients": 66,
+		"average": 315.11754487550667,
+		"min": "10",
+		"max": "737"
+	},
+	{
+		"ok": 1854,
+		"errored": 0,
+		"clients": 67,
+		"average": 299.8743257820928,
+		"min": "10",
+		"max": "657"
+	},
+	{
+		"ok": 1866,
+		"errored": 0,
+		"clients": 68,
+		"average": 309.8703108252947,
+		"min": "10",
+		"max": "809"
+	},
+	{
+		"ok": 1703,
+		"errored": 0,
+		"clients": 69,
+		"average": 334.8144450968878,
+		"min": "10",
+		"max": "804"
+	},
+	{
+		"ok": 1827,
+		"errored": 0,
+		"clients": 70,
+		"average": 302.9501915708812,
+		"min": "9",
+		"max": "781"
+	},
+	{
+		"ok": 1864,
+		"errored": 0,
+		"clients": 71,
+		"average": 315.05096566523605,
+		"min": "10",
+		"max": "866"
+	},
+	{
+		"ok": 1948,
+		"errored": 0,
+		"clients": 72,
+		"average": 303.9697125256674,
+		"min": "9",
+		"max": "806"
+	},
+	{
+		"ok": 1975,
+		"errored": 0,
+		"clients": 73,
+		"average": 299.84354430379744,
+		"min": "9",
+		"max": "772"
+	},
+	{
+		"ok": 1708,
+		"errored": 0,
+		"clients": 74,
+		"average": 345.50292740046837,
+		"min": "10",
+		"max": "991"
+	},
+	{
+		"ok": 2031,
+		"errored": 0,
+		"clients": 75,
+		"average": 308.26587887740027,
+		"min": "9",
+		"max": "903"
+	},
+	{
+		"ok": 2000,
+		"errored": 0,
+		"clients": 76,
+		"average": 315.014,
+		"min": "10",
+		"max": "914"
+	},
+	{
+		"ok": 1865,
+		"errored": 0,
+		"clients": 77,
+		"average": 335.5265415549598,
+		"min": "9",
+		"max": "849"
+	},
+	{
+		"ok": 1736,
+		"errored": 0,
+		"clients": 78,
+		"average": 382.33294930875576,
+		"min": "9",
+		"max": "856"
+	},
+	{
+		"ok": 1976,
+		"errored": 0,
+		"clients": 79,
+		"average": 336.31477732793525,
+		"min": "10",
+		"max": "841"
+	},
+	{
+		"ok": 1970,
+		"errored": 0,
+		"clients": 80,
+		"average": 315.26294416243655,
+		"min": "10",
+		"max": "902"
+	},
+	{
+		"ok": 2383,
+		"errored": 0,
+		"clients": 81,
+		"average": 271.14981116240034,
+		"min": "9",
+		"max": "663"
+	},
+	{
+		"ok": 2310,
+		"errored": 0,
+		"clients": 82,
+		"average": 295.44415584415583,
+		"min": "10",
+		"max": "878"
+	},
+	{
+		"ok": 1926,
+		"errored": 0,
+		"clients": 83,
+		"average": 347.52907580477677,
+		"min": "10",
+		"max": "1052"
+	},
+	{
+		"ok": 2295,
+		"errored": 0,
+		"clients": 84,
+		"average": 308.4148148148148,
+		"min": "9",
+		"max": "790"
+	},
+	{
+		"ok": 2057,
+		"errored": 0,
+		"clients": 85,
+		"average": 332.34030140982014,
+		"min": "10",
+		"max": "1066"
+	},
+	{
+		"ok": 2246,
+		"errored": 0,
+		"clients": 86,
+		"average": 316.31166518254673,
+		"min": "10",
+		"max": "964"
+	},
+	{
+		"ok": 2023,
+		"errored": 0,
+		"clients": 87,
+		"average": 352.11715274345033,
+		"min": "10",
+		"max": "968"
+	},
+	{
+		"ok": 2245,
+		"errored": 0,
+		"clients": 88,
+		"average": 310.07795100222717,
+		"min": "10",
+		"max": "865"
+	},
+	{
+		"ok": 1887,
+		"errored": 0,
+		"clients": 89,
+		"average": 385.42077371489137,
+		"min": "10",
+		"max": "948"
+	},
+	{
+		"ok": 2170,
+		"errored": 0,
+		"clients": 90,
+		"average": 340.95760368663593,
+		"min": "10",
+		"max": "816"
+	},
+	{
+		"ok": 2197,
+		"errored": 0,
+		"clients": 91,
+		"average": 332.75557578516157,
+		"min": "10",
+		"max": "856"
+	},
+	{
+		"ok": 1757,
+		"errored": 0,
+		"clients": 92,
+		"average": 443.61013090495163,
+		"min": "11",
+		"max": "903"
+	},
+	{
+		"ok": 2053,
+		"errored": 0,
+		"clients": 93,
+		"average": 356.88602045786655,
+		"min": "11",
+		"max": "980"
+	},
+	{
+		"ok": 1893,
+		"errored": 0,
+		"clients": 94,
+		"average": 390.31378763866877,
+		"min": "11",
+		"max": "991"
+	},
+	{
+		"ok": 2100,
+		"errored": 0,
+		"clients": 95,
+		"average": 358.2942857142857,
+		"min": "11",
+		"max": "1048"
+	},
+	{
+		"ok": 2056,
+		"errored": 0,
+		"clients": 96,
+		"average": 358.4027237354086,
+		"min": "11",
+		"max": "966"
+	},
+	{
+		"ok": 2224,
+		"errored": 0,
+		"clients": 97,
+		"average": 355.78687050359713,
+		"min": "10",
+		"max": "1063"
+	},
+	{
+		"ok": 2067,
+		"errored": 0,
+		"clients": 98,
+		"average": 378.7223028543783,
+		"min": "11",
+		"max": "1010"
+	},
+	{
+		"ok": 2091,
+		"errored": 0,
+		"clients": 99,
+		"average": 373.08751793400285,
+		"min": "11",
+		"max": "1022"
+	},
+	{
+		"ok": 2004,
+		"errored": 0,
+		"clients": 100,
+		"average": 399.29690618762476,
+		"min": "11",
+		"max": "987"
+	},
+	{
+		"ok": 2229,
+		"errored": 0,
+		"clients": 101,
+		"average": 350.9089277703006,
+		"min": "11",
+		"max": "1122"
+	},
+	{
+		"ok": 1844,
+		"errored": 0,
+		"clients": 102,
+		"average": 428.18112798264644,
+		"min": "11",
+		"max": "1104"
+	},
+	{
+		"ok": 2250,
+		"errored": 0,
+		"clients": 103,
+		"average": 364.864,
+		"min": "11",
+		"max": "1111"
+	},
+	{
+		"ok": 1986,
+		"errored": 0,
+		"clients": 104,
+		"average": 430.4592145015106,
+		"min": "11",
+		"max": "1044"
+	},
+	{
+		"ok": 2175,
+		"errored": 0,
+		"clients": 105,
+		"average": 379.6547126436782,
+		"min": "11",
+		"max": "1071"
+	},
+	{
+		"ok": 2126,
+		"errored": 0,
+		"clients": 106,
+		"average": 400.98635936030104,
+		"min": "13",
+		"max": "1092"
+	},
+	{
+		"ok": 2357,
+		"errored": 0,
+		"clients": 107,
+		"average": 365.4925753075944,
+		"min": "12",
+		"max": "731"
+	},
+	{
+		"ok": 2494,
+		"errored": 0,
+		"clients": 108,
+		"average": 349.5008019246191,
+		"min": "11",
+		"max": "557"
+	},
+	{
+		"ok": 2191,
+		"errored": 0,
+		"clients": 109,
+		"average": 397.66864445458697,
+		"min": "12",
+		"max": "892"
+	},
+	{
+		"ok": 2383,
+		"errored": 0,
+		"clients": 110,
+		"average": 363.45530843474614,
+		"min": "11",
+		"max": "842"
+	},
+	{
+		"ok": 2225,
+		"errored": 0,
+		"clients": 111,
+		"average": 400.84808988764047,
+		"min": "12",
+		"max": "902"
+	},
+	{
+		"ok": 1817,
+		"errored": 0,
+		"clients": 112,
+		"average": 475.26582278481015,
+		"min": "11",
+		"max": "1123"
+	},
+	{
+		"ok": 2015,
+		"errored": 0,
+		"clients": 113,
+		"average": 437.0610421836228,
+		"min": "11",
+		"max": "1077"
+	},
+	{
+		"ok": 1991,
+		"errored": 0,
+		"clients": 114,
+		"average": 444.264691109995,
+		"min": "12",
+		"max": "1095"
+	},
+	{
+		"ok": 2269,
+		"errored": 0,
+		"clients": 115,
+		"average": 406.08726311150286,
+		"min": "11",
+		"max": "1078"
+	},
+	{
+		"ok": 1979,
+		"errored": 0,
+		"clients": 116,
+		"average": 452.1490651844366,
+		"min": "11",
+		"max": "998"
+	},
+	{
+		"ok": 1884,
+		"errored": 0,
+		"clients": 117,
+		"average": 456.9490445859873,
+		"min": "11",
+		"max": "1087"
+	},
+	{
+		"ok": 2009,
+		"errored": 0,
+		"clients": 118,
+		"average": 454.90094574415133,
+		"min": "12",
+		"max": "1138"
+	},
+	{
+		"ok": 2411,
+		"errored": 0,
+		"clients": 119,
+		"average": 390.6972210700954,
+		"min": "11",
+		"max": "872"
+	},
+	{
+		"ok": 1923,
+		"errored": 0,
+		"clients": 120,
+		"average": 475.7597503900156,
+		"min": "12",
+		"max": "1098"
+	},
+	{
+		"ok": 1942,
+		"errored": 0,
+		"clients": 121,
+		"average": 463.5226570545829,
+		"min": "12",
+		"max": "1045"
+	},
+	{
+		"ok": 1839,
+		"errored": 0,
+		"clients": 122,
+		"average": 498.931484502447,
+		"min": "13",
+		"max": "1133"
+	},
+	{
+		"ok": 1973,
+		"errored": 0,
+		"clients": 123,
+		"average": 479.88900152052713,
+		"min": "12",
+		"max": "1136"
+	},
+	{
+		"ok": 2332,
+		"errored": 0,
+		"clients": 124,
+		"average": 419.6620926243568,
+		"min": "12",
+		"max": "857"
+	},
+	{
+		"ok": 2004,
+		"errored": 0,
+		"clients": 125,
+		"average": 481.6162674650699,
+		"min": "13",
+		"max": "990"
+	},
+	{
+		"ok": 2022,
+		"errored": 0,
+		"clients": 126,
+		"average": 464.02621167161226,
+		"min": "12",
+		"max": "1082"
+	},
+	{
+		"ok": 2076,
+		"errored": 0,
+		"clients": 127,
+		"average": 449.28805394990366,
+		"min": "13",
+		"max": "1155"
+	},
+	{
+		"ok": 1785,
+		"errored": 0,
+		"clients": 128,
+		"average": 563.721568627451,
+		"min": "13",
+		"max": "1211"
+	},
+	{
+		"ok": 2200,
+		"errored": 0,
+		"clients": 129,
+		"average": 438.6868181818182,
+		"min": "12",
+		"max": "964"
+	},
+	{
+		"ok": 2217,
+		"errored": 0,
+		"clients": 130,
+		"average": 429.95399188092017,
+		"min": "8",
+		"max": "1174"
+	},
+	{
+		"ok": 2103,
+		"errored": 0,
+		"clients": 131,
+		"average": 477.69329529243936,
+		"min": "12",
+		"max": "1070"
+	},
+	{
+		"ok": 1988,
+		"errored": 0,
+		"clients": 132,
+		"average": 476.8792756539235,
+		"min": "13",
+		"max": "982"
+	},
+	{
+		"ok": 2005,
+		"errored": 0,
+		"clients": 133,
+		"average": 498.54014962593516,
+		"min": "13",
+		"max": "1218"
+	},
+	{
+		"ok": 2145,
+		"errored": 0,
+		"clients": 134,
+		"average": 492.26993006993007,
+		"min": "13",
+		"max": "1248"
+	},
+	{
+		"ok": 2171,
+		"errored": 0,
+		"clients": 135,
+		"average": 474.3044679871027,
+		"min": "12",
+		"max": "1094"
+	},
+	{
+		"ok": 1982,
+		"errored": 0,
+		"clients": 136,
+		"average": 533.8178607467205,
+		"min": "12",
+		"max": "1143"
+	},
+	{
+		"ok": 2122,
+		"errored": 0,
+		"clients": 137,
+		"average": 506.25871819038645,
+		"min": "12",
+		"max": "1122"
+	},
+	{
+		"ok": 1968,
+		"errored": 0,
+		"clients": 138,
+		"average": 521.2896341463414,
+		"min": "14",
+		"max": "1201"
+	},
+	{
+		"ok": 1953,
+		"errored": 0,
+		"clients": 139,
+		"average": 528.6804915514593,
+		"min": "13",
+		"max": "1240"
+	},
+	{
+		"ok": 2252,
+		"errored": 0,
+		"clients": 140,
+		"average": 472.7668738898757,
+		"min": "12",
+		"max": "1035"
+	},
+	{
+		"ok": 2295,
+		"errored": 0,
+		"clients": 141,
+		"average": 478.8392156862745,
+		"min": "11",
+		"max": "1035"
+	},
+	{
+		"ok": 2230,
+		"errored": 0,
+		"clients": 142,
+		"average": 474.38744394618834,
+		"min": "12",
+		"max": "1230"
+	},
+	{
+		"ok": 2097,
+		"errored": 0,
+		"clients": 143,
+		"average": 511.7114926084883,
+		"min": "12",
+		"max": "1213"
+	},
+	{
+		"ok": 2172,
+		"errored": 0,
+		"clients": 144,
+		"average": 501.29788213627995,
+		"min": "13",
+		"max": "1233"
+	},
+	{
+		"ok": 2183,
+		"errored": 0,
+		"clients": 145,
+		"average": 491.98717361429226,
+		"min": "13",
+		"max": "1207"
+	},
+	{
+		"ok": 2007,
+		"errored": 0,
+		"clients": 146,
+		"average": 560.7827603388141,
+		"min": "12",
+		"max": "1304"
+	},
+	{
+		"ok": 2068,
+		"errored": 0,
+		"clients": 147,
+		"average": 524.8534816247583,
+		"min": "14",
+		"max": "1180"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 148,
+		"average": 485.0940766550523,
+		"min": "13",
+		"max": "965"
+	},
+	{
+		"ok": 2176,
+		"errored": 0,
+		"clients": 149,
+		"average": 517.5854779411765,
+		"min": "13",
+		"max": "1295"
+	},
+	{
+		"ok": 2042,
+		"errored": 0,
+		"clients": 150,
+		"average": 534.6121449559256,
+		"min": "14",
+		"max": "1266"
+	},
+	{
+		"ok": 1983,
+		"errored": 0,
+		"clients": 151,
+		"average": 541.5864851235502,
+		"min": "12",
+		"max": "1261"
+	},
+	{
+		"ok": 2139,
+		"errored": 0,
+		"clients": 152,
+		"average": 517.6503038803179,
+		"min": "13",
+		"max": "1192"
+	},
+	{
+		"ok": 2150,
+		"errored": 0,
+		"clients": 153,
+		"average": 499.95302325581395,
+		"min": "12",
+		"max": "1230"
+	},
+	{
+		"ok": 2200,
+		"errored": 0,
+		"clients": 154,
+		"average": 523.7777272727272,
+		"min": "12",
+		"max": "1251"
+	},
+	{
+		"ok": 2178,
+		"errored": 0,
+		"clients": 155,
+		"average": 514.4398530762168,
+		"min": "13",
+		"max": "1134"
+	},
+	{
+		"ok": 2174,
+		"errored": 0,
+		"clients": 156,
+		"average": 538.5970561177553,
+		"min": "13",
+		"max": "1292"
+	},
+	{
+		"ok": 2050,
+		"errored": 0,
+		"clients": 157,
+		"average": 572.5039024390244,
+		"min": "14",
+		"max": "1269"
+	},
+	{
+		"ok": 1906,
+		"errored": 0,
+		"clients": 158,
+		"average": 593.1762854144806,
+		"min": "13",
+		"max": "1302"
+	},
+	{
+		"ok": 2203,
+		"errored": 0,
+		"clients": 159,
+		"average": 549.1620517476169,
+		"min": "13",
+		"max": "1386"
+	},
+	{
+		"ok": 2152,
+		"errored": 0,
+		"clients": 160,
+		"average": 551.0645910780669,
+		"min": "14",
+		"max": "1283"
+	},
+	{
+		"ok": 1940,
+		"errored": 0,
+		"clients": 161,
+		"average": 590.488144329897,
+		"min": "13",
+		"max": "1262"
+	},
+	{
+		"ok": 2183,
+		"errored": 0,
+		"clients": 162,
+		"average": 551.2698121850664,
+		"min": "13",
+		"max": "1248"
+	},
+	{
+		"ok": 2126,
+		"errored": 0,
+		"clients": 163,
+		"average": 569.8913452492944,
+		"min": "14",
+		"max": "1198"
+	},
+	{
+		"ok": 1973,
+		"errored": 0,
+		"clients": 164,
+		"average": 606.9868220983274,
+		"min": "14",
+		"max": "1424"
+	},
+	{
+		"ok": 2191,
+		"errored": 0,
+		"clients": 165,
+		"average": 509.97535371976267,
+		"min": "26",
+		"max": "1234"
+	},
+	{
+		"ok": 1986,
+		"errored": 0,
+		"clients": 166,
+		"average": 623.3630412890232,
+		"min": "14",
+		"max": "1385"
+	},
+	{
+		"ok": 2181,
+		"errored": 0,
+		"clients": 167,
+		"average": 542.3328748280605,
+		"min": "14",
+		"max": "1396"
+	},
+	{
+		"ok": 2269,
+		"errored": 0,
+		"clients": 168,
+		"average": 535.1211987659761,
+		"min": "12",
+		"max": "1199"
+	},
+	{
+		"ok": 2074,
+		"errored": 0,
+		"clients": 169,
+		"average": 594.8833172613307,
+		"min": "14",
+		"max": "1256"
+	},
+	{
+		"ok": 2223,
+		"errored": 0,
+		"clients": 170,
+		"average": 578.2789023841656,
+		"min": "14",
+		"max": "1193"
+	},
+	{
+		"ok": 2229,
+		"errored": 0,
+		"clients": 171,
+		"average": 567.33288470166,
+		"min": "13",
+		"max": "1264"
+	},
+	{
+		"ok": 2126,
+		"errored": 0,
+		"clients": 172,
+		"average": 565.412041392286,
+		"min": "15",
+		"max": "1414"
+	},
+	{
+		"ok": 2106,
+		"errored": 0,
+		"clients": 173,
+		"average": 624.772554605888,
+		"min": "13",
+		"max": "1270"
+	},
+	{
+		"ok": 2094,
+		"errored": 0,
+		"clients": 174,
+		"average": 598.9832855778415,
+		"min": "15",
+		"max": "1426"
+	},
+	{
+		"ok": 2182,
+		"errored": 0,
+		"clients": 175,
+		"average": 582.3437213565536,
+		"min": "14",
+		"max": "1540"
+	},
+	{
+		"ok": 2239,
+		"errored": 0,
+		"clients": 176,
+		"average": 586.527467619473,
+		"min": "15",
+		"max": "1245"
+	},
+	{
+		"ok": 2134,
+		"errored": 0,
+		"clients": 177,
+		"average": 594.9489222118088,
+		"min": "13",
+		"max": "1279"
+	},
+	{
+		"ok": 2132,
+		"errored": 0,
+		"clients": 178,
+		"average": 601.4727954971858,
+		"min": "14",
+		"max": "1398"
+	},
+	{
+		"ok": 2156,
+		"errored": 0,
+		"clients": 179,
+		"average": 585.017625231911,
+		"min": "15",
+		"max": "1396"
+	},
+	{
+		"ok": 2129,
+		"errored": 0,
+		"clients": 180,
+		"average": 607.738374823861,
+		"min": "14",
+		"max": "1384"
+	},
+	{
+		"ok": 2271,
+		"errored": 0,
+		"clients": 181,
+		"average": 574.2452664024659,
+		"min": "15",
+		"max": "1260"
+	},
+	{
+		"ok": 2126,
+		"errored": 0,
+		"clients": 182,
+		"average": 632.4228598306679,
+		"min": "13",
+		"max": "1478"
+	},
+	{
+		"ok": 2131,
+		"errored": 0,
+		"clients": 183,
+		"average": 628.2435476302205,
+		"min": "12",
+		"max": "1488"
+	},
+	{
+		"ok": 2227,
+		"errored": 0,
+		"clients": 184,
+		"average": 616.9784463403682,
+		"min": "14",
+		"max": "1312"
+	},
+	{
+		"ok": 2277,
+		"errored": 0,
+		"clients": 185,
+		"average": 574.6113306982872,
+		"min": "13",
+		"max": "1448"
+	},
+	{
+		"ok": 2074,
+		"errored": 0,
+		"clients": 186,
+		"average": 628.5838958534233,
+		"min": "16",
+		"max": "1465"
+	},
+	{
+		"ok": 2131,
+		"errored": 0,
+		"clients": 187,
+		"average": 643.5715626466448,
+		"min": "14",
+		"max": "1389"
+	},
+	{
+		"ok": 2061,
+		"errored": 0,
+		"clients": 188,
+		"average": 678.3114992721979,
+		"min": "15",
+		"max": "1506"
+	},
+	{
+		"ok": 2048,
+		"errored": 0,
+		"clients": 189,
+		"average": 670.0849609375,
+		"min": "15",
+		"max": "1418"
+	},
+	{
+		"ok": 2244,
+		"errored": 0,
+		"clients": 190,
+		"average": 636.4549910873441,
+		"min": "15",
+		"max": "1511"
+	},
+	{
+		"ok": 2170,
+		"errored": 0,
+		"clients": 191,
+		"average": 631.2405529953917,
+		"min": "13",
+		"max": "1422"
+	},
+	{
+		"ok": 2151,
+		"errored": 0,
+		"clients": 192,
+		"average": 708.6648070664808,
+		"min": "13",
+		"max": "1510"
+	},
+	{
+		"ok": 2073,
+		"errored": 0,
+		"clients": 193,
+		"average": 697.1866859623734,
+		"min": "15",
+		"max": "1366"
+	},
+	{
+		"ok": 2285,
+		"errored": 0,
+		"clients": 194,
+		"average": 611.6201312910284,
+		"min": "15",
+		"max": "1449"
+	},
+	{
+		"ok": 2237,
+		"errored": 0,
+		"clients": 195,
+		"average": 642.0187751452838,
+		"min": "13",
+		"max": "1416"
+	},
+	{
+		"ok": 2177,
+		"errored": 0,
+		"clients": 196,
+		"average": 682.5268718419844,
+		"min": "17",
+		"max": "1624"
+	},
+	{
+		"ok": 2306,
+		"errored": 0,
+		"clients": 197,
+		"average": 614.5680832610581,
+		"min": "17",
+		"max": "1496"
+	},
+	{
+		"ok": 2343,
+		"errored": 0,
+		"clients": 198,
+		"average": 604.6619718309859,
+		"min": "14",
+		"max": "1379"
+	},
+	{
+		"ok": 2318,
+		"errored": 0,
+		"clients": 199,
+		"average": 608.8226919758413,
+		"min": "14",
+		"max": "1344"
+	},
+	{
+		"ok": 2368,
+		"errored": 0,
+		"clients": 200,
+		"average": 611.4603040540541,
+		"min": "14",
+		"max": "1203"
+	},
+	{
+		"ok": 2291,
+		"errored": 0,
+		"clients": 201,
+		"average": 634.4068092536011,
+		"min": "14",
+		"max": "1610"
+	},
+	{
+		"ok": 2234,
+		"errored": 0,
+		"clients": 202,
+		"average": 638.5577439570277,
+		"min": "15",
+		"max": "1536"
+	},
+	{
+		"ok": 2280,
+		"errored": 0,
+		"clients": 203,
+		"average": 655.6815789473684,
+		"min": "15",
+		"max": "1551"
+	},
+	{
+		"ok": 2306,
+		"errored": 0,
+		"clients": 204,
+		"average": 665.9215091066783,
+		"min": "15",
+		"max": "1479"
+	},
+	{
+		"ok": 2360,
+		"errored": 0,
+		"clients": 205,
+		"average": 636.4669491525424,
+		"min": "15",
+		"max": "1382"
+	},
+	{
+		"ok": 2157,
+		"errored": 0,
+		"clients": 206,
+		"average": 643.9443671766342,
+		"min": "14",
+		"max": "1469"
+	},
+	{
+		"ok": 2292,
+		"errored": 0,
+		"clients": 207,
+		"average": 671.3512216404887,
+		"min": "14",
+		"max": "1310"
+	},
+	{
+		"ok": 2258,
+		"errored": 0,
+		"clients": 208,
+		"average": 670.8162090345438,
+		"min": "15",
+		"max": "1488"
+	},
+	{
+		"ok": 2096,
+		"errored": 0,
+		"clients": 209,
+		"average": 690.611641221374,
+		"min": "15",
+		"max": "1488"
+	},
+	{
+		"ok": 2313,
+		"errored": 0,
+		"clients": 210,
+		"average": 669.1214872460008,
+		"min": "17",
+		"max": "1550"
+	},
+	{
+		"ok": 2154,
+		"errored": 0,
+		"clients": 211,
+		"average": 690.2641597028784,
+		"min": "14",
+		"max": "1516"
+	},
+	{
+		"ok": 2273,
+		"errored": 0,
+		"clients": 212,
+		"average": 675.3823141223053,
+		"min": "14",
+		"max": "1544"
+	},
+	{
+		"ok": 2135,
+		"errored": 0,
+		"clients": 213,
+		"average": 740.0983606557377,
+		"min": "17",
+		"max": "1650"
+	},
+	{
+		"ok": 2209,
+		"errored": 0,
+		"clients": 214,
+		"average": 761.7691263014939,
+		"min": "12",
+		"max": "1367"
+	},
+	{
+		"ok": 2117,
+		"errored": 0,
+		"clients": 215,
+		"average": 776.7567312234294,
+		"min": "15",
+		"max": "1507"
+	},
+	{
+		"ok": 2255,
+		"errored": 0,
+		"clients": 216,
+		"average": 675.8780487804878,
+		"min": "15",
+		"max": "1538"
+	},
+	{
+		"ok": 2041,
+		"errored": 0,
+		"clients": 217,
+		"average": 772.3512983831455,
+		"min": "17",
+		"max": "1573"
+	},
+	{
+		"ok": 2269,
+		"errored": 0,
+		"clients": 218,
+		"average": 695.1494050242397,
+		"min": "14",
+		"max": "1540"
+	},
+	{
+		"ok": 2125,
+		"errored": 0,
+		"clients": 219,
+		"average": 726.1195294117647,
+		"min": "14",
+		"max": "1601"
+	},
+	{
+		"ok": 2258,
+		"errored": 0,
+		"clients": 220,
+		"average": 701.7803365810452,
+		"min": "16",
+		"max": "1588"
+	},
+	{
+		"ok": 1993,
+		"errored": 0,
+		"clients": 221,
+		"average": 774.6146512794782,
+		"min": "16",
+		"max": "1568"
+	},
+	{
+		"ok": 2055,
+		"errored": 0,
+		"clients": 222,
+		"average": 733.7800486618005,
+		"min": "16",
+		"max": "1499"
+	},
+	{
+		"ok": 2071,
+		"errored": 0,
+		"clients": 223,
+		"average": 711.3582810236601,
+		"min": "18",
+		"max": "1520"
+	},
+	{
+		"ok": 2153,
+		"errored": 0,
+		"clients": 224,
+		"average": 721.3576405016256,
+		"min": "16",
+		"max": "1528"
+	},
+	{
+		"ok": 2043,
+		"errored": 0,
+		"clients": 225,
+		"average": 801.4811551639746,
+		"min": "16",
+		"max": "1695"
+	},
+	{
+		"ok": 2135,
+		"errored": 0,
+		"clients": 226,
+		"average": 731.304449648712,
+		"min": "16",
+		"max": "1631"
+	},
+	{
+		"ok": 2047,
+		"errored": 0,
+		"clients": 227,
+		"average": 789.9833903273083,
+		"min": "15",
+		"max": "1609"
+	},
+	{
+		"ok": 2261,
+		"errored": 0,
+		"clients": 228,
+		"average": 727.1291463954003,
+		"min": "14",
+		"max": "1587"
+	},
+	{
+		"ok": 2168,
+		"errored": 0,
+		"clients": 229,
+		"average": 742.225553505535,
+		"min": "15",
+		"max": "1588"
+	},
+	{
+		"ok": 2145,
+		"errored": 0,
+		"clients": 230,
+		"average": 736.1039627039627,
+		"min": "17",
+		"max": "1503"
+	},
+	{
+		"ok": 2157,
+		"errored": 0,
+		"clients": 231,
+		"average": 708.7603152526657,
+		"min": "14",
+		"max": "1517"
+	},
+	{
+		"ok": 2198,
+		"errored": 0,
+		"clients": 232,
+		"average": 719.2920837124659,
+		"min": "16",
+		"max": "1582"
+	},
+	{
+		"ok": 2253,
+		"errored": 0,
+		"clients": 233,
+		"average": 715.2015090989792,
+		"min": "15",
+		"max": "1706"
+	},
+	{
+		"ok": 2124,
+		"errored": 0,
+		"clients": 234,
+		"average": 768.8535781544256,
+		"min": "16",
+		"max": "1739"
+	},
+	{
+		"ok": 2132,
+		"errored": 0,
+		"clients": 235,
+		"average": 769.9090056285178,
+		"min": "16",
+		"max": "1663"
+	},
+	{
+		"ok": 2191,
+		"errored": 0,
+		"clients": 236,
+		"average": 752.0502053856686,
+		"min": "16",
+		"max": "1546"
+	},
+	{
+		"ok": 2171,
+		"errored": 0,
+		"clients": 237,
+		"average": 766.5181943804698,
+		"min": "17",
+		"max": "1643"
+	},
+	{
+		"ok": 2090,
+		"errored": 0,
+		"clients": 238,
+		"average": 807.7665071770335,
+		"min": "17",
+		"max": "1642"
+	},
+	{
+		"ok": 2200,
+		"errored": 0,
+		"clients": 239,
+		"average": 701.965,
+		"min": "15",
+		"max": "1571"
+	},
+	{
+		"ok": 2183,
+		"errored": 0,
+		"clients": 240,
+		"average": 776.605130554283,
+		"min": "17",
+		"max": "1563"
+	},
+	{
+		"ok": 2147,
+		"errored": 0,
+		"clients": 241,
+		"average": 775.3237074988356,
+		"min": "16",
+		"max": "1661"
+	},
+	{
+		"ok": 2188,
+		"errored": 0,
+		"clients": 242,
+		"average": 761.0246800731261,
+		"min": "16",
+		"max": "1626"
+	},
+	{
+		"ok": 2197,
+		"errored": 0,
+		"clients": 243,
+		"average": 764.2994993172508,
+		"min": "17",
+		"max": "1567"
+	},
+	{
+		"ok": 2206,
+		"errored": 0,
+		"clients": 244,
+		"average": 759.7715321849502,
+		"min": "17",
+		"max": "1578"
+	},
+	{
+		"ok": 2219,
+		"errored": 0,
+		"clients": 245,
+		"average": 752.6502929247408,
+		"min": "15",
+		"max": "1615"
+	},
+	{
+		"ok": 2256,
+		"errored": 0,
+		"clients": 246,
+		"average": 759.8484042553191,
+		"min": "17",
+		"max": "1703"
+	},
+	{
+		"ok": 2216,
+		"errored": 0,
+		"clients": 247,
+		"average": 773.2008122743682,
+		"min": "17",
+		"max": "1521"
+	},
+	{
+		"ok": 2176,
+		"errored": 0,
+		"clients": 248,
+		"average": 826.4949448529412,
+		"min": "16",
+		"max": "1569"
+	},
+	{
+		"ok": 2250,
+		"errored": 0,
+		"clients": 249,
+		"average": 767.5515555555555,
+		"min": "17",
+		"max": "1777"
+	},
+	{
+		"ok": 2144,
+		"errored": 0,
+		"clients": 250,
+		"average": 844.4888059701492,
+		"min": "19",
+		"max": "1689"
+	},
+	{
+		"ok": 2272,
+		"errored": 0,
+		"clients": 251,
+		"average": 765.3908450704225,
+		"min": "19",
+		"max": "1628"
+	},
+	{
+		"ok": 2148,
+		"errored": 0,
+		"clients": 252,
+		"average": 831.0614525139665,
+		"min": "17",
+		"max": "1779"
+	},
+	{
+		"ok": 2175,
+		"errored": 0,
+		"clients": 253,
+		"average": 828.024367816092,
+		"min": "16",
+		"max": "2011"
+	},
+	{
+		"ok": 2231,
+		"errored": 0,
+		"clients": 254,
+		"average": 808.4769161810847,
+		"min": "17",
+		"max": "1655"
+	},
+	{
+		"ok": 2117,
+		"errored": 0,
+		"clients": 255,
+		"average": 852.416627302787,
+		"min": "18",
+		"max": "1661"
+	},
+	{
+		"ok": 2217,
+		"errored": 0,
+		"clients": 256,
+		"average": 815.0829950383401,
+		"min": "17",
+		"max": "1673"
+	},
+	{
+		"ok": 2254,
+		"errored": 0,
+		"clients": 257,
+		"average": 796.6561668145519,
+		"min": "19",
+		"max": "1728"
+	},
+	{
+		"ok": 2163,
+		"errored": 0,
+		"clients": 258,
+		"average": 876.0993989828942,
+		"min": "18",
+		"max": "1598"
+	},
+	{
+		"ok": 2242,
+		"errored": 0,
+		"clients": 259,
+		"average": 801.3055307760927,
+		"min": "18",
+		"max": "1786"
+	},
+	{
+		"ok": 2325,
+		"errored": 0,
+		"clients": 260,
+		"average": 792.0262365591398,
+		"min": "19",
+		"max": "1792"
+	},
+	{
+		"ok": 2365,
+		"errored": 0,
+		"clients": 261,
+		"average": 766.1128964059196,
+		"min": "17",
+		"max": "1685"
+	},
+	{
+		"ok": 2387,
+		"errored": 0,
+		"clients": 262,
+		"average": 768.6765814830331,
+		"min": "17",
+		"max": "1557"
+	},
+	{
+		"ok": 1981,
+		"errored": 0,
+		"clients": 263,
+		"average": 962.9242806663301,
+		"min": "20",
+		"max": "1577"
+	},
+	{
+		"ok": 2232,
+		"errored": 0,
+		"clients": 264,
+		"average": 814.4574372759856,
+		"min": "17",
+		"max": "1780"
+	},
+	{
+		"ok": 2284,
+		"errored": 0,
+		"clients": 265,
+		"average": 823.3813485113835,
+		"min": "17",
+		"max": "1790"
+	},
+	{
+		"ok": 2230,
+		"errored": 0,
+		"clients": 266,
+		"average": 841.4843049327354,
+		"min": "18",
+		"max": "1868"
+	},
+	{
+		"ok": 2289,
+		"errored": 0,
+		"clients": 267,
+		"average": 843.6863259065094,
+		"min": "19",
+		"max": "1795"
+	},
+	{
+		"ok": 2347,
+		"errored": 0,
+		"clients": 268,
+		"average": 812.1742650191734,
+		"min": "18",
+		"max": "1797"
+	},
+	{
+		"ok": 2316,
+		"errored": 0,
+		"clients": 269,
+		"average": 800.6256476683938,
+		"min": "17",
+		"max": "1779"
+	},
+	{
+		"ok": 2206,
+		"errored": 0,
+		"clients": 270,
+		"average": 869.3816863100635,
+		"min": "16",
+		"max": "1849"
+	},
+	{
+		"ok": 2019,
+		"errored": 0,
+		"clients": 271,
+		"average": 923.4952947003467,
+		"min": "16",
+		"max": "1821"
+	},
+	{
+		"ok": 2270,
+		"errored": 0,
+		"clients": 272,
+		"average": 879.7845814977974,
+		"min": "18",
+		"max": "1942"
+	},
+	{
+		"ok": 2294,
+		"errored": 0,
+		"clients": 273,
+		"average": 819.8077593722755,
+		"min": "17",
+		"max": "2038"
+	},
+	{
+		"ok": 2335,
+		"errored": 0,
+		"clients": 274,
+		"average": 796.444539614561,
+		"min": "17",
+		"max": "1793"
+	},
+	{
+		"ok": 2013,
+		"errored": 0,
+		"clients": 275,
+		"average": 916.812220566319,
+		"min": "19",
+		"max": "1906"
+	},
+	{
+		"ok": 2276,
+		"errored": 0,
+		"clients": 276,
+		"average": 870.0847978910369,
+		"min": "22",
+		"max": "1936"
+	},
+	{
+		"ok": 2280,
+		"errored": 0,
+		"clients": 277,
+		"average": 881.5592105263158,
+		"min": "17",
+		"max": "1808"
+	},
+	{
+		"ok": 2282,
+		"errored": 0,
+		"clients": 278,
+		"average": 852.1700262927257,
+		"min": "18",
+		"max": "1741"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 279,
+		"average": 881.7970383275261,
+		"min": "17",
+		"max": "1894"
+	},
+	{
+		"ok": 2035,
+		"errored": 0,
+		"clients": 280,
+		"average": 978.1577395577395,
+		"min": "19",
+		"max": "1920"
+	},
+	{
+		"ok": 2250,
+		"errored": 0,
+		"clients": 281,
+		"average": 916.3622222222223,
+		"min": "19",
+		"max": "1897"
+	},
+	{
+		"ok": 2310,
+		"errored": 0,
+		"clients": 282,
+		"average": 872.2683982683983,
+		"min": "19",
+		"max": "1808"
+	},
+	{
+		"ok": 2281,
+		"errored": 0,
+		"clients": 283,
+		"average": 895.3231039017975,
+		"min": "19",
+		"max": "1816"
+	},
+	{
+		"ok": 2307,
+		"errored": 0,
+		"clients": 284,
+		"average": 924.8019072388383,
+		"min": "21",
+		"max": "1872"
+	},
+	{
+		"ok": 2349,
+		"errored": 0,
+		"clients": 285,
+		"average": 870.3703703703703,
+		"min": "20",
+		"max": "1833"
+	},
+	{
+		"ok": 2359,
+		"errored": 0,
+		"clients": 286,
+		"average": 877.9788045782111,
+		"min": "15",
+		"max": "1824"
+	},
+	{
+		"ok": 2092,
+		"errored": 0,
+		"clients": 287,
+		"average": 924.9684512428298,
+		"min": "18",
+		"max": "1883"
+	},
+	{
+		"ok": 2091,
+		"errored": 0,
+		"clients": 288,
+		"average": 911.348637015782,
+		"min": "19",
+		"max": "1955"
+	},
+	{
+		"ok": 2390,
+		"errored": 0,
+		"clients": 289,
+		"average": 851.7330543933055,
+		"min": "19",
+		"max": "1788"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 290,
+		"average": 893.3776132404181,
+		"min": "20",
+		"max": "1710"
+	},
+	{
+		"ok": 2048,
+		"errored": 0,
+		"clients": 291,
+		"average": 1017.97998046875,
+		"min": "19",
+		"max": "1812"
+	},
+	{
+		"ok": 2054,
+		"errored": 0,
+		"clients": 292,
+		"average": 975.5189873417721,
+		"min": "22",
+		"max": "1833"
+	},
+	{
+		"ok": 2225,
+		"errored": 0,
+		"clients": 293,
+		"average": 900.8557303370786,
+		"min": "18",
+		"max": "1935"
+	},
+	{
+		"ok": 2132,
+		"errored": 0,
+		"clients": 294,
+		"average": 978.7565666041276,
+		"min": "19",
+		"max": "1968"
+	},
+	{
+		"ok": 2072,
+		"errored": 0,
+		"clients": 295,
+		"average": 996.582528957529,
+		"min": "21",
+		"max": "1918"
+	},
+	{
+		"ok": 2084,
+		"errored": 0,
+		"clients": 296,
+		"average": 971.7903071017274,
+		"min": "18",
+		"max": "1997"
+	},
+	{
+		"ok": 2211,
+		"errored": 0,
+		"clients": 297,
+		"average": 895.4409769335142,
+		"min": "18",
+		"max": "1864"
+	},
+	{
+		"ok": 2168,
+		"errored": 0,
+		"clients": 298,
+		"average": 990.244926199262,
+		"min": "21",
+		"max": "1983"
+	},
+	{
+		"ok": 2160,
+		"errored": 0,
+		"clients": 299,
+		"average": 975.8231481481481,
+		"min": "18",
+		"max": "1901"
+	},
+	{
+		"ok": 2177,
+		"errored": 0,
+		"clients": 300,
+		"average": 982.6306844281121,
+		"min": "20",
+		"max": "2019"
+	},
+	{
+		"ok": 2120,
+		"errored": 0,
+		"clients": 301,
+		"average": 942.7533018867924,
+		"min": "16",
+		"max": "2005"
+	},
+	{
+		"ok": 2164,
+		"errored": 0,
+		"clients": 302,
+		"average": 994.0850277264325,
+		"min": "19",
+		"max": "1992"
+	},
+	{
+		"ok": 2242,
+		"errored": 0,
+		"clients": 303,
+		"average": 903.4736842105264,
+		"min": "22",
+		"max": "2159"
+	},
+	{
+		"ok": 1962,
+		"errored": 0,
+		"clients": 304,
+		"average": 925.7043832823649,
+		"min": "19",
+		"max": "3094"
+	},
+	{
+		"ok": 2104,
+		"errored": 0,
+		"clients": 305,
+		"average": 1070.3155893536123,
+		"min": "14",
+		"max": "1897"
+	},
+	{
+		"ok": 2166,
+		"errored": 0,
+		"clients": 306,
+		"average": 1021.6786703601108,
+		"min": "16",
+		"max": "1978"
+	},
+	{
+		"ok": 2158,
+		"errored": 0,
+		"clients": 307,
+		"average": 1004.6265060240963,
+		"min": "19",
+		"max": "2000"
+	},
+	{
+		"ok": 2168,
+		"errored": 0,
+		"clients": 308,
+		"average": 980.4252767527676,
+		"min": "20",
+		"max": "1973"
+	},
+	{
+		"ok": 2169,
+		"errored": 0,
+		"clients": 309,
+		"average": 977.7478100507146,
+		"min": "17",
+		"max": "1979"
+	},
+	{
+		"ok": 2182,
+		"errored": 0,
+		"clients": 310,
+		"average": 1015.4560036663611,
+		"min": "17",
+		"max": "1960"
+	},
+	{
+		"ok": 2140,
+		"errored": 0,
+		"clients": 311,
+		"average": 994.976168224299,
+		"min": "21",
+		"max": "1944"
+	},
+	{
+		"ok": 1962,
+		"errored": 0,
+		"clients": 312,
+		"average": 1045.5555555555557,
+		"min": "19",
+		"max": "2242"
+	},
+	{
+		"ok": 2202,
+		"errored": 0,
+		"clients": 313,
+		"average": 987.2461398728428,
+		"min": "19",
+		"max": "1880"
+	},
+	{
+		"ok": 2272,
+		"errored": 0,
+		"clients": 314,
+		"average": 907.0972711267606,
+		"min": "14",
+		"max": "1819"
+	},
+	{
+		"ok": 2088,
+		"errored": 0,
+		"clients": 315,
+		"average": 1007.9966475095786,
+		"min": "17",
+		"max": "2107"
+	},
+	{
+		"ok": 2245,
+		"errored": 0,
+		"clients": 316,
+		"average": 924.1710467706014,
+		"min": "7",
+		"max": "2032"
+	},
+	{
+		"ok": 2275,
+		"errored": 0,
+		"clients": 317,
+		"average": 997.4668131868132,
+		"min": "14",
+		"max": "1973"
+	},
+	{
+		"ok": 2268,
+		"errored": 0,
+		"clients": 318,
+		"average": 1001.6067019400352,
+		"min": "22",
+		"max": "1960"
+	},
+	{
+		"ok": 2067,
+		"errored": 0,
+		"clients": 319,
+		"average": 1031.9724238026124,
+		"min": "17",
+		"max": "2160"
+	},
+	{
+		"ok": 2308,
+		"errored": 0,
+		"clients": 320,
+		"average": 931.765164644714,
+		"min": "18",
+		"max": "2043"
+	},
+	{
+		"ok": 2286,
+		"errored": 0,
+		"clients": 321,
+		"average": 997.9483814523185,
+		"min": "20",
+		"max": "2094"
+	},
+	{
+		"ok": 2265,
+		"errored": 0,
+		"clients": 322,
+		"average": 991.2613686534216,
+		"min": "25",
+		"max": "2035"
+	},
+	{
+		"ok": 2275,
+		"errored": 0,
+		"clients": 323,
+		"average": 1017.5639560439561,
+		"min": "18",
+		"max": "1984"
+	},
+	{
+		"ok": 2158,
+		"errored": 0,
+		"clients": 324,
+		"average": 1112.9494902687675,
+		"min": "20",
+		"max": "1965"
+	},
+	{
+		"ok": 2295,
+		"errored": 0,
+		"clients": 325,
+		"average": 1003.1891067538127,
+		"min": "19",
+		"max": "2147"
+	},
+	{
+		"ok": 2318,
+		"errored": 0,
+		"clients": 326,
+		"average": 997.9042277825712,
+		"min": "21",
+		"max": "1901"
+	},
+	{
+		"ok": 2035,
+		"errored": 0,
+		"clients": 327,
+		"average": 995.6309582309582,
+		"min": "24",
+		"max": "2125"
+	},
+	{
+		"ok": 2063,
+		"errored": 0,
+		"clients": 328,
+		"average": 1019.3771206980126,
+		"min": "19",
+		"max": "2044"
+	},
+	{
+		"ok": 2047,
+		"errored": 0,
+		"clients": 329,
+		"average": 1011.2608695652174,
+		"min": "23",
+		"max": "2291"
+	},
+	{
+		"ok": 2162,
+		"errored": 0,
+		"clients": 330,
+		"average": 1095.3963922294172,
+		"min": "22",
+		"max": "2340"
+	},
+	{
+		"ok": 2115,
+		"errored": 0,
+		"clients": 331,
+		"average": 1031.7593380614658,
+		"min": "23",
+		"max": "2084"
+	},
+	{
+		"ok": 2372,
+		"errored": 0,
+		"clients": 332,
+		"average": 977.7179595278246,
+		"min": "17",
+		"max": "2067"
+	},
+	{
+		"ok": 2390,
+		"errored": 0,
+		"clients": 333,
+		"average": 1011.5163179916318,
+		"min": "20",
+		"max": "1891"
+	},
+	{
+		"ok": 2024,
+		"errored": 0,
+		"clients": 334,
+		"average": 1084.6254940711462,
+		"min": "21",
+		"max": "2217"
+	},
+	{
+		"ok": 2298,
+		"errored": 0,
+		"clients": 335,
+		"average": 1016.3037423846823,
+		"min": "23",
+		"max": "2002"
+	},
+	{
+		"ok": 2118,
+		"errored": 0,
+		"clients": 336,
+		"average": 1090.9428706326723,
+		"min": "20",
+		"max": "2205"
+	},
+	{
+		"ok": 2083,
+		"errored": 0,
+		"clients": 337,
+		"average": 1098.9284685549687,
+		"min": "19",
+		"max": "2152"
+	},
+	{
+		"ok": 2036,
+		"errored": 0,
+		"clients": 338,
+		"average": 1111.775540275049,
+		"min": "18",
+		"max": "2179"
+	},
+	{
+		"ok": 2088,
+		"errored": 0,
+		"clients": 339,
+		"average": 1042.3472222222222,
+		"min": "18",
+		"max": "2118"
+	},
+	{
+		"ok": 2094,
+		"errored": 0,
+		"clients": 340,
+		"average": 1057.5864374403056,
+		"min": "16",
+		"max": "2126"
+	},
+	{
+		"ok": 2211,
+		"errored": 0,
+		"clients": 341,
+		"average": 991.2085029398462,
+		"min": "17",
+		"max": "2181"
+	},
+	{
+		"ok": 2128,
+		"errored": 0,
+		"clients": 342,
+		"average": 1030.7998120300751,
+		"min": "16",
+		"max": "2175"
+	},
+	{
+		"ok": 2321,
+		"errored": 0,
+		"clients": 343,
+		"average": 964.0874623007325,
+		"min": "17",
+		"max": "2121"
+	},
+	{
+		"ok": 2504,
+		"errored": 0,
+		"clients": 344,
+		"average": 927.0826677316294,
+		"min": "21",
+		"max": "2027"
+	},
+	{
+		"ok": 2188,
+		"errored": 0,
+		"clients": 345,
+		"average": 1019.8363802559415,
+		"min": "23",
+		"max": "2145"
+	},
+	{
+		"ok": 2213,
+		"errored": 0,
+		"clients": 346,
+		"average": 1047.6290103931315,
+		"min": "22",
+		"max": "2112"
+	},
+	{
+		"ok": 2125,
+		"errored": 0,
+		"clients": 347,
+		"average": 1091.4578823529412,
+		"min": "22",
+		"max": "2365"
+	},
+	{
+		"ok": 2213,
+		"errored": 0,
+		"clients": 348,
+		"average": 1053.8025305015815,
+		"min": "21",
+		"max": "2133"
+	},
+	{
+		"ok": 2065,
+		"errored": 0,
+		"clients": 349,
+		"average": 1141.8997578692495,
+		"min": "15",
+		"max": "2225"
+	},
+	{
+		"ok": 2111,
+		"errored": 0,
+		"clients": 350,
+		"average": 1073.3477025106586,
+		"min": "16",
+		"max": "2059"
+	},
+	{
+		"ok": 1878,
+		"errored": 0,
+		"clients": 351,
+		"average": 1140.8972310969116,
+		"min": "20",
+		"max": "2253"
+	},
+	{
+		"ok": 2537,
+		"errored": 0,
+		"clients": 352,
+		"average": 969.3165155695704,
+		"min": "22",
+		"max": "1933"
+	},
+	{
+		"ok": 2188,
+		"errored": 0,
+		"clients": 353,
+		"average": 1140.0644424131626,
+		"min": "24",
+		"max": "2228"
+	},
+	{
+		"ok": 2194,
+		"errored": 0,
+		"clients": 354,
+		"average": 1083.4175022789425,
+		"min": "17",
+		"max": "2192"
+	},
+	{
+		"ok": 2263,
+		"errored": 0,
+		"clients": 355,
+		"average": 1043.7437030490498,
+		"min": "15",
+		"max": "2168"
+	},
+	{
+		"ok": 2257,
+		"errored": 0,
+		"clients": 356,
+		"average": 1052.4683207797962,
+		"min": "21",
+		"max": "2144"
+	},
+	{
+		"ok": 2222,
+		"errored": 0,
+		"clients": 357,
+		"average": 1073.2934293429344,
+		"min": "21",
+		"max": "2255"
+	},
+	{
+		"ok": 2154,
+		"errored": 0,
+		"clients": 358,
+		"average": 1119.0979572887652,
+		"min": "16",
+		"max": "2218"
+	},
+	{
+		"ok": 2161,
+		"errored": 0,
+		"clients": 359,
+		"average": 1139.7075428042574,
+		"min": "20",
+		"max": "2214"
+	},
+	{
+		"ok": 2338,
+		"errored": 0,
+		"clients": 360,
+		"average": 1001.8648417450813,
+		"min": "21",
+		"max": "2080"
+	},
+	{
+		"ok": 2407,
+		"errored": 0,
+		"clients": 361,
+		"average": 1026.8068134607395,
+		"min": "23",
+		"max": "1923"
+	},
+	{
+		"ok": 2194,
+		"errored": 0,
+		"clients": 362,
+		"average": 1118.3067456700091,
+		"min": "16",
+		"max": "2454"
+	},
+	{
+		"ok": 2513,
+		"errored": 0,
+		"clients": 363,
+		"average": 937.4655789892558,
+		"min": "16",
+		"max": "2068"
+	},
+	{
+		"ok": 2245,
+		"errored": 0,
+		"clients": 364,
+		"average": 1150.8832962138085,
+		"min": "14",
+		"max": "2254"
+	},
+	{
+		"ok": 2130,
+		"errored": 0,
+		"clients": 365,
+		"average": 1162.2586854460094,
+		"min": "21",
+		"max": "2325"
+	},
+	{
+		"ok": 2333,
+		"errored": 0,
+		"clients": 366,
+		"average": 1052.3249035576512,
+		"min": "19",
+		"max": "2282"
+	},
+	{
+		"ok": 1865,
+		"errored": 0,
+		"clients": 367,
+		"average": 1183.6686327077748,
+		"min": "20",
+		"max": "3225"
+	},
+	{
+		"ok": 2324,
+		"errored": 0,
+		"clients": 368,
+		"average": 1119.6273666092943,
+		"min": "21",
+		"max": "2360"
+	},
+	{
+		"ok": 2302,
+		"errored": 0,
+		"clients": 369,
+		"average": 1038.551694178975,
+		"min": "17",
+		"max": "2230"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 370,
+		"average": 1055.4581881533102,
+		"min": "15",
+		"max": "2147"
+	},
+	{
+		"ok": 2198,
+		"errored": 0,
+		"clients": 371,
+		"average": 1116.0527752502276,
+		"min": "23",
+		"max": "2210"
+	},
+	{
+		"ok": 2236,
+		"errored": 0,
+		"clients": 372,
+		"average": 1137.8157423971377,
+		"min": "24",
+		"max": "2417"
+	},
+	{
+		"ok": 2241,
+		"errored": 0,
+		"clients": 373,
+		"average": 1130.127621597501,
+		"min": "22",
+		"max": "2260"
+	},
+	{
+		"ok": 2275,
+		"errored": 0,
+		"clients": 374,
+		"average": 1149.5912087912088,
+		"min": "18",
+		"max": "2282"
+	},
+	{
+		"ok": 2358,
+		"errored": 0,
+		"clients": 375,
+		"average": 1092.276929601357,
+		"min": "20",
+		"max": "2085"
+	},
+	{
+		"ok": 2136,
+		"errored": 0,
+		"clients": 376,
+		"average": 1048.569288389513,
+		"min": "19",
+		"max": "2110"
+	},
+	{
+		"ok": 2300,
+		"errored": 0,
+		"clients": 377,
+		"average": 1099.692608695652,
+		"min": "18",
+		"max": "2419"
+	},
+	{
+		"ok": 2341,
+		"errored": 0,
+		"clients": 378,
+		"average": 1129.803929944468,
+		"min": "19",
+		"max": "2330"
+	},
+	{
+		"ok": 2276,
+		"errored": 0,
+		"clients": 379,
+		"average": 1120.140597539543,
+		"min": "18",
+		"max": "2383"
+	},
+	{
+		"ok": 2329,
+		"errored": 0,
+		"clients": 380,
+		"average": 1118.012022327179,
+		"min": "20",
+		"max": "2250"
+	},
+	{
+		"ok": 2191,
+		"errored": 0,
+		"clients": 381,
+		"average": 1143.252396166134,
+		"min": "20",
+		"max": "2656"
+	},
+	{
+		"ok": 2288,
+		"errored": 0,
+		"clients": 382,
+		"average": 1129.2622377622379,
+		"min": "19",
+		"max": "2394"
+	},
+	{
+		"ok": 2346,
+		"errored": 0,
+		"clients": 383,
+		"average": 1109.4676044330777,
+		"min": "22",
+		"max": "2328"
+	},
+	{
+		"ok": 2198,
+		"errored": 0,
+		"clients": 384,
+		"average": 1160.3976342129208,
+		"min": "24",
+		"max": "2590"
+	},
+	{
+		"ok": 2112,
+		"errored": 0,
+		"clients": 385,
+		"average": 1168.4517045454545,
+		"min": "19",
+		"max": "2419"
+	},
+	{
+		"ok": 1995,
+		"errored": 0,
+		"clients": 386,
+		"average": 1171.175939849624,
+		"min": "23",
+		"max": "3097"
+	},
+	{
+		"ok": 1925,
+		"errored": 0,
+		"clients": 387,
+		"average": 1252.1677922077922,
+		"min": "19",
+		"max": "3115"
+	},
+	{
+		"ok": 2224,
+		"errored": 0,
+		"clients": 388,
+		"average": 1140.8853417266187,
+		"min": "19",
+		"max": "2597"
+	},
+	{
+		"ok": 2245,
+		"errored": 0,
+		"clients": 389,
+		"average": 1121.48285077951,
+		"min": "22",
+		"max": "2313"
+	},
+	{
+		"ok": 2304,
+		"errored": 0,
+		"clients": 390,
+		"average": 1109.2690972222222,
+		"min": "25",
+		"max": "2349"
+	},
+	{
+		"ok": 2232,
+		"errored": 0,
+		"clients": 391,
+		"average": 1192.937724014337,
+		"min": "18",
+		"max": "2346"
+	},
+	{
+		"ok": 1974,
+		"errored": 0,
+		"clients": 392,
+		"average": 1180.4782168186423,
+		"min": "17",
+		"max": "2443"
+	},
+	{
+		"ok": 2220,
+		"errored": 0,
+		"clients": 393,
+		"average": 1210.0373873873873,
+		"min": "19",
+		"max": "2358"
+	},
+	{
+		"ok": 2193,
+		"errored": 0,
+		"clients": 394,
+		"average": 1113.2476060191518,
+		"min": "17",
+		"max": "2268"
+	},
+	{
+		"ok": 2343,
+		"errored": 0,
+		"clients": 395,
+		"average": 1116.7639778062314,
+		"min": "19",
+		"max": "2324"
+	},
+	{
+		"ok": 2093,
+		"errored": 0,
+		"clients": 396,
+		"average": 1235.745341614907,
+		"min": "16",
+		"max": "2327"
+	},
+	{
+		"ok": 2331,
+		"errored": 0,
+		"clients": 397,
+		"average": 1082.2359502359502,
+		"min": "15",
+		"max": "2106"
+	},
+	{
+		"ok": 2050,
+		"errored": 0,
+		"clients": 398,
+		"average": 1184.6351219512196,
+		"min": "14",
+		"max": "2533"
+	},
+	{
+		"ok": 2460,
+		"errored": 0,
+		"clients": 399,
+		"average": 1156.1186991869918,
+		"min": "20",
+		"max": "2299"
+	},
+	{
+		"ok": 1977,
+		"errored": 0,
+		"clients": 400,
+		"average": 1373.8679817905918,
+		"min": "12",
+		"max": "3074"
+	},
+	{
+		"ok": 2235,
+		"errored": 0,
+		"clients": 401,
+		"average": 1193.6876957494408,
+		"min": "27",
+		"max": "2426"
+	},
+	{
+		"ok": 2048,
+		"errored": 0,
+		"clients": 402,
+		"average": 1205.2646484375,
+		"min": "16",
+		"max": "3135"
+	},
+	{
+		"ok": 2316,
+		"errored": 0,
+		"clients": 403,
+		"average": 1155.988341968912,
+		"min": "20",
+		"max": "2470"
+	},
+	{
+		"ok": 2185,
+		"errored": 0,
+		"clients": 404,
+		"average": 1182.02471395881,
+		"min": "16",
+		"max": "2454"
+	},
+	{
+		"ok": 2233,
+		"errored": 0,
+		"clients": 405,
+		"average": 1156.4648454993282,
+		"min": "17",
+		"max": "2305"
+	},
+	{
+		"ok": 2301,
+		"errored": 0,
+		"clients": 406,
+		"average": 1178.3215993046501,
+		"min": "23",
+		"max": "2457"
+	},
+	{
+		"ok": 2353,
+		"errored": 0,
+		"clients": 407,
+		"average": 1110.8338291542711,
+		"min": "19",
+		"max": "2503"
+	},
+	{
+		"ok": 2378,
+		"errored": 0,
+		"clients": 408,
+		"average": 1141.6177460050462,
+		"min": "20",
+		"max": "2315"
+	},
+	{
+		"ok": 2265,
+		"errored": 0,
+		"clients": 409,
+		"average": 1184.2701986754967,
+		"min": "23",
+		"max": "2441"
+	},
+	{
+		"ok": 2419,
+		"errored": 0,
+		"clients": 410,
+		"average": 1140.5113683340223,
+		"min": "24",
+		"max": "2461"
+	},
+	{
+		"ok": 2441,
+		"errored": 0,
+		"clients": 411,
+		"average": 1093.5600163867268,
+		"min": "24",
+		"max": "2225"
+	},
+	{
+		"ok": 1749,
+		"errored": 0,
+		"clients": 412,
+		"average": 1263.1749571183534,
+		"min": "22",
+		"max": "3050"
+	},
+	{
+		"ok": 2070,
+		"errored": 0,
+		"clients": 413,
+		"average": 1244.2376811594204,
+		"min": "19",
+		"max": "2578"
+	},
+	{
+		"ok": 2196,
+		"errored": 0,
+		"clients": 414,
+		"average": 1249.637067395264,
+		"min": "15",
+		"max": "2523"
+	},
+	{
+		"ok": 2083,
+		"errored": 0,
+		"clients": 415,
+		"average": 1247.6144983197312,
+		"min": "15",
+		"max": "2470"
+	},
+	{
+		"ok": 2092,
+		"errored": 0,
+		"clients": 416,
+		"average": 1229.0396749521988,
+		"min": "25",
+		"max": "2474"
+	},
+	{
+		"ok": 2433,
+		"errored": 0,
+		"clients": 417,
+		"average": 1185.7949034114263,
+		"min": "24",
+		"max": "2122"
+	},
+	{
+		"ok": 2234,
+		"errored": 0,
+		"clients": 418,
+		"average": 1156.4785138764548,
+		"min": "14",
+		"max": "2447"
+	},
+	{
+		"ok": 2321,
+		"errored": 0,
+		"clients": 419,
+		"average": 1208.1551055579491,
+		"min": "19",
+		"max": "2450"
 	},
 	{
 		"ok": 2482,
 		"errored": 0,
-		"clients": 3,
-		"average": 8.982272360999195,
-		"min": "5",
-		"max": "67"
+		"clients": 420,
+		"average": 1142.7219983883965,
+		"min": "26",
+		"max": "2303"
 	},
 	{
-		"ok": 2960,
+		"ok": 2465,
 		"errored": 0,
-		"clients": 4,
-		"average": 10.12331081081081,
-		"min": "5",
-		"max": "74"
+		"clients": 421,
+		"average": 1130.8283975659228,
+		"min": "20",
+		"max": "2334"
 	},
 	{
-		"ok": 2769,
+		"ok": 2206,
 		"errored": 0,
-		"clients": 5,
-		"average": 12.268689057421453,
-		"min": "5",
-		"max": "84"
+		"clients": 422,
+		"average": 1128.114233907525,
+		"min": "12",
+		"max": "2520"
 	},
 	{
-		"ok": 2839,
+		"ok": 2119,
 		"errored": 0,
-		"clients": 6,
-		"average": 14.603733709052483,
-		"min": "5",
-		"max": "75"
+		"clients": 423,
+		"average": 1211.3086361491269,
+		"min": "18",
+		"max": "2526"
 	},
 	{
-		"ok": 2906,
+		"ok": 2165,
 		"errored": 0,
-		"clients": 7,
-		"average": 16.745698554714384,
-		"min": "5",
-		"max": "173"
+		"clients": 424,
+		"average": 1228.8965357967668,
+		"min": "19",
+		"max": "2520"
 	},
 	{
-		"ok": 2840,
+		"ok": 2249,
 		"errored": 0,
-		"clients": 8,
-		"average": 18.987323943661973,
-		"min": "5",
-		"max": "98"
+		"clients": 425,
+		"average": 1176.9088483770565,
+		"min": "15",
+		"max": "2444"
 	},
 	{
-		"ok": 3058,
+		"ok": 2244,
 		"errored": 0,
-		"clients": 9,
-		"average": 20.72204054937868,
-		"min": "5",
-		"max": "89"
-	},
-	{
-		"ok": 2978,
-		"errored": 0,
-		"clients": 10,
-		"average": 23.53660174613835,
-		"min": "5",
-		"max": "96"
-	},
-	{
-		"ok": 3121,
-		"errored": 0,
-		"clients": 11,
-		"average": 25.090355655238707,
-		"min": "5",
-		"max": "89"
-	},
-	{
-		"ok": 3067,
-		"errored": 0,
-		"clients": 12,
-		"average": 27.864362569285948,
-		"min": "5",
-		"max": "189"
-	},
-	{
-		"ok": 3063,
-		"errored": 0,
-		"clients": 13,
-		"average": 30.583088475350962,
-		"min": "5",
-		"max": "108"
-	},
-	{
-		"ok": 3087,
-		"errored": 0,
-		"clients": 14,
-		"average": 32.38192419825073,
-		"min": "5",
-		"max": "101"
-	},
-	{
-		"ok": 3169,
-		"errored": 0,
-		"clients": 15,
-		"average": 33.86651940675292,
-		"min": "5",
-		"max": "106"
-	},
-	{
-		"ok": 3180,
-		"errored": 0,
-		"clients": 16,
-		"average": 36.23993710691824,
-		"min": "5",
-		"max": "115"
-	},
-	{
-		"ok": 3172,
-		"errored": 0,
-		"clients": 17,
-		"average": 38.7563051702396,
-		"min": "5",
-		"max": "110"
-	},
-	{
-		"ok": 3211,
-		"errored": 0,
-		"clients": 18,
-		"average": 40.861725319215196,
-		"min": "6",
-		"max": "132"
-	},
-	{
-		"ok": 3215,
-		"errored": 0,
-		"clients": 19,
-		"average": 43.09362363919129,
-		"min": "5",
-		"max": "112"
-	},
-	{
-		"ok": 3264,
-		"errored": 0,
-		"clients": 20,
-		"average": 45.28431372549019,
-		"min": "5",
-		"max": "127"
-	},
-	{
-		"ok": 3519,
-		"errored": 0,
-		"clients": 30,
-		"average": 67.16510372264848,
-		"min": "6",
-		"max": "162"
-	},
-	{
-		"ok": 3601,
-		"errored": 0,
-		"clients": 40,
-		"average": 88.4695917800611,
-		"min": "5",
-		"max": "180"
-	},
-	{
-		"ok": 3594,
-		"errored": 0,
-		"clients": 50,
-		"average": 111.56677796327212,
-		"min": "6",
-		"max": "219"
-	},
-	{
-		"ok": 3666,
-		"errored": 0,
-		"clients": 60,
-		"average": 133.69312602291325,
-		"min": "6",
-		"max": "320"
-	},
-	{
-		"ok": 3646,
-		"errored": 0,
-		"clients": 70,
-		"average": 147.90702139330773,
-		"min": "6",
-		"max": "268"
-	},
-	{
-		"ok": 3763,
-		"errored": 0,
-		"clients": 80,
-		"average": 172.7820887589689,
-		"min": "6",
-		"max": "295"
-	},
-	{
-		"ok": 3746,
-		"errored": 0,
-		"clients": 90,
-		"average": 193.43860117458624,
-		"min": "5",
-		"max": "327"
-	},
-	{
-		"ok": 3867,
-		"errored": 0,
-		"clients": 100,
-		"average": 213.422032583398,
-		"min": "5",
-		"max": "380"
-	},
-	{
-		"ok": 3632,
-		"errored": 0,
-		"clients": 200,
-		"average": 386.8962004405286,
-		"min": "7",
-		"max": "1068"
-	},
-	{
-		"ok": 3838,
-		"errored": 0,
-		"clients": 300,
-		"average": 575.4914017717562,
+		"clients": 426,
+		"average": 1197.9701426024956,
 		"min": "14",
-		"max": "994"
+		"max": "2439"
 	},
 	{
-		"ok": 3750,
+		"ok": 2396,
 		"errored": 0,
-		"clients": 400,
-		"average": 733.244,
-		"min": "13",
-		"max": "1467"
+		"clients": 427,
+		"average": 1193.1285475792988,
+		"min": "23",
+		"max": "2592"
 	},
 	{
-		"ok": 3735,
+		"ok": 2474,
+		"errored": 0,
+		"clients": 428,
+		"average": 1155.943007275667,
+		"min": "25",
+		"max": "2323"
+	},
+	{
+		"ok": 2250,
+		"errored": 0,
+		"clients": 429,
+		"average": 1152.6937777777778,
+		"min": "17",
+		"max": "2659"
+	},
+	{
+		"ok": 2282,
+		"errored": 0,
+		"clients": 430,
+		"average": 1194.8702892199824,
+		"min": "15",
+		"max": "2555"
+	},
+	{
+		"ok": 2297,
+		"errored": 0,
+		"clients": 431,
+		"average": 1189.3286895951242,
+		"min": "16",
+		"max": "2670"
+	},
+	{
+		"ok": 2360,
+		"errored": 0,
+		"clients": 432,
+		"average": 1181.8466101694914,
+		"min": "17",
+		"max": "2361"
+	},
+	{
+		"ok": 2451,
+		"errored": 0,
+		"clients": 433,
+		"average": 1190.3818849449203,
+		"min": "19",
+		"max": "2333"
+	},
+	{
+		"ok": 2311,
+		"errored": 0,
+		"clients": 434,
+		"average": 1173.983124188663,
+		"min": "19",
+		"max": "2344"
+	},
+	{
+		"ok": 2279,
+		"errored": 0,
+		"clients": 435,
+		"average": 1144.4967090829311,
+		"min": "16",
+		"max": "2498"
+	},
+	{
+		"ok": 2301,
+		"errored": 0,
+		"clients": 436,
+		"average": 1132.8800521512385,
+		"min": "12",
+		"max": "2457"
+	},
+	{
+		"ok": 2187,
+		"errored": 0,
+		"clients": 437,
+		"average": 1122.471879286694,
+		"min": "15",
+		"max": "2540"
+	},
+	{
+		"ok": 2208,
+		"errored": 0,
+		"clients": 438,
+		"average": 1167.2259963768115,
+		"min": "25",
+		"max": "2433"
+	},
+	{
+		"ok": 2463,
+		"errored": 0,
+		"clients": 439,
+		"average": 1153.7896873731222,
+		"min": "25",
+		"max": "2500"
+	},
+	{
+		"ok": 2377,
+		"errored": 0,
+		"clients": 440,
+		"average": 1149.90113588557,
+		"min": "17",
+		"max": "2368"
+	},
+	{
+		"ok": 2537,
+		"errored": 0,
+		"clients": 441,
+		"average": 1207.2479306267244,
+		"min": "18",
+		"max": "2289"
+	},
+	{
+		"ok": 2421,
+		"errored": 0,
+		"clients": 442,
+		"average": 1121.091697645601,
+		"min": "19",
+		"max": "2364"
+	},
+	{
+		"ok": 2255,
+		"errored": 0,
+		"clients": 443,
+		"average": 1152.8235033259423,
+		"min": "14",
+		"max": "2553"
+	},
+	{
+		"ok": 2204,
+		"errored": 0,
+		"clients": 444,
+		"average": 1141.6343012704174,
+		"min": "17",
+		"max": "2650"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 445,
+		"average": 1137.006968641115,
+		"min": "16",
+		"max": "2594"
+	},
+	{
+		"ok": 2125,
+		"errored": 0,
+		"clients": 446,
+		"average": 1212.1778823529412,
+		"min": "21",
+		"max": "2478"
+	},
+	{
+		"ok": 2338,
+		"errored": 0,
+		"clients": 447,
+		"average": 1152.3952095808384,
+		"min": "10",
+		"max": "2526"
+	},
+	{
+		"ok": 2233,
+		"errored": 0,
+		"clients": 448,
+		"average": 1171.1236005373937,
+		"min": "13",
+		"max": "2585"
+	},
+	{
+		"ok": 2338,
+		"errored": 0,
+		"clients": 449,
+		"average": 1192.2339606501282,
+		"min": "19",
+		"max": "2449"
+	},
+	{
+		"ok": 2274,
+		"errored": 0,
+		"clients": 450,
+		"average": 1157.4824098504837,
+		"min": "16",
+		"max": "2666"
+	},
+	{
+		"ok": 1940,
+		"errored": 0,
+		"clients": 451,
+		"average": 1376.1036082474227,
+		"min": "17",
+		"max": "3124"
+	},
+	{
+		"ok": 2284,
+		"errored": 0,
+		"clients": 452,
+		"average": 1156.0398423817862,
+		"min": "17",
+		"max": "2587"
+	},
+	{
+		"ok": 2262,
+		"errored": 0,
+		"clients": 453,
+		"average": 1166.3377541998232,
+		"min": "15",
+		"max": "2757"
+	},
+	{
+		"ok": 2179,
+		"errored": 0,
+		"clients": 454,
+		"average": 1211.5135383203303,
+		"min": "14",
+		"max": "2517"
+	},
+	{
+		"ok": 2318,
+		"errored": 0,
+		"clients": 455,
+		"average": 1141.3170836928387,
+		"min": "12",
+		"max": "2548"
+	},
+	{
+		"ok": 2183,
+		"errored": 0,
+		"clients": 456,
+		"average": 1178.6729271644526,
+		"min": "18",
+		"max": "2985"
+	},
+	{
+		"ok": 2328,
+		"errored": 0,
+		"clients": 457,
+		"average": 1131.4329896907216,
+		"min": "17",
+		"max": "2623"
+	},
+	{
+		"ok": 2292,
+		"errored": 0,
+		"clients": 458,
+		"average": 1123.4559336823734,
+		"min": "17",
+		"max": "2552"
+	},
+	{
+		"ok": 2303,
+		"errored": 0,
+		"clients": 459,
+		"average": 1159.4607034303083,
+		"min": "21",
+		"max": "2394"
+	},
+	{
+		"ok": 2478,
+		"errored": 0,
+		"clients": 460,
+		"average": 1125.354721549637,
+		"min": "13",
+		"max": "2341"
+	},
+	{
+		"ok": 2322,
+		"errored": 0,
+		"clients": 461,
+		"average": 1154.184754521964,
+		"min": "13",
+		"max": "2682"
+	},
+	{
+		"ok": 2311,
+		"errored": 0,
+		"clients": 462,
+		"average": 1141.4889658156642,
+		"min": "15",
+		"max": "2748"
+	},
+	{
+		"ok": 2267,
+		"errored": 0,
+		"clients": 463,
+		"average": 1167.5218350242612,
+		"min": "12",
+		"max": "2756"
+	},
+	{
+		"ok": 2334,
+		"errored": 0,
+		"clients": 464,
+		"average": 1154.2656383890317,
+		"min": "15",
+		"max": "2631"
+	},
+	{
+		"ok": 2344,
+		"errored": 0,
+		"clients": 465,
+		"average": 1155.5819112627987,
+		"min": "17",
+		"max": "2602"
+	},
+	{
+		"ok": 2257,
+		"errored": 0,
+		"clients": 466,
+		"average": 1170.8298626495348,
+		"min": "14",
+		"max": "2712"
+	},
+	{
+		"ok": 2188,
+		"errored": 0,
+		"clients": 467,
+		"average": 1190.8948811700184,
+		"min": "14",
+		"max": "2716"
+	},
+	{
+		"ok": 2245,
+		"errored": 0,
+		"clients": 468,
+		"average": 1190.157683741648,
+		"min": "18",
+		"max": "2683"
+	},
+	{
+		"ok": 2266,
+		"errored": 0,
+		"clients": 469,
+		"average": 1217.5688437775816,
+		"min": "15",
+		"max": "2736"
+	},
+	{
+		"ok": 2292,
+		"errored": 0,
+		"clients": 470,
+		"average": 1154.2294938917976,
+		"min": "18",
+		"max": "2714"
+	},
+	{
+		"ok": 2225,
+		"errored": 0,
+		"clients": 471,
+		"average": 1219.9339325842698,
+		"min": "15",
+		"max": "2986"
+	},
+	{
+		"ok": 2207,
+		"errored": 0,
+		"clients": 472,
+		"average": 1197.0688717716357,
+		"min": "16",
+		"max": "2801"
+	},
+	{
+		"ok": 2348,
+		"errored": 0,
+		"clients": 473,
+		"average": 1133.201873935264,
+		"min": "16",
+		"max": "2635"
+	},
+	{
+		"ok": 2292,
+		"errored": 0,
+		"clients": 474,
+		"average": 1171.4986910994764,
+		"min": "14",
+		"max": "2794"
+	},
+	{
+		"ok": 2302,
+		"errored": 0,
+		"clients": 475,
+		"average": 1164.0460469157254,
+		"min": "15",
+		"max": "2695"
+	},
+	{
+		"ok": 2332,
+		"errored": 0,
+		"clients": 476,
+		"average": 1158.0385934819897,
+		"min": "13",
+		"max": "2707"
+	},
+	{
+		"ok": 2219,
+		"errored": 0,
+		"clients": 477,
+		"average": 1222.5385308697612,
+		"min": "14",
+		"max": "2843"
+	},
+	{
+		"ok": 2288,
+		"errored": 0,
+		"clients": 478,
+		"average": 1178.3326048951049,
+		"min": "18",
+		"max": "2752"
+	},
+	{
+		"ok": 2163,
+		"errored": 0,
+		"clients": 479,
+		"average": 1307.6278317152103,
+		"min": "17",
+		"max": "2746"
+	},
+	{
+		"ok": 2257,
+		"errored": 0,
+		"clients": 480,
+		"average": 1257.0363314133806,
+		"min": "13",
+		"max": "2830"
+	},
+	{
+		"ok": 2219,
+		"errored": 0,
+		"clients": 481,
+		"average": 1237.419107706174,
+		"min": "16",
+		"max": "2557"
+	},
+	{
+		"ok": 2224,
+		"errored": 0,
+		"clients": 482,
+		"average": 1246.3142985611512,
+		"min": "17",
+		"max": "2921"
+	},
+	{
+		"ok": 2310,
+		"errored": 0,
+		"clients": 483,
+		"average": 1159.334632034632,
+		"min": "17",
+		"max": "2689"
+	},
+	{
+		"ok": 2249,
+		"errored": 0,
+		"clients": 484,
+		"average": 1202.092930191196,
+		"min": "13",
+		"max": "2815"
+	},
+	{
+		"ok": 2308,
+		"errored": 0,
+		"clients": 485,
+		"average": 1230.1295493934142,
+		"min": "15",
+		"max": "2824"
+	},
+	{
+		"ok": 2367,
+		"errored": 0,
+		"clients": 486,
+		"average": 1189.221377270807,
+		"min": "16",
+		"max": "2719"
+	},
+	{
+		"ok": 2269,
+		"errored": 0,
+		"clients": 487,
+		"average": 1216.9510797708242,
+		"min": "20",
+		"max": "2916"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 488,
+		"average": 1186.280487804878,
+		"min": "16",
+		"max": "2812"
+	},
+	{
+		"ok": 2279,
+		"errored": 0,
+		"clients": 489,
+		"average": 1223.125932426503,
+		"min": "18",
+		"max": "2743"
+	},
+	{
+		"ok": 2454,
+		"errored": 0,
+		"clients": 490,
+		"average": 1139.4788101059494,
+		"min": "20",
+		"max": "2594"
+	},
+	{
+		"ok": 2384,
+		"errored": 0,
+		"clients": 491,
+		"average": 1207.8456375838925,
+		"min": "13",
+		"max": "2747"
+	},
+	{
+		"ok": 2240,
+		"errored": 0,
+		"clients": 492,
+		"average": 1238.3973214285713,
+		"min": "16",
+		"max": "2772"
+	},
+	{
+		"ok": 2305,
+		"errored": 0,
+		"clients": 493,
+		"average": 1198.9240780911064,
+		"min": "23",
+		"max": "2830"
+	},
+	{
+		"ok": 2327,
+		"errored": 0,
+		"clients": 494,
+		"average": 1181.5152556940266,
+		"min": "14",
+		"max": "2761"
+	},
+	{
+		"ok": 2200,
+		"errored": 0,
+		"clients": 495,
+		"average": 1248.1286363636364,
+		"min": "17",
+		"max": "3007"
+	},
+	{
+		"ok": 2286,
+		"errored": 0,
+		"clients": 496,
+		"average": 1209.3110236220473,
+		"min": "15",
+		"max": "2794"
+	},
+	{
+		"ok": 2254,
+		"errored": 0,
+		"clients": 497,
+		"average": 1214.539041703638,
+		"min": "14",
+		"max": "2910"
+	},
+	{
+		"ok": 2429,
+		"errored": 0,
+		"clients": 498,
+		"average": 1161.719226018938,
+		"min": "18",
+		"max": "2667"
+	},
+	{
+		"ok": 2365,
+		"errored": 0,
+		"clients": 499,
+		"average": 1196.8097251585623,
+		"min": "14",
+		"max": "2703"
+	},
+	{
+		"ok": 2221,
 		"errored": 0,
 		"clients": 500,
-		"average": 890.8921017402945,
-		"min": "16",
-		"max": "1592"
+		"average": 1286.3750562809546,
+		"min": "17",
+		"max": "3136"
 	},
 	{
-		"ok": 3878,
+		"ok": 2346,
 		"errored": 0,
-		"clients": 600,
-		"average": 1017.6526560082517,
-		"min": "10",
-		"max": "1946"
+		"clients": 501,
+		"average": 1234.6240409207162,
+		"min": "17",
+		"max": "2740"
 	},
 	{
-		"ok": 3911,
+		"ok": 2315,
 		"errored": 0,
-		"clients": 700,
-		"average": 1120.211454870877,
+		"clients": 502,
+		"average": 1194.8876889848812,
+		"min": "14",
+		"max": "2810"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 503,
+		"average": 1242.2822299651568,
+		"min": "20",
+		"max": "3028"
+	},
+	{
+		"ok": 2490,
+		"errored": 0,
+		"clients": 504,
+		"average": 1158.3590361445783,
+		"min": "14",
+		"max": "2613"
+	},
+	{
+		"ok": 2184,
+		"errored": 0,
+		"clients": 505,
+		"average": 1342.9716117216117,
+		"min": "17",
+		"max": "3028"
+	},
+	{
+		"ok": 2299,
+		"errored": 0,
+		"clients": 506,
+		"average": 1232.3810352327098,
+		"min": "20",
+		"max": "2935"
+	},
+	{
+		"ok": 2092,
+		"errored": 0,
+		"clients": 507,
+		"average": 1430.9885277246653,
+		"min": "14",
+		"max": "3112"
+	},
+	{
+		"ok": 2542,
+		"errored": 0,
+		"clients": 508,
+		"average": 1158.0558615263571,
+		"min": "24",
+		"max": "2596"
+	},
+	{
+		"ok": 2327,
+		"errored": 0,
+		"clients": 509,
+		"average": 1268.1104426299958,
+		"min": "15",
+		"max": "2854"
+	},
+	{
+		"ok": 2219,
+		"errored": 0,
+		"clients": 510,
+		"average": 1480.8900405588104,
+		"min": "18",
+		"max": "3277"
+	},
+	{
+		"ok": 2312,
+		"errored": 0,
+		"clients": 511,
+		"average": 1233.3685121107267,
+		"min": "18",
+		"max": "2876"
+	},
+	{
+		"ok": 2273,
+		"errored": 0,
+		"clients": 512,
+		"average": 1315.304443466784,
 		"min": "13",
-		"max": "2236"
+		"max": "2888"
 	},
 	{
-		"ok": 3604,
+		"ok": 2336,
 		"errored": 0,
-		"clients": 800,
-		"average": 1218.362652608213,
-		"min": "8",
-		"max": "2693"
+		"clients": 513,
+		"average": 1232.7183219178082,
+		"min": "14",
+		"max": "2847"
 	},
 	{
-		"ok": 3858,
+		"ok": 2187,
 		"errored": 0,
-		"clients": 900,
-		"average": 1668.7900466562985,
-		"min": "7",
-		"max": "2906"
+		"clients": 514,
+		"average": 1351.8797439414723,
+		"min": "17",
+		"max": "3030"
 	},
 	{
-		"ok": 3839,
+		"ok": 2455,
 		"errored": 0,
-		"clients": 1000,
-		"average": 1516.9979161239905,
-		"min": "11",
+		"clients": 515,
+		"average": 1169.2847250509164,
+		"min": "17",
+		"max": "2662"
+	},
+	{
+		"ok": 2304,
+		"errored": 0,
+		"clients": 516,
+		"average": 1277.6809895833333,
+		"min": "16",
+		"max": "2959"
+	},
+	{
+		"ok": 2243,
+		"errored": 0,
+		"clients": 517,
+		"average": 1378.9210878288006,
+		"min": "18",
+		"max": "3201"
+	},
+	{
+		"ok": 2316,
+		"errored": 0,
+		"clients": 518,
+		"average": 1250.8221070811744,
+		"min": "15",
+		"max": "2843"
+	},
+	{
+		"ok": 2278,
+		"errored": 0,
+		"clients": 519,
+		"average": 1314.422300263389,
+		"min": "19",
+		"max": "2990"
+	},
+	{
+		"ok": 2303,
+		"errored": 0,
+		"clients": 520,
+		"average": 1248.1602257924446,
+		"min": "17",
+		"max": "2876"
+	},
+	{
+		"ok": 2377,
+		"errored": 0,
+		"clients": 521,
+		"average": 1478.9978965082037,
+		"min": "17",
+		"max": "3079"
+	},
+	{
+		"ok": 2258,
+		"errored": 0,
+		"clients": 522,
+		"average": 1282.4813994685562,
+		"min": "16",
+		"max": "2950"
+	},
+	{
+		"ok": 2258,
+		"errored": 0,
+		"clients": 523,
+		"average": 1320.913197519929,
+		"min": "16",
+		"max": "2901"
+	},
+	{
+		"ok": 2256,
+		"errored": 0,
+		"clients": 524,
+		"average": 1333.5961879432625,
+		"min": "17",
+		"max": "2930"
+	},
+	{
+		"ok": 2350,
+		"errored": 0,
+		"clients": 525,
+		"average": 1245.2097872340426,
+		"min": "16",
+		"max": "2900"
+	},
+	{
+		"ok": 2296,
+		"errored": 0,
+		"clients": 526,
+		"average": 1320.88893728223,
+		"min": "16",
+		"max": "2876"
+	},
+	{
+		"ok": 2342,
+		"errored": 0,
+		"clients": 527,
+		"average": 1266.2386848847138,
+		"min": "14",
+		"max": "2867"
+	},
+	{
+		"ok": 2280,
+		"errored": 0,
+		"clients": 528,
+		"average": 1451.6574561403509,
+		"min": "30",
+		"max": "3016"
+	},
+	{
+		"ok": 2236,
+		"errored": 0,
+		"clients": 529,
+		"average": 1405.0143112701253,
+		"min": "14",
+		"max": "3037"
+	},
+	{
+		"ok": 2191,
+		"errored": 0,
+		"clients": 530,
+		"average": 1529.741670470105,
+		"min": "14",
+		"max": "3225"
+	},
+	{
+		"ok": 2297,
+		"errored": 0,
+		"clients": 531,
+		"average": 1310.7300827165868,
+		"min": "15",
+		"max": "3257"
+	},
+	{
+		"ok": 2306,
+		"errored": 0,
+		"clients": 532,
+		"average": 1308.4705117085864,
+		"min": "18",
+		"max": "2967"
+	},
+	{
+		"ok": 2265,
+		"errored": 0,
+		"clients": 533,
+		"average": 1366.5094922737308,
+		"min": "15",
+		"max": "2900"
+	},
+	{
+		"ok": 2196,
+		"errored": 0,
+		"clients": 534,
+		"average": 1429.1771402550091,
+		"min": "16",
+		"max": "2974"
+	},
+	{
+		"ok": 2321,
+		"errored": 0,
+		"clients": 535,
+		"average": 1337.4002585092633,
+		"min": "17",
+		"max": "2835"
+	},
+	{
+		"ok": 2347,
+		"errored": 0,
+		"clients": 536,
+		"average": 1297.8530038346826,
+		"min": "18",
+		"max": "2985"
+	},
+	{
+		"ok": 2293,
+		"errored": 0,
+		"clients": 537,
+		"average": 1374.1426079372002,
+		"min": "17",
+		"max": "2885"
+	},
+	{
+		"ok": 2339,
+		"errored": 0,
+		"clients": 538,
+		"average": 1308.3292005130397,
+		"min": "23",
+		"max": "3050"
+	},
+	{
+		"ok": 2255,
+		"errored": 0,
+		"clients": 539,
+		"average": 1531.2758314855876,
+		"min": "19",
+		"max": "2910"
+	},
+	{
+		"ok": 2512,
+		"errored": 0,
+		"clients": 540,
+		"average": 1195.843152866242,
+		"min": "20",
+		"max": "2838"
+	},
+	{
+		"ok": 2229,
+		"errored": 0,
+		"clients": 541,
+		"average": 1398.3660834454913,
+		"min": "18",
+		"max": "3289"
+	},
+	{
+		"ok": 2245,
+		"errored": 0,
+		"clients": 542,
+		"average": 1533.849443207127,
+		"min": "19",
+		"max": "3045"
+	},
+	{
+		"ok": 2441,
+		"errored": 0,
+		"clients": 543,
+		"average": 1242.9881196231054,
+		"min": "21",
+		"max": "2860"
+	},
+	{
+		"ok": 2312,
+		"errored": 0,
+		"clients": 544,
+		"average": 1341.2326989619378,
+		"min": "18",
+		"max": "2974"
+	},
+	{
+		"ok": 2188,
+		"errored": 0,
+		"clients": 545,
+		"average": 1545.3345521023766,
+		"min": "16",
+		"max": "3138"
+	},
+	{
+		"ok": 2371,
+		"errored": 0,
+		"clients": 546,
+		"average": 1320.8431041754534,
+		"min": "19",
+		"max": "2972"
+	},
+	{
+		"ok": 2363,
+		"errored": 0,
+		"clients": 547,
+		"average": 1421.846804909014,
+		"min": "17",
+		"max": "3150"
+	},
+	{
+		"ok": 2333,
+		"errored": 0,
+		"clients": 548,
+		"average": 1386.3729104157737,
+		"min": "15",
+		"max": "3166"
+	},
+	{
+		"ok": 2219,
+		"errored": 0,
+		"clients": 549,
+		"average": 1552.3510590356016,
+		"min": "14",
+		"max": "2975"
+	},
+	{
+		"ok": 2286,
+		"errored": 0,
+		"clients": 550,
+		"average": 1383.3740157480315,
+		"min": "15",
+		"max": "3141"
+	},
+	{
+		"ok": 2297,
+		"errored": 0,
+		"clients": 551,
+		"average": 1402.7609925990423,
+		"min": "16",
+		"max": "2959"
+	},
+	{
+		"ok": 2157,
+		"errored": 0,
+		"clients": 552,
+		"average": 1608.2517385257302,
+		"min": "34",
+		"max": "3152"
+	},
+	{
+		"ok": 2338,
+		"errored": 0,
+		"clients": 553,
+		"average": 1492.156116338751,
+		"min": "16",
+		"max": "3005"
+	},
+	{
+		"ok": 2269,
+		"errored": 0,
+		"clients": 554,
+		"average": 1443.3613926840017,
+		"min": "15",
+		"max": "3076"
+	},
+	{
+		"ok": 2350,
+		"errored": 0,
+		"clients": 555,
+		"average": 1349.827659574468,
+		"min": "20",
+		"max": "3012"
+	},
+	{
+		"ok": 2310,
+		"errored": 0,
+		"clients": 556,
+		"average": 1555.2593073593073,
+		"min": "14",
+		"max": "3170"
+	},
+	{
+		"ok": 2252,
+		"errored": 0,
+		"clients": 557,
+		"average": 1569.9538188277088,
+		"min": "19",
+		"max": "3124"
+	},
+	{
+		"ok": 2310,
+		"errored": 0,
+		"clients": 558,
+		"average": 1509.7554112554112,
+		"min": "17",
+		"max": "2974"
+	},
+	{
+		"ok": 2364,
+		"errored": 0,
+		"clients": 559,
+		"average": 1465.7280033840948,
+		"min": "15",
+		"max": "3204"
+	},
+	{
+		"ok": 2481,
+		"errored": 0,
+		"clients": 560,
+		"average": 1436.316001612253,
+		"min": "18",
+		"max": "3174"
+	},
+	{
+		"ok": 2337,
+		"errored": 0,
+		"clients": 561,
+		"average": 1543.839109970047,
+		"min": "16",
+		"max": "3091"
+	},
+	{
+		"ok": 2445,
+		"errored": 0,
+		"clients": 562,
+		"average": 1468.884662576687,
+		"min": "19",
+		"max": "3153"
+	},
+	{
+		"ok": 2452,
+		"errored": 0,
+		"clients": 563,
+		"average": 1424.478792822186,
+		"min": "15",
+		"max": "3022"
+	},
+	{
+		"ok": 2415,
+		"errored": 0,
+		"clients": 564,
+		"average": 1316.934989648033,
+		"min": "16",
+		"max": "2950"
+	},
+	{
+		"ok": 2463,
+		"errored": 0,
+		"clients": 565,
+		"average": 1276.384084449858,
+		"min": "19",
+		"max": "2800"
+	},
+	{
+		"ok": 2390,
+		"errored": 0,
+		"clients": 566,
+		"average": 1461.9422594142259,
+		"min": "23",
+		"max": "3085"
+	},
+	{
+		"ok": 2224,
+		"errored": 0,
+		"clients": 567,
+		"average": 1566.3902877697842,
+		"min": "17",
+		"max": "3236"
+	},
+	{
+		"ok": 2317,
+		"errored": 0,
+		"clients": 568,
+		"average": 1532.7768666378938,
+		"min": "16",
 		"max": "3196"
 	},
 	{
-		"ok": 4259,
+		"ok": 2390,
 		"errored": 0,
-		"clients": 2000,
-		"average": 3994.6254989434137,
-		"min": "10",
-		"max": "6684"
+		"clients": 569,
+		"average": 1477.1912133891212,
+		"min": "20",
+		"max": "3093"
 	},
 	{
-		"ok": 4344,
+		"ok": 2471,
 		"errored": 0,
-		"clients": 3000,
-		"average": 5155.627532228361,
-		"min": "34",
-		"max": "10305"
+		"clients": 570,
+		"average": 1457.1736139214893,
+		"min": "16",
+		"max": "3105"
 	},
 	{
-		"ok": 5472,
+		"ok": 2418,
 		"errored": 0,
-		"clients": 4000,
-		"average": 8997.420321637426,
-		"min": "2044",
-		"max": "13990"
+		"clients": 571,
+		"average": 1468.6385442514475,
+		"min": "16",
+		"max": "3126"
 	},
 	{
-		"ok": 6812,
+		"ok": 2427,
 		"errored": 0,
-		"clients": 5000,
-		"average": 9400.001174398121,
+		"clients": 572,
+		"average": 1303.1759373712403,
+		"min": "20",
+		"max": "2882"
+	},
+	{
+		"ok": 2480,
+		"errored": 0,
+		"clients": 573,
+		"average": 1278.9754032258065,
+		"min": "19",
+		"max": "2826"
+	},
+	{
+		"ok": 2478,
+		"errored": 0,
+		"clients": 574,
+		"average": 1573.952380952381,
+		"min": "17",
+		"max": "3407"
+	},
+	{
+		"ok": 2318,
+		"errored": 0,
+		"clients": 575,
+		"average": 1524.2355478861086,
+		"min": "18",
+		"max": "3228"
+	},
+	{
+		"ok": 2415,
+		"errored": 0,
+		"clients": 576,
+		"average": 1494.7445134575569,
+		"min": "15",
+		"max": "3164"
+	},
+	{
+		"ok": 2486,
+		"errored": 0,
+		"clients": 577,
+		"average": 1322.3491552695093,
+		"min": "17",
+		"max": "3033"
+	},
+	{
+		"ok": 2477,
+		"errored": 0,
+		"clients": 578,
+		"average": 1468.123940250303,
+		"min": "15",
+		"max": "2964"
+	},
+	{
+		"ok": 2282,
+		"errored": 0,
+		"clients": 579,
+		"average": 1553.1805433829973,
 		"min": "25",
-		"max": "14780"
+		"max": "3179"
 	},
 	{
-		"ok": 7752,
+		"ok": 2374,
 		"errored": 0,
-		"clients": 6000,
-		"average": 10022.219814241485,
-		"min": "1607",
-		"max": "17256"
+		"clients": 580,
+		"average": 1530.5286436394272,
+		"min": "16",
+		"max": "3066"
+	},
+	{
+		"ok": 2301,
+		"errored": 0,
+		"clients": 581,
+		"average": 1541.5445458496306,
+		"min": "27",
+		"max": "3164"
+	},
+	{
+		"ok": 2528,
+		"errored": 0,
+		"clients": 582,
+		"average": 1317.2622626582279,
+		"min": "15",
+		"max": "3026"
+	},
+	{
+		"ok": 2447,
+		"errored": 0,
+		"clients": 583,
+		"average": 1501.2374335921536,
+		"min": "17",
+		"max": "3046"
+	},
+	{
+		"ok": 2397,
+		"errored": 0,
+		"clients": 584,
+		"average": 1570.7334167709637,
+		"min": "19",
+		"max": "3129"
+	},
+	{
+		"ok": 2551,
+		"errored": 0,
+		"clients": 585,
+		"average": 1531.2453939631516,
+		"min": "17",
+		"max": "3002"
+	},
+	{
+		"ok": 2316,
+		"errored": 0,
+		"clients": 586,
+		"average": 1548.8683074265975,
+		"min": "15",
+		"max": "3089"
+	},
+	{
+		"ok": 2477,
+		"errored": 0,
+		"clients": 587,
+		"average": 1374.3887767460637,
+		"min": "16",
+		"max": "3111"
+	},
+	{
+		"ok": 2396,
+		"errored": 0,
+		"clients": 588,
+		"average": 1498.0375626043406,
+		"min": "16",
+		"max": "3473"
+	},
+	{
+		"ok": 2360,
+		"errored": 0,
+		"clients": 589,
+		"average": 1508.389406779661,
+		"min": "14",
+		"max": "3406"
+	},
+	{
+		"ok": 2526,
+		"errored": 0,
+		"clients": 590,
+		"average": 1442.8558986539983,
+		"min": "22",
+		"max": "3082"
+	},
+	{
+		"ok": 2565,
+		"errored": 0,
+		"clients": 591,
+		"average": 1461.9890838206627,
+		"min": "17",
+		"max": "3057"
+	},
+	{
+		"ok": 2225,
+		"errored": 0,
+		"clients": 592,
+		"average": 1546.3523595505617,
+		"min": "25",
+		"max": "3136"
+	},
+	{
+		"ok": 2176,
+		"errored": 0,
+		"clients": 593,
+		"average": 1521.313419117647,
+		"min": "12",
+		"max": "3399"
+	},
+	{
+		"ok": 2423,
+		"errored": 0,
+		"clients": 594,
+		"average": 1489.5996698307883,
+		"min": "26",
+		"max": "3117"
+	},
+	{
+		"ok": 2084,
+		"errored": 0,
+		"clients": 595,
+		"average": 1624.9976007677544,
+		"min": "16",
+		"max": "3710"
+	},
+	{
+		"ok": 2150,
+		"errored": 0,
+		"clients": 596,
+		"average": 1551.9023255813954,
+		"min": "19",
+		"max": "3384"
+	},
+	{
+		"ok": 2564,
+		"errored": 0,
+		"clients": 597,
+		"average": 1478.4785491419657,
+		"min": "16",
+		"max": "3167"
+	},
+	{
+		"ok": 2581,
+		"errored": 0,
+		"clients": 598,
+		"average": 1569.5377760557924,
+		"min": "17",
+		"max": "3378"
+	},
+	{
+		"ok": 2452,
+		"errored": 0,
+		"clients": 599,
+		"average": 1503.8719412724306,
+		"min": "16",
+		"max": "3170"
+	},
+	{
+		"ok": 2097,
+		"errored": 0,
+		"clients": 600,
+		"average": 1646.1154029566046,
+		"min": "17",
+		"max": "3653"
+	},
+	{
+		"ok": 2372,
+		"errored": 0,
+		"clients": 601,
+		"average": 1534.6070826306914,
+		"min": "17",
+		"max": "3172"
+	},
+	{
+		"ok": 2255,
+		"errored": 0,
+		"clients": 602,
+		"average": 1570.1529933481154,
+		"min": "19",
+		"max": "3480"
+	},
+	{
+		"ok": 2541,
+		"errored": 0,
+		"clients": 603,
+		"average": 1480.1648957103503,
+		"min": "17",
+		"max": "3227"
+	},
+	{
+		"ok": 2552,
+		"errored": 0,
+		"clients": 604,
+		"average": 1475.4576802507836,
+		"min": "15",
+		"max": "3178"
+	},
+	{
+		"ok": 2566,
+		"errored": 0,
+		"clients": 605,
+		"average": 1454.610288386594,
+		"min": "12",
+		"max": "3060"
+	},
+	{
+		"ok": 2452,
+		"errored": 0,
+		"clients": 606,
+		"average": 1540.3503262642741,
+		"min": "17",
+		"max": "3243"
+	},
+	{
+		"ok": 2432,
+		"errored": 0,
+		"clients": 607,
+		"average": 1516.984375,
+		"min": "13",
+		"max": "3179"
+	},
+	{
+		"ok": 2347,
+		"errored": 0,
+		"clients": 608,
+		"average": 1549.0362164465275,
+		"min": "18",
+		"max": "3444"
+	},
+	{
+		"ok": 2530,
+		"errored": 0,
+		"clients": 609,
+		"average": 1539.5612648221345,
+		"min": "17",
+		"max": "3267"
+	},
+	{
+		"ok": 2540,
+		"errored": 0,
+		"clients": 610,
+		"average": 1506.9078740157481,
+		"min": "21",
+		"max": "3259"
+	},
+	{
+		"ok": 2542,
+		"errored": 0,
+		"clients": 611,
+		"average": 1519.710857592447,
+		"min": "16",
+		"max": "3259"
+	},
+	{
+		"ok": 2423,
+		"errored": 0,
+		"clients": 612,
+		"average": 1480.7589764754437,
+		"min": "18",
+		"max": "3841"
+	},
+	{
+		"ok": 2520,
+		"errored": 0,
+		"clients": 613,
+		"average": 1522.7388888888888,
+		"min": "14",
+		"max": "3126"
+	},
+	{
+		"ok": 2235,
+		"errored": 0,
+		"clients": 614,
+		"average": 1525.0156599552572,
+		"min": "19",
+		"max": "3376"
+	},
+	{
+		"ok": 2538,
+		"errored": 0,
+		"clients": 615,
+		"average": 1489.9877856579985,
+		"min": "16",
+		"max": "3138"
+	},
+	{
+		"ok": 2575,
+		"errored": 0,
+		"clients": 616,
+		"average": 1485.175145631068,
+		"min": "7",
+		"max": "3133"
+	},
+	{
+		"ok": 2546,
+		"errored": 0,
+		"clients": 617,
+		"average": 1520.489002356638,
+		"min": "13",
+		"max": "3301"
+	},
+	{
+		"ok": 2533,
+		"errored": 0,
+		"clients": 618,
+		"average": 1516.5305961310698,
+		"min": "18",
+		"max": "3345"
+	},
+	{
+		"ok": 2334,
+		"errored": 0,
+		"clients": 619,
+		"average": 1497.2947729220223,
+		"min": "18",
+		"max": "3608"
+	},
+	{
+		"ok": 2049,
+		"errored": 0,
+		"clients": 620,
+		"average": 1779.9121522693997,
+		"min": "22",
+		"max": "3552"
+	},
+	{
+		"ok": 2480,
+		"errored": 0,
+		"clients": 621,
+		"average": 1541.6592741935483,
+		"min": "15",
+		"max": "3399"
+	},
+	{
+		"ok": 2432,
+		"errored": 0,
+		"clients": 622,
+		"average": 1494.4864309210527,
+		"min": "17",
+		"max": "3177"
+	},
+	{
+		"ok": 2558,
+		"errored": 0,
+		"clients": 623,
+		"average": 1510.9245504300234,
+		"min": "16",
+		"max": "3320"
+	},
+	{
+		"ok": 2259,
+		"errored": 0,
+		"clients": 624,
+		"average": 1550.7875166002657,
+		"min": "10",
+		"max": "3284"
+	},
+	{
+		"ok": 2545,
+		"errored": 0,
+		"clients": 625,
+		"average": 1510.7481335952848,
+		"min": "28",
+		"max": "3240"
+	},
+	{
+		"ok": 2339,
+		"errored": 0,
+		"clients": 626,
+		"average": 1546.5361265498077,
+		"min": "16",
+		"max": "3600"
+	},
+	{
+		"ok": 2457,
+		"errored": 0,
+		"clients": 627,
+		"average": 1535.6031746031747,
+		"min": "19",
+		"max": "3255"
+	},
+	{
+		"ok": 2559,
+		"errored": 0,
+		"clients": 628,
+		"average": 1520.0156311059006,
+		"min": "18",
+		"max": "3309"
+	},
+	{
+		"ok": 2595,
+		"errored": 0,
+		"clients": 629,
+		"average": 1513.5915221579962,
+		"min": "15",
+		"max": "3206"
+	},
+	{
+		"ok": 2421,
+		"errored": 0,
+		"clients": 630,
+		"average": 1496.4964890541098,
+		"min": "16",
+		"max": "3493"
+	},
+	{
+		"ok": 2484,
+		"errored": 0,
+		"clients": 631,
+		"average": 1507.4005636070854,
+		"min": "14",
+		"max": "3266"
+	},
+	{
+		"ok": 2481,
+		"errored": 0,
+		"clients": 632,
+		"average": 1535.3728335348649,
+		"min": "14",
+		"max": "3385"
+	},
+	{
+		"ok": 2457,
+		"errored": 0,
+		"clients": 633,
+		"average": 1503.7053317053317,
+		"min": "15",
+		"max": "3325"
+	},
+	{
+		"ok": 2351,
+		"errored": 0,
+		"clients": 634,
+		"average": 1506.9255635899617,
+		"min": "15",
+		"max": "3435"
+	},
+	{
+		"ok": 2288,
+		"errored": 0,
+		"clients": 635,
+		"average": 1545.2381993006993,
+		"min": "12",
+		"max": "3327"
+	},
+	{
+		"ok": 2285,
+		"errored": 0,
+		"clients": 636,
+		"average": 1527.0109409190372,
+		"min": "14",
+		"max": "3398"
+	},
+	{
+		"ok": 2401,
+		"errored": 0,
+		"clients": 637,
+		"average": 1509.6168263223656,
+		"min": "24",
+		"max": "3303"
+	},
+	{
+		"ok": 2307,
+		"errored": 0,
+		"clients": 638,
+		"average": 1537.5166883398354,
+		"min": "21",
+		"max": "3358"
+	},
+	{
+		"ok": 2412,
+		"errored": 0,
+		"clients": 639,
+		"average": 1502.785240464345,
+		"min": "16",
+		"max": "3368"
+	},
+	{
+		"ok": 2142,
+		"errored": 0,
+		"clients": 640,
+		"average": 1743.812324929972,
+		"min": "58",
+		"max": "3539"
+	},
+	{
+		"ok": 2497,
+		"errored": 0,
+		"clients": 641,
+		"average": 1461.0228273928715,
+		"min": "19",
+		"max": "3322"
+	},
+	{
+		"ok": 2473,
+		"errored": 0,
+		"clients": 642,
+		"average": 1508.1856045289123,
+		"min": "10",
+		"max": "3363"
+	},
+	{
+		"ok": 2335,
+		"errored": 0,
+		"clients": 643,
+		"average": 1574.4895074946467,
+		"min": "13",
+		"max": "3722"
+	},
+	{
+		"ok": 2564,
+		"errored": 0,
+		"clients": 644,
+		"average": 1512.1197347893915,
+		"min": "16",
+		"max": "3198"
+	},
+	{
+		"ok": 2497,
+		"errored": 0,
+		"clients": 645,
+		"average": 1509.3788546255507,
+		"min": "18",
+		"max": "3283"
+	},
+	{
+		"ok": 2347,
+		"errored": 0,
+		"clients": 646,
+		"average": 1560.5747763101833,
+		"min": "18",
+		"max": "3696"
+	},
+	{
+		"ok": 2166,
+		"errored": 0,
+		"clients": 647,
+		"average": 1731.5812557710065,
+		"min": "12",
+		"max": "3572"
+	},
+	{
+		"ok": 2247,
+		"errored": 0,
+		"clients": 648,
+		"average": 1701.5585224744104,
+		"min": "13",
+		"max": "3680"
+	},
+	{
+		"ok": 2462,
+		"errored": 0,
+		"clients": 649,
+		"average": 1507.3143785540212,
+		"min": "15",
+		"max": "3517"
+	},
+	{
+		"ok": 2397,
+		"errored": 0,
+		"clients": 650,
+		"average": 1550.9486858573216,
+		"min": "17",
+		"max": "3501"
+	},
+	{
+		"ok": 2175,
+		"errored": 0,
+		"clients": 651,
+		"average": 1621.9314942528736,
+		"min": "16",
+		"max": "3461"
+	},
+	{
+		"ok": 2547,
+		"errored": 0,
+		"clients": 652,
+		"average": 1475.8672948566941,
+		"min": "13",
+		"max": "3325"
+	},
+	{
+		"ok": 2344,
+		"errored": 0,
+		"clients": 653,
+		"average": 1536.8737201365188,
+		"min": "19",
+		"max": "3677"
+	},
+	{
+		"ok": 2206,
+		"errored": 0,
+		"clients": 654,
+		"average": 1764.7579329102448,
+		"min": "19",
+		"max": "3699"
+	},
+	{
+		"ok": 2349,
+		"errored": 0,
+		"clients": 655,
+		"average": 1604.0106428267347,
+		"min": "15",
+		"max": "3353"
+	},
+	{
+		"ok": 2433,
+		"errored": 0,
+		"clients": 656,
+		"average": 1514.1923551171394,
+		"min": "19",
+		"max": "3649"
+	},
+	{
+		"ok": 2389,
+		"errored": 0,
+		"clients": 657,
+		"average": 1534.069485140226,
+		"min": "25",
+		"max": "3556"
+	},
+	{
+		"ok": 2523,
+		"errored": 0,
+		"clients": 658,
+		"average": 1454.2992469282601,
+		"min": "19",
+		"max": "3419"
+	},
+	{
+		"ok": 2425,
+		"errored": 0,
+		"clients": 659,
+		"average": 1547.1430927835052,
+		"min": "16",
+		"max": "3580"
+	},
+	{
+		"ok": 2449,
+		"errored": 0,
+		"clients": 660,
+		"average": 1514.691710902409,
+		"min": "17",
+		"max": "3385"
+	},
+	{
+		"ok": 2464,
+		"errored": 0,
+		"clients": 661,
+		"average": 1516.9983766233765,
+		"min": "12",
+		"max": "3695"
+	},
+	{
+		"ok": 2420,
+		"errored": 0,
+		"clients": 662,
+		"average": 1526.1376033057852,
+		"min": "19",
+		"max": "3658"
+	},
+	{
+		"ok": 2293,
+		"errored": 0,
+		"clients": 663,
+		"average": 1659.5521151330136,
+		"min": "14",
+		"max": "3796"
+	},
+	{
+		"ok": 2179,
+		"errored": 0,
+		"clients": 664,
+		"average": 1736.7957778797613,
+		"min": "32",
+		"max": "3663"
+	},
+	{
+		"ok": 2412,
+		"errored": 0,
+		"clients": 665,
+		"average": 1546.9241293532339,
+		"min": "24",
+		"max": "3431"
+	},
+	{
+		"ok": 2404,
+		"errored": 0,
+		"clients": 666,
+		"average": 1561.9737936772046,
+		"min": "19",
+		"max": "3413"
+	},
+	{
+		"ok": 2353,
+		"errored": 0,
+		"clients": 667,
+		"average": 1597.8393540161496,
+		"min": "14",
+		"max": "3459"
+	},
+	{
+		"ok": 2410,
+		"errored": 0,
+		"clients": 668,
+		"average": 1511.2896265560166,
+		"min": "18",
+		"max": "3399"
+	},
+	{
+		"ok": 2447,
+		"errored": 0,
+		"clients": 669,
+		"average": 1548.8483857785043,
+		"min": "19",
+		"max": "3446"
+	},
+	{
+		"ok": 2208,
+		"errored": 0,
+		"clients": 670,
+		"average": 1706.3247282608695,
+		"min": "25",
+		"max": "3781"
+	},
+	{
+		"ok": 2381,
+		"errored": 0,
+		"clients": 671,
+		"average": 1587.3884922301554,
+		"min": "17",
+		"max": "3633"
+	},
+	{
+		"ok": 2458,
+		"errored": 0,
+		"clients": 672,
+		"average": 1536.7615947925142,
+		"min": "17",
+		"max": "3559"
+	},
+	{
+		"ok": 2368,
+		"errored": 0,
+		"clients": 673,
+		"average": 1567.0726351351352,
+		"min": "16",
+		"max": "3669"
+	},
+	{
+		"ok": 2483,
+		"errored": 0,
+		"clients": 674,
+		"average": 1503.7055980668547,
+		"min": "20",
+		"max": "3541"
+	},
+	{
+		"ok": 2305,
+		"errored": 0,
+		"clients": 675,
+		"average": 1652.6347071583514,
+		"min": "14",
+		"max": "3571"
+	},
+	{
+		"ok": 2238,
+		"errored": 0,
+		"clients": 676,
+		"average": 1978.8941018766757,
+		"min": "13",
+		"max": "4103"
+	},
+	{
+		"ok": 2429,
+		"errored": 0,
+		"clients": 677,
+		"average": 1523.6389460683408,
+		"min": "16",
+		"max": "3608"
+	},
+	{
+		"ok": 2370,
+		"errored": 0,
+		"clients": 678,
+		"average": 1673.6510548523206,
+		"min": "18",
+		"max": "3694"
+	},
+	{
+		"ok": 2451,
+		"errored": 0,
+		"clients": 679,
+		"average": 1548.2623419012648,
+		"min": "14",
+		"max": "3557"
+	},
+	{
+		"ok": 2333,
+		"errored": 0,
+		"clients": 680,
+		"average": 1640.5666523789114,
+		"min": "13",
+		"max": "3576"
+	},
+	{
+		"ok": 2473,
+		"errored": 0,
+		"clients": 681,
+		"average": 1589.303679741205,
+		"min": "16",
+		"max": "3447"
+	},
+	{
+		"ok": 2258,
+		"errored": 0,
+		"clients": 682,
+		"average": 1773.4898139946856,
+		"min": "17",
+		"max": "3539"
+	},
+	{
+		"ok": 2406,
+		"errored": 0,
+		"clients": 683,
+		"average": 1605.681629260183,
+		"min": "21",
+		"max": "3557"
+	},
+	{
+		"ok": 2318,
+		"errored": 0,
+		"clients": 684,
+		"average": 1727.1889559965487,
+		"min": "17",
+		"max": "3912"
+	},
+	{
+		"ok": 2335,
+		"errored": 0,
+		"clients": 685,
+		"average": 1677.0612419700215,
+		"min": "20",
+		"max": "3457"
+	},
+	{
+		"ok": 2431,
+		"errored": 0,
+		"clients": 686,
+		"average": 1587.9465240641712,
+		"min": "8",
+		"max": "3478"
+	},
+	{
+		"ok": 2392,
+		"errored": 0,
+		"clients": 687,
+		"average": 1581.0857023411372,
+		"min": "16",
+		"max": "3599"
+	},
+	{
+		"ok": 2417,
+		"errored": 0,
+		"clients": 688,
+		"average": 1537.451386015722,
+		"min": "20",
+		"max": "3543"
+	},
+	{
+		"ok": 2445,
+		"errored": 0,
+		"clients": 689,
+		"average": 1597.0764826175869,
+		"min": "20",
+		"max": "3568"
+	},
+	{
+		"ok": 2521,
+		"errored": 0,
+		"clients": 690,
+		"average": 1515.5434351447839,
+		"min": "16",
+		"max": "3549"
+	},
+	{
+		"ok": 2473,
+		"errored": 0,
+		"clients": 691,
+		"average": 1586.0509502628386,
+		"min": "21",
+		"max": "3493"
+	},
+	{
+		"ok": 2447,
+		"errored": 0,
+		"clients": 692,
+		"average": 1558.5925623212097,
+		"min": "16",
+		"max": "3638"
+	},
+	{
+		"ok": 2397,
+		"errored": 0,
+		"clients": 693,
+		"average": 1558.5673758865248,
+		"min": "15",
+		"max": "3582"
+	},
+	{
+		"ok": 2460,
+		"errored": 0,
+		"clients": 694,
+		"average": 1611.760162601626,
+		"min": "14",
+		"max": "3713"
+	},
+	{
+		"ok": 2528,
+		"errored": 0,
+		"clients": 695,
+		"average": 1501.9351265822784,
+		"min": "14",
+		"max": "3567"
+	},
+	{
+		"ok": 2501,
+		"errored": 0,
+		"clients": 696,
+		"average": 1530.6501399440224,
+		"min": "18",
+		"max": "3540"
+	},
+	{
+		"ok": 2549,
+		"errored": 0,
+		"clients": 697,
+		"average": 1538.7771675166732,
+		"min": "15",
+		"max": "3470"
+	},
+	{
+		"ok": 2450,
+		"errored": 0,
+		"clients": 698,
+		"average": 1588.3685714285714,
+		"min": "20",
+		"max": "3730"
+	},
+	{
+		"ok": 2361,
+		"errored": 0,
+		"clients": 699,
+		"average": 1728.9161372299873,
+		"min": "13",
+		"max": "3812"
+	},
+	{
+		"ok": 2465,
+		"errored": 0,
+		"clients": 700,
+		"average": 1622.1716024340772,
+		"min": "18",
+		"max": "3800"
+	},
+	{
+		"ok": 2326,
+		"errored": 0,
+		"clients": 701,
+		"average": 1799.993551160791,
+		"min": "17",
+		"max": "3634"
+	},
+	{
+		"ok": 2366,
+		"errored": 0,
+		"clients": 702,
+		"average": 1759.2962806424346,
+		"min": "16",
+		"max": "3593"
+	},
+	{
+		"ok": 2267,
+		"errored": 0,
+		"clients": 703,
+		"average": 1922.412880458756,
+		"min": "16",
+		"max": "3835"
+	},
+	{
+		"ok": 2431,
+		"errored": 0,
+		"clients": 704,
+		"average": 1663.5368161250515,
+		"min": "17",
+		"max": "3611"
+	},
+	{
+		"ok": 2174,
+		"errored": 0,
+		"clients": 705,
+		"average": 1951.9061637534498,
+		"min": "39",
+		"max": "3963"
+	},
+	{
+		"ok": 2258,
+		"errored": 0,
+		"clients": 706,
+		"average": 1730.9481842338353,
+		"min": "29",
+		"max": "3921"
+	},
+	{
+		"ok": 2273,
+		"errored": 0,
+		"clients": 707,
+		"average": 1993.081390233172,
+		"min": "24",
+		"max": "4506"
+	},
+	{
+		"ok": 2470,
+		"errored": 0,
+		"clients": 708,
+		"average": 1603.6194331983806,
+		"min": "13",
+		"max": "3705"
+	},
+	{
+		"ok": 2450,
+		"errored": 0,
+		"clients": 709,
+		"average": 1642.8220408163265,
+		"min": "18",
+		"max": "3558"
+	},
+	{
+		"ok": 2516,
+		"errored": 0,
+		"clients": 710,
+		"average": 1580.1096979332274,
+		"min": "15",
+		"max": "3656"
+	},
+	{
+		"ok": 2504,
+		"errored": 0,
+		"clients": 711,
+		"average": 1606.4109424920127,
+		"min": "14",
+		"max": "3703"
+	},
+	{
+		"ok": 2411,
+		"errored": 0,
+		"clients": 712,
+		"average": 1620.2360016590626,
+		"min": "16",
+		"max": "3764"
+	},
+	{
+		"ok": 2540,
+		"errored": 0,
+		"clients": 713,
+		"average": 1584.4535433070866,
+		"min": "20",
+		"max": "3635"
+	},
+	{
+		"ok": 2297,
+		"errored": 0,
+		"clients": 714,
+		"average": 2009.8323900740095,
+		"min": "31",
+		"max": "4124"
+	},
+	{
+		"ok": 2354,
+		"errored": 0,
+		"clients": 715,
+		"average": 1681.248088360238,
+		"min": "22",
+		"max": "3755"
+	},
+	{
+		"ok": 2463,
+		"errored": 0,
+		"clients": 716,
+		"average": 1638.477060495331,
+		"min": "17",
+		"max": "3824"
+	},
+	{
+		"ok": 2443,
+		"errored": 0,
+		"clients": 717,
+		"average": 1682.7359803520262,
+		"min": "16",
+		"max": "3652"
+	},
+	{
+		"ok": 2388,
+		"errored": 0,
+		"clients": 718,
+		"average": 1858.1616415410385,
+		"min": "14",
+		"max": "3845"
+	},
+	{
+		"ok": 2483,
+		"errored": 0,
+		"clients": 719,
+		"average": 1620.63149416029,
+		"min": "23",
+		"max": "3850"
+	},
+	{
+		"ok": 2437,
+		"errored": 0,
+		"clients": 720,
+		"average": 1719.6856791136643,
+		"min": "17",
+		"max": "3677"
+	},
+	{
+		"ok": 2518,
+		"errored": 0,
+		"clients": 721,
+		"average": 1591.5988880063542,
+		"min": "17",
+		"max": "3732"
+	},
+	{
+		"ok": 2329,
+		"errored": 0,
+		"clients": 722,
+		"average": 1792.2941176470588,
+		"min": "16",
+		"max": "3714"
+	},
+	{
+		"ok": 2488,
+		"errored": 0,
+		"clients": 723,
+		"average": 1634.2403536977492,
+		"min": "18",
+		"max": "3660"
+	},
+	{
+		"ok": 2448,
+		"errored": 0,
+		"clients": 724,
+		"average": 2019.373774509804,
+		"min": "41",
+		"max": "3747"
+	},
+	{
+		"ok": 2388,
+		"errored": 0,
+		"clients": 725,
+		"average": 1709.2416247906197,
+		"min": "15",
+		"max": "3839"
+	},
+	{
+		"ok": 2439,
+		"errored": 0,
+		"clients": 726,
+		"average": 1759.4879048790488,
+		"min": "19",
+		"max": "3833"
+	},
+	{
+		"ok": 2396,
+		"errored": 0,
+		"clients": 727,
+		"average": 1702.2754590984975,
+		"min": "15",
+		"max": "3945"
+	},
+	{
+		"ok": 2320,
+		"errored": 0,
+		"clients": 728,
+		"average": 1951.869396551724,
+		"min": "22",
+		"max": "4031"
+	},
+	{
+		"ok": 2424,
+		"errored": 0,
+		"clients": 729,
+		"average": 1667.0255775577557,
+		"min": "14",
+		"max": "3783"
+	},
+	{
+		"ok": 2499,
+		"errored": 0,
+		"clients": 730,
+		"average": 1606.6010404161664,
+		"min": "14",
+		"max": "3778"
+	},
+	{
+		"ok": 2517,
+		"errored": 0,
+		"clients": 731,
+		"average": 1615.6805721096543,
+		"min": "17",
+		"max": "3743"
+	},
+	{
+		"ok": 2291,
+		"errored": 0,
+		"clients": 732,
+		"average": 2048.0205150589263,
+		"min": "32",
+		"max": "4020"
+	},
+	{
+		"ok": 2354,
+		"errored": 0,
+		"clients": 733,
+		"average": 1961.6750212404418,
+		"min": "16",
+		"max": "4416"
+	},
+	{
+		"ok": 2517,
+		"errored": 0,
+		"clients": 734,
+		"average": 1611.8422725466826,
+		"min": "20",
+		"max": "3702"
+	},
+	{
+		"ok": 2409,
+		"errored": 0,
+		"clients": 735,
+		"average": 1830.6214196762141,
+		"min": "12",
+		"max": "3792"
+	},
+	{
+		"ok": 2505,
+		"errored": 0,
+		"clients": 736,
+		"average": 1643.9780439121757,
+		"min": "16",
+		"max": "3763"
+	},
+	{
+		"ok": 2656,
+		"errored": 0,
+		"clients": 737,
+		"average": 1984.0666415662652,
+		"min": "21",
+		"max": "4155"
+	},
+	{
+		"ok": 2304,
+		"errored": 0,
+		"clients": 738,
+		"average": 1869.0611979166667,
+		"min": "15",
+		"max": "3881"
+	},
+	{
+		"ok": 2524,
+		"errored": 0,
+		"clients": 739,
+		"average": 1648.4167987321712,
+		"min": "18",
+		"max": "3881"
+	},
+	{
+		"ok": 2553,
+		"errored": 0,
+		"clients": 740,
+		"average": 1609.0246768507639,
+		"min": "16",
+		"max": "3722"
+	},
+	{
+		"ok": 2435,
+		"errored": 0,
+		"clients": 741,
+		"average": 1706.1318275154003,
+		"min": "23",
+		"max": "3804"
+	},
+	{
+		"ok": 2378,
+		"errored": 0,
+		"clients": 742,
+		"average": 1776.432716568545,
+		"min": "16",
+		"max": "4003"
+	},
+	{
+		"ok": 2436,
+		"errored": 0,
+		"clients": 743,
+		"average": 1949.074302134647,
+		"min": "26",
+		"max": "3993"
+	},
+	{
+		"ok": 2363,
+		"errored": 0,
+		"clients": 744,
+		"average": 1802.0156580617859,
+		"min": "16",
+		"max": "3837"
+	},
+	{
+		"ok": 2528,
+		"errored": 0,
+		"clients": 745,
+		"average": 1679.0846518987341,
+		"min": "15",
+		"max": "3735"
+	},
+	{
+		"ok": 2470,
+		"errored": 0,
+		"clients": 746,
+		"average": 1744.7453441295547,
+		"min": "22",
+		"max": "3756"
+	},
+	{
+		"ok": 2428,
+		"errored": 0,
+		"clients": 747,
+		"average": 1789.0321252059307,
+		"min": "16",
+		"max": "3762"
+	},
+	{
+		"ok": 2487,
+		"errored": 0,
+		"clients": 748,
+		"average": 1706.2372336147969,
+		"min": "18",
+		"max": "3827"
+	},
+	{
+		"ok": 2487,
+		"errored": 0,
+		"clients": 749,
+		"average": 1767.6292722155208,
+		"min": "16",
+		"max": "4010"
+	},
+	{
+		"ok": 2392,
+		"errored": 0,
+		"clients": 750,
+		"average": 1968.1910535117056,
+		"min": "26",
+		"max": "3906"
+	},
+	{
+		"ok": 2486,
+		"errored": 0,
+		"clients": 751,
+		"average": 1699.2369267900242,
+		"min": "18",
+		"max": "3893"
+	},
+	{
+		"ok": 2525,
+		"errored": 0,
+		"clients": 752,
+		"average": 1704.7639603960397,
+		"min": "17",
+		"max": "3874"
+	},
+	{
+		"ok": 2514,
+		"errored": 0,
+		"clients": 753,
+		"average": 1706.618138424821,
+		"min": "19",
+		"max": "3884"
+	},
+	{
+		"ok": 2527,
+		"errored": 0,
+		"clients": 754,
+		"average": 1688.528294420261,
+		"min": "19",
+		"max": "3832"
+	},
+	{
+		"ok": 2519,
+		"errored": 0,
+		"clients": 755,
+		"average": 1951.3330686780469,
+		"min": "19",
+		"max": "4132"
+	},
+	{
+		"ok": 2572,
+		"errored": 0,
+		"clients": 756,
+		"average": 2152.568040435459,
+		"min": "25",
+		"max": "4172"
+	},
+	{
+		"ok": 2363,
+		"errored": 0,
+		"clients": 757,
+		"average": 1842.2915785019043,
+		"min": "12",
+		"max": "4088"
+	},
+	{
+		"ok": 2523,
+		"errored": 0,
+		"clients": 758,
+		"average": 1726.3491874752278,
+		"min": "16",
+		"max": "3913"
+	},
+	{
+		"ok": 2566,
+		"errored": 0,
+		"clients": 759,
+		"average": 1917.0982073265784,
+		"min": "23",
+		"max": "3781"
+	},
+	{
+		"ok": 2364,
+		"errored": 0,
+		"clients": 760,
+		"average": 1989.7106598984772,
+		"min": "31",
+		"max": "3907"
+	},
+	{
+		"ok": 2567,
+		"errored": 0,
+		"clients": 761,
+		"average": 1664.1047915855083,
+		"min": "21",
+		"max": "3823"
+	},
+	{
+		"ok": 2586,
+		"errored": 0,
+		"clients": 762,
+		"average": 1934.3480278422273,
+		"min": "22",
+		"max": "3911"
+	},
+	{
+		"ok": 2390,
+		"errored": 0,
+		"clients": 763,
+		"average": 2139.426359832636,
+		"min": "18",
+		"max": "4251"
+	},
+	{
+		"ok": 2343,
+		"errored": 0,
+		"clients": 764,
+		"average": 2114.2449850618864,
+		"min": "23",
+		"max": "4290"
+	},
+	{
+		"ok": 2484,
+		"errored": 0,
+		"clients": 765,
+		"average": 2026.6799516908213,
+		"min": "22",
+		"max": "4237"
+	},
+	{
+		"ok": 2577,
+		"errored": 0,
+		"clients": 766,
+		"average": 1940.185875048506,
+		"min": "15",
+		"max": "4121"
+	},
+	{
+		"ok": 2490,
+		"errored": 0,
+		"clients": 767,
+		"average": 2021.1779116465864,
+		"min": "19",
+		"max": "3755"
+	},
+	{
+		"ok": 2589,
+		"errored": 0,
+		"clients": 768,
+		"average": 1917.720741599073,
+		"min": "22",
+		"max": "4093"
+	},
+	{
+		"ok": 2491,
+		"errored": 0,
+		"clients": 769,
+		"average": 2022.1376957045363,
+		"min": "12",
+		"max": "4113"
+	},
+	{
+		"ok": 2279,
+		"errored": 0,
+		"clients": 770,
+		"average": 2155.82404563405,
+		"min": "35",
+		"max": "4326"
+	},
+	{
+		"ok": 2325,
+		"errored": 0,
+		"clients": 771,
+		"average": 2149.7036559139783,
+		"min": "44",
+		"max": "4295"
+	},
+	{
+		"ok": 2562,
+		"errored": 0,
+		"clients": 772,
+		"average": 1918.1701795472288,
+		"min": "25",
+		"max": "4126"
+	},
+	{
+		"ok": 2606,
+		"errored": 0,
+		"clients": 773,
+		"average": 2084.711818879509,
+		"min": "11",
+		"max": "4182"
+	},
+	{
+		"ok": 2639,
+		"errored": 0,
+		"clients": 774,
+		"average": 1834.4077302008336,
+		"min": "28",
+		"max": "4013"
+	},
+	{
+		"ok": 2555,
+		"errored": 0,
+		"clients": 775,
+		"average": 1983.9679060665362,
+		"min": "15",
+		"max": "4017"
+	},
+	{
+		"ok": 2526,
+		"errored": 0,
+		"clients": 776,
+		"average": 2102.948139350752,
+		"min": "18",
+		"max": "4090"
+	},
+	{
+		"ok": 2282,
+		"errored": 0,
+		"clients": 777,
+		"average": 2070.7432077125327,
+		"min": "19",
+		"max": "4057"
+	},
+	{
+		"ok": 2260,
+		"errored": 0,
+		"clients": 778,
+		"average": 2099.757522123894,
+		"min": "17",
+		"max": "4229"
+	},
+	{
+		"ok": 2568,
+		"errored": 0,
+		"clients": 779,
+		"average": 2047.3169781931465,
+		"min": "23",
+		"max": "3984"
+	},
+	{
+		"ok": 2323,
+		"errored": 0,
+		"clients": 780,
+		"average": 2220.712010331468,
+		"min": "18",
+		"max": "4374"
+	},
+	{
+		"ok": 2595,
+		"errored": 0,
+		"clients": 781,
+		"average": 1956.67591522158,
+		"min": "20",
+		"max": "3965"
+	},
+	{
+		"ok": 2613,
+		"errored": 0,
+		"clients": 782,
+		"average": 2037.9303482587065,
+		"min": "43",
+		"max": "4121"
+	},
+	{
+		"ok": 2617,
+		"errored": 0,
+		"clients": 783,
+		"average": 1673.8788689338937,
+		"min": "18",
+		"max": "3810"
+	},
+	{
+		"ok": 2523,
+		"errored": 0,
+		"clients": 784,
+		"average": 2024.4502576298057,
+		"min": "21",
+		"max": "3827"
+	},
+	{
+		"ok": 2571,
+		"errored": 0,
+		"clients": 785,
+		"average": 2048.9008168028004,
+		"min": "20",
+		"max": "4101"
+	},
+	{
+		"ok": 2545,
+		"errored": 0,
+		"clients": 786,
+		"average": 1965.3398821218075,
+		"min": "15",
+		"max": "3864"
+	},
+	{
+		"ok": 2436,
+		"errored": 0,
+		"clients": 787,
+		"average": 2128.0135467980294,
+		"min": "21",
+		"max": "4159"
+	},
+	{
+		"ok": 2578,
+		"errored": 0,
+		"clients": 788,
+		"average": 1964.2195500387897,
+		"min": "13",
+		"max": "4160"
+	},
+	{
+		"ok": 2578,
+		"errored": 0,
+		"clients": 789,
+		"average": 2014.3902249806051,
+		"min": "13",
+		"max": "4126"
+	},
+	{
+		"ok": 2482,
+		"errored": 0,
+		"clients": 790,
+		"average": 2033.3231265108784,
+		"min": "21",
+		"max": "4218"
+	},
+	{
+		"ok": 2492,
+		"errored": 0,
+		"clients": 791,
+		"average": 2009.1536918138042,
+		"min": "25",
+		"max": "3971"
+	},
+	{
+		"ok": 2553,
+		"errored": 0,
+		"clients": 792,
+		"average": 1962.9091265178222,
+		"min": "22",
+		"max": "4011"
+	},
+	{
+		"ok": 2544,
+		"errored": 0,
+		"clients": 793,
+		"average": 2065.8600628930817,
+		"min": "19",
+		"max": "4114"
+	},
+	{
+		"ok": 2621,
+		"errored": 0,
+		"clients": 794,
+		"average": 1892.9217855780237,
+		"min": "16",
+		"max": "4072"
+	},
+	{
+		"ok": 2718,
+		"errored": 0,
+		"clients": 795,
+		"average": 1892.014348785872,
+		"min": "18",
+		"max": "4015"
+	},
+	{
+		"ok": 2615,
+		"errored": 0,
+		"clients": 796,
+		"average": 2001.125430210325,
+		"min": "17",
+		"max": "4224"
+	},
+	{
+		"ok": 2329,
+		"errored": 0,
+		"clients": 797,
+		"average": 2116.0618291112064,
+		"min": "22",
+		"max": "4159"
+	},
+	{
+		"ok": 2575,
+		"errored": 0,
+		"clients": 798,
+		"average": 1999.2823300970874,
+		"min": "28",
+		"max": "4222"
+	},
+	{
+		"ok": 2578,
+		"errored": 0,
+		"clients": 799,
+		"average": 1997.4041892940263,
+		"min": "15",
+		"max": "3935"
+	},
+	{
+		"ok": 2524,
+		"errored": 0,
+		"clients": 800,
+		"average": 2161.391442155309,
+		"min": "22",
+		"max": "4066"
+	},
+	{
+		"ok": 2484,
+		"errored": 0,
+		"clients": 801,
+		"average": 2099.6598228663447,
+		"min": "19",
+		"max": "4445"
+	},
+	{
+		"ok": 2523,
+		"errored": 0,
+		"clients": 802,
+		"average": 2068.256837098692,
+		"min": "15",
+		"max": "4019"
+	},
+	{
+		"ok": 2582,
+		"errored": 0,
+		"clients": 803,
+		"average": 2002.8032532920217,
+		"min": "26",
+		"max": "4125"
+	},
+	{
+		"ok": 2625,
+		"errored": 0,
+		"clients": 804,
+		"average": 2003.0300952380953,
+		"min": "14",
+		"max": "3849"
+	},
+	{
+		"ok": 2426,
+		"errored": 0,
+		"clients": 805,
+		"average": 2121.6805441055235,
+		"min": "13",
+		"max": "4085"
+	},
+	{
+		"ok": 2624,
+		"errored": 0,
+		"clients": 806,
+		"average": 1953.467987804878,
+		"min": "16",
+		"max": "4130"
+	},
+	{
+		"ok": 2024,
+		"errored": 0,
+		"clients": 807,
+		"average": 2330.357213438735,
+		"min": "16",
+		"max": "4926"
+	},
+	{
+		"ok": 2626,
+		"errored": 0,
+		"clients": 808,
+		"average": 1986.8625285605483,
+		"min": "21",
+		"max": "4063"
+	},
+	{
+		"ok": 2618,
+		"errored": 0,
+		"clients": 809,
+		"average": 1928.8747135217723,
+		"min": "16",
+		"max": "3948"
+	},
+	{
+		"ok": 2462,
+		"errored": 0,
+		"clients": 810,
+		"average": 2105.8415922014624,
+		"min": "21",
+		"max": "4482"
+	},
+	{
+		"ok": 2364,
+		"errored": 0,
+		"clients": 811,
+		"average": 2125.6844331641287,
+		"min": "26",
+		"max": "4127"
+	},
+	{
+		"ok": 2431,
+		"errored": 0,
+		"clients": 812,
+		"average": 2141.4590703414233,
+		"min": "15",
+		"max": "4394"
+	},
+	{
+		"ok": 2477,
+		"errored": 0,
+		"clients": 813,
+		"average": 2091.932983447719,
+		"min": "38",
+		"max": "4065"
+	},
+	{
+		"ok": 2385,
+		"errored": 0,
+		"clients": 814,
+		"average": 2182.0599580712787,
+		"min": "19",
+		"max": "4332"
+	},
+	{
+		"ok": 2459,
+		"errored": 0,
+		"clients": 815,
+		"average": 2154.708011386743,
+		"min": "14",
+		"max": "4326"
+	},
+	{
+		"ok": 2668,
+		"errored": 0,
+		"clients": 816,
+		"average": 1979.8984257871064,
+		"min": "57",
+		"max": "4069"
+	},
+	{
+		"ok": 2597,
+		"errored": 0,
+		"clients": 817,
+		"average": 2041.3215248363497,
+		"min": "19",
+		"max": "4121"
+	},
+	{
+		"ok": 2549,
+		"errored": 0,
+		"clients": 818,
+		"average": 2072.9537073362103,
+		"min": "17",
+		"max": "4307"
+	},
+	{
+		"ok": 2666,
+		"errored": 0,
+		"clients": 819,
+		"average": 1950.5273818454614,
+		"min": "16",
+		"max": "3989"
+	},
+	{
+		"ok": 2568,
+		"errored": 0,
+		"clients": 820,
+		"average": 2052.3395638629286,
+		"min": "22",
+		"max": "4040"
+	},
+	{
+		"ok": 2294,
+		"errored": 0,
+		"clients": 821,
+		"average": 2093.4136878814297,
+		"min": "14",
+		"max": "4860"
+	},
+	{
+		"ok": 2224,
+		"errored": 0,
+		"clients": 822,
+		"average": 2131.8372302158273,
+		"min": "20",
+		"max": "4674"
+	},
+	{
+		"ok": 2511,
+		"errored": 0,
+		"clients": 823,
+		"average": 2142.0386300278774,
+		"min": "13",
+		"max": "4344"
+	},
+	{
+		"ok": 2374,
+		"errored": 0,
+		"clients": 824,
+		"average": 2184.8024431339513,
+		"min": "16",
+		"max": "4755"
+	},
+	{
+		"ok": 2583,
+		"errored": 0,
+		"clients": 825,
+		"average": 2085.5857530003873,
+		"min": "25",
+		"max": "4088"
+	},
+	{
+		"ok": 2671,
+		"errored": 0,
+		"clients": 826,
+		"average": 2012.7558966679146,
+		"min": "32",
+		"max": "4173"
+	},
+	{
+		"ok": 2578,
+		"errored": 0,
+		"clients": 827,
+		"average": 2091.8611326609775,
+		"min": "14",
+		"max": "4369"
+	},
+	{
+		"ok": 2642,
+		"errored": 0,
+		"clients": 828,
+		"average": 2001.2747918243754,
+		"min": "24",
+		"max": "3993"
+	},
+	{
+		"ok": 2620,
+		"errored": 0,
+		"clients": 829,
+		"average": 2035.5881679389313,
+		"min": "16",
+		"max": "4181"
+	},
+	{
+		"ok": 2312,
+		"errored": 0,
+		"clients": 830,
+		"average": 2117.7984429065746,
+		"min": "20",
+		"max": "4592"
+	},
+	{
+		"ok": 2592,
+		"errored": 0,
+		"clients": 831,
+		"average": 2020.3946759259259,
+		"min": "13",
+		"max": "4024"
+	},
+	{
+		"ok": 2349,
+		"errored": 0,
+		"clients": 832,
+		"average": 2105.0876968922944,
+		"min": "17",
+		"max": "4584"
+	},
+	{
+		"ok": 2613,
+		"errored": 0,
+		"clients": 833,
+		"average": 2051.238423268274,
+		"min": "17",
+		"max": "4223"
+	},
+	{
+		"ok": 2610,
+		"errored": 0,
+		"clients": 834,
+		"average": 2036.893103448276,
+		"min": "13",
+		"max": "4190"
+	},
+	{
+		"ok": 2619,
+		"errored": 0,
+		"clients": 835,
+		"average": 2040.0790378006873,
+		"min": "22",
+		"max": "4133"
+	},
+	{
+		"ok": 2337,
+		"errored": 0,
+		"clients": 836,
+		"average": 2084.7008985879334,
+		"min": "25",
+		"max": "4412"
+	},
+	{
+		"ok": 2280,
+		"errored": 0,
+		"clients": 837,
+		"average": 2164.9429824561403,
+		"min": "16",
+		"max": "4636"
+	},
+	{
+		"ok": 2534,
+		"errored": 0,
+		"clients": 838,
+		"average": 2026.3539857932124,
+		"min": "18",
+		"max": "4228"
+	},
+	{
+		"ok": 2292,
+		"errored": 0,
+		"clients": 839,
+		"average": 2275.711169284468,
+		"min": "14",
+		"max": "4467"
+	},
+	{
+		"ok": 2661,
+		"errored": 0,
+		"clients": 840,
+		"average": 2045.9830890642615,
+		"min": "26",
+		"max": "4106"
+	},
+	{
+		"ok": 2393,
+		"errored": 0,
+		"clients": 841,
+		"average": 2064.8061011282907,
+		"min": "18",
+		"max": "4298"
+	},
+	{
+		"ok": 2523,
+		"errored": 0,
+		"clients": 842,
+		"average": 2103.2508917954815,
+		"min": "17",
+		"max": "4433"
+	},
+	{
+		"ok": 2530,
+		"errored": 0,
+		"clients": 843,
+		"average": 2087.8648221343874,
+		"min": "16",
+		"max": "4438"
+	},
+	{
+		"ok": 2624,
+		"errored": 0,
+		"clients": 844,
+		"average": 2045.7404725609756,
+		"min": "16",
+		"max": "4214"
+	},
+	{
+		"ok": 2148,
+		"errored": 0,
+		"clients": 845,
+		"average": 2281.646648044693,
+		"min": "12",
+		"max": "4801"
+	},
+	{
+		"ok": 2624,
+		"errored": 0,
+		"clients": 846,
+		"average": 2063.777820121951,
+		"min": "17",
+		"max": "4198"
+	},
+	{
+		"ok": 1884,
+		"errored": 0,
+		"clients": 847,
+		"average": 2277.555201698514,
+		"min": "64",
+		"max": "7176"
+	},
+	{
+		"ok": 2588,
+		"errored": 0,
+		"clients": 848,
+		"average": 2036.8813755795982,
+		"min": "19",
+		"max": "4207"
+	},
+	{
+		"ok": 2711,
+		"errored": 0,
+		"clients": 849,
+		"average": 2041.1265215787532,
+		"min": "28",
+		"max": "4076"
+	},
+	{
+		"ok": 2152,
+		"errored": 0,
+		"clients": 850,
+		"average": 2246.7272304832713,
+		"min": "19",
+		"max": "4796"
+	},
+	{
+		"ok": 2387,
+		"errored": 0,
+		"clients": 851,
+		"average": 2145.861332216171,
+		"min": "17",
+		"max": "4531"
+	},
+	{
+		"ok": 2557,
+		"errored": 0,
+		"clients": 852,
+		"average": 2042.838873680094,
+		"min": "23",
+		"max": "4297"
+	},
+	{
+		"ok": 2604,
+		"errored": 0,
+		"clients": 853,
+		"average": 2052.0495391705067,
+		"min": "27",
+		"max": "4259"
+	},
+	{
+		"ok": 2512,
+		"errored": 0,
+		"clients": 854,
+		"average": 2179.9904458598726,
+		"min": "12",
+		"max": "4376"
+	},
+	{
+		"ok": 2523,
+		"errored": 0,
+		"clients": 855,
+		"average": 2228.539040824415,
+		"min": "16",
+		"max": "4584"
+	},
+	{
+		"ok": 2512,
+		"errored": 0,
+		"clients": 856,
+		"average": 2104.4617834394903,
+		"min": "19",
+		"max": "4383"
+	},
+	{
+		"ok": 2687,
+		"errored": 0,
+		"clients": 857,
+		"average": 2091.2623743952363,
+		"min": "15",
+		"max": "4343"
+	},
+	{
+		"ok": 2532,
+		"errored": 0,
+		"clients": 858,
+		"average": 2130.4162717219588,
+		"min": "18",
+		"max": "4531"
+	},
+	{
+		"ok": 2505,
+		"errored": 0,
+		"clients": 859,
+		"average": 2098.869860279441,
+		"min": "11",
+		"max": "4263"
+	},
+	{
+		"ok": 2476,
+		"errored": 0,
+		"clients": 860,
+		"average": 2165.120759289176,
+		"min": "20",
+		"max": "4587"
+	},
+	{
+		"ok": 2609,
+		"errored": 0,
+		"clients": 861,
+		"average": 2059.003449597547,
+		"min": "16",
+		"max": "4232"
+	},
+	{
+		"ok": 2631,
+		"errored": 0,
+		"clients": 862,
+		"average": 2035.76776890916,
+		"min": "44",
+		"max": "4235"
+	},
+	{
+		"ok": 2554,
+		"errored": 0,
+		"clients": 863,
+		"average": 2068.912294440094,
+		"min": "34",
+		"max": "4321"
+	},
+	{
+		"ok": 2441,
+		"errored": 0,
+		"clients": 864,
+		"average": 2132.6984842277757,
+		"min": "19",
+		"max": "4595"
+	},
+	{
+		"ok": 2261,
+		"errored": 0,
+		"clients": 865,
+		"average": 2238.81070322866,
+		"min": "21",
+		"max": "4466"
+	},
+	{
+		"ok": 2472,
+		"errored": 0,
+		"clients": 866,
+		"average": 2108.0991100323627,
+		"min": "21",
+		"max": "4323"
+	},
+	{
+		"ok": 2525,
+		"errored": 0,
+		"clients": 867,
+		"average": 2125.2930693069306,
+		"min": "18",
+		"max": "4643"
+	},
+	{
+		"ok": 2591,
+		"errored": 0,
+		"clients": 868,
+		"average": 2064.326900810498,
+		"min": "16",
+		"max": "4326"
+	},
+	{
+		"ok": 2115,
+		"errored": 0,
+		"clients": 869,
+		"average": 2242.463829787234,
+		"min": "16",
+		"max": "4783"
+	},
+	{
+		"ok": 2498,
+		"errored": 0,
+		"clients": 870,
+		"average": 2119.736188951161,
+		"min": "25",
+		"max": "4364"
+	},
+	{
+		"ok": 2436,
+		"errored": 0,
+		"clients": 871,
+		"average": 2071.0217569786537,
+		"min": "28",
+		"max": "4438"
+	},
+	{
+		"ok": 2511,
+		"errored": 0,
+		"clients": 872,
+		"average": 2165.8916766228594,
+		"min": "20",
+		"max": "4400"
+	},
+	{
+		"ok": 2549,
+		"errored": 0,
+		"clients": 873,
+		"average": 2142.110631620243,
+		"min": "21",
+		"max": "4533"
+	},
+	{
+		"ok": 2569,
+		"errored": 0,
+		"clients": 874,
+		"average": 2093.5858310626704,
+		"min": "24",
+		"max": "4354"
+	},
+	{
+		"ok": 2461,
+		"errored": 0,
+		"clients": 875,
+		"average": 2158.401056481105,
+		"min": "31",
+		"max": "4602"
+	},
+	{
+		"ok": 2522,
+		"errored": 0,
+		"clients": 876,
+		"average": 2160.144726407613,
+		"min": "19",
+		"max": "4683"
+	},
+	{
+		"ok": 2612,
+		"errored": 0,
+		"clients": 877,
+		"average": 2074.063552833078,
+		"min": "17",
+		"max": "4341"
+	},
+	{
+		"ok": 2204,
+		"errored": 0,
+		"clients": 878,
+		"average": 2125.3947368421054,
+		"min": "20",
+		"max": "4936"
+	},
+	{
+		"ok": 2464,
+		"errored": 0,
+		"clients": 879,
+		"average": 2125.786931818182,
+		"min": "17",
+		"max": "4603"
+	},
+	{
+		"ok": 2341,
+		"errored": 0,
+		"clients": 880,
+		"average": 2173.108927808629,
+		"min": "18",
+		"max": "4692"
+	},
+	{
+		"ok": 2506,
+		"errored": 0,
+		"clients": 881,
+		"average": 2167.554668794892,
+		"min": "17",
+		"max": "4351"
+	},
+	{
+		"ok": 2563,
+		"errored": 0,
+		"clients": 882,
+		"average": 2045.5610612563403,
+		"min": "21",
+		"max": "4372"
+	},
+	{
+		"ok": 2525,
+		"errored": 0,
+		"clients": 883,
+		"average": 2130.5235643564356,
+		"min": "28",
+		"max": "4620"
+	},
+	{
+		"ok": 2600,
+		"errored": 0,
+		"clients": 884,
+		"average": 2093.5673076923076,
+		"min": "22",
+		"max": "4420"
+	},
+	{
+		"ok": 2518,
+		"errored": 0,
+		"clients": 885,
+		"average": 2164.188244638602,
+		"min": "16",
+		"max": "4703"
+	},
+	{
+		"ok": 2239,
+		"errored": 0,
+		"clients": 886,
+		"average": 2267.3756141134436,
+		"min": "42",
+		"max": "4800"
+	},
+	{
+		"ok": 2541,
+		"errored": 0,
+		"clients": 887,
+		"average": 2137.0165289256197,
+		"min": "18",
+		"max": "4549"
+	},
+	{
+		"ok": 2255,
+		"errored": 0,
+		"clients": 888,
+		"average": 2128.5964523281596,
+		"min": "18",
+		"max": "4748"
+	},
+	{
+		"ok": 2438,
+		"errored": 0,
+		"clients": 889,
+		"average": 2154.5935192780967,
+		"min": "15",
+		"max": "4685"
+	},
+	{
+		"ok": 2395,
+		"errored": 0,
+		"clients": 890,
+		"average": 2174.0843423799583,
+		"min": "16",
+		"max": "4523"
+	},
+	{
+		"ok": 2365,
+		"errored": 0,
+		"clients": 891,
+		"average": 2232.661733615222,
+		"min": "17",
+		"max": "4730"
+	},
+	{
+		"ok": 2525,
+		"errored": 0,
+		"clients": 892,
+		"average": 2093.8059405940594,
+		"min": "16",
+		"max": "4558"
+	},
+	{
+		"ok": 2478,
+		"errored": 0,
+		"clients": 893,
+		"average": 2111.12792574657,
+		"min": "14",
+		"max": "4586"
+	},
+	{
+		"ok": 2364,
+		"errored": 0,
+		"clients": 894,
+		"average": 2254.6256345177667,
+		"min": "28",
+		"max": "4918"
+	},
+	{
+		"ok": 2482,
+		"errored": 0,
+		"clients": 895,
+		"average": 2164.4411764705883,
+		"min": "21",
+		"max": "4429"
+	},
+	{
+		"ok": 2337,
+		"errored": 0,
+		"clients": 896,
+		"average": 2107.2212237911854,
+		"min": "23",
+		"max": "4684"
+	},
+	{
+		"ok": 2356,
+		"errored": 0,
+		"clients": 897,
+		"average": 2247.735144312394,
+		"min": "16",
+		"max": "4566"
+	},
+	{
+		"ok": 2430,
+		"errored": 0,
+		"clients": 898,
+		"average": 2178.6263374485598,
+		"min": "20",
+		"max": "4681"
+	},
+	{
+		"ok": 2491,
+		"errored": 0,
+		"clients": 899,
+		"average": 2223.38378161381,
+		"min": "29",
+		"max": "5051"
+	},
+	{
+		"ok": 2530,
+		"errored": 0,
+		"clients": 900,
+		"average": 2142.2221343873516,
+		"min": "24",
+		"max": "4721"
+	},
+	{
+		"ok": 2386,
+		"errored": 0,
+		"clients": 901,
+		"average": 2129.8176865046103,
+		"min": "32",
+		"max": "5040"
+	},
+	{
+		"ok": 2559,
+		"errored": 0,
+		"clients": 902,
+		"average": 2161.282532239156,
+		"min": "17",
+		"max": "4626"
+	},
+	{
+		"ok": 2504,
+		"errored": 0,
+		"clients": 903,
+		"average": 2190.6365814696487,
+		"min": "30",
+		"max": "4451"
+	},
+	{
+		"ok": 2515,
+		"errored": 0,
+		"clients": 904,
+		"average": 2163.2461232604373,
+		"min": "19",
+		"max": "4527"
+	},
+	{
+		"ok": 2591,
+		"errored": 0,
+		"clients": 905,
+		"average": 2105.409494403705,
+		"min": "29",
+		"max": "4480"
+	},
+	{
+		"ok": 2594,
+		"errored": 0,
+		"clients": 906,
+		"average": 2150.905165767155,
+		"min": "20",
+		"max": "4554"
+	},
+	{
+		"ok": 2367,
+		"errored": 0,
+		"clients": 907,
+		"average": 2177.5496408956483,
+		"min": "19",
+		"max": "5145"
+	},
+	{
+		"ok": 2107,
+		"errored": 0,
+		"clients": 908,
+		"average": 2410.062173706692,
+		"min": "18",
+		"max": "5087"
+	},
+	{
+		"ok": 2628,
+		"errored": 0,
+		"clients": 909,
+		"average": 2152.5639269406392,
+		"min": "14",
+		"max": "4589"
+	},
+	{
+		"ok": 2337,
+		"errored": 0,
+		"clients": 910,
+		"average": 2278.8690629011553,
+		"min": "13",
+		"max": "4699"
+	},
+	{
+		"ok": 2489,
+		"errored": 0,
+		"clients": 911,
+		"average": 2221.8935315387707,
+		"min": "20",
+		"max": "4788"
+	},
+	{
+		"ok": 2499,
+		"errored": 0,
+		"clients": 912,
+		"average": 2165.6638655462184,
+		"min": "18",
+		"max": "4783"
+	},
+	{
+		"ok": 2128,
+		"errored": 0,
+		"clients": 913,
+		"average": 2463.910714285714,
+		"min": "15",
+		"max": "5015"
+	},
+	{
+		"ok": 2551,
+		"errored": 0,
+		"clients": 914,
+		"average": 2175.7894943159545,
+		"min": "28",
+		"max": "4694"
+	},
+	{
+		"ok": 2199,
+		"errored": 0,
+		"clients": 915,
+		"average": 2253.848112778536,
+		"min": "25",
+		"max": "4749"
+	},
+	{
+		"ok": 2267,
+		"errored": 0,
+		"clients": 916,
+		"average": 2223.0405822673138,
+		"min": "18",
+		"max": "5086"
+	},
+	{
+		"ok": 2466,
+		"errored": 0,
+		"clients": 917,
+		"average": 2259.703163017032,
+		"min": "25",
+		"max": "4916"
+	},
+	{
+		"ok": 2308,
+		"errored": 0,
+		"clients": 918,
+		"average": 2257.6581455805895,
+		"min": "18",
+		"max": "4770"
+	},
+	{
+		"ok": 2550,
+		"errored": 0,
+		"clients": 919,
+		"average": 2213.6392156862744,
+		"min": "21",
+		"max": "4670"
+	},
+	{
+		"ok": 2191,
+		"errored": 0,
+		"clients": 920,
+		"average": 2272.92879963487,
+		"min": "16",
+		"max": "4911"
+	},
+	{
+		"ok": 2519,
+		"errored": 0,
+		"clients": 921,
+		"average": 2179.6677252878126,
+		"min": "22",
+		"max": "4730"
+	},
+	{
+		"ok": 2453,
+		"errored": 0,
+		"clients": 922,
+		"average": 2210.576029351814,
+		"min": "23",
+		"max": "5094"
+	},
+	{
+		"ok": 2599,
+		"errored": 0,
+		"clients": 923,
+		"average": 2106.530203924586,
+		"min": "42",
+		"max": "4441"
+	},
+	{
+		"ok": 2450,
+		"errored": 0,
+		"clients": 924,
+		"average": 2223.6036734693876,
+		"min": "16",
+		"max": "4840"
+	},
+	{
+		"ok": 2583,
+		"errored": 0,
+		"clients": 925,
+		"average": 2135.6089818041037,
+		"min": "17",
+		"max": "4571"
+	},
+	{
+		"ok": 2558,
+		"errored": 0,
+		"clients": 926,
+		"average": 2188.167318217357,
+		"min": "16",
+		"max": "4811"
+	},
+	{
+		"ok": 2510,
+		"errored": 0,
+		"clients": 927,
+		"average": 2237.249800796813,
+		"min": "12",
+		"max": "4948"
+	},
+	{
+		"ok": 2536,
+		"errored": 0,
+		"clients": 928,
+		"average": 2202.201498422713,
+		"min": "15",
+		"max": "4790"
+	},
+	{
+		"ok": 2485,
+		"errored": 0,
+		"clients": 929,
+		"average": 2225.913480885312,
+		"min": "14",
+		"max": "4884"
+	},
+	{
+		"ok": 2393,
+		"errored": 0,
+		"clients": 930,
+		"average": 2233.8002507312995,
+		"min": "19",
+		"max": "4859"
+	},
+	{
+		"ok": 2394,
+		"errored": 0,
+		"clients": 931,
+		"average": 2273.467418546366,
+		"min": "19",
+		"max": "4836"
+	},
+	{
+		"ok": 2637,
+		"errored": 0,
+		"clients": 932,
+		"average": 2113.755783086841,
+		"min": "13",
+		"max": "4500"
+	},
+	{
+		"ok": 2486,
+		"errored": 0,
+		"clients": 933,
+		"average": 2200.681013676589,
+		"min": "25",
+		"max": "4872"
+	},
+	{
+		"ok": 2587,
+		"errored": 0,
+		"clients": 934,
+		"average": 2225.337456513336,
+		"min": "18",
+		"max": "4900"
+	},
+	{
+		"ok": 2550,
+		"errored": 0,
+		"clients": 935,
+		"average": 2205.8007843137257,
+		"min": "20",
+		"max": "4796"
+	},
+	{
+		"ok": 2613,
+		"errored": 0,
+		"clients": 936,
+		"average": 2145.910447761194,
+		"min": "16",
+		"max": "4604"
+	},
+	{
+		"ok": 2554,
+		"errored": 0,
+		"clients": 937,
+		"average": 2196.1405638214565,
+		"min": "21",
+		"max": "4901"
+	},
+	{
+		"ok": 2522,
+		"errored": 0,
+		"clients": 938,
+		"average": 2196.333068992863,
+		"min": "15",
+		"max": "4906"
+	},
+	{
+		"ok": 2462,
+		"errored": 0,
+		"clients": 939,
+		"average": 2148.058489033306,
+		"min": "25",
+		"max": "4987"
+	},
+	{
+		"ok": 2236,
+		"errored": 0,
+		"clients": 940,
+		"average": 2256.9302325581393,
+		"min": "45",
+		"max": "4957"
+	},
+	{
+		"ok": 2528,
+		"errored": 0,
+		"clients": 941,
+		"average": 2155.3524525316457,
+		"min": "20",
+		"max": "4661"
+	},
+	{
+		"ok": 2544,
+		"errored": 0,
+		"clients": 942,
+		"average": 2235.046383647799,
+		"min": "20",
+		"max": "4882"
+	},
+	{
+		"ok": 2585,
+		"errored": 0,
+		"clients": 943,
+		"average": 2157.547775628627,
+		"min": "15",
+		"max": "4572"
+	},
+	{
+		"ok": 2374,
+		"errored": 0,
+		"clients": 944,
+		"average": 2275.010109519798,
+		"min": "22",
+		"max": "4787"
+	},
+	{
+		"ok": 2381,
+		"errored": 0,
+		"clients": 945,
+		"average": 2154.6488870222597,
+		"min": "15",
+		"max": "4983"
+	},
+	{
+		"ok": 2601,
+		"errored": 0,
+		"clients": 946,
+		"average": 2175.8846597462516,
+		"min": "28",
+		"max": "4601"
+	},
+	{
+		"ok": 2538,
+		"errored": 0,
+		"clients": 947,
+		"average": 2224.3912529550826,
+		"min": "17",
+		"max": "4975"
+	},
+	{
+		"ok": 2499,
+		"errored": 0,
+		"clients": 948,
+		"average": 2247.360144057623,
+		"min": "27",
+		"max": "4886"
+	},
+	{
+		"ok": 2525,
+		"errored": 0,
+		"clients": 949,
+		"average": 2278.409108910891,
+		"min": "25",
+		"max": "4900"
+	},
+	{
+		"ok": 2532,
+		"errored": 0,
+		"clients": 950,
+		"average": 2176.5256714060033,
+		"min": "15",
+		"max": "4705"
+	},
+	{
+		"ok": 2432,
+		"errored": 0,
+		"clients": 951,
+		"average": 2293.3367598684213,
+		"min": "25",
+		"max": "4835"
+	},
+	{
+		"ok": 2525,
+		"errored": 0,
+		"clients": 952,
+		"average": 2128.380594059406,
+		"min": "15",
+		"max": "4646"
+	},
+	{
+		"ok": 2495,
+		"errored": 0,
+		"clients": 953,
+		"average": 2153.617234468938,
+		"min": "14",
+		"max": "4709"
+	},
+	{
+		"ok": 2519,
+		"errored": 0,
+		"clients": 954,
+		"average": 2222.830091306074,
+		"min": "18",
+		"max": "5027"
+	},
+	{
+		"ok": 2549,
+		"errored": 0,
+		"clients": 955,
+		"average": 2189.1792859945076,
+		"min": "13",
+		"max": "4962"
+	},
+	{
+		"ok": 2653,
+		"errored": 0,
+		"clients": 956,
+		"average": 2150.2431209951,
+		"min": "15",
+		"max": "4518"
+	},
+	{
+		"ok": 2227,
+		"errored": 0,
+		"clients": 957,
+		"average": 2517.978895374944,
+		"min": "21",
+		"max": "5315"
+	},
+	{
+		"ok": 2237,
+		"errored": 0,
+		"clients": 958,
+		"average": 2341.08359409924,
+		"min": "19",
+		"max": "5155"
+	},
+	{
+		"ok": 2261,
+		"errored": 0,
+		"clients": 959,
+		"average": 2248.839893852278,
+		"min": "24",
+		"max": "5058"
+	},
+	{
+		"ok": 2263,
+		"errored": 0,
+		"clients": 960,
+		"average": 2505.661953159523,
+		"min": "26",
+		"max": "5049"
+	},
+	{
+		"ok": 2248,
+		"errored": 0,
+		"clients": 961,
+		"average": 2330.8692170818504,
+		"min": "44",
+		"max": "5191"
+	},
+	{
+		"ok": 2533,
+		"errored": 0,
+		"clients": 962,
+		"average": 2230.015396762732,
+		"min": "19",
+		"max": "5020"
+	},
+	{
+		"ok": 2331,
+		"errored": 0,
+		"clients": 963,
+		"average": 2355.7267267267266,
+		"min": "19",
+		"max": "5305"
+	},
+	{
+		"ok": 2290,
+		"errored": 0,
+		"clients": 964,
+		"average": 2542.8982532751093,
+		"min": "17",
+		"max": "5362"
+	},
+	{
+		"ok": 2441,
+		"errored": 0,
+		"clients": 965,
+		"average": 2180.890208930766,
+		"min": "23",
+		"max": "4712"
+	},
+	{
+		"ok": 2317,
+		"errored": 0,
+		"clients": 966,
+		"average": 2519.8277945619334,
+		"min": "23",
+		"max": "5422"
+	},
+	{
+		"ok": 2201,
+		"errored": 0,
+		"clients": 967,
+		"average": 2418.6069968196275,
+		"min": "18",
+		"max": "5226"
+	},
+	{
+		"ok": 2358,
+		"errored": 0,
+		"clients": 968,
+		"average": 2263.4096692111957,
+		"min": "30",
+		"max": "5042"
+	},
+	{
+		"ok": 2364,
+		"errored": 0,
+		"clients": 969,
+		"average": 2349.041878172589,
+		"min": "29",
+		"max": "5226"
+	},
+	{
+		"ok": 2525,
+		"errored": 0,
+		"clients": 970,
+		"average": 2284.2455445544556,
+		"min": "22",
+		"max": "4918"
+	},
+	{
+		"ok": 2348,
+		"errored": 0,
+		"clients": 971,
+		"average": 2253.879471890971,
+		"min": "33",
+		"max": "5042"
+	},
+	{
+		"ok": 2616,
+		"errored": 0,
+		"clients": 972,
+		"average": 2173.43501529052,
+		"min": "24",
+		"max": "4693"
+	},
+	{
+		"ok": 2141,
+		"errored": 0,
+		"clients": 973,
+		"average": 2528.8818309201306,
+		"min": "21",
+		"max": "5516"
+	},
+	{
+		"ok": 2422,
+		"errored": 0,
+		"clients": 974,
+		"average": 2182.860858794385,
+		"min": "16",
+		"max": "4921"
+	},
+	{
+		"ok": 2550,
+		"errored": 0,
+		"clients": 975,
+		"average": 2233.2917647058825,
+		"min": "16",
+		"max": "4873"
+	},
+	{
+		"ok": 2594,
+		"errored": 0,
+		"clients": 976,
+		"average": 2183.220508866615,
+		"min": "19",
+		"max": "4780"
+	},
+	{
+		"ok": 2598,
+		"errored": 0,
+		"clients": 977,
+		"average": 2213.066974595843,
+		"min": "33",
+		"max": "4825"
+	},
+	{
+		"ok": 2408,
+		"errored": 0,
+		"clients": 978,
+		"average": 2308.2138704318936,
+		"min": "16",
+		"max": "5122"
+	},
+	{
+		"ok": 2554,
+		"errored": 0,
+		"clients": 979,
+		"average": 2233.3418167580267,
+		"min": "15",
+		"max": "5049"
+	},
+	{
+		"ok": 2137,
+		"errored": 0,
+		"clients": 980,
+		"average": 2698.2372484791763,
+		"min": "20",
+		"max": "5343"
+	},
+	{
+		"ok": 2471,
+		"errored": 0,
+		"clients": 981,
+		"average": 2280.0611088628084,
+		"min": "19",
+		"max": "5332"
+	},
+	{
+		"ok": 2206,
+		"errored": 0,
+		"clients": 982,
+		"average": 2481.8667271078875,
+		"min": "24",
+		"max": "5396"
+	},
+	{
+		"ok": 2366,
+		"errored": 0,
+		"clients": 983,
+		"average": 2209.07438715131,
+		"min": "18",
+		"max": "4950"
+	},
+	{
+		"ok": 2544,
+		"errored": 0,
+		"clients": 984,
+		"average": 2201.106918238994,
+		"min": "24",
+		"max": "5093"
+	},
+	{
+		"ok": 2356,
+		"errored": 0,
+		"clients": 985,
+		"average": 2399.6103565365024,
+		"min": "17",
+		"max": "5457"
+	},
+	{
+		"ok": 2524,
+		"errored": 0,
+		"clients": 986,
+		"average": 2257.814183835182,
+		"min": "20",
+		"max": "5048"
+	},
+	{
+		"ok": 2223,
+		"errored": 0,
+		"clients": 987,
+		"average": 2539.5892937471885,
+		"min": "20",
+		"max": "5338"
+	},
+	{
+		"ok": 2353,
+		"errored": 0,
+		"clients": 988,
+		"average": 2254.066723331917,
+		"min": "21",
+		"max": "5030"
+	},
+	{
+		"ok": 2210,
+		"errored": 0,
+		"clients": 989,
+		"average": 2574.7420814479638,
+		"min": "30",
+		"max": "5354"
+	},
+	{
+		"ok": 2420,
+		"errored": 0,
+		"clients": 990,
+		"average": 2181.2561983471073,
+		"min": "24",
+		"max": "4914"
+	},
+	{
+		"ok": 2185,
+		"errored": 0,
+		"clients": 991,
+		"average": 2480.6155606407324,
+		"min": "21",
+		"max": "5020"
+	},
+	{
+		"ok": 2394,
+		"errored": 0,
+		"clients": 992,
+		"average": 2399.7894736842104,
+		"min": "27",
+		"max": "5384"
+	},
+	{
+		"ok": 2332,
+		"errored": 0,
+		"clients": 993,
+		"average": 2444.3867924528304,
+		"min": "19",
+		"max": "5094"
+	},
+	{
+		"ok": 2555,
+		"errored": 0,
+		"clients": 994,
+		"average": 2243.9217221135027,
+		"min": "20",
+		"max": "5132"
+	},
+	{
+		"ok": 2523,
+		"errored": 0,
+		"clients": 995,
+		"average": 2270.9516448672216,
+		"min": "18",
+		"max": "4953"
+	},
+	{
+		"ok": 2344,
+		"errored": 0,
+		"clients": 996,
+		"average": 2375.90614334471,
+		"min": "24",
+		"max": "5029"
+	},
+	{
+		"ok": 2511,
+		"errored": 0,
+		"clients": 997,
+		"average": 2296.689765033851,
+		"min": "18",
+		"max": "5108"
+	},
+	{
+		"ok": 2490,
+		"errored": 0,
+		"clients": 998,
+		"average": 2244.886746987952,
+		"min": "27",
+		"max": "5121"
+	},
+	{
+		"ok": 2437,
+		"errored": 0,
+		"clients": 999,
+		"average": 2451.2609766105866,
+		"min": "21",
+		"max": "5417"
 	}
 ]
 
