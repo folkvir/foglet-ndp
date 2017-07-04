@@ -80986,7 +80986,7 @@ var Fanout = function (_EventEmitter) {
     _this.options = _.merge({
       verbose: true,
       threshold: 0.50,
-      maxValue: 100,
+      maxValue: 10,
       maxParallelConnections: 10,
       networkSize: function networkSize(sizeView, a, b) {
         return Math.exp((sizeView - b) / a);
@@ -81027,8 +81027,8 @@ var Fanout = function (_EventEmitter) {
     value: function estimate(y) {
       var threshold = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.options.threshold;
 
-      // this.stack.push(y);
-      // y = this.stack.mean();
+      this.stack.push(y);
+      y = this.stack.mean();
       var min = this.estimator.data.min,
           max = this.estimator.data.max,
           limit = (max + min) * threshold;

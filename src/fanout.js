@@ -12,7 +12,7 @@ class Fanout extends EventEmitter {
     this.options = _.merge({
       verbose: true,
       threshold: 0.50,
-      maxValue: 100,
+      maxValue: 10,
       maxParallelConnections: 10,
       networkSize: function (sizeView, a, b) {
         return Math.exp((sizeView - b)/a);
@@ -43,8 +43,8 @@ class Fanout extends EventEmitter {
    */
   estimate (y, threshold = this.options.threshold) {
 
-    // this.stack.push(y);
-    // y = this.stack.mean();
+    this.stack.push(y);
+    y = this.stack.mean();
     let min = this.estimator.data.min,
       max = this.estimator.data.max,
       limit = (max + min) * threshold;
