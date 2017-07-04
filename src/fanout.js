@@ -43,8 +43,8 @@ class Fanout extends EventEmitter {
    */
   estimate (y, threshold = this.options.threshold) {
 
-    this.stack.push(y);
-    y = this.stack.mean();
+    // this.stack.push(y);
+    // y = this.stack.mean();
     let min = this.estimator.data.min,
       max = this.estimator.data.max,
       limit = (max + min) * threshold;
