@@ -20,7 +20,7 @@ SOFTWARE.
 'use strict';
 
 const Immutable = require('immutable');
-const ldf = require('ldf-client');
+
 const StatusQueue = require('./status-queue.js');
 const DelegationProtocol = require('./../delegation-protocol.js');
 const NDPMessage = require('./ndp-message.js');
@@ -28,10 +28,11 @@ const uuidV4 = require('uuid/v4');
 const moment = require('moment');
 const _ = require('lodash');
 const Fanout = require('./fanout.js');
+const LDFClient = require('./ldf-client.js');
 
 // LDF LOG Disabling
 // ldf.Logger.setLevel('INFO');
-ldf.Logger.setLevel('WARNING');
+
 // ldf.Logger.setLevel('DEBUG');
 
 // status
@@ -101,14 +102,12 @@ class LaddaProtocol extends DelegationProtocol {
 
     // garbageTimeout
     this.garbageTimeout = new Map();
-    // fragmentsClient
-    this.endpoints = new Map();
     // checking loop
     this.garbageQueries = undefined;
     this.erroredQueries = new Map();
-    this.fanout = new Fanout({
-      verbose: this.opts.verbose
-    });
+    this.fanout = new Fanout({ verbose: this.opts.verbose });
+    // LDF client, here TPF
+    this.client = new LDFClient({});
   }
 
   /**
@@ -140,7 +139,7 @@ class LaddaProtocol extends DelegationProtocol {
   sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5) {
     return new Promise( (resolve) => {
       this.maxErrors = maxErrors;
-      this._setFragmentsClient (endpoint, false);
+      this.client._setFragmentsClient (endpoint, false);
       // clear queue before anything
       this.queryQueue.clear();
       this.busyPeers.clear();
@@ -224,11 +223,11 @@ class LaddaProtocol extends DelegationProtocol {
           this.isFree = false;
           const query = message.payload;
           // Set if not set the fragmentsClient before to timestamp anything
-          this._setFragmentsClient(message.endpoint, false);
+          this.client._setFragmentsClient(message.endpoint, false);
           const startExecutionTimeDate = new Date();
           const startExecutionTime = formatTime(startExecutionTimeDate);
           // Execution of a remote query
-          this.execute(query, message.endpoint).then(result => {
+          this.client.execute(query, message.endpoint, this).then(result => {
             this.isFree = true;
             const endExecutionTimeDate = new Date();
             const endExecutionTime = formatTime(endExecutionTimeDate);
@@ -367,7 +366,7 @@ class LaddaProtocol extends DelegationProtocol {
             this.queryQueue.setDelegated(query.id);
             const startExecutionTimeDate = new Date();
             const startExecutionTime = formatTime(startExecutionTimeDate);
-            this.execute(query.query, endpoint).then(result => {
+            this.client.execute(query.query, endpoint, this).then(result => {
               if(this.queryQueue.getStatus(query.id) !== STATUS_DONE ) {
                 this.queryQueue.setDone(query.id);
                 const endExecutionTimeDate = new Date();
@@ -479,71 +478,7 @@ class LaddaProtocol extends DelegationProtocol {
     });
   }
 
-  /**
-  * Execute one query on an endpoint using ldf-client
-  * @param {string} query - The query to execute
-  * @param {string} endpoint - Endpoint to process queries
-  * @return {Promise} A Promise with results as reponse
-  */
-  execute (query, endpoint) {
-    this._log('@LADDA : Execution of : ' + query + ' on ' + endpoint);
-    let delegationResults = Immutable.List();
-    return new Promise( (resolve, reject) => {
-      try {
-        // let fragmentsClient = new ldf.FragmentsClient(endpoint);
-        const fragmentsClient = this.endpoints.get(endpoint);
-        fragmentsClient.events.removeAllListeners('error');
-        // console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
-        let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
 
-        fragmentsClient.events.once('error', (error, stack) => {
-          this._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-          this.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
-          this.emit(this.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
-          this._log('@LADDA :*******************************************************');
-          this.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
-          this._setFragmentsClient(endpoint, true);
-          reject({
-            error,
-            stack
-          });
-        });
-        // console.log(queryResults);
-        queryResults.on('data', ldfResult => {
-          // this._log('@LADDA :** ON DATA EXECUTE **');
-          this.checkFanout(fragmentsClient._httpClient._statistics.responseTime.latest);
-          delegationResults = delegationResults.push(ldfResult);
-        });
-        // resolve when all results are arrived
-        queryResults.on('end', () => {
-          // this._log('@LADDA :** ON END EXECUTE **');
-          this.checkFanout(fragmentsClient._httpClient._statistics.responseTime.latest);
-          resolve(delegationResults.toJS());
-        });
-
-        queryResults.once('error', (error, stack) => {
-          this._log('@LADDA :**********************ERROR-SPARQLITERATOR****************************');
-          this.systemState('@LADDA :[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
-          this.emit(this.signalError, '[ERROR-SPARQLITERATOR] ' + error.toString() + '\n' + error.stack);
-          this._log('@LADDA :*******************************************************');
-          this.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
-          this._setFragmentsClient(endpoint, true);
-          reject({
-            error,
-            stack
-          });
-        });
-      } catch (error) {
-        this._log('@LADDA :**********************ERROR-EXECUTE****************************');
-        this.systemState('@LADDA :[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
-        this.emit(this.signalError, '[ERROR-EXECUTE] ' + error.toString() + '\n' + error.stack);
-        this._log('@LADDA :*******************************************************');
-        this.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
-        this._setFragmentsClient(endpoint, true);
-        reject({error});
-      }
-    });
-  }
 
   /** ***********************
   * *** UTILITY FUNTIONS ***
@@ -672,19 +607,6 @@ class LaddaProtocol extends DelegationProtocol {
     }
   }
 
-  /**
-  * Set the fragmentsClient for a specific endpoint if it was not initialized or force the initialization if force is set to true
-  * @param {string} endpoint endpoint of the fragmentsClient
-  * @param {boolean} force Force to set the endpoint
-  * @return {void}
-  */
-  _setFragmentsClient (endpoint, force = false) {
-    let fragmentsClient = this.endpoints.has(endpoint);
-    if(!fragmentsClient || force) {
-      this.systemState ('@LADDA: Fragments Client reset for: '+ endpoint);
-      this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
-    }
-  }
 
   /**
   * Generate and return  a v4 UUID (random) based on uuid npm package

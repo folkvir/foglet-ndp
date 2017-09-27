@@ -81,11 +81,11 @@
           let list = [];
           for(i = 0; i<1; ++i) list.push(i);
 
-          // list.reduce(elem => elem.then((results) => {
-          //   a++;
-          //   console.log('Results: '+a, results);
-          //   return f3.delegationProtocol.sendPromise(request, endpoint, true);
-          // }), Promise.resolve(undefined));
+          list.reduce(elem => elem.then((results) => {
+            a++;
+            console.log('Results: '+a, results);
+            return f3.delegationProtocol.sendPromise(request, endpoint, true);
+          }), Promise.resolve(undefined));
         }).catch(e => console.log('F3->F1:', e));
       }).catch(e => console.log('F2->F3:',e));
     }).catch(e => console.log('F1->F2:',e));
