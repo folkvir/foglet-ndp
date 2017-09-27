@@ -146,6 +146,7 @@ class LaddaProtocol extends DelegationProtocol {
   * @param {string} endpoint - Endpoint to send queries
   * @param {boolean} withResults - True if you want response with query results or false, just metadata
   * @param {number} interval - Interval to check before executing waiting queries if we are free
+  * @param {number} maxErrors - Number of retry for a query
   * @return {promise} A Q promise
   */
   sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5) {
@@ -165,6 +166,7 @@ class LaddaProtocol extends DelegationProtocol {
   * @param {string} endpoint - Endpoint to send queries
   * @param {boolean} withResults - True if you want response with query results or false, just metadata
   * @param {number} interval - Interval to check before executing waiting queries if we are free
+  * @param {number} maxErrors - Number of retry for a query 
   * @return {promise} A Q promise
   */
   _sendPromise (data, endpoint, withResults = true, interval = 500, maxErrors = 5) {
