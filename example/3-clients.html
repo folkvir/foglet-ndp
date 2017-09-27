@@ -8,7 +8,7 @@
   </head>
 
   <script type='text/javascript'>
-    localStorage.debug = 'foglet-ladda,HttpClient';
+    localStorage.debug = 'foglet-*,HttpClient';
 
     const NDP = require('foglet-ndp').NDP;
     let endpoint = 'https://query.wikidata.org/bigdata/ldf';
@@ -34,65 +34,63 @@
 
     let f1,f2,f3;
 
+    let options = {
+      verbose: true, // want some logs ? switch to false otherwise
+      rps: {
+        type: 'spray-wrtc',
+        options: {
+          protocol: 'ladda-estimator-test', // foglet running on the protocol foglet-example, defined for spray-wrtc
+          webrtc:	{ // add WebRTC options
+            trickle: true, // enable trickle (divide offers in multiple small offers sent by pieces)
+            iceServers : [] // define iceServers in non local instance
+          },
+          timeout: 2 * 60 * 1000, // spray-wrtc timeout before definitively close a WebRTC connection.
+          delta: 2* 60 * 1000, // spray-wrtc shuffle interval
+          signaling: {
+            address: 'https://signaling.herokuapp.com/',
+            // signalingAdress: 'https://signaling.herokuapp.com/', // address of the signaling server
+            room: 'ladda-estimator-test' // room to join
+          }
+        }
+      }
+    };
+
     let verbose = true;
 
-    f1 = new NDP({
-      protocol: 'testNdp',
-      webrtc:	{
-        trickle: true,
-        iceServers : []
-      },
-      room: 'test',
-      verbose: verbose
-    });
-    f2 = new NDP({
-      protocol: 'testNdp',
-      webrtc:	{
-        trickle: true,
-        iceServers : []
-      },
-      room: 'test',
-      verbose: verbose
-    });
+    f1 = new NDP(options);
+    f2 = new NDP(options);
+    f3 = new NDP(options);
 
-    f3 = new NDP({
-      protocol: 'testNdp',
-      webrtc:	{
-        trickle: true,
-        iceServers : []
-      },
-      room: 'test',
-      verbose: verbose
-    });
-
+    // initialized signaling sharing
+    f1.share();
+    f2.share();
+    f3.share();
+    // init each system delegated protocol
     f1.init();
     f2.init();
     f3.init();
 
+    // connection of each peer
     f1.connection(f2).then(() => {
-      f1.connection(f3).then(() => {
+      f2.connection(f3).then(() => {
         f3.connection(f1).then( () => {
-          f2.connection(f1).then( () => {
-            console.log('All clients connected between them.')
-            f1.delegationProtocol.timeout = 10*1000;
-            f1.delegationProtocol.nbDestinations = 0;
-            let a = 0, i = 0;
-            let list = [];
-            for(i = 0; i<1; ++i) list.push(i);
+          console.log('All clients connected between them.')
+          f3.delegationProtocol.timeout = 10*1000;
+          f3.delegationProtocol.nbDestinations = 0;
+          let a = 0, i = 0;
+          let list = [];
+          for(i = 0; i<1; ++i) list.push(i);
 
-            list.reduce(elem => elem.then((results) => {
-              a++;
-              console.log('Results: '+a, results);
-              return f1.delegationProtocol.sendPromise(request, endpoint, false);
-            }), Promise.resolve(undefined));
+          // list.reduce(elem => elem.then((results) => {
+          //   a++;
+          //   console.log('Results: '+a, results);
+          //   return f3.delegationProtocol.sendPromise(request, endpoint, true);
+          // }), Promise.resolve(undefined));
+        }).catch(e => console.log('F3->F1:', e));
+      }).catch(e => console.log('F2->F3:',e));
+    }).catch(e => console.log('F1->F2:',e));
 
-
-
-          });
-        });
-      });
-    });
-
+    // listening on message
     f1.onUnicast((id, message) => console.log);
     f2.onUnicast((id, message) => console.log);
     f3.onUnicast((id, message) => console.log);

@@ -25,10 +25,10 @@ SOFTWARE.
 
 const NDP = require('./src/ndp.js');
 const DelegationProtocol = require('./src/delegation-protocol.js');
-const LaddaProtocol = require('./src/ladda-protocol.js');
+const LaddaProtocol = require('./src/ladda-protocol/ladda-protocol.js');
 
 module.exports = {
-	NDP,
-	DelegationProtocol,
-	LaddaProtocol
+  NDP,
+  DelegationProtocol,
+  LaddaProtocol
 };

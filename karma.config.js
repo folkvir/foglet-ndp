@@ -22,28 +22,22 @@ module.exports = function (config) {
     ],
     // list of files / patterns to load in the browser
     files: [
-      // './node_modules/spray-wrtc/build/spray-wrtc.bundle.js',
-      'http://localhost:4000/socket.io/socket.io.js',
-      'tests/status-queue-test.js',
-      'tests/ladda-protocol-test.js',
+      'tests/*-test.js'
     ],
     preprocessors: {
-      'tests/status-queue-test.js' : [ 'coverage', 'browserify' ],
-      'tests/ladda-protocol-test.js' : [ 'coverage', 'browserify' ]
+      'tests/*-test.js' : [ 'browserify' ]
     },
     // list of files to exclude
     exclude: [
-      'externals/**/*.js'
+
     ],
     // browserify with babelify
     browserify: {
       debug: true,
-      transform: [ [ 'babelify', {presets: [ 'es2015' ]} ], 'browserify-istanbul' ],
-      // configure: function (bundle) {
-      // 	bundle.on('prebundle', function () {
-      // 		bundle.external([ 'spray-wrtc', 'foglet' ]);
-      // 	});
-      // }
+      transform: [
+        [ 'babelify', {presets: [ 'es2015' ]} ],
+        'browserify-istanbul'
+      ]
     },
     extensions: [ '.js' ],
     proxies : {
@@ -61,7 +55,6 @@ module.exports = function (config) {
       // specify a common output directory
       dir: 'coverage',
       reporters: [
-        { type: 'cobertura', subdir: '.', file: 'cobertura.txt' },
         { type: 'lcovonly', subdir: '.' },
         { type: 'text', subdir: '.', file: 'summary-text.txt' },
         { type: 'text-summary', subdir: '.' }
@@ -73,11 +66,11 @@ module.exports = function (config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     autoWatch: true,
-    browserNoActivityTimeout:60000,
+    browserNoActivityTimeout:50000,
     colors: true,
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [ 'Firefox' ],

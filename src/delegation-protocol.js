@@ -23,74 +23,73 @@ SOFTWARE.
 */
 'use strict';
 
-const Q = require('q');
-const _ = require('lodash');
+const lmerge = require('lodash.merge');
 const debug = require('debug');
 const EventEmitter = require('events');
 
 /**
- * Abstract delegation protocol used by Foglet-NDP to distribute queries between peers
- * @abstract
- * @author Arnaud Grall (Folkvir), Thomas Minier
- */
+* Abstract delegation protocol used by Foglet-NDP to distribute queries between peers
+* @abstract
+* @author Arnaud Grall (Folkvir), Thomas Minier
+*/
 class DelegationProtocol extends EventEmitter {
-	/**
-	 * Constructor
-	 * @param {object} options - The protocol's options object where all options are defined
-	 * @param {string} options.name Name of the protocol
-	 * @param {string} options.verbose If true, logs are printed through debug package
-	 */
-	constructor (options) {
-		super();
-		this.options = _.merge({
-			name: 'ndp',
-			verbose: true
-		}, options);
-		this.name = 'foglet-'+this.options.name;
-		this.logger = debug(this.name);
-		this.foglet = null;
-	}
+  /**
+  * Constructor
+  * @param {object} options - The protocol's options object where all options are defined
+  * @param {string} options.name Name of the protocol
+  * @param {string} options.verbose If true, logs are printed through debug package
+  */
+  constructor (options) {
+    super();
+    this.options = lmerge({
+      name: 'ndp',
+      verbose: true
+    }, options);
+    this.name = 'foglet-'+this.options.name;
+    this.logger = debug(this.name);
+    this.foglet = null;
+  }
 
-	/**
-	 * Set the Foglet used by the delegation protocol
-	 * @param {NDP} foglet - The foglet used by the delegation protocol
-	 * @return {void}
-	 * @example
-	 * const protocol = // construct a new protocol
-	 * const ndp = new NDP(config);
-	 * protocol.use(ndp);
-	 */
-	use (foglet) {
-		this.foglet = foglet;
-	}
+  /**
+  * Set the Foglet used by the delegation protocol
+  * @param {NDP} foglet - The foglet used by the delegation protocol
+  * @return {void}
+  * @example
+  * const protocol = // construct a new protocol
+  * const ndp = new NDP(config);
+  * protocol.use(ndp);
+  */
+  use (foglet) {
+    this.foglet = foglet;
+  }
 
 
-	/**
-	 * Send queries to neighbours and emit results on ndp-answer
-	 * @param {array} data array of element to send (query)
-	 * @param {string} endpoint - Endpoint to send queries
-	 * @return {promise} A Q promise
-	 */
-	send (data, endpoint) {
-		return Q(endpoint);
-	}
+  /**
+  * Send queries to neighbours and emit results on ndp-answer
+  * @param {array} data array of element to send (query)
+  * @param {string} endpoint - Endpoint to send queries
+  * @return {promise} A Q promise
+  */
+  send (data, endpoint) {
+    return Promise.resolve(endpoint);
+  }
 
-	/**
-	 * Execute queries in {data} via ldf-client to the {endpoint}
-	 * @param {array} data - Queries to execute
-	 * @param {string} endpoint - Endpoint to process queries
-	 * @return {promise} Return a promise with results as reponse
-	 */
-	execute (data, endpoint) {
-		return Q(endpoint);
-	}
+  /**
+  * Execute queries in {data} via ldf-client to the {endpoint}
+  * @param {array} data - Queries to execute
+  * @param {string} endpoint - Endpoint to process queries
+  * @return {promise} Return a promise with results as reponse
+  */
+  execute (data, endpoint) {
+    return Promise.resolve(data, endpoint);
+  }
 
-	_log (...args) {
-		if(this.options.verbose) {
-			this.logger('%O', ...args);
-			this.emit('logs', ...args);
-		}
-	}
+  _log (...args) {
+    if(this.options.verbose) {
+      this.logger('%O', ...args);
+      this.emit('logs', ...args);
+    }
+  }
 }
 
 module.exports = DelegationProtocol;
