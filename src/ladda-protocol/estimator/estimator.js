@@ -1,7 +1,6 @@
 'use strict';
 
 const debug = require('debug')('ladda:estimator');
-const _ = require('lodash');
 const lmerge = require('lodash.merge');
 const lmax = require('lodash.max');
 const lmaxby = require('lodash.maxby');
@@ -12,7 +11,7 @@ const EventEmitter = require('events');
  * TYPE OF REGRESSION
  */
 const regression = require('regression');
-const Reference = require('./reference.json');
+const Reference = require('./references/reference.json');
 
 
 class Estimator extends EventEmitter {

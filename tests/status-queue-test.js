@@ -1,6 +1,6 @@
 'use strict';
 require('chai').should();
-const StatusQueue = require('../src/status-queue.js');
+const StatusQueue = require('../src/ladda-protocol/structures/status-queue.js');
 
 describe('StatusQueue', () => {
   it('should be built from an array', () => {

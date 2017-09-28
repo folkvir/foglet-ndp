@@ -70,13 +70,13 @@
     f2.init();
     f3.init();
 
+    f3.delegationProtocol.timeout = 10*1000;
+    f3.delegationProtocol.nbDestinations.value = 0;
     // connection of each peer
     f1.connection(f2).then(() => {
       f2.connection(f3).then(() => {
         f3.connection(f1).then( () => {
           console.log('All clients connected between them.')
-          f3.delegationProtocol.timeout = 10*1000;
-          f3.delegationProtocol.nbDestinations = 0;
           let a = 0, i = 0;
           let list = [];
           for(i = 0; i<1; ++i) list.push(i);

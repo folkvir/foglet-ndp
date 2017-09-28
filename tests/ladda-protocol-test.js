@@ -3,6 +3,8 @@ require('chai').should();
 
 localStorage.debug = '';
 
+
+
 const NDP = require('../foglet-ndp.js').NDP;
 // const $ = require('jquery');
 let endpoint = 'http://fragments.dbpedia.org/';
@@ -24,39 +26,35 @@ let requests = [
 describe('[LADDA]', function () {
   this.timeout(30000);
   it('Workload without promise', function (done) {
-    let f1 = new NDP({
-      protocol: 'testNdp',
-      webrtc:	{
-        trickle: true,
-        iceServers: []
-      },
-      room: 'test',
-      verbose:true
-    });
-    let f2 = new NDP({
-      protocol: 'testNdp',
-      webrtc:	{
-        trickle: true,
-        iceServers: []
-      },
-      room: 'test',
-      verbose:true
-    });
 
-    let f3 = new NDP({
-      protocol: 'testNdp',
-      webrtc:	{
-        trickle: true,
-        iceServers: []
-      },
-      room: 'test',
-      verbose:true
-    });
+    let options = {
+      verbose: true, // want some logs ? switch to false otherwise
+      rps: {
+        type: 'ladda-protocol-test-without-promise',
+        options: {
+          protocol: 'ladda-estimator-test', // foglet running on the protocol foglet-example, defined for spray-wrtc
+          webrtc:	{ // add WebRTC options
+            trickle: true, // enable trickle (divide offers in multiple small offers sent by pieces)
+            iceServers : [] // define iceServers in non local instance
+          },
+          timeout: 2 * 60 * 1000, // spray-wrtc timeout before definitively close a WebRTC connection.
+          delta: 2* 60 * 1000, // spray-wrtc shuffle interval
+          signaling: {
+            address: 'https://signaling.herokuapp.com/',
+            // signalingAdress: 'https://signaling.herokuapp.com/', // address of the signaling server
+            room: 'ladda-protocol-test-without-promise' // room to join
+          }
+        }
+      }
+    };
 
+    let f1 = new NDP(options);
+    let f2 = new NDP(options);
+    let f3 = new NDP(options);
 
     let cpt = 0;
     const nbResultWantetd = requests.length;
-    f1.delegationProtocol.on('ndp-answer', () => {
+    f3.delegationProtocol.on('ndp-answer', () => {
       cpt++;
       console.log('Number of answer : ' + cpt);
 
@@ -69,13 +67,12 @@ describe('[LADDA]', function () {
     f2.init();
     f3.init();
 
-    f1.connection().then(() =>  {
+    f1.connection(f2).then(() =>  {
       console.log('F1 connected');
-      f2.connection().then( () => {
+      f2.connection(f3).then( () => {
         console.log('F2 connected');
-        f3.connection().then( () => {
-          console.log('F3 connected');
-          f1.send(requests, endpoint);
+        f3.connection(f1).then( () => {
+          f3.send(requests, endpoint);
         }).catch(error => {
           done(error);
         });
@@ -88,47 +85,42 @@ describe('[LADDA]', function () {
   });
 
   it('Workload with promise', function (done) {
-    let f1 = new NDP({
-      protocol: 'testNdp2',
-      webrtc:	{
-        trickle: true,
-        iceServers: []
-      },
-      room: 'test2',
-      verbose:true
-    });
-    let f2 = new NDP({
-      protocol: 'testNdp2',
-      webrtc:	{
-        trickle: true,
-        iceServers: []
-      },
-      room: 'test2',
-      verbose:true
-    });
+    let options = {
+      verbose: true, // want some logs ? switch to false otherwise
+      rps: {
+        type: 'ladda-protocol-test-with-promise',
+        options: {
+          protocol: 'ladda-estimator-test', // foglet running on the protocol foglet-example, defined for spray-wrtc
+          webrtc:	{ // add WebRTC options
+            trickle: true, // enable trickle (divide offers in multiple small offers sent by pieces)
+            iceServers : [] // define iceServers in non local instance
+          },
+          timeout: 2 * 60 * 1000, // spray-wrtc timeout before definitively close a WebRTC connection.
+          delta: 2* 60 * 1000, // spray-wrtc shuffle interval
+          signaling: {
+            address: 'https://signaling.herokuapp.com/',
+            // signalingAdress: 'https://signaling.herokuapp.com/', // address of the signaling server
+            room: 'ladda-protocol-test-with-promise' // room to join
+          }
+        }
+      }
+    };
 
-    let f3 = new NDP({
-      protocol: 'testNdp2',
-      webrtc:	{
-        trickle: true,
-        iceServers: []
-      },
-      room: 'test2',
-      verbose:true
-    });
-
+    let f1 = new NDP(options);
+    let f2 = new NDP(options);
+    let f3 = new NDP(options);
 
     f1.init();
     f2.init();
     f3.init();
 
-    f1.connection().then(() =>  {
+    f1.connection(f2).then(() =>  {
       console.log('F1 connected');
-      f2.connection().then( () => {
+      f2.connection(f3).then( () => {
         console.log('F2 connected');
-        f3.connection().then( () => {
+        f3.connection(f1).then( () => {
           console.log('F3 connected');
-          f1.delegationProtocol.sendPromise(requests, endpoint, false).then( (results) => {
+          f3.delegationProtocol.sendPromise(requests, endpoint, false).then( (results) => {
             results.length.should.equal(requests.length);
             done();
           });
