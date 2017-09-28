@@ -50,7 +50,7 @@ class LaddaProtocol extends DelegationProtocol {
     this.timeout = this.opts.timeout || 300 * 1000; // 300 secondes by default = 5 minutes
     this.maxError = this.opts.maxErrors || 5;
     // define a total replicated structure (or not if not specified in the setter)
-    this.enableFanoutBroadcast = this.opts.enableFanoutBroadcast || false;
+    this.enableFanoutBroadcast = this.opts.enableFanoutBroadcast || true;
 
     /**
      * Internbal use
