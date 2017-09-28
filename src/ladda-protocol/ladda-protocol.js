@@ -29,6 +29,7 @@ const TRSFanout = require('./structures/trs-fanout.js');
 const LDFClient = require('./ldf-client.js');
 const Utils = require('./utils.js');
 
+const debug = require('debug')('foglet-ndp:ladda-protocol');
 
 /**
 * Ladda delegation protocol
@@ -483,7 +484,7 @@ class LaddaProtocol extends DelegationProtocol {
   * @return {void}
   */
   systemState (message) {
-    this._log(`@LADDA - SYSTEM STATE:
+    debug(`@LADDA - SYSTEM STATE:
       Message: ${message}
       #Free: ${this.isFree} \n
       #BusyPeers:${this.busyPeers.count()}, \n

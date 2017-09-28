@@ -46,6 +46,7 @@
     "lodash.merge": "^4.6.0",
     "lodash.minby": "^4.6.0",
     "moment": "^2.18.1",
+    "q": "^2.0.3",
     "regression": "^2.0.0",
     "uuid": "^3.1.0"
   },

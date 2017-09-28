@@ -4,8 +4,10 @@ const Immutable = require('immutable');
 const ldf = require('ldf-client');
 const StatusQueue = require('./structures/status-queue.js');
 const Fanout = require('./estimator/fanout.js');
+const debug = require('debug')('foglet-ndp:client');
 
 ldf.Logger.setLevel('WARNING');
+ldf.Logger.setLevel('DEBUG');
 
 class Client {
   constructor (parent = undefined, options) {
@@ -32,6 +34,7 @@ class Client {
       }).catch(e => {
         this.endpoints.delete(endpoint); // force the client to be re-set to a new fragmentsClients because an error occured
         this._setFragmentsClient(endpoint, true);
+        debug(e);
         reject(e);
       });
     });
@@ -48,6 +51,7 @@ class Client {
         let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
 
         fragmentsClient.events.once('error', (error, stack) => {
+          debug(error, stack);
           reject({
             error,
             stack
@@ -66,13 +70,15 @@ class Client {
           resolve(delegationResults.toJS());
         });
 
-        queryResults.once('error', (error, stack) => {
+        queryResults.on('error', (error, stack) => {
+          debug(error, stack);
           reject({
             error,
             stack
           });
         });
       } catch (error) {
+        debug(error);
         reject({error});
       }
     });
@@ -85,9 +91,13 @@ class Client {
   * @return {void}
   */
   _setFragmentsClient (endpoint, force = false) {
-    let fragmentsClient = this.endpoints.has(endpoint);
-    if(!fragmentsClient || force) {
-      this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
+    try {
+      let fragmentsClient = this.endpoints.has(endpoint);
+      if(!fragmentsClient || force) {
+        this.endpoints.set(endpoint, new ldf.FragmentsClient(endpoint));
+      }
+    } catch (e) {
+      debug('BIG ERROR: ', e);
     }
   }
 
