@@ -35,7 +35,7 @@ module.exports = class TRSFanout extends EventEmitter {
 
     this._foglet.onBroadcast((id, message) => {
       if(message.type && message.protocol && message.type === 'fanout-update' && message.protocol === this._protocol) {
-        this.setValue(message._value, false);
+        this.setValue(message.value, false);
       }
     });
   }
