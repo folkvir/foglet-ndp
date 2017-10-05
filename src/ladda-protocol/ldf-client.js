@@ -46,6 +46,7 @@ class Client {
       try {
         // let fragmentsClient = new ldf.FragmentsClient(endpoint);
         const fragmentsClient = this.endpoints.get(endpoint);
+
         fragmentsClient.events.removeAllListeners('error');
         // console.log('********************************** => FRAGMENTSCLIENT: ', fragmentsClient);
         let queryResults = new ldf.SparqlIterator(query, {fragmentsClient});
@@ -123,7 +124,7 @@ class Client {
       //   this.setNbDestination(estimation.value);
       // } else {
       // decrease the fanout, same behavior than _processErrors
-      this._processErrors({error: 'decrease the fanout'});
+      this.parent._processErrors({error: 'decrease the fanout'});
       // }
       break;
     }
