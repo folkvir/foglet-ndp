@@ -15,7 +15,7 @@ script:
 deploy:
   provider: npm
   skip_cleanup: true
-  email: folkvir@outlook.fr
+  email: tminier01@gmail.com
   api_key: $NPM_KEY
   on:
     tags: true
