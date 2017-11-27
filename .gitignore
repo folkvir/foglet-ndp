@@ -1,5 +1,6 @@
 #Perso
-doc/
+docs/
+dist/
 
 # Logs
 logs

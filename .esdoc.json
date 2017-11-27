@@ -1,0 +1,33 @@
+{
+  "source":"./src",
+  "destination":"./docs",
+  "package": "./package.json",
+  "plugins": [
+    {
+      "name": "esdoc-standard-plugin",
+      "options": {
+        "lint": {"enable": true},
+        "coverage": {"enable": false},
+        "accessor": {
+          "access": ["public", "protected"],
+          "autoPrivate": true
+        },
+        "undocumentIdentifier": {"enable": true},
+        "unexportedIdentifier": {"enable": false},
+        "typeInference": {"enable": true},
+        "brand": {
+          "title": "Foglet-ndp",
+          "description": "Simple neighbours delegated protocol",
+          "repository": "https://github.com/ran3d/foglet-ndp",
+          "site": "https://github.com/ran3d/foglet-ndp",
+          "author": "https://github.com/ran3d/"
+        },
+        "manual": {
+          "index": "./README.md",
+          "globalIndex": true
+        }
+      }
+    },
+    {"name": "esdoc-node"}
+  ]
+}

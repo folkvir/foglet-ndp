@@ -1,89 +1,68 @@
 {
-  "name": "foglet-ndp",
-  "version": "4.0.4",
-  "description": "This project aims to provide a simple neighbours delegated protocol and implement various SPARQL query delegation protocols",
-  "main": "foglet-ndp.js",
-  "scripts": {
-    "doc": "jsdoc -c .jsdoc.json README.md src/",
-    "test": "npm run karma",
-    "karma": "karma start karma.config.js",
-    "build:ndp": "mkdir -p build/ && browserify -r ./foglet-ndp.js:foglet-ndp  -t [ babelify --presets [ env ] ]   > ./build/foglet-ndp.bundle.js",
-    "build:watch": "mkdir -p build/ && watchify -r ./foglet-ndp.js:foglet-ndp  -t [ babelify --presets [ env ] ]  -o ./build/foglet-ndp.bundle.js -v -d ",
-    "signaling": "node node_modules/foglet-signaling-server/express-signaling-server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ran3d/foglet-ndp.git"
-  },
-  "keywords": [
-    "spray-wrtc",
-    "foglet-core",
-    "neighbours",
-    "delegated",
-    "delegation",
-    "protocol",
-    "ldf",
-    "SPARQL",
-    "query delegation"
-  ],
-  "author": "Grall Arnaud (Folkvir)",
-  "contributors": [
-    "Thomas Minier <thomas.minier@protonmail.com"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ran3d/foglet-ndp/issues"
-  },
-  "homepage": "https://github.com/ran3d/foglet-ndp#readme",
-  "dependencies": {
-    "debug": "^2.6.9",
-    "fixed-array": "^1.0.0",
-    "foglet-core": "^3.1.x",
-    "immutable": "^3.8.1",
-    "ldf-client": "git+https://github.com/folkvir/Client.js.git",
-    "lodash.max": "^4.0.1",
-    "lodash.maxby": "^4.6.0",
-    "lodash.merge": "^4.6.0",
-    "lodash.minby": "^4.6.0",
-    "moment": "^2.18.1",
-    "q": "^2.0.3",
-    "regression": "^2.0.0",
-    "uuid": "^3.1.0"
-  },
-  "devDependencies": {
-    "babel-preset-env": "^1.6.0",
-    "babelify": "^7.3.0",
-    "browserify": "^13.1.0",
-    "browserify-istanbul": "^2.0.0",
-    "chai": "^3.5.0",
-    "eslint": "^3.13.1",
-    "foglet-signaling-server": "^0.3.1",
-    "istanbul": "^0.4.5",
-    "jquery": "^3.1.1",
-    "jsdoc": "^3.5.5",
-    "karma": "^1.7.1",
-    "karma-browserify": "^5.1.0",
-    "karma-chai": "^0.1.0",
-    "karma-coverage": "^1.1.1",
-    "karma-express-http-server": "0.0.1",
-    "karma-firefox-launcher": "^1.0.0",
-    "karma-mocha": "^1.2.0",
-    "karma-mocha-reporter": "^2.2.4",
-    "mocha": "^3.5.3",
-    "watchify": "^3.7.0"
-  },
-  "bundledDependencies": [
-    "debug",
-    "foglet-core",
-    "immutable",
-    "ldf-client",
-    "moment",
-    "q",
-    "uuid"
-  ],
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
-  }
+	"name": "foglet-ndp",
+	"version": "4.0.4",
+	"description": "This project aims to provide a simple neighbours delegated protocol and implement various SPARQL query delegation protocols",
+	"main": "foglet-ndp.js",
+	"scripts": {
+		"build": "foglet-scripts build",
+		"start": "foglet-scripts start",
+		"doc": "esdoc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ran3d/foglet-ndp.git"
+	},
+	"keywords": [
+		"spray-wrtc",
+		"foglet-core",
+		"neighbours",
+		"delegated",
+		"delegation",
+		"protocol",
+		"ldf",
+		"SPARQL",
+		"query delegation"
+	],
+	"author": "Grall Arnaud (Folkvir)",
+	"contributors": [
+		"Thomas Minier <thomas.minier@protonmail.com"
+	],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ran3d/foglet-ndp/issues"
+	},
+	"homepage": "https://github.com/ran3d/foglet-ndp#readme",
+	"dependencies": {
+		"debug": "^2.6.9",
+		"fixed-array": "^1.0.0",
+		"foglet-core": "git+https://github.com/ran3d/foglet-core.git",
+		"immutable": "^3.8.1",
+		"ldf-client": "git+https://github.com/folkvir/Client.js.git",
+		"lodash.max": "^4.0.1",
+		"lodash.maxby": "^4.6.0",
+		"lodash.merge": "^4.6.0",
+		"lodash.minby": "^4.6.0",
+		"moment": "^2.18.1",
+		"q": "^2.0.3",
+		"regression": "^2.0.0",
+		"request": "^2.83.0",
+		"uuid": "^3.1.0"
+	},
+	"devDependencies": {
+		"esdoc": "^1.0.4",
+		"esdoc-node": "^1.0.2",
+		"esdoc-standard-plugin": "^1.0.0",
+		"foglet-scripts": "^0.3.0",
+		"json-loader": "^0.5.7",
+		"karma-firefox-launcher": "^1.0.0"
+	},
+	"bundledDependencies": [
+		"debug",
+		"foglet-core",
+		"immutable",
+		"ldf-client",
+		"moment",
+		"q",
+		"uuid"
+	]
 }

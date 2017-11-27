@@ -65,7 +65,7 @@ class DelegationProtocol extends EventEmitter {
 
 
   /**
-  * Send queries to neighbours and emit results on ndp-answer
+  * Send queries to neighbours and emit results on ndp-answer listener do a .on('ndp-answer', callback)
   * @param {array} data array of element to send (query)
   * @param {string} endpoint - Endpoint to send queries
   * @return {promise} A Q promise

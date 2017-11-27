@@ -25,8 +25,8 @@ const lmerge = require('lodash.merge');
 const DelegationProtocol = require('./../delegation-protocol.js');
 const StatusQueue = require('./structures/status-queue.js');
 const NDPMessage = require('./structures/ndp-message.js');
-const TRSFanout = require('./structures/trs-fanout.js');
-const LDFClient = require('./ldf-client.js');
+const Fanout = require('./structures/fanout.js');
+const LDFClient = require('./ldf/ldf-client.js');
 const Utils = require('./utils.js');
 
 const debug = require('debug')('foglet-ndp:ladda-protocol');
@@ -41,7 +41,7 @@ class LaddaProtocol extends DelegationProtocol {
     let opts = lmerge({
       name: 'ladda',
       verbose: true,
-      nbDestinations: 0,
+      nbDestinations: 2,
       timeout: 10000
     }, options);
     super(opts);
@@ -50,8 +50,7 @@ class LaddaProtocol extends DelegationProtocol {
     this.isFree = true;
     this.timeout = this.opts.timeout || 300 * 1000; // 300 secondes by default = 5 minutes
     this.maxError = this.opts.maxErrors || 5;
-    // define a total replicated structure (or not if not specified in the setter)
-    this.enableFanoutBroadcast = this.opts.enableFanoutBroadcast || true;
+
 
     /**
      * Internbal use
@@ -147,7 +146,7 @@ class LaddaProtocol extends DelegationProtocol {
   use (foglet) {
     super.use(foglet);
 
-    this.nbDestinations = new TRSFanout(this.foglet, 'trs-fanout-nbdestinations', this.opts.nbDestinations);
+    this.nbDestinations = new Fanout(this.foglet, 'fanout-nbdestinations', this.opts.nbDestinations);
     // this.queryQueue = Immutable.Map();
     this.queryQueue = new StatusQueue();
     this.busyPeers = Immutable.Set();
@@ -439,7 +438,7 @@ class LaddaProtocol extends DelegationProtocol {
       // reduce the fanout in any case
       if(this.nbDestinations.value > 0) {
         // we set and broadcast
-        this.nbDestinations.setValue(this.nbDestinations.value - 1, this.enableFanoutBroadcast);
+        this.nbDestinations = this.nbDestinations.value - 1;
       }
     }
   }
