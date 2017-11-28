@@ -6,12 +6,14 @@ const Request = require('./ldf-client-request.js')
 const StatusQueue = require('../structures/status-queue.js');
 const Estimator = require('../structures/estimator.js');
 const debug = require('debug')('foglet-ndp:client');
+const EventEmitter = require('events');
 
 LdfClient.Logger.setLevel('warning');
 
 
-class Client {
+class Client extends EventEmitter{
   constructor (parent = undefined, options) {
+    super();
     if(!parent) throw new Error('Client need a parent to be constructed.');
     this.options = options || { verbose: false };
     this.parent = parent || undefined;
@@ -55,7 +57,9 @@ class Client {
         let queryResults = new LdfClient.SparqlIterator(query, {fragmentsClient});
 
         fragmentsClient._httpClient._statistics.events.on('httpResponse', (response) => {
-          console.log('HttpResponse: ', response);
+          // console.log('HttpResponse elapsedTime: ', response.timings.response);
+          // console.log('HttpResponse timings: ', response.timings);
+          this._checkFanout(response.timings.response);
         });
 
         fragmentsClient.events.once('error', (error, stack) => {
@@ -132,7 +136,7 @@ class Client {
       throw new Error('Estimate function return an unknown value.');
     }
     }
-
+    this.emit('statistics', this.estimator.items);
     this.parent.emit(this.parent.signalFanoutChanged, value, this.parent.nbDestinations.value, this.parent.foglet.getNeighbours().length, this.parent.queryQueue.getQueriesByStatus(StatusQueue.STATUS_DELEGATED).count());
   }
 
