@@ -47,8 +47,23 @@
             this.y.push(val);
             this.x.push(this.y.length);
           }
+        },
+        meanReg: {
+          x: [],
+          y: [],
+          add: function(val) {
+            this.y.push(val);
+            this.x.push(this.y.length);
+          }
+        },
+        ecartTypeReg: {
+          x: [],
+          y: [],
+          add: function(val) {
+            this.y.push(val);
+            this.x.push(this.y.length);
+          }
         }
-
       };
     }
 
@@ -110,21 +125,36 @@
     f3.onUnicast((id, message) => console.log);
 
     f1.delegationProtocol.client.on('statistics', (items) => {
-      console.log(items);
       mean1.mean.add(items.mean());
       mean1.ecartType.add(Math.sqrt(items.variance()));
+      let coef = f1.delegationProtocol.client.estimator.getMeanLinearRegression();
+      const yVal = coef.equation[0] * mean1.meanReg.x.length + coef.equation[1];
+      mean1.meanReg.add(yVal);
+
+      coef = f1.delegationProtocol.client.estimator.getEcartTypeLinearRegression();
+      mean1.ecartTypeReg.add(coef.equation[0]*mean1.ecartTypeReg.x.length + coef.equation[1]);
     });
 
     f2.delegationProtocol.client.on('statistics', (items) => {
-      console.log(items);
       mean2.mean.add(items.mean());
       mean2.ecartType.add(Math.sqrt(items.variance()));
+
+      let coef = f2.delegationProtocol.client.estimator.getMeanLinearRegression();
+      mean2.meanReg.add(coef.equation[0]*mean2.meanReg.x.length + coef.equation[1]);
+
+      coef = f2.delegationProtocol.client.estimator.getEcartTypeLinearRegression();
+      mean2.ecartTypeReg.add(coef.equation[0]*mean2.ecartTypeReg.x.length + coef.equation[1]);
     });
 
     f3.delegationProtocol.client.on('statistics', (items) => {
-      console.log(items);
       mean3.mean.add(items.mean());
       mean3.ecartType.add(Math.sqrt(items.variance()));
+
+      let coef = f3.delegationProtocol.client.estimator.getMeanLinearRegression();
+      mean3.meanReg.add(coef.equation[0]*mean3.meanReg.x.length + coef.equation[1]);
+
+      coef = f3.delegationProtocol.client.estimator.getEcartTypeLinearRegression();
+      mean3.ecartTypeReg.add(coef.equation[0]*mean3.ecartTypeReg.x.length + coef.equation[1]);
     });
 
     function query(number) {
@@ -144,6 +174,7 @@
         individualPlot(mean1, 'httpTimeMean1', 'Foglet1: HttpResponseTimeMean', 'Mean');
         individualPlot(mean2, 'httpTimeMean2', 'Foglet2: HttpResponseTimeMean', 'Mean');
         individualPlot(mean3, 'httpTimeMean3', 'Foglet3: HttpResponseTimeMean', 'Mean');
+
 
       }).catch(e => {
         console.error(e)
@@ -201,7 +232,19 @@
     }
 
     function individualPlot(data, name, title, desc) {
-      Plotly.newPlot(name, [ {
+      Plotly.newPlot(name, [{
+        x: data.ecartTypeReg.x,
+        y: data.ecartTypeReg.y,
+        mode: 'lines',
+        type: 'scatter',
+        name: 'Ecart Type linear regression'
+      },{
+        x: data.meanReg.x,
+        y: data.meanReg.y,
+        mode: 'lines',
+        type: 'scatter',
+        name: 'Mean linear regression'
+      }, {
         x: data.mean.x,
         y: data.mean.y,
         mode: 'lines',

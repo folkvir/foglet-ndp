@@ -2,13 +2,17 @@
 
 const lmerge = require('lodash.merge');
 const FixedArray = require('fixed-array');
-const DEFAULT_OPTIONS = { verbose: false, maxStoredItems: 1000, enable: true };
+const regression = require('regression');
+
+const DEFAULT_OPTIONS = { verbose: false, maxStoredItems: 50, enable: true };
 
 class Estimator {
   constructor (options) {
     this.options = lmerge(DEFAULT_OPTIONS, options);
 
     this.items = new FixedArray(this.options.maxStoredItems);
+    this.meanItems = new FixedArray(this.options.maxStoredItems);
+    this.ecarTypeItems = new FixedArray(this.options.maxStoredItems);
   }
 
   /**
@@ -17,6 +21,8 @@ class Estimator {
    */
   estimate (httpResponseTime, thresholdMax = 0.6, thresholdMin = 0.4) {
     this.items.push(httpResponseTime);
+    this.meanItems.push(this.items.mean());
+    this.ecarTypeItems.push(Math.sqrt(this.items.variance()));
     // if the estimation is not enabled, do nothing
     if(!this.options.enable) return 0;
 
@@ -35,6 +41,29 @@ class Estimator {
   get min () { return this.items.min; }
   get mean () { return this.items.mean; }
   get standardDeviation () { return Math.sqrt(this.items.variance()); }
+
+  /**
+   * Return the coefficient of the linear regression of the mean of the values stored;
+   * @return {Object}
+   */
+  getMeanLinearRegression() {
+    const y = this.meanItems.values();
+    const data = Array.from(new Array(y.length), (x,i) => [i, y[i]])
+    console.log(data);
+    return regression.linear(data);
+  }
+  /**
+   * Return the coefficient of the linear regression of the ecart type of the values stored;
+   * @return {Object}
+   */
+  getEcartTypeLinearRegression() {
+    const y = this.ecarTypeItems.values();
+    const data = Array.from(new Array(y.length), (x,i) => [i, y[i]])
+    console.log(data);
+    return regression.linear(data);
+  }
+
+
 
   _log (message) {
     if(this.options.verbose) debug(message);
