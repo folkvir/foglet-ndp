@@ -438,7 +438,7 @@ class LaddaProtocol extends DelegationProtocol {
       // reduce the fanout in any case
       if(this.nbDestinations.value > 0) {
         // we set and broadcast
-        this.nbDestinations = this.nbDestinations.value - 1;
+        this.nbDestinations.value = this.nbDestinations.value - 1;
       }
     }
   }
