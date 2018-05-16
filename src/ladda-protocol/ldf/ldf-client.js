@@ -56,11 +56,11 @@ class Client extends EventEmitter{
 
         let queryResults = new LdfClient.SparqlIterator(query, {fragmentsClient});
 
-        fragmentsClient._httpClient._statistics.events.on('httpResponse', (response) => {
-          // console.log('HttpResponse elapsedTime: ', response.timings.response);
-          // console.log('HttpResponse timings: ', response.timings);
-          this._checkFanout(response.timings.response);
-        });
+        // fragmentsClient._httpClient._statistics.events.on('httpResponse', (response) => {
+        //   // console.log('HttpResponse elapsedTime: ', response.timings.response);
+        //   // console.log('HttpResponse timings: ', response.timings);
+        //   // this._checkFanout(response.timings.response);
+        // });
 
         fragmentsClient.events.once('error', (error, stack) => {
           debug(error, stack);
@@ -151,7 +151,7 @@ class Client extends EventEmitter{
     if(newFanout >= neighbours) {
       newFanout = neighbours;
     }
-    this.parent.nbDestinations = newFanout;
+    this.parent.nbDestinations.value = newFanout;
   }
 }
 
